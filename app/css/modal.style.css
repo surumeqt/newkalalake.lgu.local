@@ -92,3 +92,192 @@
 }
 
 /* LOGOUT MODAL END*/
+
+/* STATUS MODAL */
+
+.modal-overlay-status {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content-status {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.modal-actions-status button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.modal-actions-status button:hover {
+    background-color: #0056b3;
+}
+
+/* STATUS MODAL END */
+
+/* REHEARING MODAL */
+
+.modal-overlay-rehearing {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content-rehearing {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.modal-actions-rehearing button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.modal-actions-rehearing button:hover {
+    background-color: #0056b3;
+}
+
+/* REHEARING MODAL END */
+
+/* REPORT SUMMARY MODAL */
+
+.modal-overlay-summary {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content-summary {
+    background: #fff;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form-group-summary {
+    margin-bottom: var(--spacing-md);
+    width: 100%;
+}
+
+.summary-label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.summary-textarea {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-subtle);
+    font-family: 'Monda', sans-serif;
+    font-size: 1rem;
+    color: var(--dark-text);
+    resize: vertical;
+    min-height: 120px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.modal-actions-summary {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.submit-summary-btn {
+    padding: 8px 18px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-subtle);
+}
+
+.submit-summary-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cancel-summary-btn {
+    padding: 8px 18px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-subtle);
+}
+
+.cancel-summary-btn:hover {
+    background-color: #5a6268;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* REPORT SUMMARY MODAL END */

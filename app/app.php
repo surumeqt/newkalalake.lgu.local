@@ -62,8 +62,74 @@
         </div>
     </div>
 
+    <div id="status-modal" class="modal-overlay-status">
+        <div class="modal-content-status">
+            <h3>Change Case Status</h3>
+            <form id="status-form" action="../backend/update.status.controller.php" method="post">
+                <input type="hidden" name="Docket_Case_Number" id="modal-docket-status">
+                <div class="modal-actions-status">
+                    <button type="submit" name="Hearing_Status" value="Rehearing">Rehearing</button>
+                    <button type="submit" name="Hearing_Status" value="Dismissed">Dismissed</button>
+                    <button type="submit" name="Hearing_Status" value="Withdrawn">Withdrawn</button>
+                    <button type="submit" name="Hearing_Status" value="Settled">Settled</button>
+                    <button type="submit" name="Hearing_Status" value="CFA">CFA</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="rehearing-modal" class="modal-overlay-rehearing">
+        <div class="modal-content-rehearing">
+            <h3>Change Case Status</h3>
+            <form id="rehearing-form" action="../backend/update.status.controller.php" method="post">
+                <input type="hidden" name="Docket_Case_Number" id="modal-docket-rehearing">
+                <div class="modal-actions-rehearing">
+                    <button type="submit" name="Hearing_Status" value="Ongoing">Ongoing</button>
+                    <button type="submit" name="Hearing_Status" value="Dismissed">Dismissed</button>
+                    <button type="submit" name="Hearing_Status" value="Withdrawn">Withdrawn</button>
+                    <button type="submit" name="Hearing_Status" value="Settled">Settled</button>
+                    <button type="submit" name="Hearing_Status" value="CFA">CFA</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="summary-modal" class="modal-overlay-summary">
+        <div class="modal-content-summary">
+            <h3>Enter Report Summary</h3>
+            <form id="summary-form" action="../backend/get.report.summary.php" method="post">
+                <input type="hidden" name="Docket_Case_Number" id="modal-docket-summary">
+
+                <div class="form-group-summary">
+                    <label for="report_summary_text" class="summary-label">Summary Details</label>
+                    <textarea
+                        id="report_summary_text"
+                        name="report_summary_text"
+                        rows="8"
+                        placeholder="Type the report summary here..."
+                        required
+                        class="summary-textarea"></textarea>
+                </div>
+
+                <div class="modal-actions-summary">
+                    <select id="action-selection" required>
+                        <option value=""> --Choose Option--</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Dismissed">Dismissed</option>
+                        <option value="Withdrawn">Withdrawn</option>
+                        <option value="Settled">Settled</option>
+                        <option value="CFA">CFA</option>
+                    </select>
+                    <button type="submit" class="submit-summary-btn">Save Summary</button>
+                    <button type="button" class="cancel-summary-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODALS END -->
     <script src="js/navigations.js"></script>
     <script src="js/modal.logic.js"></script>
+    <script src="js/modal.logic-summary.js"></script>
 </body>
 </html>
