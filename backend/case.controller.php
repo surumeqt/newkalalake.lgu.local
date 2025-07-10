@@ -3,9 +3,8 @@ require_once './models/case.model.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $case = new CaseEntry();
-
     $formData = [
-        'docket_case_number' => date('d-m-y', strtotime($_POST['docket_case_number'])),
+        'docket_case_number' => $_POST['docket_case_number'],
         'case_title' => $_POST['case_title'],
         'complainant_name' => $_POST['complainant_name'],
         'complainant_address' => $_POST['complainant_address'],

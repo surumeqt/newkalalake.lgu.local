@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.config.php';
+require_once 'models/pdf.generator.model.php';
 
 class UpdateStatusModel {
     private $conn;
@@ -23,7 +24,7 @@ class UpdateStatusModel {
     }
 
     private function handleRehearingToOngoing($docket) {
-        $stmt = $this->conn->prepare("SELECT Hearing_ID, Hearing_Type, Hearing_Status FROM hearings WHERE Docket_Case_Number = ? ORDER BY Hearing_ID DESC LIMIT 1");
+        $stmt = $this->conn->prepare("SELECT ID, Hearing_Type, Hearing_Status FROM hearings WHERE Docket_Case_Number = ? ORDER BY ID DESC LIMIT 1");
         $stmt->execute([$docket]);
         $latest = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -33,8 +34,8 @@ class UpdateStatusModel {
 
         $nextType = $this->getNextHearingType($latest['Hearing_Type']);
 
-        $update = $this->conn->prepare("UPDATE hearings SET Hearing_Status = ?, Hearing_Type = ? WHERE Hearing_ID = ?");
-        return $update->execute(['Ongoing', $nextType, $latest['Hearing_ID']]);
+        $update = $this->conn->prepare("UPDATE hearings SET Hearing_Status = ?, Hearing_Type = ? WHERE ID = ?");
+        return $update->execute(['Ongoing', $nextType, $latest['ID']]);
     }
 
     private function getNextHearingType($currentType) {
@@ -56,4 +57,71 @@ class UpdateStatusModel {
 
         return "{$nextNum}{$suffix} Hearing";
     }
+    
+    public function saveSummaryDocument($docketCaseNumber, $reportSummaryText, $hearingDate = null) {
+        $stmt = $this->conn->prepare("SELECT * FROM cases WHERE Docket_Case_Number = ?");
+        $stmt->execute([$docketCaseNumber]);
+        $case = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $hearingStmt = $this->conn->prepare("SELECT Hearing_Type, Hearing_Date, Hearing_Status FROM hearings WHERE Docket_Case_Number = ? ORDER BY ID DESC LIMIT 1");
+        $hearingStmt->execute([$docketCaseNumber]);
+        $hearing = $hearingStmt->fetch(PDO::FETCH_ASSOC);
+        if ($hearingDate !== null) {
+            $hearing['Hearing_Date'] = $hearingDate;
+        }
+
+        $case['report_summary_text'] = $reportSummaryText;
+
+        $pdfGen = new PDFGenerator($case);
+        $newPdfBlob = $pdfGen->GenerateSummaryBlob($hearing['Hearing_Date'], $hearing['Hearing_Type']);
+
+        $insertStmt = $this->conn->prepare("
+            INSERT INTO summary (Docket_Case_Number, Hearing_Type, Hearing_Status, Document_Type, PDF_File, Created_At)
+            VALUES (?, ?, ?, 'Summary', ?, NOW())
+        ");
+        $insertStmt->bindValue(1, $docketCaseNumber);
+        $insertStmt->bindValue(2, $hearing['Hearing_Type']);
+        $insertStmt->bindValue(3, $hearing['Hearing_Status']);
+        $insertStmt->bindValue(4, $newPdfBlob, PDO::PARAM_LOB);
+        return $insertStmt->execute();
+    }
+    public function RehearingAppealType($docketCaseNumber, $newHearingDate) {
+        $getFirstHearing = $this->conn->prepare("
+            SELECT Hearing_Type 
+            FROM hearings 
+            WHERE Docket_Case_Number = ? 
+            ORDER BY ID ASC 
+            LIMIT 1
+        ");
+        $getFirstHearing->execute([$docketCaseNumber]);
+        $firstHearing = $getFirstHearing->fetch(PDO::FETCH_ASSOC);
+
+        if (!$firstHearing) {
+            return false;
+        }
+
+        $hearingType = $firstHearing['Hearing_Type'];
+
+        $stmt = $this->conn->prepare("SELECT * FROM cases WHERE Docket_Case_Number = ?");
+        $stmt->execute([$docketCaseNumber]);
+        $case = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$case) {
+            return false;
+        }
+
+        $pdfGen = new PDFGenerator($case);
+        $updatedPdfBlob = $pdfGen->generateCombinedNoticeAndSummonBlob($hearingType, $newHearingDate);
+
+        $updateStmt = $this->conn->prepare("
+            UPDATE documents 
+            SET PDF_File = ?, Created_At = NOW()
+            WHERE Docket_Case_Number = ? AND Document_Type = 'Appeal'
+        ");
+        $updateStmt->bindValue(1, $updatedPdfBlob, PDO::PARAM_LOB);
+        $updateStmt->bindValue(2, $docketCaseNumber);
+
+        return $updateStmt->execute();
+    }
+
 }

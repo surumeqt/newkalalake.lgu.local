@@ -117,8 +117,51 @@
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     text-align: center;
 }
+.modal-actions-status {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
 
-.modal-actions-status button {
+.form-group-status-select,
+.form-group-summary {
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.summary-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.summary-select,
+.summary-textarea {
+    width: 100%;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-subtle);
+    font-size: 1rem;
+    color: var(--dark-text);
+    background-color: var(--bg-white);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-select:focus,
+.summary-textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.modal-actions-status .submit-status-btn,
+.modal-actions-status .cancel-status-btn {
     background-color: #007bff;
     border: none;
     color: white;
@@ -126,11 +169,19 @@
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
-    transition: 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
 }
 
-.modal-actions-status button:hover {
+.modal-actions-status .submit-status-btn:hover {
     background-color: #0056b3;
+}
+
+.modal-actions-status .cancel-status-btn {
+    background-color: #6c757d;
+}
+
+.modal-actions-status .cancel-status-btn:hover {
+    background-color: #5a6268;
 }
 
 /* STATUS MODAL END */
@@ -177,8 +228,6 @@
 
 /* REHEARING MODAL END */
 
-/* REPORT SUMMARY MODAL */
-
 .modal-overlay-summary {
     position: fixed;
     top: 0;
@@ -196,7 +245,7 @@
     padding: var(--spacing-lg);
     border-radius: var(--border-radius-md);
     width: 90%;
-    max-width: 550px;
+    max-width: 600px;
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
     text-align: left;
     display: flex;
@@ -239,9 +288,86 @@
 
 .modal-actions-summary {
     display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+}
+
+.action-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    width: 100%;
+}
+
+.button-group {
+    display: flex;
     justify-content: flex-end;
     gap: var(--spacing-sm);
-    margin-top: var(--spacing-sm);
+    width: 100%;
+}
+
+.summary-select {
+    width: 100%;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-subtle);
+    font-family: 'Monda', sans-serif;
+    font-size: 1rem;
+    color: var(--dark-text);
+    background-color: var(--bg-white);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236c757d'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-sm) center;
+    background-size: 1.5em;
+    padding-right: calc(var(--spacing-sm) + 1.5em);
+}
+
+.summary-select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.summary-input {
+    width: 100%;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-subtle);
+    font-family: 'Monda', sans-serif;
+    font-size: 1rem;
+    color: var(--dark-text);
+    background-color: var(--bg-white);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Add this to your existing CSS file, e.g., styles.css */
+
+.summary-input[readonly],
+.summary-select[readonly], /* In case you want to apply this to select in the future */
+.summary-textarea[readonly] {
+    background-color: #e9ecef; /* A light dark gray to indicate non-interactiveness */
+    color: #495057; /* Slightly darker text for better contrast */
+    cursor: not-allowed; /* Indicate it's not editable */
+    border: 1px solid #ced4da;
+    box-shadow: none;
+}
+
+/* Style for the label when its associated input is read-only (optional, but good for consistency) */
+.summary-label.read-only {
+    color: #6c757d; /* Lighter text color for the label */
 }
 
 .submit-summary-btn {
@@ -281,3 +407,70 @@
 }
 
 /* REPORT SUMMARY MODAL END */
+
+/* IMAGE MODAL */
+
+.modal-overlay-gallery {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay-gallery.active {
+    display: flex;
+}
+
+.modal-content-gallery {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-content-gallery h3 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.gallery-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.gallery-image {
+    max-width: 180px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    object-fit: contain;
+}
+
+.modal-actions {
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* IMAGE MODAL END */

@@ -4,11 +4,16 @@ require_once './models/update.status.model.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $docket = $_POST['Docket_Case_Number'] ?? null;
     $newStatus = $_POST['Hearing_Status'] ?? null;
+    $reportSummaryText = $_POST['report_summary_text'] ?? null;
 
     if ($docket && $newStatus) {
         $model = new UpdateStatusModel();
         $success = $model->updateStatus($docket, $newStatus);
 
+        if ($reportSummaryText !== null) {
+            $inserFInalDocs = $model->saveSummaryDocument($docket, $reportSummaryText);
+        }
+        
         if ($success) {
             header("Location: ../app/app.php?status=success");
             exit();

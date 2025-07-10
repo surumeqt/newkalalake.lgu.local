@@ -13,6 +13,7 @@ $records = $recordModel->getCasesByHearingStatus('Rehearing');
                 <th>Print</th>
                 <th>Status</th>
                 <th>Action</th>
+                <th>Files</th> <!-- New column for the button -->
             </tr>
         </thead>
         <tbody>
@@ -21,19 +22,22 @@ $records = $recordModel->getCasesByHearingStatus('Rehearing');
                     <td><?= htmlspecialchars($row['Docket_Case_Number']) ?></td>
                     <td><?= htmlspecialchars($row['Hearing_Type']) ?></td>
                     <td>
-                        <a href="../backend/get.pdf.records.php?id=<?= $row['Document_ID'] ?>" target="_blank">View PDF</a>
+                        <a href="../backend/get.pdf.records.php?id=<?= $row['ID'] ?>" target="_blank">View PDF</a>
                     </td>
                     <td><?= htmlspecialchars($row['Hearing_Status']) ?></td>
                     <td>
                         <button
-                            class="open-summary-modal">
-                            Report Summary
-                        </button>
-                        <button
-                            class="open-lupon-modal"
+                            class="open-combined-action-modal"
                             data-docket="<?= htmlspecialchars($row['Docket_Case_Number']) ?>"
                             data-hearing="<?= htmlspecialchars($row['Hearing_Status']) ?>">
-                            Change Status
+                            Report Summary / Change Status
+                        </button>
+                    </td>
+                    <td>
+                        <button
+                            class="view-btn btn btn-info"
+                            data-docket="<?= htmlspecialchars($row['Docket_Case_Number']) ?>">
+                            View Files
                         </button>
                     </td>
                 </tr>

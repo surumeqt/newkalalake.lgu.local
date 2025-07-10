@@ -21,7 +21,7 @@ $records = $recordModel->getPendingCases();
                     <td><?= htmlspecialchars($row['Docket_Case_Number']) ?></td>
                     <td><?= htmlspecialchars($row['Hearing_Type']) ?></td>
                     <td>
-                        <a href="../backend/get.pdf.records.php?id=<?= $row['Document_ID'] ?>" target="_blank">View PDF</a>
+                        <a href="../backend/get.pdf.records.php?id=<?= $row['ID'] ?>" target="_blank">View PDF</a>
                     </td>
                     <td><?= htmlspecialchars($row['Hearing_Status']) ?></td>
                     <td>

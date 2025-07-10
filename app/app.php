@@ -18,13 +18,13 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="./dashboard.php" data-load-content="true">Dashboard</a></li>
-                    <li><a href="./database-page.php" data-load-content="true">Database</a></li>
+                    <li><a href="./database-page.php" data-load-content="true">Database Records</a></li>
                     <li class="nav-card-wrapper">
                         <span class="card-title">Lupon</span>
                         <ul>
                             <li><a href="./case-entry.php" data-load-content="true">Case Entry</a></li>
                             <li><a href="./cases.php" data-load-content="true">Pending Cases</a></li>
-                            <li><a href="./rehearing.php" data-load-content="true">Re-hearing</a></li>
+                            <li><a href="./rehearing.php" data-load-content="true">Rehearing Cases</a></li>
                         </ul>
                     </li>
                     <li><a href="./upload.php" data-load-content="true">Upload</a></li>
@@ -51,6 +51,7 @@
 
     <!-- MODALS -->
 
+    <!-- Logout Modal -->
     <div id="logoutModal" class="modal-overlay">
         <div class="modal-content">
             <h3>Confirm Logout</h3>
@@ -62,43 +63,51 @@
         </div>
     </div>
 
+    <!-- Status Modal -->
     <div id="status-modal" class="modal-overlay-status">
         <div class="modal-content-status">
             <h3>Change Case Status</h3>
             <form id="status-form" action="../backend/update.status.controller.php" method="post">
                 <input type="hidden" name="Docket_Case_Number" id="modal-docket-status">
+                <input type="hidden" name="Hearing_Status" id="status-selected-value">
+
+                <div class="form-group-status-select"> <label for="status-selection" class="summary-label">Select New Status:</label>
+                    <select id="status-selection" class="summary-select" required>
+                        <option value="">-- Choose Status --</option>
+                        <option name="Hearing_Status" value="Rehearing">Rehearing</option>
+                        <option name="Hearing_Status" value="Dismissed">Dismissed</option>
+                        <option name="Hearing_Status" value="Withdrawn">Withdrawn</option>
+                        <option name="Hearing_Status" value="Settled">Settled</option>
+                        <option name="Hearing_Status" value="CFA">CFA</option>
+                    </select>
+                </div>
+
+                <div class="form-group-summary" id="status-report-summary-group" style="display: none;">
+                    <label for="status_report_summary_text" class="summary-label">Report Summary:</label>
+                    <textarea
+                        id="status_report_summary_text"
+                        name="report_summary_text"
+                        rows="5"
+                        placeholder="Enter summary details here..."
+                        class="summary-textarea"></textarea>
+                </div>
+
                 <div class="modal-actions-status">
-                    <button type="submit" name="Hearing_Status" value="Rehearing">Rehearing</button>
-                    <button type="submit" name="Hearing_Status" value="Dismissed">Dismissed</button>
-                    <button type="submit" name="Hearing_Status" value="Withdrawn">Withdrawn</button>
-                    <button type="submit" name="Hearing_Status" value="Settled">Settled</button>
-                    <button type="submit" name="Hearing_Status" value="CFA">CFA</button>
+                    <button type="submit" class="submit-status-btn">Update Status</button>
+                    <button type="button" class="cancel-status-btn">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
+    
 
-    <div id="rehearing-modal" class="modal-overlay-rehearing">
-        <div class="modal-content-rehearing">
-            <h3>Change Case Status</h3>
-            <form id="rehearing-form" action="../backend/update.status.controller.php" method="post">
-                <input type="hidden" name="Docket_Case_Number" id="modal-docket-rehearing">
-                <div class="modal-actions-rehearing">
-                    <button type="submit" name="Hearing_Status" value="Ongoing">Ongoing</button>
-                    <button type="submit" name="Hearing_Status" value="Dismissed">Dismissed</button>
-                    <button type="submit" name="Hearing_Status" value="Withdrawn">Withdrawn</button>
-                    <button type="submit" name="Hearing_Status" value="Settled">Settled</button>
-                    <button type="submit" name="Hearing_Status" value="CFA">CFA</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    <!-- Summary Modal -->
     <div id="summary-modal" class="modal-overlay-summary">
         <div class="modal-content-summary">
-            <h3>Enter Report Summary</h3>
-            <form id="summary-form" action="../backend/get.report.summary.php" method="post">
+            <h3>Enter Report Summary & Change Status</h3>
+            <form id="summary-form" action="../backend/summary.controller.php" method="POST">
                 <input type="hidden" name="Docket_Case_Number" id="modal-docket-summary">
+                <input type="hidden" name="Hearing_Status" id="modal-selected-status-for-submit">
 
                 <div class="form-group-summary">
                     <label for="report_summary_text" class="summary-label">Summary Details</label>
@@ -112,23 +121,43 @@
                 </div>
 
                 <div class="modal-actions-summary">
-                    <select id="action-selection" required>
-                        <option value=""> --Choose Option--</option>
-                        <option value="Ongoing">Ongoing</option>
-                        <option value="Dismissed">Dismissed</option>
-                        <option value="Withdrawn">Withdrawn</option>
-                        <option value="Settled">Settled</option>
-                        <option value="CFA">CFA</option>
-                    </select>
-                    <button type="submit" class="submit-summary-btn">Save Summary</button>
-                    <button type="button" class="cancel-summary-btn">Cancel</button>
+                    <div class="action-group">
+                        <div class="form-group-select">
+                            <label for="action-selection" class="summary-label">Change Status To:</label>
+                            <select id="action-selection" class="summary-select" required>
+                                <option value="">-- Choose Option --</option>
+                                <option name="Hearing_Status" value="Ongoing">Ongoing</option>
+                                </select>
+                        </div>
+                        <div class="form-group-date" id="next-hearing-date-group">
+                            <label for="next_hearing_date" class="summary-label">Next Hearing Date</label>
+                            <input type="date" id="next_hearing_date" name="Hearing_Date" class="summary-input" required>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="submit-summary-btn">Save & Update</button>
+                        <button type="button" class="cancel-summary-btn">Cancel</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- GALLERY MODAL -->
+    <div id="gallery-modal" class="modal-overlay-gallery">
+        <div class="modal-content-gallery">
+            <h3>Uploaded Files</h3>
+            <div class="gallery-images"></div>
+            <div class="modal-actions">
+                <button onclick="closeGalleryModal()" class="btn btn-cancel">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODALS END -->
     <script src="js/navigations.js"></script>
+    <script src="js/database.page.js"></script>
+    <script src="js/functions.js"></script>
     <script src="js/modal.logic.js"></script>
     <script src="js/modal.logic-summary.js"></script>
 </body>

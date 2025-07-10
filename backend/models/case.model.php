@@ -49,11 +49,9 @@ class CaseEntry {
     }
 
     public function saveAppealDocument($data) {
-        // Generate the PDF
         $pdfGen = new PDFGenerator($data);
         $pdfBlob = $pdfGen->generateCombinedNoticeAndSummonBlob($data['hearing_type'], $data['hearing_date']);
 
-        // Insert into documents table
         $sql = "INSERT INTO documents (
                     Docket_Case_Number,
                     Document_Type,
@@ -65,5 +63,34 @@ class CaseEntry {
         $stmt->bindValue(1, $data['docket_case_number']);
         $stmt->bindValue(2, $pdfBlob, PDO::PARAM_LOB);
         $stmt->execute();
+    }
+
+    public function insertFilesToCase($docket, $jsonEncodedFiles) {
+        $sql = "UPDATE cases
+                SET filesUploaded = ?
+                WHERE Docket_Case_Number = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(1, $jsonEncodedFiles, PDO::PARAM_STR);
+        $stmt->bindValue(2, $docket);
+        return $stmt->execute();
+    }
+
+    public function getCaseByDocket($docket) {
+        $sql = "SELECT * FROM cases WHERE Docket_Case_Number = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$docket]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getCaseFiles($docket) {
+        $sql = "SELECT filesUploaded FROM `cases` WHERE Docket_Case_Number = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$docket]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row && isset($row['filesUploaded']) && !empty($row['filesUploaded'])) {
+            return $row['filesUploaded'];
+        }
+        return null;
     }
 }

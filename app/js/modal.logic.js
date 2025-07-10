@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // === Logout Modal Logic ===
+    // Existing elements (from your current JS)
     const logoutButton = document.getElementById('logoutButton');
     const logoutModal = document.getElementById('logoutModal');
     const confirmLogoutBtn = document.getElementById('confirmLogout');
@@ -25,58 +25,119 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === Status and Rehearing Modals Logic ===
+    // Elements for the Status Modal
     const statusModal = document.getElementById("status-modal");
-    const rehearingModal = document.getElementById("rehearing-modal");
     const docketInputStatus = document.getElementById("modal-docket-status");
-    const docketInputRehearing = document.getElementById("modal-docket-rehearing");
+    const statusSelectedValueInput = document.getElementById("status-selected-value");
+    const statusForm = document.getElementById("status-form");
+    const statusSelectionDropdown = document.getElementById("status-selection");
+    const statusReportSummaryGroup = document.getElementById("status-report-summary-group");
+    const statusReportSummaryTextarea = document.getElementById("status_report_summary_text");
+    const cancelStatusBtn = statusModal ? statusModal.querySelector('.cancel-status-btn') : null;
 
+    // --- NEW: Ensure the modal is hidden on page load ---
+    if (statusModal) {
+        statusModal.style.display = 'none'; // Explicitly hide it on DOMContentLoaded
+    }
+    // --- END NEW ---
+
+
+    // Function to toggle the visibility and required status of the report summary
+    const toggleReportSummary = (selectedStatus) => {
+        if (statusReportSummaryGroup && statusReportSummaryTextarea) {
+            if (selectedStatus === 'Rehearing') {
+                statusReportSummaryGroup.style.display = 'none';
+                statusReportSummaryTextarea.removeAttribute('required');
+                statusReportSummaryTextarea.value = '';
+            } else {
+                statusReportSummaryGroup.style.display = 'block';
+                statusReportSummaryTextarea.setAttribute('required', 'required');
+            }
+        }
+    };
+
+    // Event listener for opening the Status Modal (when "Change Status" button is clicked)
     document.addEventListener("click", function (event) {
         const clickedButton = event.target.closest(".open-lupon-modal");
-        
+
         if (clickedButton) {
             const docket = clickedButton.getAttribute("data-docket");
             const hearingStatus = clickedButton.getAttribute("data-hearing");
 
-            // --- DEBUGGING LOGS START --- // if you want to see the values in the console incase of 'data missing' or 'undefined'
-            console.log('--- Modal Button Clicked ---');
-            console.log('Docket:', docket);
-            console.log('Hearing Status from data-attribute:', hearingStatus);
-            console.log('Is hearingStatus === "Rehearing"?', hearingStatus === 'Rehearing');
-            // --- DEBUGGING LOGS END ---
+            if (statusModal && docketInputStatus && statusSelectedValueInput && statusForm && statusSelectionDropdown) {
+                docketInputStatus.value = docket;
+                statusSelectionDropdown.value = ''; // Reset dropdown selection on open
+                statusSelectedValueInput.value = ''; // Clear hidden input on open
+                statusReportSummaryTextarea.value = ''; // Clear summary on open
 
-            if (hearingStatus === 'Rehearing') {
-                if (docketInputRehearing && rehearingModal) {
-                    docketInputRehearing.value = docket;
-                    rehearingModal.style.display = "flex";
-                    console.log('Opening Rehearing Modal.');
-                } else {
-                    console.warn('Rehearing modal elements not found or misconfigured.');
-                }
+                // Initially hide the summary group when the modal opens
+                toggleReportSummary(''); // Pass empty string to ensure it hides initially
+
+                statusModal.style.display = "flex"; // This line will show the modal when the button is clicked
+                console.log('Opening Status Modal (from cases.php button). Original status:', hearingStatus);
             } else {
-                if (docketInputStatus && statusModal) {
-                    docketInputStatus.value = docket;
-                    statusModal.style.display = "flex";
-                    console.log('Opening Status Modal.');
-                } else {
-                    console.warn('Status modal elements not found or misconfigured.');
-                }
+                console.warn('Status modal elements not found or misconfigured for .open-lupon-modal.');
             }
         }
     });
 
-    if (statusModal) {
-        statusModal.addEventListener("click", (event) => {
-            if (event.target === statusModal) {
-                statusModal.style.display = "none";
+    // Event listener for the status dropdown change
+    if (statusSelectionDropdown) {
+        statusSelectionDropdown.addEventListener('change', function() {
+            const selectedStatus = this.value;
+            statusSelectedValueInput.value = selectedStatus;
+            toggleReportSummary(selectedStatus);
+            console.log('Status dropdown changed to:', selectedStatus);
+        });
+    }
+
+    // Event listener for form submission
+    if (statusForm && statusSelectedValueInput) {
+        statusForm.addEventListener('submit', function(event) {
+            const selectedStatus = statusSelectedValueInput.value;
+            const summaryText = statusReportSummaryTextarea.value;
+            const isSummaryVisible = statusReportSummaryGroup.style.display !== 'none';
+
+            if (!selectedStatus) {
+                alert('Please select a status option.');
+                event.preventDefault();
+                return;
+            }
+
+            if (isSummaryVisible && statusReportSummaryTextarea.hasAttribute('required') && !summaryText.trim()) {
+                alert('Please enter the report summary.');
+                event.preventDefault();
+                return;
+            }
+
+            console.log('Submitting Status Form:');
+            console.log('Docket:', docketInputStatus.value);
+            console.log('Selected Status:', selectedStatus);
+            if (isSummaryVisible) {
+                console.log('Report Summary:', summaryText);
             }
         });
     }
 
-    if (rehearingModal) {
-        rehearingModal.addEventListener("click", (event) => {
-            if (event.target === rehearingModal) {
-                rehearingModal.style.display = "none";
+    // Event listeners for closing the modal
+    if (statusModal) {
+        statusModal.addEventListener("click", (event) => {
+            if (event.target === statusModal) {
+                statusModal.style.display = "none";
+                if (statusForm) statusForm.reset();
+                toggleReportSummary('');
+                console.log('Closing Status Modal by clicking overlay.');
+            }
+        });
+    }
+
+    if (cancelStatusBtn) {
+        cancelStatusBtn.addEventListener('click', () => {
+            if (statusModal) {
+                statusModal.style.display = 'none';
+                if (statusForm) statusForm.reset();
+                toggleReportSummary('');
+                console.log('Closing Status Modal via Cancel button.');
             }
         });
     }
