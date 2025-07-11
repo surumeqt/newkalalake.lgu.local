@@ -1,5 +1,4 @@
 <div class="dashboard-container">
-    <!-- Key Statistics Cards -->
     <div class="stat-cards-grid">
         <!-- Stat Card 1: Total Cases -->
         <div class="stat-card blue-icon">
@@ -12,26 +11,15 @@
             <p class="stat-value">1,234</p>
         </div>
 
-        <!-- Stat Card 2: Pending Cases -->
+        <!-- Stat Card 2: Ongoing Cases -->
         <div class="stat-card yellow-icon">
             <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
-            <p class="stat-label">Pending Cases</p>
+            <p class="stat-label">Ongoing Cases</p>
             <p class="stat-value">150</p>
-        </div>
-
-        <!-- Stat Card 3: Re-hearing Cases -->
-        <div class="stat-card red-icon">
-            <div class="stat-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004 16.087V12m6.201 4.261a1 1 0 001.415 0l3.05-3.05a1 1 0 00-1.414-1.414l-2.39 2.39-2.39-2.39a1 1 0 10-1.414 1.414l3.05 3.05z" />
-                </svg>
-            </div>
-            <p class="stat-label">Re-hearing Cases</p>
-            <p class="stat-value">25</p>
         </div>
 
         <!-- Stat Card 4: Settled Cases -->
@@ -76,6 +64,28 @@
             </div>
             <p class="stat-label">CFA Cases</p>
             <p class="stat-value">875</p>
+        </div>
+
+        <!-- Criminal Cases -->
+        <div class="stat-card red-icon">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004 16.087V12m6.201 4.261a1 1 0 001.415 0l3.05-3.05a1 1 0 00-1.414-1.414l-2.39 2.39-2.39-2.39a1 1 0 10-1.414 1.414l3.05 3.05z" />
+                </svg>
+            </div>
+            <p class="stat-label">Criminal Cases</p>
+            <p class="stat-value">25</p>
+        </div>
+
+        <!-- Civil Cases -->
+        <div class="stat-card red-icon">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004 16.087V12m6.201 4.261a1 1 0 001.415 0l3.05-3.05a1 1 0 00-1.414-1.414l-2.39 2.39-2.39-2.39a1 1 0 10-1.414 1.414l3.05 3.05z" />
+                </svg>
+            </div>
+            <p class="stat-label">Civil Cases</p>
+            <p class="stat-value">25</p>
         </div>
 
     </div>
