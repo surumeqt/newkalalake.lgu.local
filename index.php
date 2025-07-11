@@ -29,7 +29,7 @@
                     placeholder="you@example.com"
                 >
             </div>
-            <div class="relative"> <!-- Added relative for eye icon positioning -->
+            <div class="relative">
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <input
                     type="password"

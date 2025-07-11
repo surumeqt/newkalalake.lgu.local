@@ -13,7 +13,6 @@ $records = $recordModel->getCasesByHearingStatus('Rehearing');
                 <th>Print</th>
                 <th>Status</th>
                 <th>Action</th>
-                <th>Files</th> <!-- New column for the button -->
             </tr>
         </thead>
         <tbody>
@@ -31,13 +30,6 @@ $records = $recordModel->getCasesByHearingStatus('Rehearing');
                             data-docket="<?= htmlspecialchars($row['Docket_Case_Number']) ?>"
                             data-hearing="<?= htmlspecialchars($row['Hearing_Status']) ?>">
                             Report Summary / Change Status
-                        </button>
-                    </td>
-                    <td>
-                        <button
-                            class="view-btn btn btn-info"
-                            data-docket="<?= htmlspecialchars($row['Docket_Case_Number']) ?>">
-                            View Files
                         </button>
                     </td>
                 </tr>

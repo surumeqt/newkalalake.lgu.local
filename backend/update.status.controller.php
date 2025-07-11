@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $model = new UpdateStatusModel();
         $success = $model->updateStatus($docket, $newStatus);
 
-        if ($reportSummaryText !== null) {
+        if (!empty(trim($reportSummaryText))) {
             $inserFInalDocs = $model->saveSummaryDocument($docket, $reportSummaryText);
         }
         

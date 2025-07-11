@@ -37,7 +37,7 @@ class PDFGenerator extends FPDF {
 
         $this->AddPage();
         $this->SetFont('Arial', 'B', 16);
-        $this->Cell(0, 50, 'NOTICE TO COMPLAINANT', 0, 1, 'C');
+        $this->Cell(0, 30, 'NOTICE TO COMPLAINANT', 0, 1, 'C');
 
         $this->SetFont('Arial', '', 12);
         $this->Ln(10);

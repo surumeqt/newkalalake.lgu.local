@@ -48,7 +48,14 @@
                 <select id="hearing_type" name="hearing_type" required class="form-select">
                     <option value="">-- Select Hearing --</option>
                     <option value="1st Hearing">1st Hearing</option>
-                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="case_type">Case Type</label>
+                <select id="case_type" name="case_type" required class="form-select">
+                    <option value="">-- Select Case Type --</option>
+                    <option value="criminal">Criminal Case</option>
+                    <option value="civil">Civil Case</option>
                 </select>
             </div>
             <div class="form-group">

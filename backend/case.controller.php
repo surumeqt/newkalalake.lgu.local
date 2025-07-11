@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'respondent_name' => $_POST['respondent_name'],
         'respondent_address' => $_POST['respondent_address'],
         'hearing_type' => $_POST['hearing_type'],
+        'case_type' => $_POST['case_type'],
         'hearing_date' => $_POST['hearing_date'],
     ];
 

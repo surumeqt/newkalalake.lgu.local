@@ -18,8 +18,9 @@ class CaseEntry {
                     Complainant_Address,
                     Respondent_Name,
                     Respondent_Address,
+                    Case_Type,
                     Created_At
-                ) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+                ) VALUES (?, ?, ?, ?, ?, ?, ?,NOW())";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
@@ -28,7 +29,8 @@ class CaseEntry {
             $data['complainant_name'],
             $data['complainant_address'],
             $data['respondent_name'],
-            $data['respondent_address']
+            $data['respondent_address'],
+            $data['case_type']
         ]);
     }
 

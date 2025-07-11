@@ -66,14 +66,15 @@ class UpdateStatusModel {
         $hearingStmt = $this->conn->prepare("SELECT Hearing_Type, Hearing_Date, Hearing_Status FROM hearings WHERE Docket_Case_Number = ? ORDER BY ID DESC LIMIT 1");
         $hearingStmt->execute([$docketCaseNumber]);
         $hearing = $hearingStmt->fetch(PDO::FETCH_ASSOC);
-        if ($hearingDate !== null) {
-            $hearing['Hearing_Date'] = $hearingDate;
+
+        if ($hearingDate == null) {
+            $hearingDate = $hearing['Hearing_Date'];
         }
 
         $case['report_summary_text'] = $reportSummaryText;
 
         $pdfGen = new PDFGenerator($case);
-        $newPdfBlob = $pdfGen->GenerateSummaryBlob($hearing['Hearing_Date'], $hearing['Hearing_Type']);
+        $newPdfBlob = $pdfGen->GenerateSummaryBlob($hearingDate, $hearing['Hearing_Type']);
 
         $insertStmt = $this->conn->prepare("
             INSERT INTO summary (Docket_Case_Number, Hearing_Type, Hearing_Status, Document_Type, PDF_File, Created_At)
@@ -86,42 +87,65 @@ class UpdateStatusModel {
         return $insertStmt->execute();
     }
     public function RehearingAppealType($docketCaseNumber, $newHearingDate) {
-        $getFirstHearing = $this->conn->prepare("
-            SELECT Hearing_Type 
-            FROM hearings 
-            WHERE Docket_Case_Number = ? 
-            ORDER BY ID ASC 
-            LIMIT 1
-        ");
-        $getFirstHearing->execute([$docketCaseNumber]);
-        $firstHearing = $getFirstHearing->fetch(PDO::FETCH_ASSOC);
+        try {
+            $this->conn->beginTransaction();
 
-        if (!$firstHearing) {
+            $getFirstHearing = $this->conn->prepare("
+                SELECT Hearing_Type 
+                FROM hearings 
+                WHERE Docket_Case_Number = ? 
+                ORDER BY ID ASC 
+                LIMIT 1
+            ");
+            $getFirstHearing->execute([$docketCaseNumber]);
+            $firstHearing = $getFirstHearing->fetch(PDO::FETCH_ASSOC);
+
+            if (!$firstHearing) {
+                $this->conn->rollBack();
+                return false;
+            }
+
+            $hearingType = $firstHearing['Hearing_Type'];
+
+            $stmt = $this->conn->prepare("SELECT * FROM cases WHERE Docket_Case_Number = ?");
+            $stmt->execute([$docketCaseNumber]);
+            $case = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$case) {
+                $this->conn->rollBack();
+                return false;
+            }
+
+            $pdfGen = new PDFGenerator($case);
+            $updatedPdfBlob = $pdfGen->generateCombinedNoticeAndSummonBlob($hearingType, $newHearingDate);
+
+            $updateDoc = $this->conn->prepare("
+                UPDATE documents 
+                SET PDF_File = ?, Created_At = NOW()
+                WHERE Docket_Case_Number = ? AND Document_Type = 'Appeal'
+            ");
+            $updateDoc->bindValue(1, $updatedPdfBlob, PDO::PARAM_LOB);
+            $updateDoc->bindValue(2, $docketCaseNumber);
+            $updateDoc->execute();
+
+            $updateHearing = $this->conn->prepare("
+                UPDATE hearings
+                SET Hearing_Date = ?
+                WHERE Docket_Case_Number = ?
+                ORDER BY ID DESC
+                LIMIT 1
+            ");
+            $updateHearing->execute([$newHearingDate, $docketCaseNumber]);
+
+            $this->conn->commit();
+            return true;
+
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            error_log("RehearingAppealType failed: " . $e->getMessage());
             return false;
         }
-
-        $hearingType = $firstHearing['Hearing_Type'];
-
-        $stmt = $this->conn->prepare("SELECT * FROM cases WHERE Docket_Case_Number = ?");
-        $stmt->execute([$docketCaseNumber]);
-        $case = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$case) {
-            return false;
-        }
-
-        $pdfGen = new PDFGenerator($case);
-        $updatedPdfBlob = $pdfGen->generateCombinedNoticeAndSummonBlob($hearingType, $newHearingDate);
-
-        $updateStmt = $this->conn->prepare("
-            UPDATE documents 
-            SET PDF_File = ?, Created_At = NOW()
-            WHERE Docket_Case_Number = ? AND Document_Type = 'Appeal'
-        ");
-        $updateStmt->bindValue(1, $updatedPdfBlob, PDO::PARAM_LOB);
-        $updateStmt->bindValue(2, $docketCaseNumber);
-
-        return $updateStmt->execute();
     }
+
 
 }

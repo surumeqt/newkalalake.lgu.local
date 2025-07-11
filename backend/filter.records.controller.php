@@ -34,7 +34,11 @@ foreach ($records as $row) {
         <td class='status-" . strtolower(str_replace(' ', '-', $row['Hearing_Status'])) . "'>" . htmlspecialchars($row['Hearing_Status']) . "</td>
         <td>" . htmlspecialchars(date('Y-m-d', strtotime($row['Created_At']))) . "</td>
         <td>
-            <button class='table-action-btn view-btn'>View</button>
+            <button 
+                class='table-action-btn view-btn'
+                data-docket=". htmlspecialchars($row['Docket_Case_Number']) . "
+                >View
+            </button>
             <button class='table-action-btn edit-btn'>Edit</button>
         </td>
     </tr>";
