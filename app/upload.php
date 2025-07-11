@@ -6,7 +6,8 @@
         <div class="upload-form-section">
             <div class="upload-form-group">
                 <label for="upload_doket_id" class="upload-form-label">Docket ID</label>
-                <input type="text" id="upload_doket_id" name="doket_id" placeholder="Enter Docket ID" required class="upload-form-input">
+                <input type="text" id="upload_doket_id" name="doket_id" placeholder="Enter Docket ID"
+                    onblur="liveFillInputsByDocket()" required class="upload-form-input">
             </div>
         </div>
  
@@ -61,22 +62,16 @@
                 <input type="text" id="upload_respondent_address" name="respondent_address" placeholder="Enter Respondent Address" required class="upload-form-input">
             </div>
             <div class="upload-form-group">
+                <label for="upload_case_type" class="upload-form-label">Case Type</label>
+                <select id="upload_case_type" name="case_type" required class="upload-form-select">
+                    <option value="">-- Select Case Type --</option>
+                    <option value="criminal">Criminal</option>
+                    <option value="civil">Civil</option>
+                </select>
+            </div>
+            <div class="upload-form-group">
                 <label for="upload_hearing_date" class="upload-form-label">Hearing Date</label>
                 <input type="date" id="upload_hearing_date" name="hearing_date" required class="upload-form-input">
-            </div>
-        </div>
-
-        <!-- Report Summary Textarea (Conditional Visibility) -->
-        <div class="upload-form-section" id="upload-report-summary-group" style="display: none;">
-            <h3 class="upload-section-title">Report Summary</h3>
-            <div class="upload-form-group">
-                <label for="upload_report_summary_text" class="upload-form-label">Summary Details</label>
-                <textarea
-                    id="upload_report_summary_text"
-                    name="report_summary_text"
-                    rows="5"
-                    placeholder="Type the report summary here..."
-                    class="upload-form-textarea"></textarea>
             </div>
         </div>
 

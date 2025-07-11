@@ -4,6 +4,24 @@ require_once './models/case.model.php';
 $caseModel = new CaseEntry();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['docket_lookup'])) {
+        $docket = $_POST['docket_lookup'];
+        $existingCase = $caseModel->getCaseByDocket($docket);
+
+        if ($existingCase) {
+            echo json_encode([
+                'success' => true,
+                'data' => $existingCase
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'No case found for Docket ID.'
+            ]);
+        }
+        exit;
+    }
+
     $docket = $_POST['doket_id'];
 
     $existingCase = $caseModel->getCaseByDocket($docket);
@@ -15,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'complainant_address' => $_POST['complainant_address'],
         'respondent_name' => $_POST['respondent_name'],
         'respondent_address' => $_POST['respondent_address'],
+        'case_type' => $_POST['case_type'] ?? null
     ];
 
     if (!$existingCase) {

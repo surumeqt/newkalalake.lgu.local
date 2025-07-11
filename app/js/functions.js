@@ -17,14 +17,41 @@ function liveSearch() {
     xhr.send(formData);
 }
 
-function showGalleryImages(docketNumber) {
+function liveFillInputsByDocket(){
+    const uploadDocket = document.getElementById('upload_doket_id').value;
+
     const xhr = new XMLHttpRequest();
-    // Changed to GET request and appended docket as a query parameter
-    xhr.open("GET", `../backend/get.gallery.php?docket=${encodeURIComponent(docketNumber)}`, true);
-    xhr.setRequestHeader('Accept', 'application/json'); // Request JSON response
+    const formData = new FormData();
+    formData.append('docket_lookup', uploadDocket);
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) { // Request finished and response is ready
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                document.getElementById('upload_case_title').value = response.data.Case_Title;
+                document.getElementById('upload_complainant_name').value = response.data.Complainant_Name;
+                document.getElementById('upload_complainant_address').value = response.data.Complainant_Address;
+                document.getElementById('upload_respondent_name').value = response.data.Respondent_Name;
+                document.getElementById('upload_respondent_address').value = response.data.Respondent_Address;
+                document.getElementById('upload_case_type').value = response.data.Case_Type;
+            } else {
+                console.error("Case not found:", response.message);
+            }
+        }
+    };
+
+    xhr.open("POST", "../backend/upload.controller.php", true);
+    xhr.send(formData);
+}
+
+
+function showGalleryImages(docketNumber) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `../backend/get.gallery.php?docket=${encodeURIComponent(docketNumber)}`, true);
+    xhr.setRequestHeader('Accept', 'application/json');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
             const modal = document.getElementById('gallery-modal');
             const galleryContainer = modal.querySelector('.gallery-images');
 
@@ -33,7 +60,6 @@ function showGalleryImages(docketNumber) {
                     const images = JSON.parse(xhr.responseText);
 
                     if (Array.isArray(images) && images.length > 0) {
-                        // Map each base64 string to an <img> tag
                         galleryContainer.innerHTML = images.map(base64 => `
                             <img src="data:image/jpeg;base64,${base64}" class="gallery-image" alt="Uploaded Image" />
                         `).join('');
@@ -41,31 +67,28 @@ function showGalleryImages(docketNumber) {
                         galleryContainer.innerHTML = '<p class="text-gray-600">No images uploaded for this case yet.</p>';
                     }
 
-                    modal.classList.add('active'); // Show modal by adding 'active' class
-                    document.body.style.overflow = 'hidden'; // Prevent scrolling body when modal is open
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
 
                 } catch (e) {
-                    // Handle JSON parsing errors
                     galleryContainer.innerHTML = '<p class="text-red-600">Error loading images: Invalid data received.</p>';
                     console.error("Invalid JSON from backend:", xhr.responseText, e);
                 }
             } else {
-                // Handle HTTP errors (e.g., 404, 500)
                 galleryContainer.innerHTML = `<p class="text-red-600">Failed to load images. Server responded with status: ${xhr.status}</p>`;
                 console.error("Server error:", xhr.status, xhr.responseText);
             }
         }
     };
 
-    xhr.send(); // No formData for GET request
+    xhr.send();
 }
 
 function closeGalleryModal() {
     const modal = document.getElementById('gallery-modal');
     if (modal) {
-        modal.classList.remove('active'); // Hide modal by removing 'active' class
-        document.body.style.overflow = ''; // Restore body scrolling
-        // Clear images when closing to prevent old images showing on next open
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
         const galleryContainer = modal.querySelector('.gallery-images');
         if (galleryContainer) {
             galleryContainer.innerHTML = '';
