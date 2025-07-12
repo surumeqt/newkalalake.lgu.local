@@ -26,7 +26,7 @@
             </div>
             <div class="upload-form-group upload-flex-item">
                 <label for="upload_status_selection" class="upload-form-label">Hearing Status</label>
-                <select id="upload_status_selection" name="Hearing_Status" required class="upload-form-select">
+                <select id="upload_status_selection" name="hearing_Status" required class="upload-form-select">
                     <option value="">-- Choose Status --</option>
                     <option value="Ongoing">Ongoing</option>
                     <option value="Rehearing">Rehearing</option>

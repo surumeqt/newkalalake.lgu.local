@@ -1,6 +1,5 @@
 <div class="dashboard-container">
     <div class="stat-cards-grid">
-        <!-- Stat Card 1: Total Cases -->
         <div class="stat-card blue-icon">
             <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -11,7 +10,6 @@
             <p class="stat-value">1,234</p>
         </div>
 
-        <!-- Stat Card 2: Ongoing Cases -->
         <div class="stat-card yellow-icon">
             <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -22,7 +20,6 @@
             <p class="stat-value">150</p>
         </div>
 
-        <!-- Stat Card 4: Settled Cases -->
         <div class="stat-card green-icon">
             <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -33,7 +30,6 @@
             <p class="stat-value">875</p>
         </div>
 
-        <!-- NEW Stat Card: Dismissed Cases -->
         <div class="stat-card gray-icon">
             <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -44,7 +40,6 @@
             <p class="stat-value">875</p>
         </div>
 
-        <!-- NEW Stat Card: Withdrawn Cases -->
         <div class="stat-card purple-icon">
             <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -55,7 +50,6 @@
             <p class="stat-value">875</p>
         </div>
 
-        <!-- NEW Stat Card: CFA Cases -->
         <div class="stat-card orange-icon">
             <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -66,33 +60,33 @@
             <p class="stat-value">875</p>
         </div>
 
-        <!-- Criminal Cases -->
-        <div class="stat-card red-icon">
+        <div class="stat-card steel-blue-icon">
             <div class="stat-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004 16.087V12m6.201 4.261a1 1 0 001.415 0l3.05-3.05a1 1 0 00-1.414-1.414l-2.39 2.39-2.39-2.39a1 1 0 10-1.414 1.414l3.05 3.05z" />
-                </svg>
-            </div>
-            <p class="stat-label">Criminal Cases</p>
-            <p class="stat-value">25</p>
-        </div>
-
-        <!-- Civil Cases -->
-        <div class="stat-card red-icon">
-            <div class="stat-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004 16.087V12m6.201 4.261a1 1 0 001.415 0l3.05-3.05a1 1 0 00-1.414-1.414l-2.39 2.39-2.39-2.39a1 1 0 10-1.414 1.414l3.05 3.05z" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 2v20 M5 6h14 M7 6a5 5 0 0 0 10 0 M6 6l1 8h10l1-8" />
                 </svg>
             </div>
             <p class="stat-label">Civil Cases</p>
             <p class="stat-value">25</p>
         </div>
 
+        <div class="stat-card red-icon">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M7 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm10 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-10 4h10m-5-4v8" />
+                </svg>
+            </div>
+            <p class="stat-label">Criminal Cases</p>
+            <p class="stat-value">25</p>
+        </div>
+
     </div>
 
-    <!-- Recent Activity / Quick Actions Section -->
     <div class="dashboard-bottom-grid">
-        <!-- Recent Cases Table -->
         <div class="recent-cases-table-container">
             <h3 class="section-heading">Recent Case Activity</h3>
             <div class="table-scroll-wrapper">
@@ -106,7 +100,6 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Example Rows (replace with dynamic PHP data) -->
                         <tr>
                             <td>25-07-01</td>
                             <td>Dispute over property line</td>
@@ -125,8 +118,7 @@
                             <td class="status-rehearing">Rehearing</td>
                             <td>2025-06-29</td>
                         </tr>
-                        <!-- End Example Rows -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
             <div class="view-all-link">
@@ -134,7 +126,6 @@
             </div>
         </div>
 
-        <!-- Quick Actions / Announcements -->
         <div class="quick-actions-announcements-container">
             <h3 class="section-heading">Quick Actions</h3>
             <div class="quick-actions-list">

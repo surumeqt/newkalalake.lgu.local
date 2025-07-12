@@ -334,6 +334,8 @@ body {
 .stat-card.gray-icon .stat-icon { color: #6b7280; }
 .stat-card.purple-icon .stat-icon { color: #8b5cf6; }
 .stat-card.orange-icon .stat-icon { color: #f97316; }
+.stat-card.steel-blue-icon .stat-icon { color: 	#4682B4; }
+
 
 .stat-label {
     color: var(--light-text);

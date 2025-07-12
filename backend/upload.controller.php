@@ -4,9 +4,11 @@ require_once './models/case.model.php';
 $caseModel = new CaseEntry();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     if (isset($_POST['docket_lookup'])) {
         $docket = $_POST['docket_lookup'];
-        $existingCase = $caseModel->getCaseByDocket($docket);
+
+        $existingCase = $caseModel->getCaseWithHearing($docket); 
 
         if ($existingCase) {
             echo json_encode([
@@ -23,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $docket = $_POST['doket_id'];
-
     $existingCase = $caseModel->getCaseByDocket($docket);
 
     $data = [
@@ -33,11 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'complainant_address' => $_POST['complainant_address'],
         'respondent_name' => $_POST['respondent_name'],
         'respondent_address' => $_POST['respondent_address'],
-        'case_type' => $_POST['case_type'] ?? null
+        'case_type' => $_POST['case_type'],
+        'hearing_type' => $_POST['hearing_type'],
+        'hearing_date' => $_POST['hearing_date'],
+        'hearing_status' => $_POST['hearing_Status']
     ];
 
     if (!$existingCase) {
-        $caseModel->createCase($data);
+        $caseModel->encodeOldCases($data);
     }
 
     $fileBlobs = [];
