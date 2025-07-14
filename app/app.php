@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../backend/helpers/redirects.php'; redirectIfNotLoggedIn(); $user_email = $_SESSION['username'];?>
+    <?php include '../backend/helpers/redirects.php'; 
+    redirectIfNotLoggedIn(); 
+    $user_email = $_SESSION['username'];
+    $showSuccess = isset($_GET['entry']) && $_GET['entry'] === 'success';
+    ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGU - Brgy. New Kalalake System</title>
@@ -50,6 +54,16 @@
     </div>
 
     <!-- MODALS -->
+    <?php if ($showSuccess): ?>
+        <div id="success-toast" class="success-toast">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24" class="checkmark">
+                    <path d="M5 13l4 4L19 7" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="success-message">Case successfully submitted!</div>
+        </div>
+    <?php endif; ?>
 
     <!-- Logout Modal -->
     <div id="logoutModal" class="modal-overlay">

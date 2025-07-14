@@ -1,3 +1,9 @@
+<?php
+require_once '../backend/models/get.records.model.php';
+$model = new GetRecordsModel();
+$caseStats = $model->getCaseStats();
+$recentCases = $model->getRecentCases();
+?>
 <div class="dashboard-container">
     <div class="stat-cards-grid">
         <div class="stat-card blue-icon">
@@ -7,7 +13,7 @@
                 </svg>
             </div>
             <p class="stat-label">Total Cases</p>
-            <p class="stat-value">1,234</p>
+            <p class="stat-value"><?= number_format($caseStats['total_cases']) ?></p>
         </div>
 
         <div class="stat-card yellow-icon">
@@ -17,7 +23,7 @@
                 </svg>
             </div>
             <p class="stat-label">Ongoing Cases</p>
-            <p class="stat-value">150</p>
+            <p class="stat-value"><?= $caseStats['ongoing'] ?></p>
         </div>
 
         <div class="stat-card green-icon">
@@ -27,7 +33,7 @@
                 </svg>
             </div>
             <p class="stat-label">Settled Cases</p>
-            <p class="stat-value">875</p>
+            <p class="stat-value"><?= $caseStats['settled'] ?></p>
         </div>
 
         <div class="stat-card gray-icon">
@@ -37,7 +43,7 @@
                 </svg>
             </div>
             <p class="stat-label">Dismissed Cases</p>
-            <p class="stat-value">875</p>
+            <p class="stat-value"><?= $caseStats['dismissed'] ?></p>
         </div>
 
         <div class="stat-card purple-icon">
@@ -47,7 +53,7 @@
                 </svg>
             </div>
             <p class="stat-label">Withdrawn Cases</p>
-            <p class="stat-value">875</p>
+            <p class="stat-value"><?= $caseStats['withdrawn'] ?></p>
         </div>
 
         <div class="stat-card orange-icon">
@@ -57,7 +63,7 @@
                 </svg>
             </div>
             <p class="stat-label">CFA Cases</p>
-            <p class="stat-value">875</p>
+            <p class="stat-value"><?= $caseStats['cfa'] ?></p>
         </div>
 
         <div class="stat-card steel-blue-icon">
@@ -69,7 +75,7 @@
                 </svg>
             </div>
             <p class="stat-label">Civil Cases</p>
-            <p class="stat-value">25</p>
+            <p class="stat-value"><?= $caseStats['civil'] ?></p>
         </div>
 
         <div class="stat-card red-icon">
@@ -81,9 +87,8 @@
                 </svg>
             </div>
             <p class="stat-label">Criminal Cases</p>
-            <p class="stat-value">25</p>
+            <p class="stat-value"><?= $caseStats['criminal'] ?></p>
         </div>
-
     </div>
 
     <div class="dashboard-bottom-grid">
@@ -100,48 +105,40 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
+                        <?php foreach ($recentCases as $case): ?>
                         <tr>
-                            <td>25-07-01</td>
-                            <td>Dispute over property line</td>
-                            <td class="status-1st-hearing">1st Hearing</td>
-                            <td>2025-07-01</td>
+                            <td><?= htmlspecialchars($case['Docket_Case_Number']) ?></td>
+                            <td><?= htmlspecialchars($case['Case_Title']) ?></td>
+                            <td class="status-<?= strtolower(str_replace(' ', '-', $case['Hearing_Type'])) ?>">
+                                <?= htmlspecialchars($case['Hearing_Type']) ?>
+                            </td>
+                            <td><?= htmlspecialchars($case['Hearing_Date']) ?></td>
                         </tr>
-                        <tr>
-                            <td>25-06-28</td>
-                            <td>Noise complaint from neighbor</td>
-                            <td class="status-settled">Settled</td>
-                            <td>2025-06-30</td>
-                        </tr>
-                        <tr>
-                            <td>25-06-25</td>
-                            <td>Unpaid debt resolution</td>
-                            <td class="status-rehearing">Rehearing</td>
-                            <td>2025-06-29</td>
-                        </tr>
-                        </tbody>
+                        <?php endforeach; ?>
+                    </tbody>
                 </table>
             </div>
             <div class="view-all-link">
-                <a href="./cases.php">View All Cases &rarr;</a>
+                <a href="">View All Cases &rarr;</a>
             </div>
         </div>
 
         <div class="quick-actions-announcements-container">
             <h3 class="section-heading">Quick Actions</h3>
             <div class="quick-actions-list">
-                <a href="./case-entry.php" class="action-button primary-button">
+                <a href="" class="action-button primary-button">
                     <svg xmlns="http://www.w3.org/2000/svg" class="button-icon" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
                     New Case Entry
                 </a>
-                <a href="./upload.php" class="action-button secondary-button">
+                <a href="" class="action-button secondary-button">
                     <svg xmlns="http://www.w3.org/2000/svg" class="button-icon" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L6.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                     </svg>
                     Upload Document
                 </a>
-                <a href="./database-page.php" class="action-button secondary-button">
+                <a href="" class="action-button secondary-button">
                     <svg xmlns="http://www.w3.org/2000/svg" class="button-icon" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
                         <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 110-2h1a1 1 0 110 2H4zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd" />
@@ -149,14 +146,14 @@
                     Browse Database
                 </a>
             </div>
-            <div class="announcements-section">
+            <!-- <div class="announcements-section">
                 <h3 class="section-heading">Announcements</h3>
                 <ul class="announcement-list">
                     <li><span class="announcement-bullet">&bull;</span> System maintenance on July 15th, 10 PM - 12 AM.</li>
                     <li><span class="announcement-bullet">&bull;</span> New policy update effective August 1st.</li>
                     <li><span class="announcement-bullet">&bull;</span> Training session for new features next week.</li>
                 </ul>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
