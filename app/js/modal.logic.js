@@ -142,3 +142,89 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+let currentResidentIdForCertificates = null;
+
+// Function to initialize the Add Resident Modal (existing from your files)
+function initializeAddResidentModal() {
+    console.log("Attempting to initialize Add Resident Modal..."); // Debugging
+
+    const openModalBtn = document.getElementById("openModalBtn");
+    const addResidentModal = document.getElementById("AddresidentModal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+
+    if (openModalBtn && addResidentModal && closeModalBtn) {
+        console.log("Add Resident Modal elements found. Attaching listeners.");
+
+        openModalBtn.addEventListener("click", () => {
+            addResidentModal.classList.add("active");
+            console.log("Add Resident Modal Opened!");
+        });
+
+        closeModalBtn.addEventListener("click", () => {
+            addResidentModal.classList.remove("active");
+            console.log("Add Resident Modal Closed!");
+        });
+
+        // Close modal if overlay is clicked
+        addResidentModal.addEventListener("click", (event) => {
+            if (event.target === addResidentModal) {
+                addResidentModal.classList.remove("active");
+                console.log("Add Resident Modal Closed by clicking outside!");
+            }
+        });
+    } else {
+        console.warn(
+            "Could not find all Add Resident Modal elements. This is normal if fd_residents.php is not loaded yet."
+        );
+        if (!openModalBtn) console.warn("Missing #openModalBtn");
+        if (!addResidentModal) console.warn("Missing #AddresidentModal");
+        if (!closeModalBtn) console.warn("Missing #closeModalBtn");
+    }
+}
+
+// NEW FUNCTION: Function to initialize the Select Certificate Type Modal
+function initializeSelectCertificateTypeModal() {
+    console.log("Attempting to initialize Select Certificate Type Modal..."); // Debugging
+
+    const openModalBtn = document.getElementById("issueCertificateModalBtn");
+    const SelectCertificateTypeModal = document.getElementById(
+        "SelectCertificateTypeModal"
+    );
+    const closeModalBtn = document.getElementById("sc-closeModalBtn");
+
+    if (openModalBtn && SelectCertificateTypeModal && closeModalBtn) {
+        console.log(
+            "Select Certificate Type Modal elements found. Attaching listeners."
+        );
+
+        openModalBtn.addEventListener("click", () => {
+            SelectCertificateTypeModal.classList.add("active");
+            console.log("Select Certificate Type Modal Opened!");
+        });
+
+        closeModalBtn.addEventListener("click", () => {
+            SelectCertificateTypeModal.classList.remove("active");
+            console.log("Select Certificate Type Modal Closed!");
+        });
+
+        // Close modal if overlay is clicked
+        SelectCertificateTypeModal.addEventListener("click", (event) => {
+            if (event.target === SelectCertificateTypeModal) {
+                SelectCertificateTypeModal.classList.remove("active");
+                console.log(
+                    "Select Certificate Type Modal Closed by clicking outside!"
+                );
+            }
+        });
+    } else {
+        console.warn(
+            "Could not find all Select Certificate Type Modal elements. This is normal if fd_residents.php is not loaded yet."
+        );
+        if (!openModalBtn) console.warn("Missing #issueCertificateModalBtn");
+        if (!SelectCertificateTypeModal)
+            console.warn("Missing #SelectCertificateTypeModal");
+        if (!closeModalBtn) console.warn("Missing #sc-closeModalBtn");
+    }
+}

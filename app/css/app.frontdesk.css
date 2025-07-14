@@ -1,17 +1,18 @@
+/* Existing CSS from your upload */
 @font-face {
-    font-family: 'Monda';
-    src: url('../fonts/Monda-Regular.woff2') format('woff2'),
-         url('../fonts/Monda-Regular.woff') format('woff'),
-         url('../fonts/Monda-Regular.ttf') format('truetype');
+    font-family: "Monda";
+    src: url("../fonts/Monda-Regular.woff2") format("woff2"),
+         url("../fonts/Monda-Regular.woff") format("woff"),
+         url("../fonts/Monda-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
-    font-family: 'Monda';
-    src: url('../fonts/Monda-Bold.woff2') format('woff2'),
-         url('../fonts/Monda-Bold.woff') format('woff'),
-         url('../fonts/Monda-Bold.ttf') format('truetype');
+    font-family: "Monda";
+    src: url("../fonts/Monda-Bold.woff2") format("woff2"),
+         url("../fonts/Monda-Bold.woff") format("woff"),
+         url("../fonts/Monda-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -19,18 +20,26 @@
 
 :root {
     --primary-blue: #007bff;
+    --primary-blue-hover: #1a60aa;
     --dark-text: #343a40;
     --light-text: #6c757d;
     --bg-light: #f8f9fa;
     --bg-white: #ffffff;
     --border-light: #e9ecef;
     --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-heavy: 0 2px 4px rgba(0, 0, 0, 0.15);
     --spacing-xs: 8px;
     --spacing-sm: 15px;
     --spacing-md: 20px;
     --spacing-lg: 30px;
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
+    --btn-small-width: 80px;
+    --btn-padding: 8px 16px;
+    --btn-good: #28a745;
+    --btn-bad: #dc3545;
+    --btn-orange: #fd7e14;
+    --btn-neutral: #6c757d;
 }
 
 * {
@@ -40,13 +49,13 @@
 }
 
 body {
-    font-family: 'Monda', sans-serif;
+    font-family: "Monda", sans-serif;
     line-height: 1.6;
     color: var(--dark-text);
     background-color: var(--bg-light);
     display: flex;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: hidden; /* This might need adjustment if content overflows on smaller screens */
 }
 
 .dashboard-layout {
@@ -66,6 +75,8 @@ body {
     justify-content: space-between;
     border-right: 1px solid var(--border-light);
     overflow-y: auto;
+    transition: transform 0.3s ease;
+    z-index: 1000;
 }
 
 .logo-area {
@@ -137,7 +148,7 @@ body {
 .logout-btn {
     display: inline-block;
     padding: 6px 12px;
-    background-color: #dc3545;
+    background-color: var(--btn-bad); /* Using your root variable */
     color: white;
     text-decoration: none;
     border-radius: var(--border-radius-sm);
@@ -145,7 +156,7 @@ body {
     font-weight: 500;
 }
 .logout-btn:hover {
-    background-color: #c82333;
+    background-color: #c82333; /* Slightly darker red for hover */
 }
 
 .main-panel {
@@ -173,6 +184,69 @@ body {
     cursor: pointer;
     color: var(--dark-text);
     padding: 5px;
+    z-index: 1001;
+}
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background dimming */
+    z-index: 999; /* Below the sidebar (which has z-index 1000) */
+    display: none; /* Hidden by default */
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 14px;
+    }
+
+    .sidebar {
+        width: 250px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .main-panel {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .top-bar {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .current-page-title,
+    .logo-area h1,
+    .upload-form-title,
+    .form-title {
+        font-size: var(--font-size-lg);
+    }
+
+    .user-greeting {
+        display: none;
+    }
 }
 .current-page-title {
     font-size: 1.4rem;
@@ -196,9 +270,6 @@ body {
 .content-display h2 {
     font-size: 1.8rem;
     color: var(--dark-text);
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-xs);
-    border-bottom: 1px solid var(--border-light);
 }
 .content-display p {
     margin-bottom: var(--spacing-sm);
@@ -206,3 +277,638 @@ body {
 }
 
 /* CONTENT DISPLAY DEFAULT END */
+
+
+/* --- Dashboard Specific Styles (incorporating your root variables) --- */
+
+.dashboard-content {
+
+}
+
+.dashboard-header {
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+.dashboard-header h2 {
+    color: var(--dark-text);
+    font-size: 2em; /* Keep it prominent */
+    margin-bottom: var(--spacing-xs); /* Use your spacing variable */
+}
+
+.dashboard-header p {
+    color: var(--light-text);
+    font-size: 1.1em;
+}
+
+.user-name {
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.stat-card {
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    text-align: center;
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s ease-in-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-heavy); /* Slightly more prominent shadow on hover */
+}
+
+.stat-card h3 {
+    font-size: 1.1em;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-value {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--primary-blue);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-description {
+    font-size: 0.9em;
+    color: var(--light-text);
+}
+
+.stat-alert {
+    background-color: #ffe0b2; /* Keeping this color for alert distinction, as it's not in your roots */
+    border: 1px solid #ffb74d; /* Border to match */
+}
+
+.stat-alert .stat-value {
+    color: #e65100; /* Darker orange for value, not in roots but specific for alert */
+}
+
+/* Quick Actions */
+.quick-actions {
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+.quick-actions h3 {
+    font-size: 1.5em;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-md);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.btn {
+    padding: var(--btn-padding); /* Using your button padding variable */
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    font-family: "Monda", sans-serif; /* Ensure button text uses Monda */
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-blue-hover);
+}
+
+.btn-secondary {
+    background-color: var(--btn-neutral); /* Using your root variable */
+    color: var(--bg-white);
+}
+.btn-good {
+    background-color: var(--btn-good);
+    color: var(--bg-white);
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Slightly darker grey for hover */
+}
+.add-resident-btn{
+    background-color: var(--btn-good);
+    color: var(--bg-white);
+}
+/* Recent Activity Section */
+.recent-activity-section {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+    .recent-activity-section {
+        grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+    }
+}
+
+.recent-certificates,
+.recent-residents {
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-subtle);
+}
+
+.recent-certificates h3,
+.recent-residents h3 {
+    font-size: 1.3em;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: var(--spacing-xs);
+}
+
+.recent-activity-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-sm);
+}
+
+.recent-activity-section th,
+.recent-activity-section td {
+    padding: var(--spacing-xs);
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.recent-activity-section th {
+    background-color: var(--bg-light); /* Light background for table headers */
+    color: var(--dark-text);
+    font-weight: 700; /* Use your Monda bold weight */
+}
+
+.recent-activity-section tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.recent-activity-section p {
+    color: var(--light-text);
+    text-align: center;
+    padding: var(--spacing-md) 0;
+}
+
+/* Loading/Error messages (styles you may already have, just ensuring consistency) */
+.loading-message {
+    text-align: center;
+    font-style: italic;
+    color: var(--primary-blue);
+    padding: var(--spacing-lg);
+}
+
+.error-message {
+    text-align: center;
+    color: var(--btn-bad); /* Red for error messages */
+    font-weight: bold;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md); /* Add some space below it */
+}
+
+/* --------------------------------------------------------------------------------------------------------------- */
+
+/* Page Header & Actions */
+.page-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    gap: var(--spacing-sm); /* Space between header items */
+}
+
+.page-content-header h2 {
+    margin: 0; /* Reset default margin */
+    color: var(--dark-text);
+    font-size: 1.8em;
+}
+
+.header-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap; /* Allow buttons/search to wrap */
+}
+
+.search-bar {
+    display: flex;
+    gap: 5px;
+}
+
+.search-bar .form-control {
+    width: 250px; /* Adjust as needed */
+    max-width: 100%;
+}
+
+/* Card for Residents List */
+.residents-list-section.card {
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    margin-bottom: var(--spacing-lg);
+    overflow: hidden; /* Ensures borders/shadows are correct with table */
+}
+
+.residents-list-section .card-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--border-light);
+    background-color: var(--bg-light);
+    color: var(--dark-text);
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+/* .residents-list-section .card-body {
+    padding: var(--spacing-md);
+} */
+
+/* Table Styling */
+.table-responsive {
+    overflow-x: auto; /* Enables horizontal scrolling for tables on small screens */
+    margin-bottom: var(--spacing-md);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse; /* Remove space between table cells */
+    min-width: 700px; /* Ensure table is wide enough to trigger scroll if needed */
+        border-radius: 10px;
+    overflow: hidden;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-light);
+    text-align: center;
+    vertical-align: middle;
+}
+
+.data-table th {
+    background-color: var(--primary-blue);
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f6f6f6; /* Light gray for even rows */
+}
+
+.data-table tbody tr:hover {
+    background-color: #e9ecef; /* Hover effect */
+}
+
+/* Table Thumbnails */
+.table-thumbnail {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--border-light);
+}
+
+.table-thumbnail .default-thumbnail {
+    font-size: 45px;
+    color: var(--light-text);
+}
+
+.resident-photo-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Table Action Buttons */
+.data-table .btn-sm {
+    padding: 5px 10px;
+    font-size: 0.85em;
+    margin-bottom: 5px;
+    width: var(--btn-small-width);
+}
+.data-table .btn-sm:last-child {
+    margin-bottom: 0;
+}
+.issue-certificate-btn{
+    background-color: var(--primary-blue);
+    color: white;
+}
+.view-resident-btn{
+    background-color: var(--btn-good);
+    color: white;
+}
+.edit-resident-btn{
+    background-color: var(--btn-orange);
+    color: white;
+}
+.delete-resident-btn{
+    background-color: var(--btn-bad);
+    color: white;
+}
+/* Table Pagination */
+.table-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--border-light);
+}
+
+.table-pagination .page-link {
+    text-decoration: none;
+    color: var(--primary-blue);
+    padding: 8px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    transition: all 0.2s ease;
+}
+
+.table-pagination .page-link:hover {
+    background-color: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+}
+
+.table-pagination .page-link.active {
+    background-color: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+    font-weight: 600;
+}
+
+/* Modal Form Styles (assuming some basic form-group/form-control from app.frontdesk.css) */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    gap: var(--spacing-sm); /* Space between form groups */
+    margin-top: var(--spacing-md);
+    max-height: 60vh; /* Limit height for scrollable content */
+    overflow-y: auto; /* Make form scrollable if content is long */
+    padding-right: 15px; /* Account for scrollbar width */
+}
+.form-divider {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 8px;
+    max-width: 800px;
+}
+.form-group {
+    margin-bottom: 0; /* Reset default margin if flex gap is used */
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    text-align: left;
+}
+
+.form-control {
+    width: 100%;
+    max-width: 200px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    font-size: 1em;
+    color: var(--dark-text);
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.form-control:focus {
+    border-color: var(--primary-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.form-control-file {
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    padding: 8px 12px;
+    background-color: var(--bg-light);
+    cursor: pointer;
+}
+
+.modal-actions {
+    margin-top: var(--spacing-lg); /* Add more space before buttons at bottom of form */
+}
+
+.certificateTypeBtn{
+    width: 100%;
+    gap: var(--spacing-sm);
+    margin-top: 1rem;
+}
+.btn-select{
+    background-color: var(--primary-blue);
+    color: white;
+    margin-bottom: 5px;
+}
+
+
+
+
+/* General Profile Container */
+.resident-profile-container {
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+}
+
+/* Profile Header Section (Photo and Summary) */
+.profile-header {
+    display: flex;
+    flex-direction: column; /* Default to column for small screens */
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.profile-photo-area {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid var(--primary-blue);
+    margin-bottom: var(--spacing-sm);
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.default-profile-icon {
+    font-size: 80px;
+    color: var(--light-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.profile-details-summary h3 {
+    font-size: 1.8em;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.profile-details-summary p {
+    font-size: 1em;
+    color: var(--light-text);
+    margin-bottom: 5px;
+}
+
+/* Profile Sections (Basic Info, Address, Admin Info) */
+.profile-sections {
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr; /* Default to single column */
+    margin-bottom: var(--spacing-lg);
+}
+
+.profile-section {
+    background-color: var(--bg-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-subtle);
+}
+
+.profile-section h4 {
+    font-size: 1.2em;
+    color: var(--primary-blue);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+}
+
+.profile-section h4 .fas {
+    margin-right: var(--spacing-xs);
+}
+
+.profile-section p {
+    margin-bottom: var(--spacing-xs);
+    color: var(--dark-text);
+    line-height: 1.5;
+}
+
+.profile-section p strong {
+    color: var(--light-text);
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Profile Actions Bar */
+.profile-actions-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    justify-content: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-light);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.profile-actions-bar .btn {
+    flex-grow: 1;
+    min-width: 150px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+/* Issued Certificates Section */
+.issued-certificates-section {
+    margin-top: var(--spacing-lg);
+}
+
+.issued-certificates-section .data-table {
+    width: 100%;
+}
+
+/* Media query for larger screens */
+@media (min-width: 768px) {
+    .profile-header {
+        flex-direction: row;
+        text-align: left;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .profile-photo-area {
+        margin-right: var(--spacing-md);
+        margin-bottom: 0;
+    }
+
+    .profile-sections {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .profile-actions-bar .btn {
+        flex-grow: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    .profile-sections {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+/* Status badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: var(--border-radius-sm);
+    font-weight: bold;
+    font-size: 0.85em;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.status-active {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.status-inactive {
+    background-color: #dc3545; /* Red (for Banned/Rejected/Cancelled) */
+    color: #fff;
+}
+
+.status-pending {
+    background-color: #007bff; /* Blue */
+    color: #fff;
+}

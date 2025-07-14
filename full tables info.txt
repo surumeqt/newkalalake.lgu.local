@@ -1,0 +1,112 @@
+first_name
+middle_name
+last_name
+suffix
+birthday
+age
+gender
+civil_status
+address
+photo
+
+-- 🧑 USERS TABLE: Stores staff/admin accounts (barangay officials) who use the system
+-- This table also holds official information for signing certificates.
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,          -- Unique ID for each user/official
+    username VARCHAR(50) UNIQUE NOT NULL,            -- System login username
+    password VARCHAR(255) NOT NULL,                  -- Hashed user password (use PHP's password_hash() for security)
+    full_name VARCHAR(100) NOT NULL,                 -- Full name of the user/official (e.g., Hon. Sherwin C. Sionzon)
+    position VARCHAR(100) NULL,                      -- Official position (e.g., 'Punong Barangay', 'Barangay Kagawad', 'Secretary', 'Treasurer'). Can be NULL if user is not a signing official.
+    role ENUM('admin', 'staff', 'punong_barangay') DEFAULT 'staff', -- Access level: 'admin' for system management, 'staff' for general use, 'punong_barangay' for specific high-level authorities.
+    is_active BOOLEAN DEFAULT TRUE,                  -- Indicates if the user account is active. Set to FALSE to deactivate without deleting.
+    start_date DATE NULL,                            -- Optional: Start date of their term/service.
+    end_date DATE NULL,                              -- Optional: End date of their term/service.
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP   -- When the account was created.
+);
+
+-- 🏠 RESIDENTS TABLE: Holds resident data used in certificate generation
+CREATE TABLE residents (
+    resident_id INT AUTO_INCREMENT PRIMARY KEY,        -- Unique ID for each resident
+    first_name VARCHAR(100) NOT NULL,                  -- Resident's first name
+    middle_name VARCHAR(100),                          -- Resident's middle name (can be NULL)
+    last_name VARCHAR(100) NOT NULL,                   -- Resident's last name
+    suffix VARCHAR(10),                                -- Name suffix (e.g., Jr., Sr., III) (can be NULL)
+    birthday DATE NOT NULL,                            -- Resident's birthdate (age can be calculated dynamically from this)
+    gender ENUM('Male', 'Female', 'Other') NOT NULL,   -- Resident's gender identity
+    civil_status ENUM('Single', 'Married', 'Widowed', 'Separated', 'Annulled', 'Divorced') NOT NULL, -- Marital status
+    address TEXT NOT NULL,                             -- Full address of the resident (e.g., House No., Street, Purok/Zone)
+    purok_or_zone VARCHAR(50) NULL,                    -- Specific Purok or Zone within the barangay (can be NULL)
+    contact_number VARCHAR(20) NULL,                   -- Resident's contact number (can be NULL)
+    email VARCHAR(100) NULL,                           -- Resident's email address (can be NULL)
+    photo VARCHAR(255) NULL,                           -- Optional: Path to resident's photo file on the server (BLOB not recommended for image storage)
+    is_banned BOOLEAN DEFAULT FALSE,                   -- Flag if resident is restricted from obtaining certificates (e.g., due to unresolved Lupon cases)
+    ban_reason TEXT NULL,                              -- Description of the reason for the ban (can be NULL)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP     -- Date when resident record was created
+);
+
+-- 🧾 CERTIFICATES TABLE: Stores every certificate issued to residents
+CREATE TABLE certificates (
+    certificate_id INT AUTO_INCREMENT PRIMARY KEY,   -- Unique ID per certificate
+    resident_id INT NOT NULL,                        -- Foreign key to the resident who received the certificate
+    certificate_type VARCHAR(100) NOT NULL,          -- Type of certificate issued (e.g., 'Barangay Residency', 'Vehicle Clearance')
+    purpose TEXT NOT NULL,                           -- Stated purpose for which the certificate was issued (e.g., 'For school requirement')
+    issued_by_user_id INT,                           -- Foreign key to the user (official) whose name appears as the signatory on the certificate
+    printed_by_user_id INT NOT NULL,                 -- Foreign key to the user (staff) who generated/printed the certificate from the system
+    issued_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   -- Date/time when the certificate was issued/printed
+    file_path VARCHAR(255) NULL,                     -- File name/path of the generated PDF certificate on the server
+    certificate_data JSON NULL,                      -- Stores dynamic data (e.g., specific dates, additional clauses) used to generate this particular certificate instance, useful for re-generation or auditing.
+    FOREIGN KEY (resident_id) REFERENCES residents(resident_id) ON DELETE CASCADE, -- Deletes associated certificates if resident record is deleted
+    FOREIGN KEY (issued_by_user_id) REFERENCES users(user_id) ON DELETE SET NULL, -- Sets to NULL if the signing official's record is deleted
+    FOREIGN KEY (printed_by_user_id) REFERENCES users(user_id) ON DELETE RESTRICT -- Prevents deletion of a user if they have printed certificates (for audit trail)
+);
+
+-- 📄 CERTIFICATE_TEMPLATES TABLE: Stores reusable text templates for certificate generation
+CREATE TABLE certificate_templates (
+    certificate_template_id INT AUTO_INCREMENT PRIMARY KEY, -- Unique ID per template
+    type VARCHAR(100) UNIQUE NOT NULL,                      -- Name/type of certificate template (e.g., 'Barangay Residency Template')
+    content TEXT NOT NULL,                                  -- Template text with placeholders (e.g., "This is to certify that {{resident_full_name}}, born on {{resident_birthday}}...")
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP          -- When the template was added to the system
+);
+
+-- 📋 ACTIVITY_LOG TABLE: Tracks all major system activities for dashboard/logging/auditing
+CREATE TABLE activity_log (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,           -- Unique log entry ID
+    action_type VARCHAR(100) NOT NULL,               -- Short label of the action (e.g., "Issued Certificate", "Registered Resident", "User Login")
+    description TEXT,                                -- Full message describing the activity (e.g., "Issued Certificate of Residency for Juan Dela Cruz")
+    resident_id INT NULL,                            -- Optional: Foreign key to the resident related to the action (can be NULL if action not related to a specific resident)
+    user_id INT NULL,                                -- Optional: Foreign key to the user (official/staff) who performed the action (can be NULL for system actions)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp of the activity
+    FOREIGN KEY (resident_id) REFERENCES residents(resident_id) ON DELETE SET NULL, -- Nullify if the related resident is deleted
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL              -- Nullify if the user who performed the action is deleted
+);
+
+-- 🚫 RESIDENT_RESTRICTIONS TABLE: Manages specific restrictions or cases related to residents (e.g., Lupon cases)
+CREATE TABLE resident_restrictions (
+    restriction_id INT AUTO_INCREMENT PRIMARY KEY,   -- Unique ID for each restriction record
+    resident_id INT NOT NULL,                        -- Foreign key to the resident who has the restriction
+    restriction_type VARCHAR(50) NOT NULL,           -- Type of restriction (e.g., 'Lupon Case', 'Outstanding Dues', 'Community Service')
+    description TEXT NOT NULL,                       -- Detailed description of the restriction or case
+    imposed_by_user_id INT NULL,                     -- Foreign key to the user (official) who imposed/recorded the restriction
+    start_date DATE NOT NULL,                        -- Date when the restriction started
+    end_date DATE NULL,                              -- Optional: Date when the restriction is set to end (can be NULL if indefinite)
+    is_active BOOLEAN DEFAULT TRUE,                  -- Indicates if the restriction is currently active
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- When the restriction record was created
+    FOREIGN KEY (resident_id) REFERENCES residents(resident_id) ON DELETE CASCADE, -- Deletes associated restrictions if resident record is deleted
+    FOREIGN KEY (imposed_by_user_id) REFERENCES users(user_id) ON DELETE SET NULL -- Nullify if the imposing user's record is deleted
+);
+
+-- ⚙️ BARANGAY_SETTINGS TABLE: Stores general barangay information and system settings for header and footer
+CREATE TABLE barangay_settings (
+    setting_name VARCHAR(100) PRIMARY KEY,           -- Unique name of the setting (e.g., 'barangay_name', 'barangay_contact_number')
+    setting_value TEXT NOT NULL                      -- Value of the setting (e.g., 'New Kalalake', '(047)639-5027')
+);
+
+-- Initial data for barangay_settings (example)
+INSERT INTO barangay_settings (setting_name, setting_value) VALUES
+('barangay_name', 'New Kalalake'),
+('barangay_city', 'Olongapo City'),
+('barangay_address', '14th Street cor. Murphy Street'),
+('barangay_contact_number', '(047)639-5027'),
+('barangay_slogan', 'Diretso Sigurado sa Barangay New Kalalake'),
+('olongapo_logo_path', 'app/images/logos/olongapo_logo.png'),         -- Path to the Olongapo seal image
+('barangay_logo_path', 'app/images/logos/barangay_logo.png'); -- Path to the Barangay logo image
