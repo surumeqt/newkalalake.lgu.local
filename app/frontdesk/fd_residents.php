@@ -63,7 +63,6 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                             <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"
                                 data-load-content="true"><i class="fas fa-eye"></i> View
                             </button>
-
                         </td>
                     </tr>
                     <tr>
@@ -78,16 +77,14 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                         <td>1999-07-22</td>
                         <td>Vehicle Clearance</td>
                         <td>2024-05-10</td>
-                        <td><span class="status-badge status-active">Banned</span></td>
+                        <td><span class="status-badge status-banned">Banned</span></td>
                         <td>
-                            <button class="btn btn-sm btn-primary issue-certificate-btn" data-resident-id="1"><i
-                                    class="fas fa-file-alt"></i> Issue</button>
-                            <button class="btn btn-sm btn-info view-resident-btn" data-resident-id="1"><i
-                                    class="fas fa-eye"></i> View</button>
-                            <button class="btn btn-sm btn-warning edit-resident-btn" data-resident-id="1"><i
-                                    class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-sm btn-danger delete-resident-btn" data-resident-id="1"><i
-                                    class="fas fa-trash-alt"></i> Delete</button>
+                            <button id="issueCertificateModalBtn" class="btn btn-sm btn-primary issue-certificate-btn">
+                                <i class="fas fa-file-alt"></i> Issue
+                            </button>
+                            <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"
+                                data-load-content="true"><i class="fas fa-eye"></i> View
+                            </button>
                         </td>
                     </tr>
                     <tr>
@@ -104,14 +101,12 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                         <td>N/A</td>
                         <td><span class="status-badge status-inactive">Inactive</span></td>
                         <td>
-                            <button class="btn btn-sm btn-primary issue-certificate-btn" data-resident-id="1"><i
-                                    class="fas fa-file-alt"></i> Select</button>
-                            <button class="btn btn-sm btn-info view-resident-btn" data-resident-id="1"><i
-                                    class="fas fa-eye"></i> View</button>
-                            <button class="btn btn-sm btn-warning edit-resident-btn" data-resident-id="1"><i
-                                    class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-sm btn-danger delete-resident-btn" data-resident-id="1"><i
-                                    class="fas fa-trash-alt"></i> Delete</button>
+                            <button id="issueCertificateModalBtn" class="btn btn-sm btn-primary issue-certificate-btn">
+                                <i class="fas fa-file-alt"></i> Issue
+                            </button>
+                            <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"
+                                data-load-content="true"><i class="fas fa-eye"></i> View
+                            </button>
                         </td>
                     </tr>
                 </tbody>

@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const navLinks = document.querySelectorAll(
         'nav a[data-load-content="true"], div a[data-load-content="true"], div button[data-load-content="true"]'
     );
@@ -6,80 +6,123 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageTitleElement = document.querySelector(".current-page-title");
     const menuToggleBtn = document.querySelector(".menu-toggle");
     const sidebar = document.querySelector(".sidebar");
-    // Add reference to the sidebar overlay
     const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-    const setActiveLink = (currentLink) => {
+    // Get specific elements for the resident profile link
+    const residentProfileLi = document.querySelector(".fdresidentprofile_li");
+    const residentProfileA = document.querySelector(".fdresidentprofile_a");
+
+    const setActiveLink = (currentLinkElement, loadedUrl = null) => {
+        // 1. Clear active classes from all main navigation links
         navLinks.forEach((link) => link.classList.remove("active"));
-        if (currentLink) currentLink.classList.add("active");
+
+        // 2. Hide the resident profile link by default for any new navigation
+        if (residentProfileLi) {
+            residentProfileLi.style.display = "none";
+            residentProfileA.classList.remove("active"); // Ensure its link is not active
+        }
+
+        // Determine the effective URL for activation logic
+        let urlToActivate = loadedUrl;
+        if (currentLinkElement) {
+            urlToActivate =
+                currentLinkElement.getAttribute("href") ||
+                currentLinkElement.getAttribute("data-url");
+        }
+        // Clean URL to match against navigation links (remove query parameters)
+        const cleanUrlToActivate = urlToActivate
+            ? urlToActivate.split("?")[0]
+            : null;
+
+        // 3. Apply 'active' class and manage visibility based on the target URL
+        if (cleanUrlToActivate) {
+            if (cleanUrlToActivate.includes("fd_resident_profile.php")) {
+                // If the resident profile page is being loaded/activated
+                if (residentProfileLi) {
+                    residentProfileLi.style.display = "list-item"; // Make visible
+                    residentProfileA.classList.add("active"); // Make active
+                }
+                updatePageTitle("Resident Profile"); // Set title explicitly for profile page
+            } else {
+                // For other main navigation links (Dashboard, Residents, Certificate)
+                // Find the corresponding <a> tag in the main navigation
+                const correspondingNavLink = document.querySelector(
+                    `.main-nav a[href*="${cleanUrlToActivate}"]`
+                );
+                if (correspondingNavLink) {
+                    correspondingNavLink.classList.add("active");
+                    updatePageTitle(correspondingNavLink.textContent.trim());
+                } else if (
+                    currentLinkElement &&
+                    currentLinkElement.tagName === "A"
+                ) {
+                    // Fallback for directly clicked main nav links
+                    currentLinkElement.classList.add("active");
+                    updatePageTitle(currentLinkElement.textContent.trim());
+                }
+            }
+        }
     };
 
     const updatePageTitle = (title) => {
         if (pageTitleElement) pageTitleElement.textContent = title;
     };
 
+    // MODIFIED: loadContent to store the last loaded URL
     const loadContent = (url, linkElement = null) => {
         contentDisplay.innerHTML = '<p class="loading-message">Loading...</p>';
 
         fetch(url)
             .then((response) => {
-                if (!response.ok)
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = "../auth/login.php"; // Redirect to login if unauthorized
+                        return; // Stop further processing
+                    }
                     throw new Error(`HTTP error! Status: ${response.status}`);
+                }
                 return response.text();
             })
             .then((html) => {
                 contentDisplay.innerHTML = html;
 
-                // *** CALL YOUR MODAL INITIALIZATION FUNCTION HERE ***
+                // --- NEW: Store the last loaded URL ---
+                try {
+                    localStorage.setItem("lastLoadedUrl", url);
+                } catch (e) {
+                    console.error("Failed to save URL to localStorage:", e);
+                }
+                // --- END NEW ---
+
+                // Call your modal initialization functions here
                 if (typeof initializeAddResidentModal === "function") {
                     initializeAddResidentModal();
                 }
-
-                // NEW: Call the initialization function for the Select Certificate Type Modal
-                if (typeof initializeSelectCertificateTypeModal === "function") {
+                if (
+                    typeof initializeSelectCertificateTypeModal === "function"
+                ) {
                     initializeSelectCertificateTypeModal();
+                }
+                if (
+                    typeof initializeSelectCertificateTypeModal2 === "function"
+                ) {
+                    initializeSelectCertificateTypeModal2();
+                }
+                if (typeof initializeEditResidentModal === "function") {
+                    initializeEditResidentModal();
+                }
+                if (typeof initializeDeleteResidentModal === "function") {
+                    initializeDeleteResidentModal();
+                }
+                if (typeof initializeNewCertificateRequestModal === "function") {
+                    initializeNewCertificateRequestModal();
                 }
                 // You might need to call other initialization functions here
                 // if other dynamically loaded content also requires JS setup.
 
-                if (linkElement) {
-                    // For buttons, linkElement is the button itself.
-                    // We need to find the *corresponding navigation link*
-                    // in the sidebar to set it active.
-                    let navLinkToActivate = null;
-                    if (linkElement.tagName === "A") {
-                        // If it's a regular navigation link
-                        navLinkToActivate = linkElement;
-                    } else if (linkElement.tagName === "BUTTON") {
-                        // If it's a button from quick actions
-                        const buttonUrl = linkElement.getAttribute("data-url");
-                        // Find the sidebar link whose href matches the button's data-url
-                        navLinkToActivate = document.querySelector(
-                            `.main-nav a[href='${buttonUrl}']`
-                        );
-                    }
-
-                    if (navLinkToActivate) {
-                        setActiveLink(navLinkToActivate);
-                        updatePageTitle(navLinkToActivate.textContent.trim());
-                    }
-                } else {
-                    // Fallback for initial load or if linkElement isn't provided
-                    const currentPath = window.location.pathname
-                        .split("/")
-                        .pop();
-                    const activeLink = document.querySelector(
-                        `.main-nav a[href*="${currentPath}"]`
-                    );
-                    if (activeLink) {
-                        setActiveLink(activeLink);
-                        updatePageTitle(activeLink.textContent.trim());
-                    } else if (navLinks.length > 0) {
-                        // Default to first link if no match
-                        setActiveLink(navLinks[0]);
-                        updatePageTitle(navLinks[0].textContent.trim());
-                    }
-                }
+                // IMPORTANT: Call setActiveLink *after* content is loaded
+                // Pass the element that triggered the load and the actual URL that was fetched (including query params)
+                setActiveLink(linkElement, url);
             })
             .catch((error) => {
                 console.error("Error loading content:", error);
@@ -87,17 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    //     navLinks.forEach(link => {
-    //         link.addEventListener('click', (event) => {
-    //             event.preventDefault();
-    //             loadContent(event.target.href, event.target);
-
-    //             if (window.innerWidth <= 600 && sidebar && sidebar.classList.contains('active')) {
-    //                 sidebar.classList.remove('active');
-    //             }
-    //         });
-    //     });
-    // NEW AND IMPROVED BLOCK - REPLACE THE OLD navLinks.forEach LOOP WITH THIS
+    // Handles all clicks with data-load-content
     document.addEventListener("click", (event) => {
         const clickableElement = event.target.closest(
             '[data-load-content="true"]'
@@ -106,9 +139,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clickableElement) {
             event.preventDefault(); // Prevent default link/button action
 
-            const url =
+            let url =
                 clickableElement.getAttribute("href") || // For <a> tags
                 clickableElement.getAttribute("data-url"); // For <button> tags
+
+            // Handle data-resident-id for fd_resident_profile.php if the button is clicked
+            const residentId =
+                clickableElement.getAttribute("data-resident-id");
+            if (residentId && url.includes("fd_resident_profile.php")) {
+                const separator = url.includes("?") ? "&" : "?";
+                url += `${separator}id=${residentId}`;
+            }
 
             if (url) {
                 loadContent(url, clickableElement);
@@ -119,34 +160,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             }
 
-            // --- UPDATED SIDEBAR CLOSING LOGIC ---
-            // Add sidebar closing logic here, ensuring the overlay is also removed
+            // --- Sidebar closing logic ---
             if (
                 window.innerWidth <= 600 &&
                 sidebar &&
                 sidebar.classList.contains("active")
             ) {
                 sidebar.classList.remove("active");
-
-                // Ensure sidebarOverlay is defined (we added this check in a previous step)
-                // and remove its 'active' class to dismiss the overlay
                 if (sidebarOverlay) {
                     sidebarOverlay.classList.remove("active");
                 }
             }
-            // --- END OF UPDATED LOGIC ---
+            // --- End of sidebar logic ---
         }
     });
 
-    if (navLinks.length > 0) {
-        loadContent(navLinks[0].href, navLinks[0]);
+    // ######################################################################
+    // # MODIFIED INITIAL LOAD LOGIC TO CHECK LOCALSTORAGE                #
+    // ######################################################################
+    const lastLoadedUrl = localStorage.getItem("lastLoadedUrl");
+    let urlToLoadOnInit = null;
+    let initialLinkElement = null;
+
+    if (lastLoadedUrl) {
+        urlToLoadOnInit = lastLoadedUrl;
+        // Try to find a corresponding link element for the stored URL
+        const cleanUrl = lastLoadedUrl.split("?")[0]; // Remove query params for matching
+        if (cleanUrl.includes("fd_resident_profile.php")) {
+            initialLinkElement = residentProfileA;
+        } else {
+            initialLinkElement = document.querySelector(
+                `.main-nav a[href*="${cleanUrl}"]`
+            );
+        }
+    } else {
+        // Default to the first navigation link (Dashboard) if nothing in localStorage
+        if (
+            navLinks.length > 0 &&
+            navLinks[0].tagName === "A" &&
+            navLinks[0].href
+        ) {
+            urlToLoadOnInit = navLinks[0].href;
+            initialLinkElement = navLinks[0];
+        } else {
+            console.warn(
+                "No stored URL and no valid first navigation link found for initial load."
+            );
+            // Fallback if even the first link isn't suitable, e.g., load a fixed dashboard URL
+            // urlToLoadOnInit = './fd_dashboard.php';
+        }
     }
 
+    if (urlToLoadOnInit) {
+        loadContent(urlToLoadOnInit, initialLinkElement);
+    }
+    // ######################################################################
+    // # END OF MODIFIED INITIAL LOAD LOGIC                               #
+    // ######################################################################
+
+    // Existing menu toggle and sidebar overlay listeners
     if (menuToggleBtn && sidebar) {
         menuToggleBtn.addEventListener("click", () => {
             sidebar.classList.toggle("active");
-
-            // Also toggle the 'active' class on the sidebar-overlay to show/hide the dimming effect
             if (sidebarOverlay) {
                 sidebarOverlay.classList.toggle(
                     "active",
@@ -155,11 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    // New logic to close sidebar when clicking the overlay (click-outside functionality)
+
     if (sidebarOverlay && sidebar) {
         sidebarOverlay.addEventListener("click", (event) => {
-            // Check if the click target is the overlay itself, not a child element inside the sidebar.
-            // If the user clicks on the overlay, close the sidebar.
             if (event.target === sidebarOverlay) {
                 sidebar.classList.remove("active");
                 sidebarOverlay.classList.remove("active");

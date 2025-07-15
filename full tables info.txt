@@ -107,6 +107,9 @@ INSERT INTO barangay_settings (setting_name, setting_value) VALUES
 ('barangay_city', 'Olongapo City'),
 ('barangay_address', '14th Street cor. Murphy Street'),
 ('barangay_contact_number', '(047)639-5027'),
+
+
+
 ('barangay_slogan', 'Diretso Sigurado sa Barangay New Kalalake'),
 ('olongapo_logo_path', 'app/images/logos/olongapo_logo.png'),         -- Path to the Olongapo seal image
 ('barangay_logo_path', 'app/images/logos/barangay_logo.png'); -- Path to the Barangay logo image

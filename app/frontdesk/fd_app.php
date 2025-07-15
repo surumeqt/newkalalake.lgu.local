@@ -38,6 +38,10 @@ $pdo = (new Connection())->connect();
                             data-tab="dashboard">Dashboard</a></li>
                     <li><a href="./fd_residents.php" data-load-content="true" data-url="fd_residents.php">Residents</a>
                     </li>
+                    <li class="fdresidentprofile_li"><a class="fdresidentprofile_a" href="./fd_resident_profile.php"
+                            data-load-content="true" data-url="fd_resident_profile.php">Resident
+                            Profile</a>
+                    </li>
                     <li><a href="./fd_certificate.php" data-load-content="true">Certificate</a></li>
                 </ul>
             </nav>

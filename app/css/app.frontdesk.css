@@ -133,7 +133,10 @@ body {
     color: var(--bg-white);
     cursor: default;
 }
-
+.fdresidentprofile_li{
+    margin-left: 30px;
+    display: none;
+}
 .sidebar-footer {
     padding-top: var(--spacing-md);
     border-top: 1px solid var(--border-light);
@@ -903,8 +906,12 @@ body {
     color: #fff;
 }
 
-.status-inactive {
+.status-banned {
     background-color: #dc3545; /* Red (for Banned/Rejected/Cancelled) */
+    color: #fff;
+}
+.status-inactive {
+    background-color: #e65100; /* Orange (for Inactive) */
     color: #fff;
 }
 
