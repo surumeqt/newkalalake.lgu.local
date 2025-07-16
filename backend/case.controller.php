@@ -13,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'hearing_type' => $_POST['hearing_type'],
         'case_type' => $_POST['case_type'],
         'hearing_date' => $_POST['hearing_date'],
+        'hearing_time' => $_POST['hours'],
+        'iat' => $_POST['iat']
     ];
 
     try {

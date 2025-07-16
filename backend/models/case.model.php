@@ -18,9 +18,8 @@ class CaseEntry {
                     Complainant_Address,
                     Respondent_Name,
                     Respondent_Address,
-                    Case_Type,
-                    Created_At
-                ) VALUES (?, ?, ?, ?, ?, ?, ?,NOW())";
+                    Case_Type
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
@@ -83,25 +82,34 @@ class CaseEntry {
         $stmt3->bindValue(3, $data['hearing_status']);
         $stmt3->execute();
     }
+    
     public function addHearing($data) {
         $sql = "INSERT INTO hearings (
                     Docket_Case_Number,
                     Hearing_Type,
                     Hearing_Date,
-                    Hearing_Status
-                ) VALUES (?, ?, ?, 'Ongoing')";
+                    Hearing_Time,
+                    Time_Period
+                ) VALUES (?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
             $data['docket_case_number'],
             $data['hearing_type'],
-            $data['hearing_date']
+            $data['hearing_date'],
+            $data['hearing_time'],
+            $data['iat']
         ]);
     }
 
     public function saveAppealDocument($data) {
         $pdfGen = new PDFGenerator($data);
-        $pdfBlob = $pdfGen->generateCombinedNoticeAndSummonBlob($data['hearing_type'], $data['hearing_date']);
+        $pdfBlob = $pdfGen->generateCombinedNoticeAndSummonBlob(
+            $data['hearing_type'],
+             $data['hearing_date'],
+            $data['hearing_time'],
+            $data['iat']
+            );
 
         $sql = "INSERT INTO documents (
                     Docket_Case_Number,

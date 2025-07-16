@@ -42,7 +42,6 @@ class UpdateStatusModel {
         preg_match('/^(\d+)[a-z]{2}/i', $currentType, $matches);
         $nextNum = isset($matches[1]) ? intval($matches[1]) + 1 : 2;
 
-        // Proper ordinal suffix
         $suffix = match ($nextNum % 10) {
             1 => 'st',
             2 => 'nd',
@@ -50,7 +49,6 @@ class UpdateStatusModel {
             default => 'th'
         };
 
-        // Handle special cases (e.g., 11th, 12th, 13th)
         if (in_array($nextNum % 100, [11, 12, 13])) {
             $suffix = 'th';
         }
@@ -63,7 +61,7 @@ class UpdateStatusModel {
         $stmt->execute([$docketCaseNumber]);
         $case = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $hearingStmt = $this->conn->prepare("SELECT Hearing_Type, Hearing_Date, Hearing_Status FROM hearings WHERE Docket_Case_Number = ? ORDER BY ID DESC LIMIT 1");
+        $hearingStmt = $this->conn->prepare("SELECT * FROM hearings WHERE Docket_Case_Number = ? ORDER BY ID DESC LIMIT 1");
         $hearingStmt->execute([$docketCaseNumber]);
         $hearing = $hearingStmt->fetch(PDO::FETCH_ASSOC);
 
@@ -74,7 +72,7 @@ class UpdateStatusModel {
         $case['report_summary_text'] = $reportSummaryText;
 
         $pdfGen = new PDFGenerator($case);
-        $newPdfBlob = $pdfGen->GenerateSummaryBlob($hearingDate, $hearing['Hearing_Type']);
+        $newPdfBlob = $pdfGen->GenerateSummaryBlob($hearingDate, $hearing['Hearing_Type'], $hearing['Hearing_Time'], $hearing['Time_Period']);
 
         $insertStmt = $this->conn->prepare("
             INSERT INTO summary (Docket_Case_Number, Hearing_Type, Hearing_Status, Document_Type, PDF_File, Created_At)
@@ -86,7 +84,7 @@ class UpdateStatusModel {
         $insertStmt->bindValue(4, $newPdfBlob, PDO::PARAM_LOB);
         return $insertStmt->execute();
     }
-    public function RehearingAppealType($docketCaseNumber, $newHearingDate) {
+    public function RehearingAppealType($docketCaseNumber, $newHearingDate, $newHearingTime = null, $newTimePeriod = null) {
         try {
             $this->conn->beginTransaction();
 
@@ -117,7 +115,7 @@ class UpdateStatusModel {
             }
 
             $pdfGen = new PDFGenerator($case);
-            $updatedPdfBlob = $pdfGen->generateCombinedNoticeAndSummonBlob($hearingType, $newHearingDate);
+            $updatedPdfBlob = $pdfGen->generateCombinedNoticeAndSummonBlob($hearingType, $newHearingDate, $newHearingTime, $newTimePeriod);
 
             $updateDoc = $this->conn->prepare("
                 UPDATE documents 
