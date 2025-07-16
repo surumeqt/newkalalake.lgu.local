@@ -28,7 +28,7 @@ class PDFGenerator extends FPDF {
         }
     }
 
-    public function generateCombinedNoticeAndSummonBlob($mediations, $hearingType, $hearingDate, $hearingTime, $timePeriod) {
+    public function generateCombinedNoticeAndSummonBlob($hearingTypes, $hearingDates, $hearingType, $hearingDate, $hearingTime, $timePeriod) {
         $complainantName = $this->data['Complainant_Name'] ?? $this->data['complainant_name'] ?? 'N/A';
         $complainantAddress = $this->data['Complainant_Address'] ?? $this->data['complainant_address'] ?? 'N/A';
         $respondentName = $this->data['Respondent_Name'] ?? $this->data['respondent_name'] ?? 'N/A';
@@ -54,13 +54,20 @@ class PDFGenerator extends FPDF {
         $this->SetFont('Arial','B',11);
         $this->Cell(100, 8, $complainantName, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90, 8, $hearingType[0] ?? '', 0, 1, 'R');
+        $hearing1 = $hearingTypes[0] ?? '1st Hearing';
+        $date1 = $hearingDates[0] ?? '';
+        $this->Cell(90, 8, "$hearing1 (mediation): $date1", 0, 1, 'R');
         $this->SetFont('Arial','B',11);
         $this->Cell(100, 8, $complainantAddress, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90, 8, $hearingType[1] ?? '', 0, 1, 'R');
+        $hearing2 = $hearingTypes[1] ?? '2nd Hearing';
+        $date2 = $hearingDates[1] ?? '';
+        $this->Cell(90, 8, "$hearing2 (mediation): $date2", 0, 1, 'R');
         $this->Cell(100, 8, 'Complainant', 0, 0);
-        $this->Cell(90, 8, $hearingType[2] ?? '', 0, 1, 'R');
+        $this->SetFont('Arial','',11);
+        $hearing3 = $hearingTypes[2] ?? '3rd Hearing';
+        $date3 = $hearingDates[2] ?? '';
+        $this->Cell(90, 8, "$hearing3 (mediation): $date3", 0, 1, 'R');
 
         $this->Ln(3);
         $this->Cell(0,8,'        - against -',0,1);
@@ -112,15 +119,22 @@ class PDFGenerator extends FPDF {
 
         $this->Ln(5);
         $this->SetFont('Arial','B',11);
-        $this->Cell(100,8,$respondentName,0,0);
+        $this->Cell(100, 8, $respondentName, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90,8, $hearingType[0] ?? '',0,1,'R');
+        $hearing1 = $hearingTypes[0] ?? '1st Hearing';
+        $date1 = $hearingDates[0] ?? '';
+        $this->Cell(90, 8, "$hearing1 (mediation): $date1", 0, 1, 'R');
         $this->SetFont('Arial','B',11);
-        $this->Cell(100,8,$respondentAddress,0,0);
+        $this->Cell(100, 8, $respondentAddress, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90,8, $hearingType[1] ?? '',0,1,'R');
-        $this->Cell(100,8,'Respondent',0,0);
-        $this->Cell(90,8, $hearingType[2] ?? '',0,1,'R');
+        $hearing2 = $hearingTypes[1] ?? '2nd Hearing';
+        $date2 = $hearingDates[1] ?? '';
+        $this->Cell(90, 8, "$hearing2 (mediation): $date2", 0, 1, 'R');
+        $this->Cell(100, 8, 'Respondent', 0, 0);
+        $this->SetFont('Arial','',11);
+        $hearing3 = $hearingTypes[2] ?? '3rd Hearing';
+        $date3 = $hearingDates[2] ?? '';
+        $this->Cell(90, 8, "$hearing3 (mediation): $date3", 0, 1, 'R');
 
         $this->Ln(5);
         $this->SetFont('Arial','B',11);
@@ -147,7 +161,7 @@ class PDFGenerator extends FPDF {
         return $this->Output('S');
     }
 
-    public function GenerateSummaryBlob($hearingDate, $hearingType, $hearingTime, $timePeriod) {
+    public function GenerateSummaryBlob($hearingTypes, $hearingDates, $hearingDate, $hearingType, $hearingTime, $timePeriod) {
         $complainantName = $this->data['Complainant_Name'] ?? $this->data['complainant_name'] ?? 'N/A';
         $complainantAddress = $this->data['Complainant_Address'] ?? $this->data['complainant_address'] ?? 'N/A';
         $respondentName = $this->data['Respondent_Name'] ?? $this->data['respondent_name'] ?? 'N/A';
@@ -173,13 +187,20 @@ class PDFGenerator extends FPDF {
         $this->SetFont('Arial','B',11);
         $this->Cell(100, 8, $complainantName, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90, 8, $hearingType[0] ?? '', 0, 1, 'R');
+        $hearing1 = $hearingTypes[0] ?? '1st Hearing';
+        $date1 = $hearingDates[0] ?? '';
+        $this->Cell(90, 8, "$hearing1 (mediation): $date1", 0, 1, 'R');
         $this->SetFont('Arial','B',11);
         $this->Cell(100, 8, $complainantAddress, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90, 8, $hearingType[1] ?? '', 0, 1, 'R');
+        $hearing2 = $hearingTypes[1] ?? '2nd Hearing';
+        $date2 = $hearingDates[1] ?? '';
+        $this->Cell(90, 8, "$hearing2 (mediation): $date2", 0, 1, 'R');
         $this->Cell(100, 8, 'Complainant', 0, 0);
-        $this->Cell(90, 8, $hearingType[2] ?? '', 0, 1, 'R');
+        $this->SetFont('Arial','',11);
+        $hearing3 = $hearingTypes[2] ?? '3rd Hearing';
+        $date3 = $hearingDates[2] ?? '';
+        $this->Cell(90, 8, "$hearing3 (mediation): $date3", 0, 1, 'R');
 
         $this->Ln(3);
         $this->Cell(0,8,'        - against -',0,1);
@@ -231,15 +252,22 @@ class PDFGenerator extends FPDF {
 
         $this->Ln(5);
         $this->SetFont('Arial','B',11);
-        $this->Cell(100,8,$respondentName,0,0);
+        $this->Cell(100, 8, $respondentName, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90,8, $hearingType[0] ?? '',0,1,'R');
+        $hearing1 = $hearingTypes[0] ?? '1st Hearing';
+        $date1 = $hearingDates[0] ?? '';
+        $this->Cell(90, 8, "$hearing1 (mediation): $date1", 0, 1, 'R');
         $this->SetFont('Arial','B',11);
-        $this->Cell(100,8,$respondentAddress,0,0);
+        $this->Cell(100, 8, $respondentAddress, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90,8, $hearingType[1] ?? '',0,1,'R');
-        $this->Cell(100,8,'Respondent',0,0);
-        $this->Cell(90,8, $hearingType[2] ?? '',0,1,'R');
+        $hearing2 = $hearingTypes[1] ?? '2nd Hearing';
+        $date2 = $hearingDates[1] ?? '';
+        $this->Cell(90, 8, "$hearing2 (mediation): $date2", 0, 1, 'R');
+        $this->Cell(100, 8, 'Respondent', 0, 0);
+        $this->SetFont('Arial','',11);
+        $hearing3 = $hearingTypes[2] ?? '3rd Hearing';
+        $date3 = $hearingDates[2] ?? '';
+        $this->Cell(90, 8, "$hearing3 (mediation): $date3", 0, 1, 'R');
 
         $this->Ln(5);
         $this->SetFont('Arial','B',11);
@@ -269,17 +297,24 @@ class PDFGenerator extends FPDF {
         $this->SetFont('Arial','B',10);
         $this->Cell(0,8,'OFFICE OF THE LUPONG TAGAPAMAYAPA',0,1,'C');
 
-        $this->Ln(5);
+        $this->Ln(3);
         $this->SetFont('Arial','B',11);
         $this->Cell(100, 8, $complainantName, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90, 8, $hearingType[0] ?? '', 0, 1, 'R');
+        $hearing1 = $hearingTypes[0] ?? '1st Hearing';
+        $date1 = $hearingDates[0] ?? '';
+        $this->Cell(90, 8, "$hearing1 (mediation): $date1", 0, 1, 'R');
         $this->SetFont('Arial','B',11);
         $this->Cell(100, 8, $complainantAddress, 0, 0);
         $this->SetFont('Arial','',11);
-        $this->Cell(90, 8, $hearingType[1] ?? '', 0, 1, 'R');
+        $hearing2 = $hearingTypes[1] ?? '2nd Hearing';
+        $date2 = $hearingDates[1] ?? '';
+        $this->Cell(90, 8, "$hearing2 (mediation): $date2", 0, 1, 'R');
         $this->Cell(100, 8, 'Complainant', 0, 0);
-        $this->Cell(90, 8, $hearingType[2] ?? '', 0, 1, 'R');
+        $this->SetFont('Arial','',11);
+        $hearing3 = $hearingTypes[2] ?? '3rd Hearing';
+        $date3 = $hearingDates[2] ?? '';
+        $this->Cell(90, 8, "$hearing3 (mediation): $date3", 0, 1, 'R');
 
         $this->Ln(3);
         $this->Cell(0,8,'        - against -',0,1);

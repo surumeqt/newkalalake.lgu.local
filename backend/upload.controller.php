@@ -37,7 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'case_type' => $_POST['case_type'],
         'hearing_type' => $_POST['hearing_type'],
         'hearing_date' => $_POST['hearing_date'],
-        'hearing_status' => $_POST['hearing_Status']
+        'hearing_status' => $_POST['hearing_status'],
+        'hearing_time' => $_POST['hours'],
+        'iat' => $_POST['iat'],
     ];
 
     if (!$existingCase) {
