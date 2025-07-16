@@ -34,6 +34,8 @@ function liveFillInputsByDocket(){
                 document.getElementById('upload_respondent_name').value = response.data.Respondent_Name;
                 document.getElementById('upload_respondent_address').value = response.data.Respondent_Address;
                 document.getElementById('upload_case_type').value = response.data.Case_Type;
+                document.getElementById('hours').value = response.data.Hearing_Time;
+                setSelectOption('iat', response.data.Time_Period);
                 setSelectOption('upload_case_type', response.data.Case_Type);
                 setSelectOption('upload_status_selection', response.data.Hearing_Status);
                 setSelectOption('upload_hearing_type', response.data.Hearing_Type);

@@ -13,8 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($summaryInserted) {
             $newhearingDate = $_POST['Hearing_Date'];
+            $newHearingTime = $_POST['hours'];
+            $newTimePeriod = $_POST['iat'];
             $statusUpdated = $model->updateStatus($docket, $newStatus);
-            $appealUpdated = $model->RehearingAppealType($docket, $newhearingDate);
+            $appealUpdated = $model->RehearingAppealType($docket, $newhearingDate, $newHearingTime, $newTimePeriod);
 
             header("Location: ../app/app.php?status=success");
             exit();

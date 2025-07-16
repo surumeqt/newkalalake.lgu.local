@@ -4,7 +4,7 @@
     <?php include '../backend/helpers/redirects.php'; 
     redirectIfNotLoggedIn(); 
     $user_email = $_SESSION['username'];
-    $showSuccess = isset($_GET['entry']) && $_GET['entry'] === 'success';
+    $showSuccess = isset($_GET['status']) && $_GET['status'] === 'success';
     ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -146,6 +146,17 @@
                         <div class="form-group-date" id="next-hearing-date-group">
                             <label for="next_hearing_date" class="summary-label">Next Hearing Date</label>
                             <input type="date" id="next_hearing_date" name="Hearing_Date" class="summary-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Time of Hearing (ex. 10:00 AM)</label>
+                            <div class="form-relative">
+                                <input type="text" placeholder="Enter Time of Hearing" id="hours" name="hours" required class="form-input">
+                                <select id="iat" name="iat" required class="form-relative-select">
+                                    <option value="">-- Select Time Class --</option>
+                                    <option value="AM">AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="button-group">

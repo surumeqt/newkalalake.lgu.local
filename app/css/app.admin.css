@@ -819,6 +819,19 @@ body {
     margin-bottom: var(--spacing-xs);
 }
 
+.form-relative{
+    position: relative;
+    display: flex;
+}
+
+.form-relative-select {
+    position: absolute;
+    left: 700px;
+    top: 10px;
+    border: 1px solid var(--border-light);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
 .form-input,
 .form-select {
     width: 100%;

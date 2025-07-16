@@ -59,6 +59,17 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="time">Time of Hearing (ex. 10:00 AM)</label>
+                <div class="form-relative">
+                    <input type="text" placeholder="Enter Time of Hearing" id="hours" name="hours" required class="form-input">
+                    <select id="iat" name="iat" required class="form-relative-select">
+                        <option value="">-- Select Time Class --</option>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="hearing_date">Hearing Date</label>
                 <input type="date" id="hearing_date" name="hearing_date" required class="form-input">
             </div>
