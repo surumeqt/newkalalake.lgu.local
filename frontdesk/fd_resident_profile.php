@@ -1,10 +1,14 @@
 <?php
-// file: app/frontdesk/fd_resident_profile.php
-// Removed database connection and query for dummy data
-include '../../backend/helpers/redirects.php';
-// redirectIfNotLoggedIn(); // This can be uncommented if user authentication is needed
+// file: frontdesk/fd_resident_profile.php
+include '../backend/config/database.config.php';
+include '../backend/helpers/redirects.php';
+redirectIfNotLoggedIn();
 
-// All data is now hardcoded as requested, no need for dummy data arrays or database calls.
+// Initialize PDO connection for this script
+$pdo = (new Connection())->connect();
+
+// Get username from session for display (if used on this page)
+$user_username = $_SESSION['username'] ?? 'Guest';
 ?>
 
 <div class="page-content-header">
@@ -31,10 +35,10 @@ include '../../backend/helpers/redirects.php';
         <div class="profile-sections">
             <div class="profile-section basic-info-section">
                 <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
-                <p><strong>Birth Date:</strong> May 10, 1985 (Age: 40)</p>
+                <p><strong>Birth Date:</strong> May 10, 1985</p>
+                <p><strong>Age:</strong> 40</p>
                 <p><strong>Gender:</strong> Male</p>
                 <p><strong>Civil Status:</strong> Married</p>
-                <p><strong>Contact #:</strong> 09123456789</p>
             </div>
 
             <div class="profile-section address-info-section">
@@ -59,7 +63,7 @@ include '../../backend/helpers/redirects.php';
             <button class="btn btn-primary issue-certificate-btn" data-resident-id="1" id="issueCertificateModalBtn">
                 <i class="fas fa-file-alt"></i> Issue Certificate
             </button>
-            <button class="btn btn-danger ban-resident-btn" data-resident-id="1">
+            <button id="banResidentModalBtn" class="btn btn-danger ban-resident-btn" data-resident-id="1">
                 <i class="fas fa-ban"></i> Ban Resident
             </button>
             <!-- <button class="btn btn-info print-profile-btn" data-resident-id="1">
@@ -80,7 +84,7 @@ include '../../backend/helpers/redirects.php';
                             <th>Purpose</th>
                             <th>Date Issued</th>
                             <th>Issued By</th>
-                            <th>Status</th>
+                            <!-- <th>Status</th> -->
                             <th>Document</th>
                         </tr>
                     </thead>
@@ -90,11 +94,11 @@ include '../../backend/helpers/redirects.php';
                             <td>For school enrollment</td>
                             <td>September 1, 2023</td>
                             <td>John Doe</td>
-                            <td>
+                            <!-- <td>
                                 <span class="status-badge status-active">
                                     Approved
                                 </span>
-                            </td>
+                            </td> -->
                             <td>
                                 <a href="../../assets/docs/residency_juan.pdf" target="_blank"
                                     class="btn btn-sm btn-info download-btn">
@@ -107,11 +111,11 @@ include '../../backend/helpers/redirects.php';
                             <td>For medical assistance</td>
                             <td>January 15, 2024</td>
                             <td>Jane Smith</td>
-                            <td>
+                            <!-- <td>
                                 <span class="status-badge status-active">
                                     Approved
                                 </span>
-                            </td>
+                            </td> -->
                             <td>
                                 <a href="../../assets/docs/indigency_juan.pdf" target="_blank"
                                     class="btn btn-sm btn-info download-btn">
@@ -124,11 +128,11 @@ include '../../backend/helpers/redirects.php';
                             <td>Business permit application</td>
                             <td>March 20, 2024</td>
                             <td>John Doe</td>
-                            <td>
+                            <!-- <td>
                                 <span class="status-badge status-pending">
                                     Pending
                                 </span>
-                            </td>
+                            </td> -->
                             <td>
                                 N/A
                             </td>
@@ -204,15 +208,19 @@ include '../../backend/helpers/redirects.php';
                     <input type="text" id="street" name="street" class="form-control" required>
                 </div>
                 <div class="form-group">
+                    <label for="purok">Purok/Zone:</label>
+                    <input type="text" id="purok" name="purok" class="form-control" required>
+                </div>
+                <div class="form-group">
                     <label for="barangay">Barangay:</label>
                     <input type="text" id="barangay" name="barangay" class="form-control" value="New Kalalake" readonly
                         required>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="contactNumber">Number (Optional):</label>
                     <input type="tel" id="contactNumber" name="contact_number" class="form-control" pattern="[0-9]{11}"
                         placeholder="e.g., 09123456789">
-                </div>
+                </div> -->
             </div>
 
             <div class="form-group">
@@ -265,6 +273,16 @@ include '../../backend/helpers/redirects.php';
         <div class="modal-actions">
             <button id="confirmLogout" class="btn btn-confirm">Yes, Delete</button>
             <button id="dr-closeModalBtn" class="btn btn-cancel">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="BanResidentModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>Confirm Ban</h3>
+        <p>Are you sure you want to ban this resident?</p>
+        <div class="modal-actions">
+            <button id="confirmLogout" class="btn btn-confirm">Yes, Ban</button>
+            <button id="br-closeModalBtn" class="btn btn-cancel">Cancel</button>
         </div>
     </div>
 </div>

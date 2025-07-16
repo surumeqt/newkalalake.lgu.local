@@ -1,0 +1,243 @@
+/*
+    * Modal styles
+    * This file contains the styles for the modal component used in the application.
+    * EACH modal should have a unique class name to avoid conflicts.
+*/
+
+:root {
+    --primary-blue: #007bff;
+    --primary-blue-hover: #1a60aa;
+    --dark-text: #343a40;
+    --light-text: #6c757d;
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --border-light: #e9ecef;
+    --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-heavy: 0 2px 4px rgba(0, 0, 0, 0.15);
+    --spacing-xs: 8px;
+    --spacing-sm: 15px;
+    --spacing-md: 20px;
+    --spacing-lg: 30px;
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --btn-small-width: 80px;
+    --btn-padding: 8px 16px;
+    --btn-good: #28a745;
+    --btn-good-hover: #218838; 
+    --btn-bad: #dc3545;
+    --btn-orange: #fd7e14;
+    --btn-neutral: #6c757d;
+}
+/* LOGOUT MODAL */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content h3 {
+    font-size: 1.5rem;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-sm);
+    text-align: center;
+
+}
+
+.modal-content p {
+    font-size: 1rem;
+    color: var(--light-text);
+    margin-bottom: var(--spacing-md);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.modal-actions .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.modal-actions .btn-confirm {
+    background-color: #dc3545;
+    color: white;
+}
+.modal-actions .btn-confirm:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+.modal-actions .btn-cancel {
+    background-color: var(--bg-light);
+    color: var(--dark-text);
+    border: 1px solid var(--border-light);
+}
+.modal-actions .btn-cancel:hover {
+    background-color: var(--border-light);
+    transform: translateY(-1px);
+}
+
+/* LOGOUT MODAL END*/
+
+
+.add-resident-modal-content {
+    background-color: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 800px;
+    width: 90%;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+.edit-resident-modal-content {
+    background-color: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 800px;
+    width: 90%;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+.select-certificate-modal-content{
+    background-color: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+.select-certificate-modal-content2{
+    background-color: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.new-certificate-request-modal-content{
+    background-color: var(--bg-white);
+    padding: 30px;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-heavy);
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+.search-results-dropdown {
+    border: 1px solid var(--border-light);
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: calc(100% - 60px);
+    /* Adjust based on modal padding */
+    background-color: var(--bg-white);
+    z-index: 1001;
+    box-shadow: var(--shadow-subtle);
+    display: none;
+    /* Hidden by default */
+    top: calc(80px + 10px + 38px);
+    /* Adjust to be below search input (h3 + padding + label height + input height) */
+    left: 30px;
+    /* Match modal padding */
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.search-result-item:hover {
+    background-color: var(--bg-light);
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.selected-resident-info {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-light);
+    padding: 10px 15px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 20px;
+}
+
+.selected-resident-info p {
+    margin: 0;
+    color: var(--dark-text);
+}
+.modal-form .form-group-2 {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.modal-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--dark-text);
+}
+
+.modal-form .form-control-2 {
+    width: 100%;
+    /* width: 400px; */
+    padding: 10px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    box-sizing: border-box;
+}

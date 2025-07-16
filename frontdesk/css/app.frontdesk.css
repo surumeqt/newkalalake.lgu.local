@@ -37,6 +37,7 @@
     --btn-small-width: 80px;
     --btn-padding: 8px 16px;
     --btn-good: #28a745;
+    --btn-good-hover: #218838; 
     --btn-bad: #dc3545;
     --btn-orange: #fd7e14;
     --btn-neutral: #6c757d;
@@ -407,6 +408,16 @@ body {
     transition: background-color 0.3s ease;
     font-family: "Monda", sans-serif; /* Ensure button text uses Monda */
 }
+.btn-2 {
+    /* padding: var(--btn-padding); */
+
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    font-family: "Monda", sans-serif; /* Ensure button text uses Monda */
+}
 
 .btn-primary {
     background-color: var(--primary-blue);
@@ -416,7 +427,18 @@ body {
 .btn-primary:hover {
     background-color: var(--primary-blue-hover);
 }
+.btn-info {
+    background-color: var(--btn-good);
+    color: var(--bg-white);
+}
 
+.btn-info:hover {
+    background-color: var(--btn-good-hover);
+}
+.btn-danger{
+    background-color: var(--btn-bad);
+    color: var(--bg-white);
+}
 .btn-secondary {
     background-color: var(--btn-neutral); /* Using your root variable */
     color: var(--bg-white);
@@ -632,6 +654,13 @@ body {
     font-size: 0.85em;
     margin-bottom: 5px;
     width: var(--btn-small-width);
+}
+.data-table .btn-sm-2 {
+    padding: 5px 10px;
+    font-size: 0.85em;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    width: 50px;
 }
 .data-table .btn-sm:last-child {
     margin-bottom: 0;

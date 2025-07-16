@@ -1,7 +1,7 @@
 <?php
 // file: app/frontdesk/fd_residents.php
-include '../../backend/config/database.config.php';
-include '../../backend/helpers/redirects.php';
+include '../backend/config/database.config.php';
+include '../backend/helpers/redirects.php';
 redirectIfNotLoggedIn();
 
 // Initialize PDO connection for this script
@@ -38,7 +38,7 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                         <th>Birth Date</th>
                         <th>Last Certificate Issued</th>
                         <th>Date Issued</th>
-                        <th>Status</th>
+
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -55,9 +55,10 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                         <td>1995-01-15</td>
                         <td>Barangay Residency</td>
                         <td>2024-06-20</td>
-                        <td><span class="status-badge status-active">Active</span></td>
+
                         <td>
-                            <button id="issueCertificateModalBtn" class="btn btn-sm btn-primary issue-certificate-btn">
+                            <button id="OpenNewCertificateRequestModalBtn"
+                                class="btn btn-sm btn-primary issue-certificate-btn">
                                 <i class="fas fa-file-alt"></i> Issue
                             </button>
                             <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"
@@ -77,7 +78,6 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                         <td>1999-07-22</td>
                         <td>Vehicle Clearance</td>
                         <td>2024-05-10</td>
-                        <td><span class="status-badge status-banned">Banned</span></td>
                         <td>
                             <button id="issueCertificateModalBtn" class="btn btn-sm btn-primary issue-certificate-btn">
                                 <i class="fas fa-file-alt"></i> Issue
@@ -99,7 +99,6 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                         <td>1980-03-01</td>
                         <td>N/A</td>
                         <td>N/A</td>
-                        <td><span class="status-badge status-inactive">Inactive</span></td>
                         <td>
                             <button id="issueCertificateModalBtn" class="btn btn-sm btn-primary issue-certificate-btn">
                                 <i class="fas fa-file-alt"></i> Issue
@@ -184,14 +183,13 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                     <input type="text" id="street" name="street" class="form-control" required>
                 </div>
                 <div class="form-group">
+                    <label for="purok">Purok/Zone:</label>
+                    <input type="text" id="purok" name="purok" class="form-control" required>
+                </div>
+                <div class="form-group">
                     <label for="barangay">Barangay:</label>
                     <input type="text" id="barangay" name="barangay" class="form-control" value="New Kalalake" readonly
                         required>
-                </div>
-                <div class="form-group">
-                    <label for="contactNumber">Number (Optional):</label>
-                    <input type="tel" id="contactNumber" name="contact_number" class="form-control" pattern="[0-9]{11}"
-                        placeholder="e.g., 09123456789">
                 </div>
             </div>
 
@@ -206,7 +204,59 @@ $user_username = $_SESSION['username'] ?? 'Guest';
         </form>
     </div>
 </div>
+<div id="NewCertificateRequestModal" class="modal-overlay">
+    <div class="new-certificate-request-modal-content">
+        <h3>Request New Certificate</h3>
+        <form id="newCertificateRequestForm" class="modal-form">
+            <div class="form-group-2">
+                <label for="residentSearchInput">Selected Resident:</label>
+                <input type="text" id="residentSearchInput" class="form-control-2" placeholder="Selected Resident"
+                    disabled>
+                <div id="residentSearchResults" class="search-results-dropdown">
+                </div>
+                <input type="hidden" id="selectedResidentId" name="resident_id">
+            </div>
 
+            <div id="selectedResidentInfo" class="selected-resident-info">
+                <p><strong>Selected Resident Status:</strong> <span id="residentNameDisplay"
+                        style="display: none;">N/A</span></p>
+                <div id="residentBanWarning" class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> This resident is currently <strong
+                        class="text-danger">BANNED</strong> from receiving certificates. Reason: <span
+                        id="banReasonDisplay"></span>
+                </div>
+            </div>
+
+            <div class="form-group-2">
+                <label for="selectCertificateType">Certificate Type:</label>
+                <select id="selectCertificateType" name="certificate_type" class="form-control-2" required>
+                    <option value="">-- Select Certificate Type --</option>
+                    <option value="Barangay Residency">Barangay Residency</option>
+                    <option value="Certificate of Indigency">Certificate of Indigency</option>
+                    <option value="Non-Residency Certificate">Certificate of Non-Residency</option>
+                    <option value="Barangay Permit">Barangay Permit</option>
+                    <option value="Barangay Endorsement">Barangay Endorsement</option>
+                    <option value="Vehicle Clearance">Vehicle Clearance</option>
+                </select>
+            </div>
+            <div class="form-group-2" id="photoUploadGroup" style="display: none;">
+                <label for="certificatePhoto">Resident Photo (Optional for some certificates):</label>
+                <input type="file" id="certificatePhoto" name="certificate_photo" accept="image/*"
+                    class="form-control-2">
+                <p class="form-text text-muted">A photo may be required for certain certificate types.</p>
+            </div>
+            <div class="form-group-2">
+                <label for="certificatePurpose">Purpose:</label>
+                <textarea id="certificatePurpose" name="purpose" class="form-control-2" rows="3" required
+                    placeholder="e.g., For school enrollment, For job application, For business registration"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn btn-good" id="generateCertificateBtn">Generate Certificate</button>
+                <button type="button" id="CloseNewCertificateRequestModalBtn" class="btn btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
 <div id="SelectCertificateTypeModal" class="modal-overlay">
     <div class="select-certificate-modal-content">
         <h3>Select Certificate Type</h3>

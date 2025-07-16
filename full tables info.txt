@@ -72,7 +72,7 @@ CREATE TABLE certificate_templates (
 CREATE TABLE activity_log (
     log_id INT AUTO_INCREMENT PRIMARY KEY,           -- Unique log entry ID
     action_type VARCHAR(100) NOT NULL,               -- Short label of the action (e.g., "Issued Certificate", "Registered Resident", "User Login")
-    description TEXT,                                -- Full message describing the activity (e.g., "Issued Certificate of Residency for Juan Dela Cruz")
+    description TEXT,                                -- Full message describing the activity (e.g., "Issued Certificate of Residency for Juan Dela Cruz, Issued Certificate of Residency for **Juan Dela Cruz** (Purpose: Job Application) - 08:30 AM, Registered New Resident: **Maria Santos** - 08:15 AM, Issued Barangay Permit for **ABC Store** (Type: Renewal) - 08:00 AM, Issued Certificate of Indigency for **Pedro Reyes** (Purpose: Medical Aid) - 08:00 AM, Issued Vehicle Clearance for **XYZ Transport** (Plate: ABC-123) - 08:00 AM")
     resident_id INT NULL,                            -- Optional: Foreign key to the resident related to the action (can be NULL if action not related to a specific resident)
     user_id INT NULL,                                -- Optional: Foreign key to the user (official/staff) who performed the action (can be NULL for system actions)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp of the activity
@@ -113,3 +113,10 @@ INSERT INTO barangay_settings (setting_name, setting_value) VALUES
 ('barangay_slogan', 'Diretso Sigurado sa Barangay New Kalalake'),
 ('olongapo_logo_path', 'app/images/logos/olongapo_logo.png'),         -- Path to the Olongapo seal image
 ('barangay_logo_path', 'app/images/logos/barangay_logo.png'); -- Path to the Barangay logo image
+
+
+
+
+School Requirements
+Local Job Requirements
+Financial Assistance

@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         confirmLogoutBtn.addEventListener("click", () => {
-            window.location.href = "/app/components/logout.php";
+            window.location.href = "/newkalalake.lgu.local/frontdesk/components/logout.php";
         });
     }
 

@@ -1,7 +1,7 @@
 <?php
-// file: app/frontdesk/fd_app.php   
-include '../../backend/config/database.config.php';
-include '../../backend/helpers/redirects.php';
+// file: frontdesk/fd_app.php   
+include '../backend/config/database.config.php';
+include '../backend/helpers/redirects.php';
 redirectIfNotLoggedIn();
 $user_email = $_SESSION['username'];
 $current_page = basename($_SERVER['PHP_SELF']);
@@ -15,9 +15,9 @@ $pdo = (new Connection())->connect();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGU - Brgy. New Kalalake System</title>
-    <link rel="icon" type="image/png" href="../images/logo.png">
-    <link rel="stylesheet" href="../css/app.frontdesk.css">
-    <link rel="stylesheet" href="../css/modal.style.css">
+    <link rel="icon" type="image/png" href="images/logos/barangay_logo.png">
+    <link rel="stylesheet" href="css/app.frontdesk.css">
+    <link rel="stylesheet" href="css/modal.style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -29,7 +29,7 @@ $pdo = (new Connection())->connect();
         </div>
         <aside class="sidebar">
             <div class="logo-area">
-                <img class="brgy_logo" src="../images/logo.png" alt="Logo">
+                <img class="brgy_logo" src="images/logos/barangay_logo.png" alt="Logo">
                 <h1>Brgy. New Kalalake</h1>
             </div>
             <nav class="main-nav">
@@ -81,12 +81,8 @@ $pdo = (new Connection())->connect();
 
     <!-- MODALS END -->
 
-    <script src="../js/navigations.js"></script>
-    <script src="../js/modal.logic.js"></script>
-    <script src="../js/dashboard.logic.js"></script>
-    <script src="../js/responsive-sidebar.js"></script>
-    <script src="../js/fd_residents.logic.js"></script>
-
+    <script src="js/navigations.js"></script>
+    <script src="js/modal.logic.js"></script>
 </body>
 
 </html>

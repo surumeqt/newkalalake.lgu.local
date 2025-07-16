@@ -1,7 +1,7 @@
 <?php
-// file: app/frontdesk/fd_dashboard.php
-include '../../backend/config/database.config.php';
-include '../../backend/helpers/redirects.php';
+// file: /frontdesk/fd_dashboard.php
+include '../backend/config/database.config.php';
+include '../backend/helpers/redirects.php';
 
 redirectIfNotLoggedIn(); // This checks if the user is logged in for this specific request.
 
@@ -136,6 +136,42 @@ try {
             <h3>Active Restrictions</h3>
             <p class="stat-value"><?php echo number_format($activeRestrictions); ?></p>
             <span class="stat-description">Residents with active bans/restrictions</span>
+        </div>
+        <div class="stat-card">
+            <h3>Gender Distribution</h3>
+            <div class="stat-list">
+                <p class="stat-item">Male: <span class="stat-value-small"><?php // echo number_format($genderStats['Male']); 
+                                                                            ?></span></p>
+                <p class="stat-item">Female: <span class="stat-value-small"><?php // echo number_format($genderStats['Female']); 
+                                                                            ?></span></p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <h3>Age Distribution</h3>
+            <div class="stat-list">
+                <p class="stat-item">0-17 (Minors): <span class="stat-value-small"><?php // echo number_format($ageStats['0-17']); 
+                                                                                    ?></span></p>
+                <p class="stat-item">18-35 (Young Adults): <span class="stat-value-small"><?php // echo number_format($ageStats['18-35']); 
+                                                                                            ?></span></p>
+                <p class="stat-item">36-60 (Adults): <span class="stat-value-small"><?php // echo number_format($ageStats['36-60']); 
+                                                                                    ?></span></p>
+                <p class="stat-item">61+ (Seniors): <span class="stat-value-small"><?php // echo number_format($ageStats['61+']); 
+                                                                                    ?></span></p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <h3>Civil Status</h3>
+            <div class="stat-list">
+                <p class="stat-item">Single: <span class="stat-value-small"><?php // echo number_format($civilStatusStats['Single']); 
+                                                                            ?></span></p>
+                <p class="stat-item">Married: <span class="stat-value-small"><?php // echo number_format($civilStatusStats['Married']); 
+                                                                                ?></span></p>
+                <p class="stat-item">Widowed: <span class="stat-value-small"><?php // echo number_format($civilStatusStats['Widowed']); 
+                                                                                ?></span></p>
+                <p class="stat-item">Separated: <span class="stat-value-small"><?php // echo number_format($civilStatusStats['Separated']); 
+                                                                                ?></span></p>
+            </div>
         </div>
     </div>
 
