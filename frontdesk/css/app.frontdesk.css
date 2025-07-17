@@ -793,15 +793,6 @@ body {
 
 
 
-/* General Profile Container */
-.resident-profile-container {
-    padding: var(--spacing-md);
-    margin-top: var(--spacing-lg);
-    background-color: var(--bg-white);
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-subtle);
-}
-
 /* Profile Header Section (Photo and Summary) */
 .profile-header {
     display: flex;
@@ -852,17 +843,21 @@ body {
 
 /* Profile Sections (Basic Info, Address, Admin Info) */
 .profile-sections {
-    display: grid;
-    gap: var(--spacing-md);
-    grid-template-columns: 1fr; /* Default to single column */
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    gap: var(--spacing-md); /* Gap between flex items */
     margin-bottom: var(--spacing-lg);
+    justify-content: center; /* Centers items if they don't fill the row completely */
+    align-items: flex-start; /* Aligns items to the top if they have different heights */
 }
 
 .profile-section {
-    background-color: var(--bg-light);
+    background-color: var(--bg-white);
     padding: var(--spacing-md);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-subtle);
+    /* Default to full width on small screens */
+    flex: 1 1 100%; /* flex-grow, flex-shrink, flex-basis */
 }
 
 .profile-section h4 {
@@ -885,7 +880,7 @@ body {
 
 .profile-section p strong {
     color: var(--light-text);
-    min-width: 120px;
+    min-width: 120px; /* Keep this if you want labels aligned */
     display: inline-block;
 }
 
@@ -905,6 +900,27 @@ body {
     flex-grow: 1;
     min-width: 150px;
     padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+/* --- Responsive Adjustments --- */
+@media (min-width: 600px) { /* Adjust breakpoint as needed for tablet/medium screens */
+    .profile-header {
+        flex-direction: row; /* Change to row for wider screens */
+        text-align: left;
+        align-items: flex-start; /* Align items to start for row layout */
+    }
+
+    .profile-photo-area {
+        margin-bottom: 0; /* Remove bottom margin for row layout */
+        margin-right: var(--spacing-md); /* Add right margin for spacing */
+    }
+}
+
+@media (min-width: 768px) { /* For larger screens (e.g., desktops) */
+    .profile-section {
+        /* Distribute space for two columns with gap when screen is wide enough */
+        flex: 1 1 calc(50% - var(--spacing-md) / 2);
+    }
 }
 
 /* Issued Certificates Section */

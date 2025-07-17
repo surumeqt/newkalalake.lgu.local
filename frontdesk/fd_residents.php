@@ -2,26 +2,49 @@
 include '../backend/helpers/redirects.php';
 require_once __DIR__ . '/../backend/models/residents.model.php';
 redirectIfNotLoggedIn();
+
 $user_username = $_SESSION['username'] ?? 'Guest';
 $residentsModel = new Residents();
-$records = $residentsModel->getResidents();
+
+// --- Pagination Logic ---
+$itemsPerPage = 20; // Number of residents to display per page
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($currentPage - 1) * $itemsPerPage;
+
+// IMPORTANT: These methods (getTotalResidentsCount, getResidentsPaginated)
+// need to be added to your Residents model (backend/models/residents.model.php).
+// See the conceptual code for the Residents model below.
+
+// Get total count of residents for pagination calculation (can be filtered by search later)
+$totalResidents = $residentsModel->getTotalResidentsCount();
+$totalPages = ceil($totalResidents / $itemsPerPage);
+
+// Get residents for the current page
+$records = $residentsModel->getResidentsPaginated($itemsPerPage, $offset);
+
+// If no records found, ensure $records is an empty array to avoid foreach error
+if (!$records) {
+    $records = [];
+}
 ?>
 
 <div class="page-content-header">
     <h2>Resident Management</h2>
-    <form class="header-actions" action="../backend/fd_controllers/residents.controller.php" method="POST">
-        <div class="search-bar">
-            <input type="text" id="residentSearchInput" class="form-control" name="search" placeholder="Search residents...">
-            <button class="btn btn-primary"><i class="fas fa-search" id="residentSearchBtn"></i> Search</button>
-        </div>
+    <div class="header-actions">
+        <form action="../backend/fd_controllers/residents.controller.php" method="POST">
+            <div class="search-bar">
+                <input type="text" id="residentSearchInput" class="form-control" name="search"
+                    placeholder="Search residents..." onkeyup="liveSearch()">
+                <button type="button" class="btn btn-primary" onclick="liveSearch()"><i class="fas fa-search"
+                        id="residentSearchBtn"></i> Search</button>
+            </div>
+        </form>
         <button class="btn btn-success add-resident-btn" id="openModalBtn">
             <i class="fas fa-user-plus"></i> Register New Resident
         </button>
-    </form>
+    </div>
 </div>
-
 <div class="residents-list-section card">
-
     <div class="card-body">
         <div class="table-responsive">
             <table class="data-table">
@@ -34,44 +57,64 @@ $records = $residentsModel->getResidents();
                         <th>Birth Date</th>
                         <th>Last Certificate Issued</th>
                         <th>Date Issued</th>
-
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="residents-body">
-                    <?php foreach($records as $rows): ?>
+                    <?php if (empty($records)): ?>
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 20px;">No residents found.</td>
+                    </tr>
+                    <?php else: ?>
+                    <?php foreach ($records as $row): // Changed $rows to $row for consistency and clarity 
+                        ?>
                     <tr>
                         <td>
                             <div class="table-thumbnail">
                                 <i class="fas fa-user-circle default-thumbnail"></i>
                             </div>
                         </td>
-                        <td><?= htmlspecialchars($rows['first_name'].' '.$rows['middle_name'].' '.$rows['last_name'].' '.$rows['suffix'] ?? ''); ?></td>
-                        <td><?= htmlspecialchars($rows['address']); ?></td>
-                        <td><?= htmlspecialchars($rows['gender']); ?></td>
-                        <td><?= htmlspecialchars($rows['birthday']); ?></td>
+                        <td><?= htmlspecialchars($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['suffix'] ?? ''); ?>
+                        </td>
+                        <td><?= htmlspecialchars($row['address']); ?></td>
+                        <td><?= htmlspecialchars($row['gender']); ?></td>
+                        <td><?= htmlspecialchars($row['birthday']); ?></td>
                         <td>Barangay Residency</td>
-                        <td><?= htmlspecialchars($rows['created_at']); ?></td>
-
+                        <td><?= htmlspecialchars($row['created_at']); ?></td>
                         <td>
                             <button id="OpenNewCertificateRequestModalBtn"
-                                class="btn btn-sm btn-primary issue-certificate-btn">
+                                class="btn btn-sm btn-primary issue-certificate-btn open-new-certificate-modal-btn">
                                 <i class="fas fa-file-alt"></i> Issue
                             </button>
                             <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"
-                                data-load-content="true"><i class="fas fa-eye"></i> View
+                                data-load-content="true"
+                                data-resident-id="<?= htmlspecialchars($row['resident_id']); ?>"><i
+                                    class="fas fa-eye"></i> View
                             </button>
                         </td>
                     </tr>
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
         <div class="table-pagination">
-            <a href="#" class="page-link active">1</a>
-            <a href="#" class="page-link">2</a>
-            <a href="#" class="page-link">3</a>
-            <a href="#" class="page-link">Next &raquo;</a>
+            <?php if ($totalPages > 1): ?>
+            <?php if ($currentPage > 1): ?>
+            <a href="?page=<?= $currentPage - 1 ?>" class="page-link" data-page="<?= $currentPage - 1 ?>">&laquo;
+                Previous</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <a href="?page=<?= $i ?>" class="page-link <?= ($i == $currentPage) ? 'active' : '' ?>"
+                data-page="<?= $i ?>"><?= $i ?></a>
+            <?php endfor; ?>
+
+            <?php if ($currentPage < $totalPages): ?>
+            <a href="?page=<?= $currentPage + 1 ?>" class="page-link" data-page="<?= $currentPage + 1 ?>">Next
+                &raquo;</a>
+            <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -79,7 +122,8 @@ $records = $residentsModel->getResidents();
 <div id="AddresidentModal" class="modal-overlay">
     <div class="add-resident-modal-content">
         <h3>Register New Resident</h3>
-        <form id="addResidentForm" class="modal-form" action="../backend/fd_controllers/residents.controller.php" method="POST" enctype="multipart/form-data">
+        <form id="addResidentForm" class="modal-form" action="../backend/fd_controllers/residents.controller.php"
+            method="POST" enctype="multipart/form-data">
             <div class="form-divider">
                 <div class="form-group">
                     <label for="firstName">First Name:</label>
@@ -101,7 +145,8 @@ $records = $residentsModel->getResidents();
             <div class="form-divider">
                 <div class="form-group">
                     <label for="birthDate">Date of Birth:</label>
-                    <input type="date" id="birthDate" name="birthday" class="form-control" onblur="reflectAge()" required>
+                    <input type="date" id="birthDate" name="birthday" class="form-control" onblur="reflectAge()"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="age">Age:</label>
@@ -113,7 +158,7 @@ $records = $residentsModel->getResidents();
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+                        <!-- <option value="Other">Other</option> -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -144,17 +189,23 @@ $records = $residentsModel->getResidents();
                 </div>
                 <div class="form-group">
                     <label for="barangay">Barangay:</label>
-                    <input type="text" id="barangay" name="barangay" class="form-control"
-                        required>
+                    <input type="text" id="barangay" name="barangay" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="barangay">City:</label>
-                    <input type="text" id="barangay" name="city" class="form-control"
-                        required>
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact_number">Contact No.:</label>
+                    <input type="text" id="contact_number" name="contact_number" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 1rem; border-top: 1px solid #ccc; padding-top: 1rem;">
                 <label for="photo">Resident Photo (Optional):</label>
                 <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file">
             </div>
@@ -167,7 +218,7 @@ $records = $residentsModel->getResidents();
 </div>
 <div id="NewCertificateRequestModal" class="modal-overlay">
     <div class="new-certificate-request-modal-content">
-        <h3>Request New Certificate</h3>
+        <h3 style="text-align: center;">Request New Certificate</h3>
         <form id="newCertificateRequestForm" class="modal-form">
             <div class="form-group-2">
                 <label for="residentSearchInput">Selected Resident:</label>
@@ -216,34 +267,5 @@ $records = $residentsModel->getResidents();
                 <button type="button" id="CloseNewCertificateRequestModalBtn" class="btn btn-cancel">Cancel</button>
             </div>
         </form>
-    </div>
-</div>
-<div id="SelectCertificateTypeModal" class="modal-overlay">
-    <div class="select-certificate-modal-content">
-        <h3>Select Certificate Type</h3>
-        <!-- these btn will open another modal for each seperate modal -->
-        <div class="certificateTypeBtn">
-            <button type="button" class="btn btn-select" data-certificate-type="Indigency Certificate">
-                Certificate of Indigency
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Residency Certificate">
-                Barangay Residency
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Non-Residency Certificate">
-                Certificate of Non-Residency
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Barangay Permit">
-                Barangay Permit
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Barangay Endorsement">
-                Barangay Endorsement
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Vehicle Clearance">
-                Vehicle Clearance
-            </button>
-        </div>
-        <div class="modal-actions">
-            <button type="button" id="sc-closeModalBtn" class="btn btn-confirm">Cancel</button>
-        </div>
     </div>
 </div>

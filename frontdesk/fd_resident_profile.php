@@ -2,77 +2,148 @@
 // file: frontdesk/fd_resident_profile.php
 include '../backend/config/database.config.php';
 include '../backend/helpers/redirects.php';
+require_once __DIR__ . '/../backend/models/residents.model.php'; // Include Residents model
+require_once __DIR__ . '/../backend/helpers/formatters.php'; // Include formatters for getAge function
 redirectIfNotLoggedIn();
-
-// Initialize PDO connection for this script
-$pdo = (new Connection())->connect();
 
 // Get username from session for display (if used on this page)
 $user_username = $_SESSION['username'] ?? 'Guest';
+
+// --- Start: Logic to load resident details ---
+$residentId = null;
+$resident = null;
+$residentName = "Loading Resident..."; // Default text while loading
+$residentDisplayId = "Loading...";
+$residentAge = "N/A"; // Initialize age
+
+// Check if an ID is passed in the URL and if it's a valid number
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $residentId = (int)$_GET['id']; // Cast to integer for security and type consistency
+
+    // Instantiate the Residents model
+    $residentsModel = new Residents();
+
+    // Fetch resident details using the new method in the model
+    $resident = $residentsModel->getResidentById($residentId);
+
+    if ($resident) {
+        // Resident found, construct and display their name and ID
+        $residentNameParts = [
+            $resident['first_name'] ?? '',
+            $resident['middle_name'] ?? '',
+            $resident['last_name'] ?? '',
+            $resident['suffix'] ?? ''
+        ];
+        // Filter out empty parts and join them to form the full name
+        $residentName = implode(' ', array_filter($residentNameParts));
+        $residentDisplayId = $resident['resident_id'] ?? 'N/A'; // Use the actual ID from the fetched data
+
+        // Calculate age using the helper function
+        if (isset($resident['birthday'])) {
+            $calculatedAge = getAge($resident['birthday']);
+            if ($calculatedAge !== null) {
+                $residentAge = $calculatedAge;
+            }
+        }
+    } else {
+        // Resident not found in the database
+        $residentName = "Resident Not Found";
+        $residentDisplayId = "N/A";
+    }
+} else {
+    // No ID passed or invalid ID
+    $residentName = "No Resident Selected";
+    $residentDisplayId = "N/A";
+}
+// --- End: Logic to load resident details ---
+
 ?>
 
 <div class="page-content-header">
     <h2>Resident Profile</h2>
-    <p class="current-page-title">Juan Reyes Dela Cruz Sr.</p>
+    <p class="current-page-title"><?= htmlspecialchars($residentName); ?></p>
 </div>
 
 <div class="resident-profile-container card">
     <div class="card-body">
         <div class="profile-header">
             <div class="profile-photo-area">
-                <img src="../../assets/img/dummy_resident_male.jpg" alt="Resident Photo" class="profile-photo">
+                <img src="../../assets/img/dummy_resident_<?= htmlspecialchars($resident['gender'] ?? 'male'); ?>.jpg"
+                    alt="Resident Photo" class="profile-photo">
             </div>
             <div class="profile-details-summary">
-                <h3>Juan Reyes Dela Cruz Sr.</h3>
-                <p><strong>ID:</strong> 1</p>
+                <h3><?= htmlspecialchars($residentName); ?></h3>
+                <p><strong>ID:</strong> <?= htmlspecialchars($residentDisplayId); ?></p>
                 <p>
                     <strong>Status:</strong>
-                    <span class="status-badge status-active">Active</span>
+                    <?php
+                    $statusClass = 'status-inactive'; // Default to inactive
+                    $statusText = 'Inactive';
+                    if (isset($resident['status'])) {
+                        if ($resident['status'] === 'Active') {
+                            $statusClass = 'status-active';
+                            $statusText = 'Active';
+                        } else if ($resident['status'] === 'Banned') {
+                            $statusClass = 'status-banned'; // Assuming you have this CSS class
+                            $statusText = 'Banned';
+                        } else {
+                            // Default or other statuses
+                            $statusClass = 'status-inactive';
+                            $statusText = htmlspecialchars($resident['status']);
+                        }
+                    }
+                    ?>
+                    <span class="status-badge <?= $statusClass; ?>"><?= $statusText; ?></span>
                 </p>
             </div>
         </div>
 
+        <?php if ($resident): // Only display details if a resident was found 
+        ?>
         <div class="profile-sections">
             <div class="profile-section basic-info-section">
                 <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
-                <p><strong>Birth Date:</strong> May 10, 1985</p>
-                <p><strong>Age:</strong> 40</p>
-                <p><strong>Gender:</strong> Male</p>
-                <p><strong>Civil Status:</strong> Married</p>
-            </div>
-
-            <div class="profile-section address-info-section">
+                <p><strong>Birth Date:</strong> <?= htmlspecialchars($resident['birthday'] ?? 'N/A'); ?></p>
+                <p><strong>Age:</strong> <?= htmlspecialchars($residentAge); ?></p>
+                <p><strong>Gender:</strong> <?= htmlspecialchars($resident['gender'] ?? 'N/A'); ?></p>
+                <p><strong>Civil Status:</strong> <?= htmlspecialchars($resident['civil_status'] ?? 'N/A'); ?></p>
+                <p><strong>Contact No.:</strong> <?= htmlspecialchars($resident['contact_no'] ?? 'N/A'); ?></p>
+                <p><strong>Email:</strong><?= htmlspecialchars($resident['email'] ?? 'N/A'); ?></p>
                 <h4><i class="fas fa-map-marker-alt"></i> Address</h4>
-                <p><strong>House No:</strong> 123</p>
-                <p><strong>Street:</strong> Main Street</p>
-                <p><strong>Purok/Zone:</strong> Purok 1</p>
-                <p><strong>Barangay:</strong> Olongapo City</p>
+                <p><strong>Address:</strong> <?= htmlspecialchars($resident['address'] ?? 'N/A'); ?></p>
+                <p><strong>Purok/Zone:</strong> <?= htmlspecialchars($resident['purok_zone'] ?? 'N/A'); ?></p>
+            </div>
+            <div>
+                <div class="profile-section admin-info-section">
+                    <h4><i class="fas fa-tools"></i> Administration Info</h4>
+                    <p><strong>Date Registered:</strong> <?= htmlspecialchars($resident['created_at'] ?? 'N/A'); ?></p>
+                    <p><strong>Last Updated:</strong>
+                        <?= htmlspecialchars($resident['updated_at'] ?? $resident['created_at'] ?? 'N/A'); ?></p>
+
+                </div>
+                <div class="profile-section profile-actions-bar" style="height: 100%;">
+                    <button id="OpenEditResidentModalBtn" class="btn btn-warning edit-resident-btn"
+                        data-resident-id="<?= htmlspecialchars($residentId); ?>">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                    <button id="banResidentModalBtn" class="btn btn-danger ban-resident-btn"
+                        data-resident-id="<?= htmlspecialchars($residentId); ?>">
+                        <i class="fas fa-ban"></i> Ban Resident
+                    </button>
+                    <button id="deleteResidentModalBtn" class="btn btn-secondary delete-resident-btn"
+                        data-resident-id="<?= htmlspecialchars($residentId); ?>">
+                        <i class="fas fa-trash-alt"></i> Delete Resident
+                    </button>
+                </div>
             </div>
 
-            <div class="profile-section admin-info-section">
-                <h4><i class="fas fa-tools"></i> Administration Info</h4>
-                <p><strong>Date Registered:</strong> January 15, 2022 10:30 AM</p>
-                <p><strong>Last Updated:</strong> June 1, 2024 02:00 PM</p>
-            </div>
+
         </div>
 
-        <div class="profile-actions-bar">
-            <button id="OpenEditResidentModalBtn" class="btn btn-warning edit-resident-btn" data-resident-id="1">
-                <i class="fas fa-edit"></i> Edit Profile
-            </button>
-            <button class="btn btn-primary issue-certificate-btn" data-resident-id="1" id="issueCertificateModalBtn">
-                <i class="fas fa-file-alt"></i> Issue Certificate
-            </button>
-            <button id="banResidentModalBtn" class="btn btn-danger ban-resident-btn" data-resident-id="1">
-                <i class="fas fa-ban"></i> Ban Resident
-            </button>
-            <!-- <button class="btn btn-info print-profile-btn" data-resident-id="1">
-                <i class="fas fa-print"></i> Print Profile
-            </button> -->
-            <button id="deleteResidentModalBtn" class="btn btn-secondary delete-resident-btn" data-resident-id="1">
-                <i class="fas fa-trash-alt"></i> Delete Resident
-            </button>
-        </div>
+
+        <?php else: ?>
+        <p class="text-center text-danger">No resident data available.</p>
+        <?php endif; ?>
 
         <div class="profile-section issued-certificates-section">
             <h4><i class="fas fa-certificate"></i> Issued Certificates History</h4>
@@ -84,58 +155,12 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                             <th>Purpose</th>
                             <th>Date Issued</th>
                             <th>Issued By</th>
-                            <!-- <th>Status</th> -->
                             <th>Document</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Barangay Residency</td>
-                            <td>For school enrollment</td>
-                            <td>September 1, 2023</td>
-                            <td>John Doe</td>
-                            <!-- <td>
-                                <span class="status-badge status-active">
-                                    Approved
-                                </span>
-                            </td> -->
-                            <td>
-                                <a href="../../assets/docs/residency_juan.pdf" target="_blank"
-                                    class="btn btn-sm btn-info download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Certificate of Indigency</td>
-                            <td>For medical assistance</td>
-                            <td>January 15, 2024</td>
-                            <td>Jane Smith</td>
-                            <!-- <td>
-                                <span class="status-badge status-active">
-                                    Approved
-                                </span>
-                            </td> -->
-                            <td>
-                                <a href="../../assets/docs/indigency_juan.pdf" target="_blank"
-                                    class="btn btn-sm btn-info download-btn">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Barangay Permit</td>
-                            <td>Business permit application</td>
-                            <td>March 20, 2024</td>
-                            <td>John Doe</td>
-                            <!-- <td>
-                                <span class="status-badge status-pending">
-                                    Pending
-                                </span>
-                            </td> -->
-                            <td>
-                                N/A
-                            </td>
+                            <td colspan="5" style="text-align: center;">No certificate history available.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -182,7 +207,7 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+                        <!-- <option value="Other">Other</option> -->
                     </select>
                 </div>
                 <div class="form-group">

@@ -18,14 +18,21 @@ function getOrdinalSuffix($number) {
     }
     return 'th';
 }
-function getAge(){
-    if (isset($_POST['birthday']) && !empty($_POST['birthday'])) {
-        $birthDate = new DateTime($_POST['birthday']);
-        $today = new DateTime();
-        $age = $today->diff($birthDate)->y;
-        return $age;
+function getAge(string $birthday): ?int
+{
+    if (!empty($birthday)) {
+        try {
+            $birthDate = new DateTime($birthday);
+            $today = new DateTime();
+            $age = $today->diff($birthDate)->y;
+            return $age;
+        } catch (Exception $e) {
+            // Log the error or handle it as appropriate for an invalid date
+            error_log("Error calculating age for birthday '{$birthday}': " . $e->getMessage());
+            return null; // Return null if the date is invalid
+        }
     }
-    return null;
+    return null; // Return null if birthday is empty
 }
 function generateRandomIds(){
     $randomNumber = random_int(100000, 999999);

@@ -114,12 +114,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (typeof initializeDeleteResidentModal === "function") {
                     initializeDeleteResidentModal();
                 }
-                if (typeof initializeNewCertificateRequestModal === "function") {
+                if (
+                    typeof initializeNewCertificateRequestModal === "function"
+                ) {
                     initializeNewCertificateRequestModal();
                 }
                 if (typeof initializeBanResidentModal === "function") {
                     initializeBanResidentModal();
                 }
+                // --- IMPORTANT NEW CALL FOR PAGINATION LISTENERS ---
+                // This ensures pagination listeners are attached after content is in the DOM
+                if (typeof attachPaginationListeners === "function") {
+                    attachPaginationListeners();
+                }
+                // --- END IMPORTANT NEW CALL --
                 // You might need to call other initialization functions here
                 // if other dynamically loaded content also requires JS setup.
 

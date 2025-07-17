@@ -394,8 +394,9 @@ function initializeDeleteResidentModal() {
 function initializeNewCertificateRequestModal() {
     console.log("Attempting to initialize New Certificate Request Modal..."); // Debugging
 
-    const openModalBtn = document.getElementById(
-        "OpenNewCertificateRequestModalBtn"
+    // Changed to querySelectorAll to select all buttons with the class
+    const openModalBtns = document.querySelectorAll(
+        ".open-new-certificate-modal-btn"
     );
     const newCertificateModal = document.getElementById(
         "NewCertificateRequestModal"
@@ -403,38 +404,82 @@ function initializeNewCertificateRequestModal() {
     const closeModalBtn = document.getElementById(
         "CloseNewCertificateRequestModalBtn"
     );
+    // Select the hidden input for resident ID within the modal
+    const selectedResidentIdInput = document.getElementById("selectedResidentId");
+    // Select the disabled input that displays the resident's name within the modal
+    const residentSearchInputModal = document.querySelector("#NewCertificateRequestModal #residentSearchInput");
+    // Select the span that displays the resident's name in the modal's info section
+    const residentNameDisplay = document.getElementById("residentNameDisplay");
 
-    if (openModalBtn && newCertificateModal && closeModalBtn) {
+
+    if (openModalBtns.length > 0 && newCertificateModal && closeModalBtn && selectedResidentIdInput && residentSearchInputModal && residentNameDisplay) {
         console.log(
             "New Certificate Modal elements found. Attaching listeners."
         );
 
-        openModalBtn.addEventListener("click", () => {
-            newCertificateModal.classList.add("active");
-            console.log("New Certificate Modal Opened!");
+        // Iterate over each "Issue" button and attach a click listener
+        openModalBtns.forEach(button => {
+            button.addEventListener("click", () => {
+                // Get the resident ID and name from the data attributes of the clicked button
+                const residentId = button.getAttribute("data-resident-id");
+                const residentName = button.getAttribute("data-resident-name");
+
+                // Populate the modal fields with the resident's data
+                selectedResidentIdInput.value = residentId;
+                residentSearchInputModal.value = residentName; // Set the disabled input with the resident's name
+                residentNameDisplay.textContent = residentName; // Update the display text
+                residentNameDisplay.style.display = 'inline'; // Ensure the name display is visible
+
+                // Reset ban warning visibility (assuming it should be hidden by default when opening for a new resident)
+                document.getElementById("residentBanWarning").style.display = 'none';
+                document.getElementById("banReasonDisplay").textContent = '';
+
+                // Open the modal
+                newCertificateModal.classList.add("active");
+                console.log("New Certificate Modal Opened for Resident ID:", residentId, "Name:", residentName);
+            });
         });
 
+        // Event listener for closing the modal using the close button
         closeModalBtn.addEventListener("click", () => {
             newCertificateModal.classList.remove("active");
             console.log("New Certificate Modal Closed!");
+            // Optionally clear the modal fields on close for the next use
+            selectedResidentIdInput.value = '';
+            residentSearchInputModal.value = '';
+            residentNameDisplay.textContent = 'N/A';
+            residentNameDisplay.style.display = 'none';
+            document.getElementById("residentBanWarning").style.display = 'none';
+            document.getElementById("banReasonDisplay").textContent = '';
         });
 
-        // Close modal if overlay is clicked
+        // Event listener for closing the modal by clicking outside (on the overlay)
         newCertificateModal.addEventListener("click", (event) => {
             if (event.target === newCertificateModal) {
                 newCertificateModal.classList.remove("active");
                 console.log(
                     "New Certificate Modal Closed by clicking outside!"
                 );
+                // Optionally clear the modal fields on close
+                selectedResidentIdInput.value = '';
+                residentSearchInputModal.value = '';
+                residentNameDisplay.textContent = 'N/A';
+                residentNameDisplay.style.display = 'none';
+                document.getElementById("residentBanWarning").style.display = 'none';
+                document.getElementById("banReasonDisplay").textContent = '';
             }
         });
     } else {
+        // Warning messages if elements are not found, useful for debugging
         console.warn(
-            "Could not find all New Certificate Modal elements. This is normal if fd_resident_profile.php is not loaded yet."
+            "Could not find all New Certificate Modal elements. This is normal if fd_residents.php is not loaded yet or elements have changed."
         );
-        if (!openModalBtn) console.warn("Missing #issueCertificateModalBtn");
-        if (!newCertificateModal) console.warn("Missing #NewCertificateModal");
-        if (!closeModalBtn) console.warn("Missing #nc-closeModalBtn");
+        if (openModalBtns.length === 0) console.warn("Missing .open-new-certificate-modal-btn elements");
+        if (!newCertificateModal) console.warn("Missing #NewCertificateRequestModal");
+        if (!closeModalBtn) console.warn("Missing #CloseNewCertificateRequestModalBtn");
+        if (!selectedResidentIdInput) console.warn("Missing #selectedResidentId");
+        if (!residentSearchInputModal) console.warn("Missing #NewCertificateRequestModal #residentSearchInput");
+        if (!residentNameDisplay) console.warn("Missing #residentNameDisplay");
     }
 }
 
