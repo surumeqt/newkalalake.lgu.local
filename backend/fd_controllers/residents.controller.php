@@ -110,29 +110,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         exit(); // Stop further script execution
     }
-
-    // --- NEW: Handle Resident Status Fetch via AJAX ---
-    if (isset($_POST['action']) && $_POST['action'] === 'getResidentStatus' && isset($_POST['resident_id'])) {
-        header('Content-Type: application/json');
-        $residentId = $_POST['resident_id'];
-
-        // Assume you have a method in your Residents model to get resident details by ID
-        // This method should also include ban status and reason if applicable
-        $residentDetails = $residentsModel->getResidentDetailsById($residentId); // You'll need to implement this method
-
-        if ($residentDetails) {
-            echo json_encode([
-                'success' => true,
-                'resident_id' => $residentDetails['resident_id'],
-                'is_banned' => (bool)$residentDetails['is_banned'], // Assuming a boolean or 0/1 from DB
-                'ban_reason' => $residentDetails['ban_reason'] ?? null // Assuming ban_reason field
-            ]);
-        } else {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Resident not found.'
-            ]);
-        }
-        exit();
-    }
 }
