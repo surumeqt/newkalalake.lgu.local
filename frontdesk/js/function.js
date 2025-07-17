@@ -13,3 +13,19 @@ function reflectAge(){
         document.getElementById('age').value = '';
     }
 }
+function liveSearch() {
+    const docket = document.getElementById('residentSearchInput').value;
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('residentSearchInput', docket);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById("residents-body").innerHTML = xhr.responseText;
+        }
+    };
+
+    xhr.open("POST", "../backend/fd_controllers/residents.controller.php", true);
+    xhr.send(formData);
+}

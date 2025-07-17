@@ -9,7 +9,7 @@ $records = $residentsModel->getResidents();
 
 <div class="page-content-header">
     <h2>Resident Management</h2>
-    <div class="header-actions">
+    <form class="header-actions" action="../backend/fd_controllers/residents.controller.php" method="POST">
         <div class="search-bar">
             <input type="text" id="residentSearchInput" class="form-control" name="search" placeholder="Search residents...">
             <button class="btn btn-primary"><i class="fas fa-search" id="residentSearchBtn"></i> Search</button>
@@ -17,7 +17,7 @@ $records = $residentsModel->getResidents();
         <button class="btn btn-success add-resident-btn" id="openModalBtn">
             <i class="fas fa-user-plus"></i> Register New Resident
         </button>
-    </div>
+    </form>
 </div>
 
 <div class="residents-list-section card">
@@ -38,7 +38,7 @@ $records = $residentsModel->getResidents();
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="residents-body">
                     <?php foreach($records as $rows): ?>
                     <tr>
                         <td>

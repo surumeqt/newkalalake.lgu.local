@@ -43,9 +43,9 @@ class Residents {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getResidentsByName($data) {
-        $sql = "SELECT * FROM residents WHERE first_name LIKE :name OR last_name LIKE :name";
+        $sql = "SELECT * FROM residents WHERE first_name LIKE ? OR last_name LIKE ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':name' => '%' . $_POST['search'] . '%']);
+        $stmt->execute(['%' . $data . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
