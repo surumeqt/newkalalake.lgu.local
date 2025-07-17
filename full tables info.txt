@@ -26,43 +26,38 @@ CREATE TABLE users (
 
 -- 🏠 RESIDENTS TABLE: Holds resident data used in certificate generation
 CREATE TABLE residents (
-    resident_id INT AUTO_INCREMENT PRIMARY KEY,        -- Unique ID for each resident
-    first_name VARCHAR(100) NOT NULL,                  -- Resident's first name
-    middle_name VARCHAR(100),                          -- Resident's middle name (can be NULL)
-    last_name VARCHAR(100) NOT NULL,                   -- Resident's last name
-    suffix VARCHAR(10),                                -- Name suffix (e.g., Jr., Sr., III) (can be NULL)
-    birthday DATE NOT NULL,                            -- Resident's birthdate (age can be calculated dynamically from this)
-    gender ENUM('Male', 'Female', 'Other') NOT NULL,   -- Resident's gender identity
-    civil_status ENUM('Single', 'Married', 'Widowed', 'Separated', 'Annulled', 'Divorced') NOT NULL, -- Marital status
-    address TEXT NOT NULL,                             -- Full address of the resident (e.g., House No., Street, Purok/Zone)
-    purok_or_zone VARCHAR(50) NULL,                    -- Specific Purok or Zone within the barangay (can be NULL)
-    contact_number VARCHAR(20) NULL,                   -- Resident's contact number (can be NULL)
-    email VARCHAR(100) NULL,                           -- Resident's email address (can be NULL)
-    photo VARCHAR(255) NULL,                           -- Optional: Path to resident's photo file on the server (BLOB not recommended for image storage)
-    is_banned BOOLEAN DEFAULT FALSE,                   -- Flag if resident is restricted from obtaining certificates (e.g., due to unresolved Lupon cases)
-    ban_reason TEXT NULL,                              -- Description of the reason for the ban (can be NULL)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP     -- Date when resident record was created
+    resident_id INT PRIMARY KEY,
+    first_name VARCHAR(60) NOT NULL,
+    middle_name VARCHAR(60),
+    last_name VARCHAR(60) NOT NULL,
+    suffix VARCHAR(10),
+    birthday DATE NOT NULL,
+    gender ENUM('Male', 'Female') NOT NULL,
+    civil_status ENUM('Single', 'Married', 'Widowed', 'Separated', 'Annulled') NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    contact_number VARCHAR(20) NULL,
+    email VARCHAR(100) NULL,
+    photo longblob NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 🧾 CERTIFICATES TABLE: Stores every certificate issued to residents
 CREATE TABLE certificates (
     certificate_id INT AUTO_INCREMENT PRIMARY KEY,   -- Unique ID per certificate
     resident_id INT NOT NULL,                        -- Foreign key to the resident who received the certificate
-    certificate_type VARCHAR(100) NOT NULL,          -- Type of certificate issued (e.g., 'Barangay Residency', 'Vehicle Clearance')
+    certificate_type enum,          -- Type of certificate issued (e.g., 'Barangay Residency', 'Vehicle Clearance')
     purpose TEXT NOT NULL,                           -- Stated purpose for which the certificate was issued (e.g., 'For school requirement')
     issued_by_user_id INT,                           -- Foreign key to the user (official) whose name appears as the signatory on the certificate
-    printed_by_user_id INT NOT NULL,                 -- Foreign key to the user (staff) who generated/printed the certificate from the system
+    PDF_File longblob,                     -- File name/path of the generated PDF certificate on the server
     issued_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   -- Date/time when the certificate was issued/printed
-    file_path VARCHAR(255) NULL,                     -- File name/path of the generated PDF certificate on the server
-    certificate_data JSON NULL,                      -- Stores dynamic data (e.g., specific dates, additional clauses) used to generate this particular certificate instance, useful for re-generation or auditing.
     FOREIGN KEY (resident_id) REFERENCES residents(resident_id) ON DELETE CASCADE, -- Deletes associated certificates if resident record is deleted
     FOREIGN KEY (issued_by_user_id) REFERENCES users(user_id) ON DELETE SET NULL, -- Sets to NULL if the signing official's record is deleted
-    FOREIGN KEY (printed_by_user_id) REFERENCES users(user_id) ON DELETE RESTRICT -- Prevents deletion of a user if they have printed certificates (for audit trail)
 );
 
 -- 📄 CERTIFICATE_TEMPLATES TABLE: Stores reusable text templates for certificate generation
-CREATE TABLE certificate_templates (
-    certificate_template_id INT AUTO_INCREMENT PRIMARY KEY, -- Unique ID per template
+CREATE TABLE certificate_logs (
+    certificate_id INT AUTO_INCREMENT PRIMARY KEY,
+    resident_id int NOT NULL,
     type VARCHAR(100) UNIQUE NOT NULL,                      -- Name/type of certificate template (e.g., 'Barangay Residency Template')
     content TEXT NOT NULL,                                  -- Template text with placeholders (e.g., "This is to certify that {{resident_full_name}}, born on {{resident_birthday}}...")
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP          -- When the template was added to the system

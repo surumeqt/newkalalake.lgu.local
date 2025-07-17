@@ -18,6 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirectBasedOnRole($loggedInUser['role']);
         exit;
     } else {
-        echo "Invalid credentials!";
+        $error = 'Invalid credentials!';
     }
 }
+
+?>
+
+<div style="background-color: white; padding: 10px; border-radius: 20px; flex-grow: 1; text-align: center;">
+    <?php if (!empty($error)): ?>
+        <p style="color: red; font-weight: bold; margin-bottom: 10px;"><?php echo $error; ?></p>
+        <a href="../index.php" style="color: blue; text-decoration: underline;">Go back to login</a>
+    <?php else: ?>
+        <p class="text-green-600 font-bold mb-4">Processing login...</p>
+    <?php endif; ?>
+</div>

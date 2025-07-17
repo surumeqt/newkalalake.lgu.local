@@ -5,7 +5,6 @@ include '../backend/helpers/redirects.php';
 redirectIfNotLoggedIn();
 $user_email = $_SESSION['username'];
 $current_page = basename($_SERVER['PHP_SELF']);
-$pdo = (new Connection())->connect();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,6 +82,7 @@ $pdo = (new Connection())->connect();
 
     <script src="js/navigations.js"></script>
     <script src="js/modal.logic.js"></script>
+    <script src="js/functions.js"></script>
 </body>
 
 </html>

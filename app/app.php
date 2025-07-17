@@ -37,7 +37,7 @@
                 </ul>
             </nav>
             <div class="sidebar-footer">
-                <p class="user-email-display"><?php echo htmlspecialchars($user_email); ?></p>
+                <p class="user-email-display"><?php echo htmlspecialchars($user_email ?? 'Unidenteified User!'); ?></p>
                 <button id="logoutButton" class="logout-btn">Logout</button>
             </div>
         </aside>
@@ -46,7 +46,7 @@
             <header class="top-bar">
                 <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
                 <h2 class="current-page-title">Dashboard</h2>
-                <span class="user-greeting">Welcome, <?php echo htmlspecialchars($user_email); ?></span>
+                <span class="user-greeting">Welcome, <?php echo htmlspecialchars($user_email ?? 'Unidenteified User!'); ?></span>
             </header>
             <div class="content-display">
                 <p>Loading Dashboard...</p>

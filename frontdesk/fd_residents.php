@@ -1,22 +1,18 @@
 <?php
-// file: app/frontdesk/fd_residents.php
-include '../backend/config/database.config.php';
 include '../backend/helpers/redirects.php';
+require_once __DIR__ . '/../backend/models/residents.model.php';
 redirectIfNotLoggedIn();
-
-// Initialize PDO connection for this script
-$pdo = (new Connection())->connect();
-
-// Get username from session for display (if used on this page)
 $user_username = $_SESSION['username'] ?? 'Guest';
+$residentsModel = new Residents();
+$records = $residentsModel->getResidents();
 ?>
 
 <div class="page-content-header">
     <h2>Resident Management</h2>
     <div class="header-actions">
         <div class="search-bar">
-            <input type="text" id="residentSearch" class="form-control" placeholder="Search residents...">
-            <button class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            <input type="text" id="residentSearchInput" class="form-control" name="search" placeholder="Search residents...">
+            <button class="btn btn-primary"><i class="fas fa-search" id="residentSearchBtn"></i> Search</button>
         </div>
         <button class="btn btn-success add-resident-btn" id="openModalBtn">
             <i class="fas fa-user-plus"></i> Register New Resident
@@ -43,18 +39,19 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach($records as $rows): ?>
                     <tr>
                         <td>
                             <div class="table-thumbnail">
                                 <i class="fas fa-user-circle default-thumbnail"></i>
                             </div>
                         </td>
-                        <td>Juan Dela Cruz</td>
-                        <td>123 Main St, Brgy. Central</td>
-                        <td>Male</td>
-                        <td>1995-01-15</td>
+                        <td><?= htmlspecialchars($rows['first_name'].' '.$rows['middle_name'].' '.$rows['last_name'].' '.$rows['suffix'] ?? ''); ?></td>
+                        <td><?= htmlspecialchars($rows['address']); ?></td>
+                        <td><?= htmlspecialchars($rows['gender']); ?></td>
+                        <td><?= htmlspecialchars($rows['birthday']); ?></td>
                         <td>Barangay Residency</td>
-                        <td>2024-06-20</td>
+                        <td><?= htmlspecialchars($rows['created_at']); ?></td>
 
                         <td>
                             <button id="OpenNewCertificateRequestModalBtn"
@@ -66,48 +63,7 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                             </button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div class="table-thumbnail">
-                                <i class="fas fa-user-circle default-thumbnail"></i>
-                            </div>
-                        </td>
-                        <td>Maria Clara</td>
-                        <td>456 Side St, Brgy. East</td>
-                        <td>Female</td>
-                        <td>1999-07-22</td>
-                        <td>Vehicle Clearance</td>
-                        <td>2024-05-10</td>
-                        <td>
-                            <button id="issueCertificateModalBtn" class="btn btn-sm btn-primary issue-certificate-btn">
-                                <i class="fas fa-file-alt"></i> Issue
-                            </button>
-                            <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"
-                                data-load-content="true"><i class="fas fa-eye"></i> View
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="table-thumbnail">
-                                <i class="fas fa-user-circle default-thumbnail"></i>
-                            </div>
-                        </td>
-                        <td>Pedro Penduko</td>
-                        <td>789 Old Rd, Brgy. West</td>
-                        <td>Male</td>
-                        <td>1980-03-01</td>
-                        <td>N/A</td>
-                        <td>N/A</td>
-                        <td>
-                            <button id="issueCertificateModalBtn" class="btn btn-sm btn-primary issue-certificate-btn">
-                                <i class="fas fa-file-alt"></i> Issue
-                            </button>
-                            <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"
-                                data-load-content="true"><i class="fas fa-eye"></i> View
-                            </button>
-                        </td>
-                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -123,7 +79,7 @@ $user_username = $_SESSION['username'] ?? 'Guest';
 <div id="AddresidentModal" class="modal-overlay">
     <div class="add-resident-modal-content">
         <h3>Register New Resident</h3>
-        <form id="addResidentForm" class="modal-form">
+        <form id="addResidentForm" class="modal-form" action="../backend/fd_controllers/residents.controller.php" method="POST" enctype="multipart/form-data">
             <div class="form-divider">
                 <div class="form-group">
                     <label for="firstName">First Name:</label>
@@ -145,11 +101,11 @@ $user_username = $_SESSION['username'] ?? 'Guest';
             <div class="form-divider">
                 <div class="form-group">
                     <label for="birthDate">Date of Birth:</label>
-                    <input type="date" id="birthDate" name="birthday" class="form-control" required>
+                    <input type="date" id="birthDate" name="birthday" class="form-control" onblur="reflectAge()" required>
                 </div>
                 <div class="form-group">
                     <label for="age">Age:</label>
-                    <input type="number" id="age" name="age" class="form-control" disabled required>
+                    <input type="number" id="age" name="age" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="gender">Gender:</label>
@@ -176,7 +132,7 @@ $user_username = $_SESSION['username'] ?? 'Guest';
             <div class="form-divider">
                 <div class="form-group">
                     <label for="houseNumber">House No.:</label>
-                    <input type="text" id="houseNumber" name="houseNumber" class="form-control" required>
+                    <input type="text" id="houseNumber" name="houseNumber" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="street">Street:</label>
@@ -184,11 +140,16 @@ $user_username = $_SESSION['username'] ?? 'Guest';
                 </div>
                 <div class="form-group">
                     <label for="purok">Purok/Zone:</label>
-                    <input type="text" id="purok" name="purok" class="form-control" required>
+                    <input type="text" id="purok" name="purok" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="barangay">Barangay:</label>
-                    <input type="text" id="barangay" name="barangay" class="form-control" value="New Kalalake" readonly
+                    <input type="text" id="barangay" name="barangay" class="form-control"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="barangay">City:</label>
+                    <input type="text" id="barangay" name="city" class="form-control"
                         required>
                 </div>
             </div>
