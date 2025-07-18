@@ -557,35 +557,35 @@ function initializeDeleteResidentModal() {
 function initializeNewCertificateRequestModal() {
     console.log("Attempting to initialize New Certificate Request Modal..."); // Debugging
 
-    // Changed to querySelectorAll to select all buttons with the class
-    const openModalBtns = document.querySelectorAll(
-        ".open-new-certificate-modal-btn"
-    );
+    // Removed querySelectorAll for the buttons. We'll use event delegation.
     const newCertificateModal = document.getElementById(
         "NewCertificateRequestModal"
     );
     const closeModalBtn = document.getElementById(
         "CloseNewCertificateRequestModalBtn"
     );
-    // Select the hidden input for resident ID within the modal
     const selectedResidentIdInput = document.getElementById("selectedResidentId");
-    // Select the disabled input that displays the resident's name within the modal
     const residentSearchInputModal = document.querySelector("#NewCertificateRequestModal #residentSearchInput");
-    // Select the span that displays the resident's name in the modal's info section
     const residentNameDisplay = document.getElementById("residentNameDisplay");
+    const residentBanWarning = document.getElementById("residentBanWarning"); // Get the ban warning element
+    const banReasonDisplay = document.getElementById("banReasonDisplay"); // Get the ban reason display element
 
-
-    if (openModalBtns.length > 0 && newCertificateModal && closeModalBtn && selectedResidentIdInput && residentSearchInputModal && residentNameDisplay) {
+    if (newCertificateModal && closeModalBtn && selectedResidentIdInput && residentSearchInputModal && residentNameDisplay && residentBanWarning && banReasonDisplay) {
         console.log(
-            "New Certificate Modal elements found. Attaching listeners."
+            "New Certificate Modal elements found. Attaching listeners via event delegation."
         );
 
-        // Iterate over each "Issue" button and attach a click listener
-        openModalBtns.forEach(button => {
-            button.addEventListener("click", () => {
+        // Event delegation: Attach click listener to a static parent (e.g., document or #residents-body)
+        // We'll use document for broadest coverage.
+        document.addEventListener("click", (event) => {
+            // Check if the clicked element (or one of its parents) has the class 'open-new-certificate-modal-btn'
+            // closest() method checks the element itself, and then its ancestors (parent, grandparent, etc.)
+            const clickedButton = event.target.closest(".open-new-certificate-modal-btn");
+
+            if (clickedButton) {
                 // Get the resident ID and name from the data attributes of the clicked button
-                const residentId = button.getAttribute("data-resident-id");
-                const residentName = button.getAttribute("data-resident-name");
+                const residentId = clickedButton.getAttribute("data-resident-id");
+                const residentName = clickedButton.getAttribute("data-resident-name");
 
                 // Populate the modal fields with the resident's data
                 selectedResidentIdInput.value = residentId;
@@ -593,14 +593,14 @@ function initializeNewCertificateRequestModal() {
                 residentNameDisplay.textContent = residentName; // Update the display text
                 residentNameDisplay.style.display = 'inline'; // Ensure the name display is visible
 
-                // Reset ban warning visibility (assuming it should be hidden by default when opening for a new resident)
-                document.getElementById("residentBanWarning").style.display = 'none';
-                document.getElementById("banReasonDisplay").textContent = '';
+                // Reset ban warning visibility
+                residentBanWarning.style.display = 'none';
+                banReasonDisplay.textContent = '';
 
                 // Open the modal
                 newCertificateModal.classList.add("active");
                 console.log("New Certificate Modal Opened for Resident ID:", residentId, "Name:", residentName);
-            });
+            }
         });
 
         // Event listener for closing the modal using the close button
@@ -612,8 +612,8 @@ function initializeNewCertificateRequestModal() {
             residentSearchInputModal.value = '';
             residentNameDisplay.textContent = 'N/A';
             residentNameDisplay.style.display = 'none';
-            document.getElementById("residentBanWarning").style.display = 'none';
-            document.getElementById("banReasonDisplay").textContent = '';
+            residentBanWarning.style.display = 'none';
+            banReasonDisplay.textContent = '';
         });
 
         // Event listener for closing the modal by clicking outside (on the overlay)
@@ -628,8 +628,8 @@ function initializeNewCertificateRequestModal() {
                 residentSearchInputModal.value = '';
                 residentNameDisplay.textContent = 'N/A';
                 residentNameDisplay.style.display = 'none';
-                document.getElementById("residentBanWarning").style.display = 'none';
-                document.getElementById("banReasonDisplay").textContent = '';
+                residentBanWarning.style.display = 'none';
+                banReasonDisplay.textContent = '';
             }
         });
     } else {
@@ -637,14 +637,19 @@ function initializeNewCertificateRequestModal() {
         console.warn(
             "Could not find all New Certificate Modal elements. This is normal if fd_residents.php is not loaded yet or elements have changed."
         );
-        if (openModalBtns.length === 0) console.warn("Missing .open-new-certificate-modal-btn elements");
+        // Detail what's missing for easier debugging
         if (!newCertificateModal) console.warn("Missing #NewCertificateRequestModal");
         if (!closeModalBtn) console.warn("Missing #CloseNewCertificateRequestModalBtn");
         if (!selectedResidentIdInput) console.warn("Missing #selectedResidentId");
         if (!residentSearchInputModal) console.warn("Missing #NewCertificateRequestModal #residentSearchInput");
         if (!residentNameDisplay) console.warn("Missing #residentNameDisplay");
+        if (!residentBanWarning) console.warn("Missing #residentBanWarning");
+        if (!banReasonDisplay) console.warn("Missing #banReasonDisplay");
     }
 }
+// Make sure this function is called when the DOM is ready
+document.addEventListener('DOMContentLoaded', initializeNewCertificateRequestModal);
+
 
 function initializeDeleteResidentModal() {
     console.log("Attempting to initialize Delete Resident Modal..."); // Debugging
@@ -693,18 +698,23 @@ function initializeBanResidentModal() {
     const openModalBtn = document.getElementById("banResidentModalBtn");
     const banResidentModal = document.getElementById("BanResidentModal");
     const closeModalBtn = document.getElementById("br-closeModalBtn");
+    const confirmBanBtn = document.getElementById("confirmBanResidentBtn"); // New: Get the confirm ban button
+    const banResidentIdInput = document.getElementById("banResidentIdInput"); // New: Get the hidden input for resident ID
 
-    if (openModalBtn && banResidentModal && closeModalBtn) {
+    if (openModalBtn && banResidentModal && closeModalBtn && confirmBanBtn && banResidentIdInput) {
         console.log("Ban Resident Modal elements found. Attaching listeners.");
 
+        // Store resident ID when the modal opens
         openModalBtn.addEventListener("click", () => {
+            const residentId = openModalBtn.getAttribute("data-resident-id");
+            banResidentIdInput.value = residentId; // Set the hidden input's value
             banResidentModal.classList.add("active");
-            console.log("Ban Resident Modal Opened!");
+            console.log("Ban Resident Modal Opened for Resident ID:", residentId);
         });
 
         closeModalBtn.addEventListener("click", () => {
             banResidentModal.classList.remove("active");
-            console.log("Delete Resident Modal Closed!");
+            console.log("Ban Resident Modal Closed!");
         });
 
         // Close modal if overlay is clicked
@@ -714,12 +724,65 @@ function initializeBanResidentModal() {
                 console.log("Ban Resident Modal Closed by clicking outside!");
             }
         });
+
+        // Handle the actual banning process when "Yes, Ban" is clicked
+        confirmBanBtn.addEventListener("click", () => {
+            const residentIdToBan = banResidentIdInput.value;
+
+            if (!residentIdToBan) {
+                console.error("No resident ID found to ban.");
+                alert("Error: Could not ban resident. Resident ID is missing.");
+                banResidentModal.classList.remove("active");
+                return;
+            }
+
+            // Disable the button to prevent multiple clicks
+            confirmBanBtn.disabled = true;
+            confirmBanBtn.textContent = 'Banning...';
+
+            // Send AJAX request to the backend
+            fetch('../backend/fd_controllers/residents.controller.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `action=ban_resident&resident_id=${encodeURIComponent(residentIdToBan)}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    banResidentModal.classList.remove("active");
+                    // Reload the page to show the updated status
+                    location.reload();
+                } else {
+                    alert('Error: ' + (data.message || 'Failed to ban resident.'));
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert('An error occurred while trying to ban the resident. Please try again.');
+            })
+            .finally(() => {
+                // Re-enable the button
+                confirmBanBtn.disabled = false;
+                confirmBanBtn.textContent = 'Yes, Ban';
+            });
+        });
+
     } else {
         console.warn(
             "Could not find all Ban Resident Modal elements. This is normal if fd_resident_profile.php is not loaded yet."
         );
         if (!openModalBtn) console.warn("Missing #banResidentModalBtn");
         if (!banResidentModal) console.warn("Missing #BanResidentModal");
-        if (!closeModalBtn) console.warn("Missing #dr-closeModalBtn");
+        if (!closeModalBtn) console.warn("Missing #br-closeModalBtn");
+        if (!confirmBanBtn) console.warn("Missing #confirmBanResidentBtn");
+        if (!banResidentIdInput) console.warn("Missing #banResidentIdInput");
     }
 }

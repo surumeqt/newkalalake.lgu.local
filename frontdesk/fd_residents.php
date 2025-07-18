@@ -87,7 +87,13 @@ if (!$records) {
                     <tr>
                         <td>
                             <div class="table-thumbnail">
-                                <i class="fas fa-user-circle default-thumbnail"></i>
+                                <?php
+                                $thumbnailSource = '../../assets/img/dummy_resident_' . htmlspecialchars($row['gender'] ?? 'male') . '.jpg';
+                                if (isset($row['photo']) && !empty($row['photo'])) {
+                                    $thumbnailSource = htmlspecialchars($row['photo']);
+                                }
+                                ?>
+                                <img src="<?= $thumbnailSource; ?>" alt="Resident Photo" class="profile-photo-small">
                             </div>
                         </td>
                         <td><?= htmlspecialchars($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['suffix'] ?? ''); ?>
@@ -101,7 +107,7 @@ if (!$records) {
                                     if (!empty($row['purok'])) $displayAddress[] = htmlspecialchars($row['purok']);
                                     if (!empty($row['barangay'])) $displayAddress[] = htmlspecialchars($row['barangay']);
                                     if (!empty($row['city'])) $displayAddress[] = htmlspecialchars($row['city']);
-                                    echo implode(', ', $displayAddress);
+                                    echo implode(', ', array_filter($displayAddress)); // Use array_filter for clean output
                                     ?>
                         </td>
                         <td><?= htmlspecialchars($row['gender']); ?></td>
@@ -109,8 +115,9 @@ if (!$records) {
                         <td>Barangay Residency</td>
                         <td><?= htmlspecialchars($row['created_at']); ?></td>
                         <td>
-                            <button id="OpenNewCertificateRequestModalBtn"
-                                class="btn btn-sm btn-primary issue-certificate-btn open-new-certificate-modal-btn">
+                            <button class="btn btn-sm btn-primary issue-certificate-btn open-new-certificate-modal-btn"
+                                data-resident-id="<?= htmlspecialchars($row['resident_id']); ?>"
+                                data-resident-name="<?= htmlspecialchars($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['suffix'] ?? ''); ?>">
                                 <i class="fas fa-file-alt"></i> Issue
                             </button>
                             <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"

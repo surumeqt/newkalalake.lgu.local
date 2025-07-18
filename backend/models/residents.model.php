@@ -180,4 +180,25 @@ class Residents
             return false;
         }
     }
+    public function banResident(string $residentId): bool
+    {
+        $query = "UPDATE " . $this->table_name . " SET is_banned = TRUE WHERE resident_id = ?";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Sanitize
+        $residentId = htmlspecialchars(strip_tags($residentId));
+
+        // Bind parameter
+        $stmt->bindParam(1, $residentId);
+
+        try {
+            if ($stmt->execute()) {
+                return true;
+            }
+        } catch (PDOException $e) {
+            error_log("Error banning resident: " . $e->getMessage());
+        }
+        return false;
+    }
 }

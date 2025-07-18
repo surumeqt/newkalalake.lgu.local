@@ -57,6 +57,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../../frontdesk/fd_app.php');
         exit(); // Stop script execution after redirect
     }
+    // --- Handle Ban Resident Action ---
+    else if (isset($_POST['action']) && $_POST['action'] === 'ban_resident') {
+        header('Content-Type: application/json'); // Set JSON header for AJAX response
+
+        $residentId = $_POST['resident_id'] ?? null;
+
+        if ($residentId) {
+            if ($residentsModel->banResident($residentId)) {
+                echo json_encode(['success' => true, 'message' => 'Resident successfully banned.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to ban resident. Database error.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Resident ID not provided for banning.']);
+        }
+        exit(); // Stop script execution
+    }
     // --- Handle Live Search / Pagination AJAX requests ---
     // This block *still* needs to return JSON, so the header is set here.
     else if (isset($_POST['residentSearchInput']) || isset($_POST['page'])) {
@@ -149,13 +166,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // For a general "invalid request," you might redirect or show an error page
         $_SESSION['message_type'] = 'error';
         $_SESSION['message'] = 'Invalid or incomplete form submission.';
-        header('Location: ../../frontdesk/fd_residents.php');
+        header('Location: ../../frontdesk/fd_app.php');
         exit();
     }
 } else {
     // If it's not a POST request (e.g., a direct GET to this controller)
     $_SESSION['message_type'] = 'error';
     $_SESSION['message'] = 'Invalid request method.';
-    header('Location: ../../frontdesk/fd_residents.php');
+    header('Location: ../../frontdesk/fd_app.php');
     exit();
 }

@@ -85,21 +85,15 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
                 <p>
                     <strong>Status:</strong>
                     <?php
-                    $statusClass = 'status-inactive'; // Default to inactive
-                    $statusText = 'Inactive';
-                    if (isset($resident['status'])) {
-                        if ($resident['status'] === 'Active') {
-                            $statusClass = 'status-active';
-                            $statusText = 'Active';
-                        } else if ($resident['status'] === 'Banned') {
-                            $statusClass = 'status-banned'; // Assuming you have this CSS class
-                            $statusText = 'Banned';
-                        } else {
-                            // Default or other statuses
-                            $statusClass = 'status-inactive';
-                            $statusText = htmlspecialchars($resident['status']);
-                        }
+                    $statusClass = 'status-active'; // Default to active if not explicitly banned
+                    $statusText = 'Active';
+
+                    // Check if the is_banned column exists and its value
+                    if (isset($resident['is_banned']) && $resident['is_banned'] == 1) { // Check if it's explicitly 1 (true)
+                        $statusClass = 'status-banned';
+                        $statusText = 'Banned';
                     }
+                    // If it's 0 or not set, it defaults to Active by the initial assignment.
                     ?>
                     <span class="status-badge <?= $statusClass; ?>"><?= $statusText; ?></span>
                 </p>
@@ -292,8 +286,9 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
     <div class="modal-content">
         <h3>Confirm Ban</h3>
         <p>Are you sure you want to ban this resident?</p>
+        <input type="hidden" id="banResidentIdInput" value="">
         <div class="modal-actions">
-            <button id="confirmLogout" class="btn btn-confirm">Yes, Ban</button>
+            <button id="confirmBanResidentBtn" class="btn btn-confirm">Yes, Ban</button>
             <button id="br-closeModalBtn" class="btn btn-cancel">Cancel</button>
         </div>
     </div>
