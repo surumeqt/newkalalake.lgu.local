@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2025 at 12:02 PM
+-- Generation Time: Jul 18, 2025 at 05:03 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -85,60 +85,67 @@ CREATE TABLE `residents` (
   `age` int(20) NOT NULL,
   `gender` enum('Male','Female') NOT NULL,
   `civil_status` enum('Single','Married','Widowed','Separated','Annulled') NOT NULL,
-  `address` varchar(100) NOT NULL,
+  `house_number` varchar(20) DEFAULT NULL,
+  `street` varchar(100) DEFAULT NULL,
+  `purok` varchar(100) DEFAULT NULL,
+  `barangay` varchar(100) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
   `contact_number` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `photo` longblob DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `residents`
 --
 
-INSERT INTO `residents` (`resident_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `birthday`, `age`, `gender`, `civil_status`, `address`, `contact_number`, `email`, `photo`, `created_at`) VALUES
-(249449, 'userFN2', 'userMN2', 'userLN2', '', '2017-07-07', 8, 'Female', 'Married', '123, Northon, New Kalalake, Olongapo City', '', '', NULL, '2025-07-17 06:33:54'),
-(930179, 'david', 'baloloy', 'candido', '', '2020-03-04', 5, 'Male', 'Single', '148, Murphy, New Kalalake, Olongapo City', '', '', NULL, '2025-07-17 05:59:25'),
-(2025000001, 'Juan', 'Santos', 'Dela Cruz', NULL, '1990-05-15', 35, 'Male', 'Married', 'Purok 1, Rizal St., Brgy. Barretto, Olongapo City', '09171234567', 'juan.s@example.com', NULL, '2025-07-17 00:00:00'),
-(2025000002, 'Maria', 'Reyes', 'Garcia', NULL, '1988-11-20', 36, 'Female', 'Single', 'Purok 2, Magsaysay Ave., Brgy. East Bajac-Bajac, Olongapo City', '09187654321', 'maria.r@example.com', NULL, '2025-07-17 00:05:00'),
-(2025000003, 'Jose', 'Lim', 'Tan', 'Jr.', '1975-03-10', 50, 'Male', 'Married', 'Purok 3, Quezon St., Brgy. Pag-asa, Olongapo City', '09192345678', 'jose.l@example.com', NULL, '2025-07-17 00:10:00'),
-(2025000004, 'Ana', 'Cruz', 'Sy', NULL, '1995-07-01', 30, 'Female', 'Single', 'Purok 4, Gordon Ave., Brgy. Sta. Rita, Olongapo City', '09203456789', 'ana.c@example.com', NULL, '2025-07-17 00:15:00'),
-(2025000005, 'Pedro', 'Gonzales', 'Lee', NULL, '1980-01-25', 45, 'Male', 'Married', 'Purok 5, Gen. Luna St., Brgy. Kalaklan, Olongapo City', '09214567890', 'pedro.g@example.com', NULL, '2025-07-17 00:20:00'),
-(2025000006, 'Sofia', 'Dela Cruz', 'Chua', NULL, '1992-09-03', 32, 'Female', 'Married', 'Purok 6, Gov. Vicente Magsaysay Ave., Brgy. New Cabalan, Olongapo City', '09225678901', 'sofia.d@example.com', NULL, '2025-07-17 00:25:00'),
-(2025000007, 'Miguel', 'Aquino', 'Go', NULL, '1970-12-12', 54, 'Male', 'Widowed', 'Purok 7, Anonas St., Brgy. Old Cabalan, Olongapo City', '09236789012', 'miguel.a@example.com', NULL, '2025-07-17 00:30:00'),
-(2025000008, 'Isabella', 'Mercado', 'Lim', NULL, '1998-04-28', 27, 'Female', 'Single', 'Purok 8, Sampaguita St., Brgy. Asinan, Olongapo City', '09247890123', 'isabella.m@example.com', NULL, '2025-07-17 00:35:00'),
-(2025000009, 'Carlo', 'Rodriguez', 'Cruz', NULL, '1985-06-05', 40, 'Male', 'Married', 'Purok 9, Daisy St., Brgy. Barretto, Olongapo City', '09258901234', 'carlo.r@example.com', NULL, '2025-07-17 00:40:00'),
-(2025000010, 'Andrea', 'Perez', 'Diaz', NULL, '1993-10-18', 31, 'Female', 'Single', 'Purok 10, Orchid St., Brgy. East Bajac-Bajac, Olongapo City', '09269012345', 'andrea.p@example.com', NULL, '2025-07-17 00:45:00'),
-(2025000011, 'Daniel', 'Gomez', 'Lopez', NULL, '1978-02-22', 47, 'Male', 'Married', 'Purok 11, Sunflower St., Brgy. Pag-asa, Olongapo City', '09270123456', 'daniel.g@example.com', NULL, '2025-07-17 00:50:00'),
-(2025000012, 'Bianca', 'Torres', 'Navarro', NULL, '1991-08-08', 33, 'Female', '', 'Purok 12, Rose St., Brgy. Sta. Rita, Olongapo City', '09281234567', 'bianca.t@example.com', NULL, '2025-07-17 00:55:00'),
-(2025000013, 'Ethan', 'Villanueva', 'Fernandez', NULL, '1983-04-01', 42, 'Male', 'Single', 'Purok 13, Lily St., Brgy. Kalaklan, Olongapo City', '09292345678', 'ethan.v@example.com', NULL, '2025-07-17 01:00:00'),
-(2025000014, 'Chloe', 'Ramirez', 'Santos', NULL, '1996-11-29', 28, 'Female', 'Married', 'Purok 14, Jasmine St., Brgy. New Cabalan, Olongapo City', '09303456789', 'chloe.r@example.com', NULL, '2025-07-17 01:05:00'),
-(2025000015, 'Joshua', 'Santiago', 'Mendoza', NULL, '1972-07-17', 53, 'Male', 'Married', 'Purok 15, Bougainvillea St., Brgy. Old Cabalan, Olongapo City', '09314567890', 'joshua.s@example.com', NULL, '2025-07-17 01:10:00'),
-(2025000016, 'Samantha', 'Cruz', 'Aquino', NULL, '1999-02-14', 26, 'Female', 'Single', 'Purok 16, Camia St., Brgy. Asinan, Olongapo City', '09325678901', 'samantha.c@example.com', NULL, '2025-07-17 01:15:00'),
-(2025000017, 'Kevin', 'Dizon', 'Castro', NULL, '1987-09-09', 37, 'Male', 'Married', 'Purok 17, Ylang-Ylang St., Brgy. Barretto, Olongapo City', '09336789012', 'kevin.d@example.com', NULL, '2025-07-17 01:20:00'),
-(2025000018, 'Michelle', 'Manalo', 'Reyes', NULL, '1994-01-05', 31, 'Female', 'Married', 'Purok 18, Adelfa St., Brgy. East Bajac-Bajac, Olongapo City', '09347890123', 'michelle.m@example.com', NULL, '2025-07-17 01:25:00'),
-(2025000019, 'Aaron', 'Valdez', 'Gonzales', NULL, '1979-05-30', 46, 'Male', 'Single', 'Purok 19, San Roque St., Brgy. Pag-asa, Olongapo City', '09358901234', 'aaron.v@example.com', NULL, '2025-07-17 01:30:00'),
-(2025000020, 'Nicole', 'Garcia', 'Perez', NULL, '1997-12-25', 27, 'Female', 'Single', 'Purok 20, Sto. Rosario St., Brgy. Sta. Rita, Olongapo City', '09369012345', 'nicole.g@example.com', NULL, '2025-07-17 01:35:00'),
-(2025000021, 'Bryan', 'Fabian', 'Sison', NULL, '1982-08-11', 43, 'Male', 'Married', 'Purok 21, Fatima St., Brgy. Kalaklan, Olongapo City', '09370123456', 'bryan.f@example.com', NULL, '2025-07-17 01:40:00'),
-(2025000022, 'Grace', 'Alcantara', 'Abad', NULL, '1990-03-07', 35, 'Female', 'Married', 'Purok 22, Lourdes St., Brgy. New Cabalan, Olongapo City', '09381234567', 'grace.a@example.com', NULL, '2025-07-17 01:45:00'),
-(2025000023, 'Christopher', 'Enriquez', 'Lim', NULL, '1970-10-02', 54, 'Male', 'Married', 'Purok 23, Carmina St., Brgy. Old Cabalan, Olongapo City', '09392345678', 'chris.e@example.com', NULL, '2025-07-17 01:50:00'),
-(2025000024, 'Joy', 'Corpuz', 'David', NULL, '1995-06-19', 30, 'Female', 'Single', 'Purok 24, Gloria St., Brgy. Asinan, Olongapo City', '09403456789', 'joy.c@example.com', NULL, '2025-07-17 01:55:00'),
-(2025000025, 'Mark', 'Ferrer', 'Aquino', NULL, '1980-12-01', 44, 'Male', '', 'Purok 25, Mabini St., Brgy. Barretto, Olongapo City', '09414567890', 'mark.f@example.com', NULL, '2025-07-17 02:00:00'),
-(2025000026, 'Patricia', 'Gutierrez', 'Espiritu', NULL, '1992-04-20', 33, 'Female', 'Single', 'Purok 26, Bonifacio St., Brgy. East Bajac-Bajac, Olongapo City', '09425678901', 'patricia.g@example.com', NULL, '2025-07-17 02:05:00'),
-(2025000027, 'Ronald', 'Santiago', 'Francisco', NULL, '1976-01-14', 49, 'Male', 'Married', 'Purok 27, Del Pilar St., Brgy. Pag-asa, Olongapo City', '09436789012', 'ronald.s@example.com', NULL, '2025-07-17 02:10:00'),
-(2025000028, 'Judy Ann', 'Cruz', 'Reyes', NULL, '1998-08-01', 27, 'Female', 'Married', 'Purok 28, Burgos St., Brgy. Sta. Rita, Olongapo City', '09447890123', 'judy.a@example.com', NULL, '2025-07-17 02:15:00'),
-(2025000029, 'Raymond', 'Torres', 'Zulueta', NULL, '1984-03-29', 41, 'Male', 'Single', 'Purok 29, Lapu-Lapu St., Brgy. Kalaklan, Olongapo City', '09458901234', 'raymond.t@example.com', NULL, '2025-07-17 02:20:00'),
-(2025000030, 'Erica', 'Montes', 'Agustin', NULL, '1993-11-11', 31, 'Female', 'Single', 'Purok 30, Quezon Ave., Brgy. New Cabalan, Olongapo City', '09469012345', 'erica.m@example.com', NULL, '2025-07-17 02:25:00'),
-(2025000031, 'Gary', 'Molina', 'Bautista', NULL, '1971-06-03', 54, 'Male', 'Widowed', 'Purok 31, A. Bonifacio St., Brgy. Old Cabalan, Olongapo City', '09470123456', 'gary.m@example.com', NULL, '2025-07-17 02:30:00'),
-(2025000032, 'Hazel', 'Villafuerte', 'Concepcion', NULL, '1996-09-24', 28, 'Female', 'Married', 'Purok 32, Iba-Zambales Road, Brgy. Asinan, Olongapo City', '09481234567', 'hazel.v@example.com', NULL, '2025-07-17 02:35:00'),
-(2025000033, 'Ivan', 'Lim', 'Domingo', NULL, '1986-02-18', 39, 'Male', 'Single', 'Purok 33, Olongapo-Gapan Road, Brgy. Barretto, Olongapo City', '09492345678', 'ivan.l@example.com', NULL, '2025-07-17 02:40:00'),
-(2025000034, 'Jessica', 'Ramos', 'Eugenio', NULL, '1994-07-07', 31, 'Female', 'Single', 'Purok 34, Rizal Hwy., Brgy. East Bajac-Bajac, Olongapo City', '09503456789', 'jessica.r@example.com', NULL, '2025-07-17 02:45:00'),
-(2025000035, 'Leo', 'Gonzales', 'Flores', NULL, '1977-04-22', 48, 'Male', 'Married', 'Purok 35, Subic-Tipo Road, Brgy. Pag-asa, Olongapo City', '09514567890', 'leo.g@example.com', NULL, '2025-07-17 02:50:00'),
-(2025000036, 'Karen', 'Dela Rosa', 'Gomez', NULL, '1991-09-01', 33, 'Female', 'Married', 'Purok 36, Airport Rd., Brgy. Sta. Rita, Olongapo City', '09525678901', 'karen.d@example.com', NULL, '2025-07-17 02:55:00'),
-(2025000037, 'Patrick', 'Alvarez', 'Hernandez', NULL, '1983-12-15', 41, 'Male', 'Single', 'Purok 37, Tabacuhan St., Brgy. Kalaklan, Olongapo City', '09536789012', 'patrick.a@example.com', NULL, '2025-07-17 03:00:00'),
-(2025000038, 'Monica', 'Soriano', 'Ignacio', NULL, '1999-05-08', 26, 'Female', 'Single', 'Purok 38, Bgy. Hall Rd., Brgy. New Cabalan, Olongapo City', '09547890123', 'monica.s@example.com', NULL, '2025-07-17 03:05:00'),
-(2025000039, 'Vincent', 'Castro', 'Javier', NULL, '1974-07-29', 50, 'Male', 'Married', 'Purok 39, Public Market Rd., Brgy. Old Cabalan, Olongapo City', '09558901234', 'vincent.c@example.com', NULL, '2025-07-17 03:10:00'),
-(2025000040, 'Christine', 'Cruz', 'Kato', NULL, '1997-03-17', 28, 'Female', 'Single', 'Purok 40, National Hwy., Brgy. Asinan, Olongapo City', '09569012345', 'christine.c@example.com', NULL, '2025-07-17 03:15:00');
+INSERT INTO `residents` (`resident_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `birthday`, `age`, `gender`, `civil_status`, `house_number`, `street`, `purok`, `barangay`, `city`, `contact_number`, `email`, `photo`, `created_at`, `updated_at`) VALUES
+(1, 'Maria', 'S.', 'Santos', NULL, '1985-03-10', 40, 'Female', 'Married', '123', 'Acacia St', 'Purok 1', 'New Kalalake', 'Olongapo City', '09171234567', 'maria.santos@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(2, 'Jose', 'L.', 'Reyes', NULL, '1992-07-22', 33, 'Male', 'Single', '45', 'Sampaguita Rd', 'Purok 2', 'Pag-asa', 'Olongapo City', '09187654321', 'jose.reyes@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(3, 'Ana', 'M.', 'Cruz', NULL, '1978-11-05', 47, 'Female', 'Married', '789', 'Mabini Ave', 'Purok 3', 'Barretto', 'Olongapo City', '09191122334', 'ana.cruz@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(4, 'Pedro', 'D.', 'Lim', 'Jr.', '1995-01-30', 30, 'Male', 'Single', '10', 'Orchid St', 'Purok 4', 'Gordon Heights', 'Olongapo City', '09204455667', 'pedro.lim@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(5, 'Sophia', 'G.', 'Mercado', NULL, '1980-09-12', 45, 'Female', 'Widowed', '56', 'Rosewood Dr', 'Purok 5', 'Sta. Rita', 'Olongapo City', '09218899001', 'sophia.mercado@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(6, 'Daniel', 'A.', 'Garcia', NULL, '1988-04-25', 37, 'Male', 'Married', '22', 'Jasmine Blvd', 'Purok 1', 'East Bajac-Bajac', 'Olongapo City', '09223344556', 'daniel.garcia@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(7, 'Isabella', 'F.', 'Martinez', NULL, '1998-02-18', 27, 'Female', 'Single', '87', 'Tulip Lane', 'Purok 2', 'West Bajac-Bajac', 'Olongapo City', '09236677889', 'isabella.martinez@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(8, 'Christian', 'K.', 'Gonzales', NULL, '1975-06-01', 50, 'Male', 'Separated', '333', 'Daisy St', 'Purok 3', 'Olongapo Proper', 'Olongapo City', '09249900112', 'christian.gonzales@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(9, 'Olivia', 'P.', 'Rodriguez', NULL, '1990-10-08', 35, 'Female', 'Married', '99', 'Sunflower Ave', 'Purok 4', 'Asinan', 'Olongapo City', '09252233445', 'olivia.rodriguez@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(10, 'Ethan', 'C.', 'Perez', NULL, '1983-12-03', 42, 'Male', 'Single', '111', 'Lotus Rd', 'Purok 5', 'Wawa', 'Olongapo City', '09265566778', 'ethan.perez@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(11, 'Ava', 'B.', 'Gomez', NULL, '1993-08-14', 32, 'Female', 'Married', '44', 'Pine St', 'Purok 1', 'Bani', 'Olongapo City', '09179876543', 'ava.gomez@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(12, 'Noah', 'J.', 'Torres', NULL, '1987-01-20', 38, 'Male', 'Single', '77', 'Maple Dr', 'Purok 2', 'Kababae', 'Olongapo City', '09183456789', 'noah.torres@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(13, 'Mia', 'E.', 'Aquino', NULL, '1996-03-28', 29, 'Female', 'Married', '555', 'Cedar Ln', 'Purok 3', 'New Asinan', 'Olongapo City', '09190099887', 'mia.aquino@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(14, 'Liam', 'V.', 'Ramos', NULL, '1981-07-07', 44, 'Male', 'Widowed', '66', 'Oak St', 'Purok 4', 'Old Cabalan', 'Olongapo City', '09207766554', 'liam.ramos@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(15, 'Chloe', 'H.', 'Castro', NULL, '1999-04-02', 26, 'Female', 'Single', '888', 'Birch Ave', 'Purok 5', 'New Cabalan', 'Olongapo City', '09214433221', 'chloe.castro@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(16, 'Benjamin', 'N.', 'De Leon', NULL, '1970-11-19', 55, 'Male', 'Married', '12', 'Elm St', 'Purok 1', 'Gordon Heights', 'Olongapo City', '09221122334', 'benjamin.deleon@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(17, 'Ella', 'R.', 'Ferrer', NULL, '1994-06-29', 31, 'Female', 'Single', '345', 'Willow Rd', 'Purok 2', 'Barretto', 'Olongapo City', '09238877665', 'ella.ferrer@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(18, 'Lucas', 'W.', 'Santiago', NULL, '1986-09-09', 39, 'Male', 'Separated', '67', 'Spruce Ln', 'Purok 3', 'Pag-asa', 'Olongapo City', '09245544332', 'lucas.santiago@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(19, 'Grace', 'D.', 'Castañeda', NULL, '1991-05-23', 34, 'Female', 'Married', '90', 'Fir St', 'Purok 4', 'New Kalalake', 'Olongapo City', '09252211009', 'grace.castaneda@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(20, 'Samuel', 'T.', 'Cruz', NULL, '1979-02-11', 46, 'Male', 'Single', '101', 'Poplar Blvd', 'Purok 5', 'Sta. Rita', 'Olongapo City', '09269988776', 'samuel.cruz@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(21, 'Lily', 'Z.', 'Diaz', NULL, '1997-10-01', 28, 'Female', 'Single', '20', 'Palm Ave', 'Purok 1', 'East Tapinac', 'Olongapo City', '09171212121', 'lily.diaz@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(22, 'David', 'X.', 'Fabian', NULL, '1984-04-04', 41, 'Male', 'Married', '300', 'Coconut St', 'Purok 2', 'West Tapinac', 'Olongapo City', '09183434343', 'david.fabian@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(23, 'Zoe', 'Q.', 'Esteban', NULL, '1973-12-16', 52, 'Female', 'Widowed', '400', 'Mango Ln', 'Purok 3', 'Kalaklan', 'Olongapo City', '09195656565', 'zoe.esteban@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(24, 'Gabriel', 'Y.', 'Flores', NULL, '1990-07-09', 35, 'Male', 'Single', '50', 'Avocado Rd', 'Purok 4', 'Manggahan', 'Olongapo City', '09207878787', 'gabriel.flores@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(25, 'Hannah', 'U.', 'Ignacio', NULL, '1982-01-22', 43, 'Female', 'Married', '60', 'Banana Blvd', 'Purok 5', 'San Isidro', 'Olongapo City', '09219090909', 'hannah.ignacio@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(26, 'Isaac', 'I.', 'Javier', NULL, '1996-08-05', 29, 'Male', 'Single', '700', 'Guava St', 'Purok 1', 'Amoranto', 'Olongapo City', '09221133557', 'isaac.javier@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(27, 'Nora', 'O.', 'Lopez', NULL, '1976-03-17', 49, 'Female', 'Separated', '80', 'Papaya Ave', 'Purok 2', 'Cabalan', 'Olongapo City', '09232244668', 'nora.lopez@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(28, 'Leo', 'E.', 'Montes', NULL, '1989-11-29', 36, 'Male', 'Married', '900', 'Rambutan Rd', 'Purok 3', 'Gordon Heights', 'Olongapo City', '09243355779', 'leo.montes@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(29, 'Ruby', 'D.', 'Nario', NULL, '1992-05-06', 33, 'Female', 'Single', '1000', 'Durian St', 'Purok 4', 'Barretto', 'Olongapo City', '09254466880', 'ruby.nario@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(30, 'Caleb', 'M.', 'Ocampo', NULL, '1980-09-03', 45, 'Male', 'Widowed', '1100', 'Lanzones Blvd', 'Purok 5', 'Pag-asa', 'Olongapo City', '09265577991', 'caleb.ocampo@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(31, 'Scarlett', 'F.', 'Palma', NULL, '1995-02-20', 30, 'Female', 'Single', '120', 'Lychee St', 'Purok 1', 'New Kalalake', 'Olongapo City', '09176688002', 'scarlett.palma@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(32, 'Owen', 'G.', 'Quinto', NULL, '1983-07-11', 42, 'Male', 'Married', '130', 'Dragonfruit Ave', 'Purok 2', 'Sta. Rita', 'Olongapo City', '09187799113', 'owen.quinto@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(33, 'Victoria', 'H.', 'Ramos', NULL, '1977-04-18', 48, 'Female', 'Single', '140', 'Jackfruit Rd', 'Purok 3', 'East Bajac-Bajac', 'Olongapo City', '09198800224', 'victoria.ramos@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(34, 'Elijah', 'I.', 'Sarmiento', NULL, '1991-09-27', 34, 'Male', 'Married', '150', 'Pomelo St', 'Purok 4', 'West Bajac-Bajac', 'Olongapo City', '09209911335', 'elijah.sarmiento@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(35, 'Penelope', 'J.', 'Tadeo', NULL, '1986-06-05', 39, 'Female', 'Widowed', '160', 'Santol Blvd', 'Purok 5', 'Olongapo Proper', 'Olongapo City', '09210022446', 'penelope.tadeo@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(36, 'Julian', 'K.', 'Ubalde', NULL, '1998-01-10', 27, 'Male', 'Single', '170', 'Atis Ave', 'Purok 1', 'Asinan', 'Olongapo City', '09221133558', 'julian.ubalde@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(37, 'Aria', 'L.', 'Valdez', NULL, '1974-11-24', 51, 'Female', 'Married', '180', 'Guyabano Rd', 'Purok 2', 'Wawa', 'Olongapo City', '09232244669', 'aria.valdez@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(38, 'Milo', 'M.', 'Yap', NULL, '1989-03-08', 36, 'Male', 'Separated', '190', 'Mangosteen St', 'Purok 3', 'Bani', 'Olongapo City', '09243355770', 'milo.yap@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(39, 'Hazel', 'N.', 'Zulueta', NULL, '1993-08-17', 32, 'Female', 'Single', '200', 'Caimito Blvd', 'Purok 4', 'Kababae', 'Olongapo City', '09254466881', 'hazel.zulueta@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(40, 'Jasper', 'O.', 'Abad', NULL, '1981-12-01', 44, 'Male', 'Married', '210', 'Duhat Ave', 'Purok 5', 'New Asinan', 'Olongapo City', '09265577992', 'jasper.abad@email.com', NULL, '2025-07-18 01:45:27', '2025-07-18 02:43:39'),
+(162739, 'david', 'baloloy', 'candido', '', '2002-03-29', 23, 'Male', 'Single', '148', 'Murphy', '', 'New Kalalake', 'Olongapo City', '09123456789', 'Dave@local.lgu', NULL, '2025-07-18 02:10:01', '2025-07-18 02:43:39'),
+(455286, 'test 1', 'test 1', 'test 1', 'jr.', '2009-02-03', 16, 'Male', 'Annulled', '123', 'Northon', '2', 'New Kalalake', 'Olongapo City', '09123456789', 'test1@demo.com', NULL, '2025-07-18 02:45:44', '2025-07-18 02:45:44'),
+(270791, 'test 2', 'test 2', 'test 2', '', '2000-03-12', 25, 'Male', 'Separated', '123', 'Northon', '2', 'New Kalalake', 'Olongapo City', '09123456789', 'test2@demo.com', NULL, '2025-07-18 02:56:33', '2025-07-18 02:56:33'),
+(319543, 'test 3', 'test 3', 'test 3', 'jr.', '2014-07-09', 11, 'Female', 'Single', '123', 'Murphy', '1', 'New Kalalake', 'Olongapo City', '09123456789', 'demo21@demo.com', NULL, '2025-07-18 03:00:05', '2025-07-18 03:00:05');
 
 -- --------------------------------------------------------
 
@@ -203,12 +210,6 @@ ALTER TABLE `documents`
 ALTER TABLE `hearings`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Docket_Case_Number` (`Docket_Case_Number`);
-
---
--- Indexes for table `residents`
---
-ALTER TABLE `residents`
-  ADD PRIMARY KEY (`resident_id`);
 
 --
 -- Indexes for table `summary`

@@ -843,21 +843,17 @@ body {
 
 /* Profile Sections (Basic Info, Address, Admin Info) */
 .profile-sections {
-    display: flex; /* Use flexbox */
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    gap: var(--spacing-md); /* Gap between flex items */
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr; /* Default to single column */
     margin-bottom: var(--spacing-lg);
-    justify-content: center; /* Centers items if they don't fill the row completely */
-    align-items: flex-start; /* Aligns items to the top if they have different heights */
 }
 
 .profile-section {
     background-color: var(--bg-white);
     padding: var(--spacing-md);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     box-shadow: var(--shadow-subtle);
-    /* Default to full width on small screens */
-    flex: 1 1 100%; /* flex-grow, flex-shrink, flex-basis */
 }
 
 .profile-section h4 {
@@ -880,7 +876,7 @@ body {
 
 .profile-section p strong {
     color: var(--light-text);
-    min-width: 120px; /* Keep this if you want labels aligned */
+    min-width: 120px;
     display: inline-block;
 }
 
@@ -891,9 +887,9 @@ body {
     gap: var(--spacing-xs);
     justify-content: center;
     padding-top: var(--spacing-md);
-    border-top: 1px solid var(--border-light);
-    margin-top: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
+    /* border-top: 1px solid var(--border-light); */
+    margin-top: var(--spacing-md);
+    /* margin-bottom: var(--spacing-lg); */
 }
 
 .profile-actions-bar .btn {

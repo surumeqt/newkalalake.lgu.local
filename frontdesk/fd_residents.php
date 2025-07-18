@@ -3,6 +3,23 @@ include '../backend/helpers/redirects.php';
 require_once __DIR__ . '/../backend/models/residents.model.php';
 redirectIfNotLoggedIn();
 
+// Check for and display messages
+if (isset($_SESSION['message'])) {
+    $message_type = $_SESSION['message_type'] ?? 'info'; // 'success', 'error', 'info', 'warning'
+    $message = $_SESSION['message'];
+
+    // Clear the session messages so they don't reappear on refresh
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
+?>
+<div class="alert alert-<?= $message_type; ?> alert-dismissible fade show" role="alert">
+    <?= htmlspecialchars($message); ?>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<?php
+}
 $user_username = $_SESSION['username'] ?? 'Guest';
 $residentsModel = new Residents();
 
@@ -66,8 +83,7 @@ if (!$records) {
                         <td colspan="8" style="text-align: center; padding: 20px;">No residents found.</td>
                     </tr>
                     <?php else: ?>
-                    <?php foreach ($records as $row): // Changed $rows to $row for consistency and clarity 
-                        ?>
+                    <?php foreach ($records as $row): ?>
                     <tr>
                         <td>
                             <div class="table-thumbnail">
@@ -76,7 +92,18 @@ if (!$records) {
                         </td>
                         <td><?= htmlspecialchars($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['suffix'] ?? ''); ?>
                         </td>
-                        <td><?= htmlspecialchars($row['address']); ?></td>
+                        <td>
+                            <?php
+                                    // Construct the full address for display from new columns
+                                    $displayAddress = [];
+                                    if (!empty($row['house_number'])) $displayAddress[] = htmlspecialchars($row['house_number']);
+                                    if (!empty($row['street'])) $displayAddress[] = htmlspecialchars($row['street']);
+                                    if (!empty($row['purok'])) $displayAddress[] = htmlspecialchars($row['purok']);
+                                    if (!empty($row['barangay'])) $displayAddress[] = htmlspecialchars($row['barangay']);
+                                    if (!empty($row['city'])) $displayAddress[] = htmlspecialchars($row['city']);
+                                    echo implode(', ', $displayAddress);
+                                    ?>
+                        </td>
                         <td><?= htmlspecialchars($row['gender']); ?></td>
                         <td><?= htmlspecialchars($row['birthday']); ?></td>
                         <td>Barangay Residency</td>
@@ -121,7 +148,9 @@ if (!$records) {
 
 <div id="AddresidentModal" class="modal-overlay">
     <div class="add-resident-modal-content">
-        <h3>Register New Resident</h3>
+        <h3 style="margin-bottom:2rem; font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">
+            RegisterNew
+            Resident</h3>
         <form id="addResidentForm" class="modal-form" action="../backend/fd_controllers/residents.controller.php"
             method="POST" enctype="multipart/form-data">
             <div class="form-divider">
@@ -145,8 +174,7 @@ if (!$records) {
             <div class="form-divider">
                 <div class="form-group">
                     <label for="birthDate">Date of Birth:</label>
-                    <input type="date" id="birthDate" name="birthday" class="form-control" onblur="reflectAge()"
-                        required>
+                    <input type="date" id="birthDate" name="birthday" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="age">Age:</label>

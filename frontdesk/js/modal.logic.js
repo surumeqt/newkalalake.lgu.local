@@ -171,41 +171,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let currentResidentIdForCertificates = null;
 
-// Function to initialize the Add Resident Modal (existing from your files)
-function initializeAddResidentModal() {
-    console.log("Attempting to initialize Add Resident Modal..."); // Debugging
+// frontdesk\js\modal.logic.js
+// (Add this function or merge its contents into your existing initializeAddResidentModal if present)
 
-    const openModalBtn = document.getElementById("openModalBtn");
+// frontdesk\js\modal.logic.js
+
+function initializeAddResidentModal() {
+    console.log("Initializing Add Resident Modal listeners...");
+    const birthDateInput = document.getElementById("birthDate");
+    const ageInput = document.getElementById("age"); // Get age input as well
     const addResidentModal = document.getElementById("AddresidentModal");
     const closeModalBtn = document.getElementById("closeModalBtn");
 
-    if (openModalBtn && addResidentModal && closeModalBtn) {
-        console.log("Add Resident Modal elements found. Attaching listeners.");
+    // NEW: Get the button that opens the modal
+    const openModalBtn = document.getElementById("openModalBtn");
 
-        openModalBtn.addEventListener("click", () => {
-            addResidentModal.classList.add("active");
+
+    if (birthDateInput && ageInput && addResidentModal && closeModalBtn && openModalBtn) {
+        console.log("Found all Add Resident Modal elements. Attaching listeners.");
+
+        // Attach the 'blur' event listener to the birthDate input
+        // When the birthDate input loses focus, reflectAge() will be called
+        birthDateInput.addEventListener('blur', reflectAge);
+        
+        // Optionally, if you want it to update immediately as date is picked (some date pickers might not trigger blur)
+        // birthDateInput.addEventListener('change', reflectAge);
+
+        // NEW: Add event listener for the button that opens the modal
+        openModalBtn.addEventListener('click', () => {
+            addResidentModal.classList.add('active');
             console.log("Add Resident Modal Opened!");
         });
 
-        closeModalBtn.addEventListener("click", () => {
-            addResidentModal.classList.remove("active");
+        // Add event listener for the close button
+        closeModalBtn.addEventListener('click', () => {
+            addResidentModal.classList.remove('active');
             console.log("Add Resident Modal Closed!");
+            // Optional: clear form fields when closing
+            document.getElementById('addResidentForm').reset();
+            ageInput.value = ""; // Clear age field specifically
         });
 
-        // Close modal if overlay is clicked
-        addResidentModal.addEventListener("click", (event) => {
+        // Add event listener for clicking outside the modal content to close it
+        addResidentModal.addEventListener('click', (event) => {
             if (event.target === addResidentModal) {
-                addResidentModal.classList.remove("active");
+                addResidentModal.classList.remove('active');
                 console.log("Add Resident Modal Closed by clicking outside!");
+                document.getElementById('addResidentForm').reset();
+                ageInput.value = ""; // Clear age field specifically
             }
         });
+
     } else {
-        console.warn(
-            "Could not find all Add Resident Modal elements. This is normal if fd_residents.php is not loaded yet."
-        );
-        if (!openModalBtn) console.warn("Missing #openModalBtn");
-        if (!addResidentModal) console.warn("Missing #AddresidentModal");
-        if (!closeModalBtn) console.warn("Missing #closeModalBtn");
+        console.warn("Could not find all elements for Add Resident Modal initialization. Check IDs and if content is loaded.");
+        if (!birthDateInput) console.warn("Missing #birthDate input.");
+        if (!ageInput) console.warn("Missing #age input.");
+        if (!addResidentModal) console.warn("Missing #AddresidentModal.");
+        if (!closeModalBtn) console.warn("Missing #closeModalBtn (for Add Resident Modal).");
+        if (!openModalBtn) console.warn("Missing #openModalBtn (for opening Add Resident Modal)."); // NEW warning
     }
 }
 
@@ -255,8 +278,10 @@ function initializeSelectCertificateTypeModal() {
 }
 
 // Function to initialize the Edit Resident Modal (existing from your files)
+// frontdesk\js\modal.logic.js
+
 function initializeEditResidentModal() {
-    console.log("Attempting to initialize Edit Resident Modal..."); // Debugging
+    console.log("Attempting to initialize Edit Resident Modal...");
 
     const OpenEditResidentModalBtn = document.getElementById(
         "OpenEditResidentModalBtn"
@@ -266,21 +291,93 @@ function initializeEditResidentModal() {
         "CloseEditResidentModalBtn"
     );
 
+    // Get references to all input fields in the edit modal (using the new 'edit_' prefixed IDs)
+    const form = document.getElementById("editResidentForm");
+    const editFirstName = document.getElementById("edit_firstName");
+    const editMiddleName = document.getElementById("edit_middleName");
+    const editLastName = document.getElementById("edit_lastName");
+    const editSuffix = document.getElementById("edit_suffix");
+    const editBirthDate = document.getElementById("edit_birthDate");
+    const editAge = document.getElementById("edit_age"); // This is disabled, updated by reflectAge
+    const editGender = document.getElementById("edit_gender");
+    const editCivilStatus = document.getElementById("edit_civilStatus");
+    const editHouseNumber = document.getElementById("edit_houseNumber");
+    const editStreet = document.getElementById("edit_street");
+    const editPurok = document.getElementById("edit_purok");
+    const editBarangay = document.getElementById("edit_barangay");
+    const editCity = document.getElementById("edit_city");
+    const editContactNumber = document.getElementById("edit_contact_number");
+    const editEmail = document.getElementById("edit_email");
+    const editResidentIdHidden = document.getElementById("edit_residentId"); // Hidden ID field
+    // const currentResidentPhoto = document.getElementById("currentResidentPhoto"); // If you added img tag for photo
+
+
     if (
         OpenEditResidentModalBtn &&
         EditResidentModal &&
-        CloseEditResidentModalBtn
+        CloseEditResidentModalBtn &&
+        editFirstName && // Check at least one key field
+        editBirthDate && // Ensure all critical fields exist
+        editGender &&
+        editResidentIdHidden
     ) {
         console.log("Edit Resident Modal elements found. Attaching listeners.");
+
+        // Add 'blur' listener for birthDate to automatically calculate age
+        editBirthDate.addEventListener('blur', () => {
+            reflectAgeForEditModal(); // A new specific function for this modal
+        });
+        // You might also want 'change' for date pickers that don't blur immediately
+        // editBirthDate.addEventListener('change', reflectAgeForEditModal);
 
         OpenEditResidentModalBtn.addEventListener("click", () => {
             EditResidentModal.classList.add("active");
             console.log("Edit Resident Modal Opened!");
+
+            // Populate the form fields with current resident data
+            if (residentDataForEdit) {
+                editResidentIdHidden.value = residentDataForEdit.resident_id || '';
+                editFirstName.value = residentDataForEdit.first_name || '';
+                editMiddleName.value = residentDataForEdit.middle_name || '';
+                editLastName.value = residentDataForEdit.last_name || '';
+                editSuffix.value = residentDataForEdit.suffix || '';
+                editBirthDate.value = residentDataForEdit.birthday || ''; // Date fields need YYYY-MM-DD
+                // No need to set editAge directly as it's calculated
+
+                // For select elements, set the value directly
+                editGender.value = residentDataForEdit.gender || '';
+                editCivilStatus.value = residentDataForEdit.civil_status || '';
+
+                editHouseNumber.value = residentDataForEdit.houseNumber || '';
+                editStreet.value = residentDataForEdit.street || '';
+                editPurok.value = residentDataForEdit.purok || '';
+                editBarangay.value = residentDataForEdit.barangay || '';
+                editCity.value = residentDataForEdit.city || '';
+                editContactNumber.value = residentDataForEdit.contact_number || '';
+                editEmail.value = residentDataForEdit.email || '';
+
+                // If you have an image tag for the current photo:
+                // if (currentResidentPhoto && residentDataForEdit.photo_path) {
+                //     currentResidentPhoto.src = residentDataForEdit.photo_path; // Assuming photo_path is the URL
+                //     currentResidentPhoto.style.display = 'block';
+                // } else if (currentResidentPhoto) {
+                //     currentResidentPhoto.style.display = 'none';
+                // }
+
+                // After populating birthDate, reflect the age
+                reflectAgeForEditModal();
+            } else {
+                console.warn("No resident data available to populate the edit modal.");
+                // Optionally clear the form if no data is present
+                form.reset();
+            }
         });
 
         CloseEditResidentModalBtn.addEventListener("click", () => {
             EditResidentModal.classList.remove("active");
             console.log("Edit Resident Modal Closed!");
+            form.reset(); // Clear the form on close
+            editAge.value = ""; // Clear age field specifically
         });
 
         // Close modal if overlay is clicked
@@ -288,17 +385,83 @@ function initializeEditResidentModal() {
             if (event.target === EditResidentModal) {
                 EditResidentModal.classList.remove("active");
                 console.log("Edit Resident Modal Closed by clicking outside!");
+                form.reset(); // Clear the form on close
+                editAge.value = ""; // Clear age field specifically
             }
         });
+
+        // Add form submission listener for saving data (AJAX)
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this); // 'this' refers to the form
+            // You might want to remove the 'age' field from formData if it's disabled and not part of your backend
+            formData.delete('age'); 
+            
+            console.log("Submitting Edit Resident Form...");
+
+            fetch('../backend/fd_controllers/residents.controller.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json(); // Assuming your backend returns JSON response
+            })
+            .then(data => {
+                console.log("Edit response:", data);
+                if (data.success) {
+                    alert('Resident updated successfully!');
+                    EditResidentModal.classList.remove('active'); // Close modal
+                    // OPTIONAL: Reload the content to show updated profile
+                    // This assumes loadContent is available from navigations.js
+                    // You might need to make loadContent a global function or pass it.
+                    // For now, a full page reload is simpler if not using full SPA
+                    window.location.reload(); 
+                } else {
+                    alert('Error updating resident: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error during resident update:", error);
+                alert('An error occurred during update: ' + error.message);
+            });
+        });
+
     } else {
         console.warn(
-            "Could not find all Edit Resident Modal elements. This is normal if fd_residents.php is not loaded yet."
+            "Could not find all Edit Resident Modal elements. This is normal if fd_resident_profile.php is not loaded yet, or IDs are mismatched."
         );
-        if (!OpenEditResidentModalBtn)
-            console.warn("Missing #OpenEditResidentModalBtn");
+        // More specific warnings for debugging
+        if (!OpenEditResidentModalBtn) console.warn("Missing #OpenEditResidentModalBtn");
         if (!EditResidentModal) console.warn("Missing #EditResidentModal");
-        if (!CloseEditResidentModalBtn)
-            console.warn("Missing #CloseEditResidentModalBtn");
+        if (!CloseEditResidentModalBtn) console.warn("Missing #CloseEditResidentModalBtn");
+        if (!editFirstName) console.warn("Missing #edit_firstName (or other form fields). Check all 'edit_' prefixed IDs.");
+        if (!editResidentIdHidden) console.warn("Missing #edit_residentId hidden input.");
+    }
+}
+
+// Helper function for age calculation in the edit modal
+function reflectAgeForEditModal() {
+    const birthdayInput = document.getElementById("edit_birthDate");
+    const ageInput = document.getElementById("edit_age");
+
+    if (birthdayInput && ageInput && birthdayInput.value) {
+        const birthDate = new Date(birthdayInput.value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (
+            monthDiff < 0 ||
+            (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+            age--;
+        }
+        ageInput.value = age;
+    } else if (ageInput) {
+        ageInput.value = "";
     }
 }
 

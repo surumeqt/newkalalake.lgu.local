@@ -1,7 +1,12 @@
+// frontdesk\js\functions.js
+
 function reflectAge() {
-    const birthday = document.getElementById("birthday").value;
-    if (birthday) {
-        const birthDate = new Date(birthday);
+    // CORRECTED: Changed "birthday" to "birthDate" to match the HTML ID
+    const birthdayInput = document.getElementById("birthDate");
+
+    if (birthdayInput && birthdayInput.value) {
+        // Check if input exists and has a value
+        const birthDate = new Date(birthdayInput.value);
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -13,7 +18,11 @@ function reflectAge() {
         }
         document.getElementById("age").value = age;
     } else {
-        document.getElementById("age").value = "";
+        // If no birthday is selected, clear the age field
+        const ageInput = document.getElementById("age");
+        if (ageInput) {
+            ageInput.value = "";
+        }
     }
 }
 

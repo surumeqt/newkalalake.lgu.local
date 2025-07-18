@@ -16,9 +16,9 @@ $residentName = "Loading Resident..."; // Default text while loading
 $residentDisplayId = "Loading...";
 $residentAge = "N/A"; // Initialize age
 
-// Check if an ID is passed in the URL and if it's a valid number
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $residentId = (int)$_GET['id']; // Cast to integer for security and type consistency
+// Check if an ID is passed in the URL and if it's a valid string (resident_id is VARCHAR)
+if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
+    $residentId = $_GET['id'];
 
     // Instantiate the Residents model
     $residentsModel = new Residents();
@@ -68,8 +68,16 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     <div class="card-body">
         <div class="profile-header">
             <div class="profile-photo-area">
-                <img src="../../assets/img/dummy_resident_<?= htmlspecialchars($resident['gender'] ?? 'male'); ?>.jpg"
-                    alt="Resident Photo" class="profile-photo">
+                <?php
+                // Determine photo source: actual photo if available, otherwise dummy based on gender
+                $photoSource = '../../assets/img/dummy_resident_' . htmlspecialchars($resident['gender'] ?? 'male') . '.jpg';
+                if (isset($resident['photo']) && !empty($resident['photo'])) {
+                    // Assuming 'photo' column stores the relative path to the image
+                    // Adjust path if your actual images are stored differently
+                    $photoSource = htmlspecialchars($resident['photo']);
+                }
+                ?>
+                <img src="<?= $photoSource; ?>" alt="Resident Photo" class="profile-photo">
             </div>
             <div class="profile-details-summary">
                 <h3><?= htmlspecialchars($residentName); ?></h3>
@@ -98,7 +106,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             </div>
         </div>
 
-        <?php if ($resident): // Only display details if a resident was found 
+        <?php if ($resident): // Only display details if a resident was found
         ?>
         <div class="profile-sections">
             <div class="profile-section basic-info-section">
@@ -107,11 +115,17 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 <p><strong>Age:</strong> <?= htmlspecialchars($residentAge); ?></p>
                 <p><strong>Gender:</strong> <?= htmlspecialchars($resident['gender'] ?? 'N/A'); ?></p>
                 <p><strong>Civil Status:</strong> <?= htmlspecialchars($resident['civil_status'] ?? 'N/A'); ?></p>
-                <p><strong>Contact No.:</strong> <?= htmlspecialchars($resident['contact_no'] ?? 'N/A'); ?></p>
+                <p><strong>Contact No.:</strong> <?= htmlspecialchars($resident['contact_number'] ?? 'N/A'); ?></p>
                 <p><strong>Email:</strong><?= htmlspecialchars($resident['email'] ?? 'N/A'); ?></p>
+            </div>
+            <div class="profile-section address-info-section">
                 <h4><i class="fas fa-map-marker-alt"></i> Address</h4>
-                <p><strong>Address:</strong> <?= htmlspecialchars($resident['address'] ?? 'N/A'); ?></p>
-                <p><strong>Purok/Zone:</strong> <?= htmlspecialchars($resident['purok_zone'] ?? 'N/A'); ?></p>
+                <p><strong>House No:</strong> <?= htmlspecialchars($resident['house_number'] ?? 'N/A'); ?></p>
+                <p><strong>Street:</strong> <?= htmlspecialchars($resident['street'] ?? 'N/A'); ?></p>
+                <p><strong>Purok/Zone:</strong> <?= htmlspecialchars($resident['purok'] ?? 'N/A'); ?></p>
+                <p><strong>Barangay:</strong> <?= htmlspecialchars($resident['barangay'] ?? 'N/A'); ?></p>
+                <p><strong>City:</strong> <?= htmlspecialchars($resident['city'] ?? 'N/A'); ?></p>
+
             </div>
             <div>
                 <div class="profile-section admin-info-section">
@@ -121,7 +135,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <?= htmlspecialchars($resident['updated_at'] ?? $resident['created_at'] ?? 'N/A'); ?></p>
 
                 </div>
-                <div class="profile-section profile-actions-bar" style="height: 100%;">
+                <div class="profile-section profile-actions-bar">
                     <button id="OpenEditResidentModalBtn" class="btn btn-warning edit-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>">
                         <i class="fas fa-edit"></i> Edit Profile
@@ -136,11 +150,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     </button>
                 </div>
             </div>
-
-
         </div>
-
-
         <?php else: ?>
         <p class="text-center text-danger">No resident data available.</p>
         <?php endif; ?>
@@ -176,43 +186,43 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         <form id="editResidentForm" class="modal-form">
             <div class="form-divider">
                 <div class="form-group">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" name="first_name" class="form-control" required>
+                    <label for="edit_firstName">First Name:</label>
+                    <input type="text" id="edit_firstName" name="first_name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="middleName">Middle Name/Initial:</label>
-                    <input type="text" id="middleName" name="middle_name" class="form-control">
+                    <label for="edit_middleName">Middle Name/Initial:</label>
+                    <input type="text" id="edit_middleName" name="middle_name" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="last_name" class="form-control" required>
+                    <label for="edit_lastName">Last Name:</label>
+                    <input type="text" id="edit_lastName" name="last_name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="suffix">Suffix:</label>
-                    <input type="text" id="suffix" name="suffix" class="form-control" placeholder="e.g., Jr., Sr., III">
+                    <label for="edit_suffix">Suffix:</label>
+                    <input type="text" id="edit_suffix" name="suffix" class="form-control"
+                        placeholder="e.g., Jr., Sr., III">
                 </div>
             </div>
             <div class="form-divider">
                 <div class="form-group">
-                    <label for="birthDate">Date of Birth:</label>
-                    <input type="date" id="birthDate" name="birthday" class="form-control" required>
+                    <label for="edit_birthDate">Date of Birth:</label>
+                    <input type="date" id="edit_birthDate" name="birthday" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="age">Age:</label>
-                    <input type="number" id="age" name="age" class="form-control" disabled required>
+                    <label for="edit_age">Age:</label>
+                    <input type="number" id="edit_age" name="age" class="form-control" disabled required>
                 </div>
                 <div class="form-group">
-                    <label for="gender">Gender:</label>
-                    <select id="gender" name="gender" class="form-control" required>
+                    <label for="edit_gender">Gender:</label>
+                    <select id="edit_gender" name="gender" class="form-control" required>
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
-                        <!-- <option value="Other">Other</option> -->
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="civilStatus">Civil Status:</label>
-                    <select id="civilStatus" name="civil_status" class="form-control" required>
+                    <label for="edit_civilStatus">Civil Status:</label>
+                    <select id="edit_civilStatus" name="civil_status" class="form-control" required>
                         <option value="">Select Status</option>
                         <option value="Single">Single</option>
                         <option value="Married">Married</option>
@@ -225,71 +235,48 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             </div>
             <div class="form-divider">
                 <div class="form-group">
-                    <label for="houseNumber">House No.:</label>
-                    <input type="text" id="houseNumber" name="houseNumber" class="form-control" required>
+                    <label for="edit_houseNumber">House No.:</label>
+                    <input type="text" id="edit_houseNumber" name="houseNumber" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="street">Street:</label>
-                    <input type="text" id="street" name="street" class="form-control" required>
+                    <label for="edit_street">Street:</label>
+                    <input type="text" id="edit_street" name="street" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="purok">Purok/Zone:</label>
-                    <input type="text" id="purok" name="purok" class="form-control" required>
+                    <label for="edit_purok">Purok/Zone:</label>
+                    <input type="text" id="edit_purok" name="purok" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="barangay">Barangay:</label>
-                    <input type="text" id="barangay" name="barangay" class="form-control" value="New Kalalake" readonly
-                        required>
+                    <label for="edit_barangay">Barangay:</label>
+                    <input type="text" id="edit_barangay" name="barangay" class="form-control" required>
                 </div>
-                <!-- <div class="form-group">
-                    <label for="contactNumber">Number (Optional):</label>
-                    <input type="tel" id="contactNumber" name="contact_number" class="form-control" pattern="[0-9]{11}"
-                        placeholder="e.g., 09123456789">
-                </div> -->
+                <div class="form-group">
+                    <label for="edit_city">City:</label>
+                    <input type="text" id="edit_city" name="city" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_contact_number">Contact No.:</label>
+                    <input type="text" id="edit_contact_number" name="contact_number" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_email">Email Address:</label>
+                    <input type="email" id="edit_email" name="email" class="form-control" required>
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="photo">Resident Photo (Optional):</label>
-                <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file">
+                <label for="edit_photo">Resident Photo (Optional):</label>
+                <input type="file" id="edit_photo" name="photo" accept="image/*" class="form-control-file">
             </div>
             <div class="modal-actions">
                 <button type="submit" class="btn btn-good">Save</button>
                 <button type="button" id="CloseEditResidentModalBtn" class="btn btn-cancel">Cancel</button>
             </div>
+            <input type="hidden" id="edit_residentId" name="resident_id">
         </form>
     </div>
 </div>
 
-<div id="SelectCertificateTypeModal2" class="modal-overlay">
-    <div class="select-certificate-modal-content2">
-        <h3>Select Certificate Type</h3>
-        <input type="hidden" id="selectCertResidentId" name="resident_id">
-        <div class="certificateTypeBtn">
-            <button type="button" class="btn btn-select" data-certificate-type="Indigency Certificate">
-                Certificate of Indigency
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Residency Certificate">
-                Barangay Residency
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Non-Residency Certificate">
-                Certificate of Non-Residency
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Barangay Permit">
-                Barangay Permit
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Barangay Endorsement">
-                Barangay Endorsement
-            </button>
-            <button type="button" class="btn btn-select" data-certificate-type="Vehicle Clearance">
-                Vehicle Clearance
-            </button>
-        </div>
-        <div class="modal-actions">
-            <button id="sc-closeModalBtn" type="button"
-                class="btn btn-cancel-2 close-select-cert-modal-btn">Cancel</button>
-        </div>
-    </div>
-</div>
 
 <div id="DeleteResidentModal" class="modal-overlay">
     <div class="modal-content">
@@ -311,3 +298,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         </div>
     </div>
 </div>
+
+<script>
+// Embed the PHP resident data into a JavaScript variable
+// This variable will be accessible to the modal.logic.js after this script runs
+const residentDataForEdit = <?php echo json_encode($resident); ?>;
+console.log("Resident data embedded for edit:", residentDataForEdit); // For debugging
+</script>
