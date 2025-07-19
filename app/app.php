@@ -149,9 +149,9 @@
                         </div>
                         <div class="form-group">
                             <label for="time">Time of Hearing (ex. 10:00 AM)</label>
-                            <div class="form-relative">
+                            <div class="form-relative-summary">
                                 <input type="text" placeholder="Enter Time of Hearing" id="hours" name="hours" required class="form-input">
-                                <select id="iat" name="iat" required class="form-relative-select">
+                                <select id="iat" name="iat" required class="form-relative-select-summary">
                                     <option value="">-- Select Time Class --</option>
                                     <option value="AM">AM</option>
                                     <option value="PM">PM</option>
@@ -180,8 +180,8 @@
     </div>
 
     <!-- MODALS END -->
+
     <script src="js/navigations.js"></script>
-    <script src="js/database.page.js"></script>
     <script src="js/functions.js"></script>
     <script src="js/modal.logic.js"></script>
     <script src="js/modal.logic-summary.js"></script>

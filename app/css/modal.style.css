@@ -370,6 +370,19 @@
     color: #6c757d; /* Lighter text color for the label */
 }
 
+.form-relative-summary{
+    position: relative;
+    display: flex;
+}
+
+.form-relative-select-summary {
+    position: absolute;
+    left: 370px;
+    top: 10px;
+    border: 1px solid var(--border-light);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
 .submit-summary-btn {
     padding: 8px 18px;
     background-color: var(--primary-blue);
@@ -450,21 +463,17 @@
 
 .gallery-images {
     display: flex;
+    gap: 10px;
     flex-wrap: wrap;
-    flex-direction: column;
-    gap: 15px;
     justify-content: center;
-    padding: 10px;
-    width: 100%;
+    margin-bottom: 20px;
 }
 
 .gallery-image {
-    max-width: 500px;
-    width: 100%;
+    width: 400px;
     height: auto;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .modal-actions {

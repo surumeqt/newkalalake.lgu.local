@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Existing elements (from your current JS)
     const logoutButton = document.getElementById('logoutButton');
     const logoutModal = document.getElementById('logoutModal');
     const confirmLogoutBtn = document.getElementById('confirmLogout');
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         confirmLogoutBtn.addEventListener('click', () => {
-            window.location.href = '/app/components/logout.php';
+            window.location.href = "/newkalalake.lgu.local/app/components/logout.php";
         });
     }
 
@@ -35,11 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusReportSummaryTextarea = document.getElementById("status_report_summary_text");
     const cancelStatusBtn = statusModal ? statusModal.querySelector('.cancel-status-btn') : null;
 
-    // --- NEW: Ensure the modal is hidden on page load ---
+    // Ensure the modal is hidden on page load ---
     if (statusModal) {
-        statusModal.style.display = 'none'; // Explicitly hide it on DOMContentLoaded
+        statusModal.style.display = 'none';
     }
-    // --- END NEW ---
 
 
     // Function to toggle the visibility and required status of the report summary
@@ -66,18 +64,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (statusModal && docketInputStatus && statusSelectedValueInput && statusForm && statusSelectionDropdown) {
                 docketInputStatus.value = docket;
-                statusSelectionDropdown.value = ''; // Reset dropdown selection on open
-                statusSelectedValueInput.value = ''; // Clear hidden input on open
-                statusReportSummaryTextarea.value = ''; // Clear summary on open
+                statusSelectionDropdown.value = '';
+                statusSelectedValueInput.value = '';
+                statusReportSummaryTextarea.value = '';
 
-                // Initially hide the summary group when the modal opens
-                toggleReportSummary(''); // Pass empty string to ensure it hides initially
+                toggleReportSummary('');
 
-                statusModal.style.display = "flex"; // This line will show the modal when the button is clicked
+                statusModal.style.display = "flex";
                 console.log('Opening Status Modal (from cases.php button). Original status:', hearingStatus);
             } else {
                 console.warn('Status modal elements not found or misconfigured for .open-lupon-modal.');
             }
+        }
+    });
+
+    // Event listener for showing the images
+    document.addEventListener('click', function (event) {
+        clickedViewButton = event.target.closest(".view-btn");
+        if (clickedViewButton) {
+            const docket = clickedViewButton.getAttribute("data-docket");
+            showGalleryImages(docket);
         }
     });
 

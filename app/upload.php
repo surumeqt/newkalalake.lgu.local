@@ -73,11 +73,11 @@
                 <label for="upload_hearing_date" class="upload-form-label">Hearing Date</label>
                 <input type="date" id="upload_hearing_date" name="hearing_date" required class="upload-form-input">
             </div>
-            <div class="form-group">
+            <div class="upload-form-group">
                 <label for="time">Time of Hearing (ex. 10:00 AM)</label>
-                <div class="form-relative">
-                    <input type="text" placeholder="Enter Time of Hearing" id="hours" name="hours" required class="form-input">
-                    <select id="iat" name="iat" required class="form-relative-select">
+                <div class="form-relative-upload">
+                    <input type="text" placeholder="Enter Time of Hearing" id="hours" name="hours" required class="upload-form-input">
+                    <select id="iat" name="iat" required class="form-relative-select-upload">
                         <option value="">-- Select Time Class --</option>
                         <option value="AM">AM</option>
                         <option value="PM">PM</option>
@@ -91,7 +91,7 @@
             <h3 class="upload-section-title">Document Upload</h3>
             <div class="upload-form-group">
                 <label for="upload_file_input" class="upload-form-label">Select Files</label>
-                <input type="file" id="upload_file_input" name="file_upload[]" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple required class="upload-form-input-file">
+                <input type="file" id="upload_file_input" name="file_upload[]" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple class="upload-form-input-file">
                 <p class="upload-text-sm upload-text-gray-500 mt-1">Select one or more PDF, DOC, DOCX, JPG, or PNG files.</p>
             </div>
         </div>

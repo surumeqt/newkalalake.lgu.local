@@ -637,13 +637,13 @@ body {
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-subtle);
     border: 1px solid var(--border-light);
-    overflow-x: auto;
+    overflow-x: scroll;
 }
 
 .database-records-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 56.25rem;
+    min-width: 40rem;
 }
 
 .database-records-table thead {
@@ -682,7 +682,7 @@ body {
     color: var(--dark-text);
 }
 
-.database-records-table .status-1st-hearing {
+.database-records-table .status-withdrawn {
     color: #d97706;
     font-weight: 600;
 }
@@ -692,6 +692,10 @@ body {
 }
 .database-records-table .status-rehearing {
     color: #dc2626;
+    font-weight: 600;
+}
+.database-records-table .status-dismissed {
+    color: #808080;
     font-weight: 600;
 }
 
@@ -1033,6 +1037,19 @@ a {
     justify-content: center;
     padding-top: var(--spacing-md);
     border-top: 1px solid var(--border-light);
+}
+
+.form-relative-upload{
+    position: relative;
+    display: flex;
+}
+
+.form-relative-select-upload {
+    position: absolute;
+    left: 600px;
+    top: 10px;
+    border: 1px solid var(--border-light);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .upload-submit-btn {

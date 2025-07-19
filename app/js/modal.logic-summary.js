@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const combinedActionForm = document.getElementById('summary-form');
     const cancelCombinedBtn = document.querySelector('#summary-modal .cancel-summary-btn');
     const modalSelectedStatusForSubmit = document.getElementById('modal-selected-status-for-submit');
-
-    // New elements for controlling the "Next Hearing Date" field
     const nextHearingDateGroup = document.getElementById('next-hearing-date-group');
     const nextHearingDateLabel = nextHearingDateGroup ? nextHearingDateGroup.querySelector('.summary-label') : null;
     const nextHearingDateInput = document.getElementById('next_hearing_date');
@@ -16,25 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // This function will now be driven by the *selectedStatus* from the dropdown
     const toggleNextHearingDateField = (selectedStatus) => {
         if (nextHearingDateGroup && nextHearingDateInput) {
-            // The date field should be editable (visible, not readonly) ONLY if the selected status is 'Ongoing'
             if (selectedStatus === 'Ongoing') {
-                nextHearingDateGroup.style.display = 'block'; // Make it visible
-                nextHearingDateInput.setAttribute('required', 'required'); // Make it required
-                nextHearingDateInput.removeAttribute('readonly'); // Make it editable
-                nextHearingDateInput.classList.remove('read-only-field'); // Remove dark gray bg
+                nextHearingDateGroup.style.display = 'block';
+                nextHearingDateInput.setAttribute('required', 'required');
+                nextHearingDateInput.removeAttribute('readonly');
+                nextHearingDateInput.classList.remove('read-only-field');
                 if (nextHearingDateLabel) {
-                    nextHearingDateLabel.classList.remove('read-only'); // Remove label styling
+                    nextHearingDateLabel.classList.remove('read-only');
                 }
             } else {
-                // For any other status, hide it, make it readonly, and apply dark gray bg
-                nextHearingDateGroup.style.display = 'none'; // Hide it
-                nextHearingDateInput.removeAttribute('required'); // Remove required
-                nextHearingDateInput.setAttribute('readonly', 'readonly'); // Make it read-only
-                nextHearingDateInput.classList.add('read-only-field'); // Add dark gray bg
-                nextHearingDateInput.value = ''; // Clear the value when hidden or made readonly
+                nextHearingDateGroup.style.display = 'none';
+                nextHearingDateInput.removeAttribute('required');
+                nextHearingDateInput.setAttribute('readonly', 'readonly');
+                nextHearingDateInput.classList.add('read-only-field');
+                nextHearingDateInput.value = '';
 
                 if (nextHearingDateLabel) {
-                    nextHearingDateLabel.classList.add('read-only'); // Apply label styling
+                    nextHearingDateLabel.classList.add('read-only');
                 }
             }
         }
@@ -46,15 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (clickedButton && combinedActionModal && modalDocketInput && reportSummaryTextarea && actionSelection && modalSelectedStatusForSubmit) {
             const docket = clickedButton.getAttribute('data-docket');
-            const originalHearingStatus = clickedButton.getAttribute('data-hearing'); // Get original status
+            const originalHearingStatus = clickedButton.getAttribute('data-hearing');
 
             modalDocketInput.value = docket;
-            reportSummaryTextarea.value = ''; // Clear summary text on open
-            actionSelection.value = ''; // Reset status selection on open
-            modalSelectedStatusForSubmit.value = ''; // Clear hidden status for submission
+            reportSummaryTextarea.value = '';
+            actionSelection.value = '';
+            modalSelectedStatusForSubmit.value = '';
 
-            // Pre-select 'Ongoing' if the original status was 'Rehearing'
-            // This also implicitly triggers the toggleNextHearingDateField via the change event
             if (originalHearingStatus === 'Rehearing') {
                 const ongoingOption = Array.from(actionSelection.options).find(opt => opt.value === 'Ongoing');
                 if (ongoingOption) {
@@ -63,8 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Manually trigger the toggle based on the *initial* selection (or lack thereof)
-            // if the modal opens without a default selection that would fire a 'change' event
             toggleNextHearingDateField(actionSelection.value);
 
             combinedActionModal.style.display = 'flex';
@@ -72,13 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- IMPORTANT CHANGE: Event listener for the "Change Status To" dropdown within the modal ---
+    // Event listener for the "Change Status To" dropdown within the modal ---
     if (actionSelection && modalSelectedStatusForSubmit) {
         actionSelection.addEventListener('change', function() {
             const selectedStatus = this.value;
-            modalSelectedStatusForSubmit.value = selectedStatus; // Update the hidden input
+            modalSelectedStatusForSubmit.value = selectedStatus;
 
-            // Dynamically hide/show/make-readonly the date field based on the *newly selected* status
             toggleNextHearingDateField(selectedStatus);
             console.log(`Status changed to: ${selectedStatus}. Next Hearing Date field updated.`);
         });
@@ -91,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (event.target === combinedActionModal) {
                 combinedActionModal.style.display = 'none';
                 if (combinedActionForm) combinedActionForm.reset();
-                // Reset date field to hidden/readonly state on close
                 toggleNextHearingDateField('');
                 console.log('Closing Combined Action Modal by clicking overlay.');
             }
@@ -104,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (combinedActionModal) {
                 combinedActionModal.style.display = 'none';
                 if (combinedActionForm) combinedActionForm.reset();
-                // Reset date field to hidden/readonly state on cancel
                 toggleNextHearingDateField('');
                 console.log('Closing Combined Action Modal via Cancel button.');
             }
