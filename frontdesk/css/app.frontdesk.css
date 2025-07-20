@@ -535,13 +535,24 @@ body {
 /* Page Header & Actions */
 .page-content-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: var(--spacing-md);
     flex-wrap: wrap; /* Allows items to wrap on smaller screens */
     gap: var(--spacing-sm); /* Space between header items */
 }
-
+.back-con{
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-md);
+}
+.back-con:hover{
+    background-color: var(--primary-blue-hover);
+}
+.back-btn{
+    text-decoration: none;
+    color: var(--bg-white);
+}
 .page-content-header h2 {
     margin: 0; /* Reset default margin */
     color: var(--dark-text);
@@ -552,6 +563,7 @@ body {
     display: flex;
     gap: var(--spacing-sm);
     flex-wrap: wrap; /* Allow buttons/search to wrap */
+    margin-left: auto;
 }
 
 .search-bar {
@@ -560,10 +572,9 @@ body {
 }
 
 .search-bar .form-control {
-    width: 250px; /* Adjust as needed */
+    width: 300px; /* Adjust as needed */
     max-width: 100%;
 }
-
 /* Card for Residents List */
 .residents-list-section.card {
     background-color: var(--bg-white);
@@ -596,10 +607,12 @@ body {
     width: 100%;
     border-collapse: collapse; /* Remove space between table cells */
     min-width: 700px; /* Ensure table is wide enough to trigger scroll if needed */
-        border-radius: 10px;
+        border-radius: 8px;
     overflow: hidden;
 }
-
+.data-table tbody td {
+    text-transform: capitalize; /* Capitalizes the first letter of each word */
+}
 .data-table th,
 .data-table td {
     padding: 12px 15px;
@@ -626,16 +639,33 @@ body {
 
 /* Table Thumbnails */
 .table-thumbnail {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
+    width: 50px; /* Fixed width for the container */
+    height: 50px; /* Fixed height for the container */
+    border-radius: 10px; /* Rounded corners for the container */
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    background-color: var(--border-light);
+    overflow: hidden; 
+    background-color: var(--border-light); 
+    flex-shrink: 0; 
 }
 
+/* Style for the actual image inside the thumbnail */
+.table-thumbnail .resident-photo-thumb { /* Target the specific image class */
+    width: 100%; /* Make the image take up 100% of the container's width */
+    height: 100%; /* Make the image take up 100% of the container's height */
+    object-fit: cover; /* Changed from 'cover' to 'contain' if you want the whole image visible */
+}
+
+/* If you want the image to fill the space without cropping, and resize proportionally: */
+.table-thumbnail img {
+    max-width: 100%;
+    max-height: 100%;
+    /* Remove object-fit if you use max-width/max-height directly to scale down */
+    display: block; /* Important to remove extra space below image */
+}
+
+/* Keeping your default thumbnail style */
 .table-thumbnail .default-thumbnail {
     font-size: 45px;
     color: var(--light-text);
@@ -695,6 +725,15 @@ body {
     margin-bottom: var(--spacing-md);
     padding-top: var(--spacing-sm);
     border-top: 1px solid var(--border-light);
+}
+.table-pagination-controls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding-top: var(--spacing-sm);
 }
 
 .table-pagination .page-link {
@@ -804,29 +843,25 @@ body {
     margin-bottom: var(--spacing-md);
 }
 
+/* Profile Photo Area */
 .profile-photo-area {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    background-color: var(--bg-light);
-    display: flex;
+    background-color: #6c757d; /* Matches the color in your provided CSS */
+    display: flex; /* Keep flexbox for centering content */
     justify-content: center;
     align-items: center;
     border: 3px solid var(--primary-blue);
     margin-bottom: var(--spacing-sm);
 }
 
-.profile-photo {
+/* For actual resident photos, ensure they cover the area */
+.profile-photo img.profile-photo-lg {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.default-profile-icon {
-    font-size: 80px;
-    color: var(--light-text);
-    margin-bottom: var(--spacing-xs);
 }
 
 .profile-details-summary h3 {

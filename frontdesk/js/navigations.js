@@ -122,6 +122,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (typeof initializeBanResidentModal === "function") {
                     initializeBanResidentModal();
                 }
+                if (typeof initializeUnbanResidentModal === "function") {
+                    initializeUnbanResidentModal();
+                }
                 // --- IMPORTANT NEW CALL FOR PAGINATION LISTENERS ---
                 // This ensures pagination listeners are attached after content is in the DOM
                 if (typeof attachPaginationListeners === "function") {

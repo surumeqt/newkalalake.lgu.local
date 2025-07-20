@@ -106,8 +106,8 @@ INSERT INTO barangay_settings (setting_name, setting_value) VALUES
 
 
 ('barangay_slogan', 'Diretso Sigurado sa Barangay New Kalalake'),
-('olongapo_logo_path', 'app/images/logos/olongapo_logo.png'),         -- Path to the Olongapo seal image
-('barangay_logo_path', 'app/images/logos/barangay_logo.png'); -- Path to the Barangay logo image
+('olongapo_logo_path', 'frontdesk/images/logos/olongapo_logo.png'),         -- Path to the Olongapo seal image
+('barangay_logo_path', 'frontdesk/images/logos/barangay_logo.png'); -- Path to the Barangay logo image
 
 
 
@@ -115,3 +115,50 @@ INSERT INTO barangay_settings (setting_name, setting_value) VALUES
 School Requirements
 Local Job Requirements
 Financial Assistance
+
+
+barangay residency
+ - resident name
+ - birthday
+ - address
+ - purposes
+ - issued at
+certificate of non-residency
+ - resident name
+ - address
+ - purposes
+ - issued at
+certificate of indigency
+ - resident name
+ - age 
+ - birthday
+ - address
+ - purposes
+ - issued at
+vehicle clearance
+ - resident name
+ - address
+   *vehicle details*
+   - type
+   - make
+   - color
+   - year model
+   - plate number
+   - body#
+   - cr#
+   - motor#
+   - chassis
+ - purposes
+ - issued at
+barangay endorsement
+ - resident name
+ - address
+ - business name
+ - business address
+ - purposes
+ - issued at
+barangay permit
+ - resident name
+ - address
+ - purposes
+ - issued at

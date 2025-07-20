@@ -16,21 +16,23 @@ class Residents
 
     public function addResident($data)
     {
-        // SQL query to insert new resident data
         $query = "INSERT INTO " . $this->table_name . " (
             resident_id, first_name, middle_name, last_name, suffix,
             birthday, age, gender, civil_status,
             house_number, street, purok, barangay, city,
-            email, contact_number
+            email, contact_number, photo_path, is_banned, created_at, updated_at
         ) VALUES (
             ?, ?, ?, ?, ?,
             ?, ?, ?, ?,
             ?, ?, ?, ?, ?,
-            ?, ?
+            ?, ?, ?, ?, NOW(), NOW()
         )";
 
         try {
             $stmt = $this->conn->prepare($query);
+
+            // Default new residents to not banned
+            $isBanned = 0;
 
             $stmt->execute([
                 generateRandomIds(),
@@ -48,16 +50,10 @@ class Residents
                 $data['barangay'],
                 $data['city'],
                 $data['email'],
-                $data['contact_number']
+                $data['contact_number'],
+                $data['photo_path'] ?? null,
+                $isBanned // Set is_banned to 0 (false) for new residents
             ]);
-
-            // Handle photo upload if a file is provided (existing logic)
-            if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-                // Assuming you have a method to handle photo uploads, e.g., uploadPhoto($residentId, $file)
-                // This part is not fully implemented here as it's outside the direct scope of the initial request,
-                // but conceptually, you'd call a method to save the photo to a designated folder
-                // and potentially store the path in the database.
-            }
 
             return true;
         } catch (PDOException $e) {
@@ -65,10 +61,10 @@ class Residents
             return false;
         }
     }
-    
+
     public function getResidents()
     {
-        $sql = "SELECT * FROM residents";
+        $sql = "SELECT * FROM " . $this->table_name;
         try {
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
@@ -81,7 +77,7 @@ class Residents
 
     public function getResidentsByName($data)
     {
-        $sql = "SELECT * FROM residents WHERE first_name LIKE ? OR last_name LIKE ?";
+        $sql = "SELECT * FROM " . $this->table_name . " WHERE first_name LIKE ? OR last_name LIKE ?";
         try {
             $stmt = $this->conn->prepare($sql);
             $stmt->execute(['%' . $data . '%', '%' . $data . '%']);
@@ -92,16 +88,16 @@ class Residents
         }
     }
 
-    // Modified to accept string for resident_id
     public function getResidentById(string $residentId): ?array
     {
-        $sql = "SELECT * FROM residents WHERE resident_id = :resident_id";
+        // CORRECTED: Select 'is_banned' column
+        $sql = "SELECT *, photo_path, is_banned FROM " . $this->table_name . " WHERE resident_id = :resident_id";
         try {
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':resident_id', $residentId, PDO::PARAM_STR); // Use PARAM_STR for varchar
+            $stmt->bindParam(':resident_id', $residentId, PDO::PARAM_STR);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result ?: null; // Return array if found, null otherwise
+            return $result ?: null;
         } catch (PDOException $e) {
             error_log("Error fetching resident by ID: " . $e->getMessage());
             return null;
@@ -110,13 +106,12 @@ class Residents
 
     public function getTotalResidentsCount(string $searchQuery = ''): int
     {
-        $sql = "SELECT COUNT(*) FROM residents";
+        $sql = "SELECT COUNT(*) FROM " . $this->table_name;
         $params = [];
         if (!empty($searchQuery)) {
-            // Updated search to include new address fields
             $sql .= " WHERE first_name LIKE ? OR last_name LIKE ? OR house_number LIKE ? OR street LIKE ? OR purok LIKE ? OR barangay LIKE ? OR city LIKE ? OR gender LIKE ? OR birthday LIKE ?";
             $likeQuery = '%' . $searchQuery . '%';
-            $params = array_fill(0, 9, $likeQuery); // Fill parameters for 9 placeholders
+            $params = array_fill(0, 9, $likeQuery);
         }
         try {
             $stmt = $this->conn->prepare($sql);
@@ -130,13 +125,13 @@ class Residents
 
     public function getResidentsPaginated(int $limit, int $offset, string $searchQuery = ''): array
     {
-        $sql = "SELECT * FROM residents";
+        // CORRECTED: Ensure 'is_banned' is selected for pagination as well
+        $sql = "SELECT *, photo_path, is_banned FROM " . $this->table_name;
         $params = [];
         if (!empty($searchQuery)) {
-            // Updated search to include new address fields
             $sql .= " WHERE first_name LIKE ? OR last_name LIKE ? OR house_number LIKE ? OR street LIKE ? OR purok LIKE ? OR barangay LIKE ? OR city LIKE ? OR gender LIKE ? OR birthday LIKE ?";
             $likeQuery = '%' . $searchQuery . '%';
-            $params = array_fill(0, 9, $likeQuery); // Fill parameters for 9 placeholders
+            $params = array_fill(0, 9, $likeQuery);
         }
         $sql .= " ORDER BY created_at DESC LIMIT ? OFFSET ?";
         $params[] = $limit;
@@ -158,19 +153,20 @@ class Residents
         $params = [':resident_id' => $residentId];
 
         foreach ($data as $key => $value) {
-            // Exclude 'age' if it somehow makes it into $data for update
-            // Also, 'address' might be re-generated from its parts if a form sends parts separately
-            if ($key !== 'age') {
+            if ($key !== 'age') { // 'age' is derived, not directly updated
                 $setParts[] = "`{$key}` = :{$key}";
                 $params[":{$key}"] = $value;
             }
         }
+        // Always update 'updated_at' when any data is updated
+        $setParts[] = "`updated_at` = NOW()";
+
 
         if (empty($setParts)) {
             return true; // No data to update
         }
 
-        $sql = "UPDATE `residents` SET " . implode(', ', $setParts) . " WHERE `resident_id` = :resident_id";
+        $sql = "UPDATE `" . $this->table_name . "` SET " . implode(', ', $setParts) . " WHERE `resident_id` = :resident_id";
 
         try {
             $stmt = $this->conn->prepare($sql);
@@ -180,25 +176,22 @@ class Residents
             return false;
         }
     }
-    public function banResident(string $residentId): bool
+
+    public function updateResidentStatus($residentId, int $isBanned): bool
     {
-        $query = "UPDATE " . $this->table_name . " SET is_banned = TRUE WHERE resident_id = ?";
+        // Ensure isBanned is either 0 or 1
+        $isBanned = ($isBanned == 1) ? 1 : 0;
 
-        $stmt = $this->conn->prepare($query);
-
-        // Sanitize
-        $residentId = htmlspecialchars(strip_tags($residentId));
-
-        // Bind parameter
-        $stmt->bindParam(1, $residentId);
-
+        // CORRECTED: Update 'is_banned' column
+        $query = "UPDATE " . $this->table_name . " SET is_banned = :is_banned, updated_at = NOW() WHERE resident_id = :resident_id";
         try {
-            if ($stmt->execute()) {
-                return true;
-            }
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':is_banned', $isBanned, PDO::PARAM_INT);
+            $stmt->bindParam(':resident_id', $residentId, PDO::PARAM_STR); // Bind as string since resident_id is VARCHAR
+            return $stmt->execute();
         } catch (PDOException $e) {
-            error_log("Error banning resident: " . $e->getMessage());
+            error_log("Error updating resident ban status: " . $e->getMessage());
+            return false;
         }
-        return false;
     }
 }

@@ -16,6 +16,9 @@ $residentName = "Loading Resident..."; // Default text while loading
 $residentDisplayId = "Loading...";
 $residentAge = "N/A"; // Initialize age
 
+// Initialize photoSource with the dummy image path
+$photoSource = 'images/residents/dummy_resident_.png';
+
 // Check if an ID is passed in the URL and if it's a valid string (resident_id is VARCHAR)
 if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
     $residentId = $_GET['id'];
@@ -45,39 +48,48 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
                 $residentAge = $calculatedAge;
             }
         }
+
+        // --- CORRECTED POSITION FOR PHOTO SOURCE DETERMINATION ---
+        // Now that $resident is populated, check for photo_path
+        if (!empty($resident['photo_path'])) {
+            $photoSource = htmlspecialchars($resident['photo_path']);
+            $photoSource = str_replace('frontdesk/', '', $photoSource);
+        }
+        // --- END CORRECTED POSITION ---
+
     } else {
         // Resident not found in the database
         $residentName = "Resident Not Found";
         $residentDisplayId = "N/A";
+        // Photo source remains the dummy image
     }
 } else {
     // No ID passed or invalid ID
     $residentName = "No Resident Selected";
     $residentDisplayId = "N/A";
+    // Photo source remains the dummy image
 }
 // --- End: Logic to load resident details ---
 
 ?>
 
 <div class="page-content-header">
+    <div class="back-con">
+        <a class="back-btn" href="./fd_residents.php" data-load-content="true" data-url="fd_residents.php">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
     <h2>Resident Profile</h2>
-    <p class="current-page-title"><?= htmlspecialchars($residentName); ?></p>
 </div>
 
 <div class="resident-profile-container card">
     <div class="card-body">
         <div class="profile-header">
+
             <div class="profile-photo-area">
-                <?php
-                // Determine photo source: actual photo if available, otherwise dummy based on gender
-                $photoSource = '../../assets/img/dummy_resident_' . htmlspecialchars($resident['gender'] ?? 'male') . '.jpg';
-                if (isset($resident['photo']) && !empty($resident['photo'])) {
-                    // Assuming 'photo' column stores the relative path to the image
-                    // Adjust path if your actual images are stored differently
-                    $photoSource = htmlspecialchars($resident['photo']);
-                }
-                ?>
-                <img src="<?= $photoSource; ?>" alt="Resident Photo" class="profile-photo">
+                <div class="profile-photo">
+                    <img src="<?= $photoSource; ?>" alt="Resident Photo" class="profile-photo-lg">
+                </div>
             </div>
             <div class="profile-details-summary">
                 <h3><?= htmlspecialchars($residentName); ?></h3>
@@ -85,17 +97,15 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
                 <p>
                     <strong>Status:</strong>
                     <?php
-                    $statusClass = 'status-active'; // Default to active if not explicitly banned
+                    $statusClass = 'status-active'; // Default to active
                     $statusText = 'Active';
 
-                    // Check if the is_banned column exists and its value
-                    if (isset($resident['is_banned']) && $resident['is_banned'] == 1) { // Check if it's explicitly 1 (true)
+                    if (isset($resident['is_banned']) && $resident['is_banned'] == 1) {
                         $statusClass = 'status-banned';
                         $statusText = 'Banned';
                     }
-                    // If it's 0 or not set, it defaults to Active by the initial assignment.
                     ?>
-                    <span class="status-badge <?= $statusClass; ?>"><?= $statusText; ?></span>
+                    <span id="residentStatusBadge" class="status-badge <?= $statusClass; ?>"><?= $statusText; ?></span>
                 </p>
             </div>
         </div>
@@ -134,10 +144,25 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
                         data-resident-id="<?= htmlspecialchars($residentId); ?>">
                         <i class="fas fa-edit"></i> Edit Profile
                     </button>
+                    <?php if (isset($resident['is_banned']) && $resident['is_banned'] == 1): ?>
+                    <button id="unbanResidentModalBtn" class="btn btn-good unban-resident-btn"
+                        data-resident-id="<?= htmlspecialchars($residentId); ?>">
+                        <i class="fas fa-check-circle"></i> Unban Resident
+                    </button>
+                    <button id="banResidentModalBtn" class="btn btn-danger ban-resident-btn"
+                        data-resident-id="<?= htmlspecialchars($residentId); ?>" style="display: none;">
+                        <i class="fas fa-ban"></i> Ban Resident
+                    </button>
+                    <?php else: ?>
                     <button id="banResidentModalBtn" class="btn btn-danger ban-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>">
                         <i class="fas fa-ban"></i> Ban Resident
                     </button>
+                    <button id="unbanResidentModalBtn" class="btn btn-good unban-resident-btn"
+                        data-resident-id="<?= htmlspecialchars($residentId); ?>" style="display: none;">
+                        <i class="fas fa-check-circle"></i> Unban Resident
+                    </button>
+                    <?php endif; ?>
                     <button id="deleteResidentModalBtn" class="btn btn-secondary delete-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>">
                         <i class="fas fa-trash-alt"></i> Delete Resident
@@ -176,7 +201,8 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
 
 <div id="EditResidentModal" class="modal-overlay">
     <div class="edit-resident-modal-content">
-        <h3>Edit Resident Information</h3>
+        <h3 style="margin-bottom:1rem; font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">Edit
+            Resident Information</h3>
         <form id="editResidentForm" class="modal-form">
             <div class="form-divider">
                 <div class="form-group">
@@ -258,7 +284,7 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 1rem; border-top: 1px solid #ccc; padding-top: 1rem;">
                 <label for="edit_photo">Resident Photo (Optional):</label>
                 <input type="file" id="edit_photo" name="photo" accept="image/*" class="form-control-file">
             </div>
@@ -267,6 +293,8 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
                 <button type="button" id="CloseEditResidentModalBtn" class="btn btn-cancel">Cancel</button>
             </div>
             <input type="hidden" id="edit_residentId" name="resident_id">
+            <input type="hidden" name="action" value="update_resident">
+        </form>
         </form>
     </div>
 </div>
@@ -290,6 +318,17 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
         <div class="modal-actions">
             <button id="confirmBanResidentBtn" class="btn btn-confirm">Yes, Ban</button>
             <button id="br-closeModalBtn" class="btn btn-cancel">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="UnBanResidentModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>Confirm UnBan</h3>
+        <p>Are you sure you want to Unban this resident?</p>
+        <input type="hidden" id="unbanResidentIdInput" value="">
+        <div class="modal-actions">
+            <button id="confirmUnBanResidentBtn" class="btn btn-confirm">Yes, Unban</button>
+            <button id="ubr-closeModalBtn" class="btn btn-cancel">Cancel</button>
         </div>
     </div>
 </div>

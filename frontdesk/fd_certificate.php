@@ -14,19 +14,12 @@ $user_username = $_SESSION['username'] ?? 'Guest'; // Use a default if not set f
 
 <div class="page-content-header">
     <h2>Certificate Management</h2>
-    <p class="current-page-title">Manage all resident certificate requests</p>
 </div>
 
 <div class="certificate-dashboard-container card">
     <div class="card-body">
         <div class="certificate-filters">
             <input type="text" id="certificateSearch" class="form-control" placeholder="Search by name, ID, or type...">
-            <input type="date" id="certificateDateFilter" class="form-control" title="Filter by date requested">
-            <button class="btn btn-secondary"><i class="fas fa-filter"></i> Filter</button>
-            <button class="btn btn-outline-secondary"><i class="fas fa-redo"></i> Reset</button>
-            <button id="OpenNewCertificateRequestModalBtn" class="btn btn-primary" style="margin-left: auto;">
-                <i class="fas fa-plus-circle"></i> Request New Certificate
-            </button>
         </div>
 
         <div class="certificate-table-section table-responsive">
@@ -221,296 +214,13 @@ $user_username = $_SESSION['username'] ?? 'Guest'; // Use a default if not set f
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // --- Modals Logic for fd_certificate.php ---
-
-    const openNewCertModalBtn = document.getElementById('OpenNewCertificateRequestModalBtn');
-    const newCertRequestModal = document.getElementById('NewCertificateRequestModal');
-    const closeNewCertModalBtn = document.getElementById('CloseNewCertificateRequestModalBtn');
-
-    // Open Modal
-    if (openNewCertModalBtn) {
-        openNewCertModalBtn.addEventListener('click', () => {
-            newCertRequestModal.classList.add('active');
-        });
-    }
-
-    // Close Modal via Cancel button
-    if (closeNewCertModalBtn) {
-        closeNewCertModalBtn.addEventListener('click', () => {
-            newCertRequestModal.classList.remove('active');
-            document.getElementById('newCertificateRequestForm').reset(); // Reset form on close
-            // Clear resident selection and warnings
-            document.getElementById('residentNameDisplay').textContent = 'N/A';
-            document.getElementById('selectedResidentId').value = '';
-            document.getElementById('residentBanWarning').style.display = 'none';
-            document.getElementById('residentSearchInput').value = '';
-            document.getElementById('residentSearchResults').innerHTML = '';
-            document.getElementById('photoUploadGroup').style.display = 'none'; // Hide photo field
-        });
-    }
-
-    // Close Modal via overlay click
-    if (newCertRequestModal) {
-        newCertRequestModal.addEventListener('click', (event) => {
-            if (event.target === newCertRequestModal) {
-                newCertRequestModal.classList.remove('active');
-                document.getElementById('newCertificateRequestForm').reset(); // Reset form on close
-                // Clear resident selection and warnings
-                document.getElementById('residentNameDisplay').textContent = 'N/A';
-                document.getElementById('selectedResidentId').value = '';
-                document.getElementById('residentBanWarning').style.display = 'none';
-                document.getElementById('residentSearchInput').value = '';
-                document.getElementById('residentSearchResults').innerHTML = '';
-                document.getElementById('photoUploadGroup').style.display = 'none'; // Hide photo field
-            }
-        });
-    }
-
-    // --- Resident Search and Selection Logic ---
-    const residentSearchInput = document.getElementById('residentSearchInput');
-    const residentSearchResults = document.getElementById('residentSearchResults');
-    const selectedResidentId = document.getElementById('selectedResidentId');
-    const residentNameDisplay = document.getElementById('residentNameDisplay');
-    const residentBanWarning = document.getElementById('residentBanWarning');
-    const banReasonDisplay = document.getElementById('banReasonDisplay');
-    const photoUploadGroup = document.getElementById('photoUploadGroup');
-
-    // Hardcoded resident data
-    const ALL_RESIDENTS_DATA = [{
-            'id': 1,
-            'full_name': 'Juan Reyes Dela Cruz Sr.',
-            'is_banned': false,
-            'ban_reason': ''
-        },
-        {
-            'id': 2,
-            'full_name': 'Maria Santos Rodriguez',
-            'is_banned': false,
-            'ban_reason': ''
-        },
-        {
-            'id': 3,
-            'full_name': 'Pedro Garcia Lim',
-            'is_banned': true,
-            'ban_reason': 'Ignoring Lupon Summons'
-        },
-        {
-            'id': 4,
-            'full_name': 'Ana Marie Dela Vega',
-            'is_banned': false,
-            'ban_reason': ''
-        },
-    ];
-
-    residentSearchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        residentSearchResults.innerHTML = ''; // Clear previous results
-
-        if (searchTerm.length > 0) {
-            const filteredResidents = ALL_RESIDENTS_DATA.filter(resident =>
-                resident.full_name.toLowerCase().includes(searchTerm) ||
-                String(resident.id).includes(searchTerm)
-            );
-
-            if (filteredResidents.length > 0) {
-                filteredResidents.forEach(resident => {
-                    const div = document.createElement('div');
-                    div.classList.add('search-result-item');
-                    div.textContent = `${resident.full_name} (ID: ${resident.id})`;
-                    div.dataset.residentId = resident.id;
-                    div.dataset.residentName = resident.full_name;
-                    div.dataset.isBanned = resident.is_banned;
-                    div.dataset.banReason = resident.ban_reason;
-                    residentSearchResults.appendChild(div);
-                });
-                residentSearchResults.style.display = 'block';
-            } else {
-                residentSearchResults.style.display = 'none';
-            }
-        } else {
-            residentSearchResults.style.display = 'none';
-        }
-    });
-
-    residentSearchResults.addEventListener('click', function(event) {
-        const target = event.target;
-        if (target.classList.contains('search-result-item')) {
-            const id = target.dataset.residentId;
-            const name = target.dataset.residentName;
-            const isBanned = target.dataset.isBanned === 'true';
-            const banReason = target.dataset.banReason;
-
-            selectedResidentId.value = id;
-            residentNameDisplay.textContent = name;
-            residentSearchInput.value = name; // Auto-fill search input
-
-            // Display ban warning if applicable
-            if (isBanned) {
-                residentBanWarning.style.display = 'block';
-                banReasonDisplay.textContent = banReason;
-                document.getElementById('generateCertificateBtn').disabled =
-                    true; // Disable button if banned
-            } else {
-                residentBanWarning.style.display = 'none';
-                banReasonDisplay.textContent = '';
-                document.getElementById('generateCertificateBtn').disabled = false; // Enable button
-            }
-
-            residentSearchResults.style.display = 'none'; // Hide results after selection
-        }
-    });
-
-    // Hide search results when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!residentSearchInput.contains(event.target) && !residentSearchResults.contains(event
-                .target)) {
-            residentSearchResults.style.display = 'none';
-        }
-    });
-
-    // Dynamic photo field display based on certificate type
-    const selectCertificateType = document.getElementById('selectCertificateType');
-    selectCertificateType.addEventListener('change', function() {
-        // Example: If 'Barangay Permit' requires a photo
-        if (this.value === 'Barangay Permit' || this.value === 'Vehicle Clearance') {
-            photoUploadGroup.style.display = 'block';
-        } else {
-            photoUploadGroup.style.display = 'none';
-            document.getElementById('certificatePhoto').value = ''; // Clear selected file
-        }
-    });
-
-
-    // --- Form Submission (example) ---
-    const newCertRequestForm = document.getElementById('newCertificateRequestForm');
-    if (newCertRequestForm) {
-        newCertRequestForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            const residentId = document.getElementById('selectedResidentId').value;
-            const certificateType = selectCertificateType.value;
-            const purpose = document.getElementById('certificatePurpose').value;
-            const certificatePhoto = document.getElementById('certificatePhoto').files[
-                0]; // Get file object
-
-            if (!residentId || !certificateType || !purpose) {
-                alert('Please select a resident and fill in all required fields.');
-                return;
-            }
-
-            // If a photo is required for the selected certificate type and not provided
-            if (photoUploadGroup.style.display === 'block' && !certificatePhoto) {
-                alert('A photo is required for this certificate type.');
-                return;
-            }
-
-            console.log('New Certificate Request Submitted:');
-            console.log('Resident ID:', residentId);
-            console.log('Certificate Type:', certificateType);
-            console.log('Purpose:', purpose);
-            if (certificatePhoto) {
-                console.log('Photo File:', certificatePhoto.name);
-            }
-
-            // In a real application, you would send this data to a backend endpoint
-            // e.g., using fetch() or XMLHttpRequest, potentially with FormData for files
-            alert('Certificate generation request sent! (Backend would generate and print)');
-            newCertRequestModal.classList.remove('active');
-            this.reset(); // Reset the form
-            // Clear resident selection and warnings after successful submission
-            document.getElementById('residentNameDisplay').textContent = 'N/A';
-            document.getElementById('selectedResidentId').value = '';
-            document.getElementById('residentBanWarning').style.display = 'none';
-            document.getElementById('residentSearchInput').value = '';
-            document.getElementById('residentSearchResults').innerHTML = '';
-            document.getElementById('photoUploadGroup').style.display = 'none'; // Hide photo field
-            // You would typically re-fetch and re-render the certificate requests table here
-        });
-    }
-
-    // --- Table Search/Filter Logic (basic example) ---
-    const certificateSearchInput = document.getElementById('certificateSearch');
-    const certificateStatusFilter = document.getElementById('certificateStatusFilter');
-    const certificateDateFilter = document.getElementById('certificateDateFilter');
-    const certificateTableBody = document.querySelector('.certificate-table-section .data-table tbody');
-
-    const filterCertificates = () => {
-        const searchTerm = certificateSearchInput.value.toLowerCase();
-        const statusFilter = certificateStatusFilter.value;
-        const dateFilter = certificateDateFilter.value; // YYYY-MM-DD
-
-        const rows = certificateTableBody.querySelectorAll('tr');
-
-        rows.forEach(row => {
-            const residentName = row.children[1].textContent.toLowerCase();
-            const certType = row.children[2].textContent.toLowerCase();
-            const status = row.children[5].textContent
-                .trim(); // Removed .status-badge as it's not applicable to hardcoded status now
-            const dateRequested = row.children[4].textContent; // e.g., "Sep 01, 2023"
-
-            let isVisible = true;
-
-            // Search term filter
-            if (searchTerm && !(residentName.includes(searchTerm) || certType.includes(
-                    searchTerm))) {
-                isVisible = false;
-            }
-
-            // Status filter
-            // Adjusted status check to match "Approved", "Pending", "Rejected", etc. directly
-            // assuming the hardcoded status column will contain these values.
-            // Note: The previous PHP code had 'status' for the status badge, but the actual status value in the table might be "Not Banned" or "Banned".
-            // For this example, I'll assume the text content directly reflects "Approved", "Pending", "Rejected" for the purpose of the filter.
-            // If the "Status" column actually displays "Banned"/"Not Banned", this filter logic would need to be re-evaluated to filter based on the *actual* request status rather than the resident's ban status.
-            // Given the original PHP, the filter was on the certificate request status. I will re-align this.
-            const requestStatusText = row.children[5].textContent
-                .trim(); // Assuming this will be "Approved", "Pending", "Rejected" for filtering
-            if (statusFilter && requestStatusText !== statusFilter) {
-                isVisible = false;
-            }
-
-            // Date filter (simple match for demonstration, can be extended for range)
-            if (dateFilter) {
-                // Convert displayed date to YYYY-MM-DD for comparison
-                const formattedDateRequested = new Date(dateRequested).toISOString().split('T')[0];
-                if (formattedDateRequested !== dateFilter) {
-                    isVisible = false;
-                }
-            }
-
-            row.style.display = isVisible ? '' : 'none';
-        });
-    };
-
-    if (certificateSearchInput) {
-        certificateSearchInput.addEventListener('keyup', filterCertificates);
-    }
-    if (certificateStatusFilter) {
-        certificateStatusFilter.addEventListener('change', filterCertificates);
-    }
-    if (certificateDateFilter) {
-        certificateDateFilter.addEventListener('change', filterCertificates);
-    }
-    // Attach filter to the 'Filter' button as well
-    document.querySelector('.certificate-filters .btn-secondary').addEventListener('click', filterCertificates);
-    // Reset button
-    document.querySelector('.certificate-filters .btn-outline-secondary').addEventListener('click', () => {
-        certificateSearchInput.value = '';
-        certificateStatusFilter.value = '';
-        certificateDateFilter.value = '';
-        filterCertificates(); // Apply reset filters
-    });
-});
-</script>
 
 <style>
 /* Basic CSS for fd_certificate.php specific elements */
 .certificate-dashboard-container {
     padding: 20px;
     background-color: var(--bg-white);
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-subtle);
 }
 
@@ -577,7 +287,8 @@ document.addEventListener('DOMContentLoaded', function() {
 .certificate-filters .form-control {
     flex: 1;
     min-width: 150px;
-    max-width: 250px;
+    max-width: 300px;
+    background-color: var(--bg-light);
 }
 
 .certificate-table-section h4 {

@@ -1,4 +1,5 @@
 <?php
+// file: frontdesk/fd_residents.php
 include '../backend/helpers/redirects.php';
 require_once __DIR__ . '/../backend/models/residents.model.php';
 redirectIfNotLoggedIn();
@@ -24,7 +25,7 @@ $user_username = $_SESSION['username'] ?? 'Guest';
 $residentsModel = new Residents();
 
 // --- Pagination Logic ---
-$itemsPerPage = 20; // Number of residents to display per page
+$itemsPerPage = 10; // Number of residents to display per page
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($currentPage - 1) * $itemsPerPage;
 
@@ -48,14 +49,10 @@ if (!$records) {
 <div class="page-content-header">
     <h2>Resident Management</h2>
     <div class="header-actions">
-        <form action="../backend/fd_controllers/residents.controller.php" method="POST">
-            <div class="search-bar">
-                <input type="text" id="residentSearchInput" class="form-control" name="search"
-                    placeholder="Search residents..." onkeyup="liveSearch()">
-                <button type="button" class="btn btn-primary" onclick="liveSearch()"><i class="fas fa-search"
-                        id="residentSearchBtn"></i> Search</button>
-            </div>
-        </form>
+        <div class="search-bar">
+            <input type="text" id="residentSearchInput" class="form-control" name="search"
+                placeholder="Search residents Name, Address, etc." onkeyup="liveSearch()">
+        </div>
         <button class="btn btn-success add-resident-btn" id="openModalBtn">
             <i class="fas fa-user-plus"></i> Register New Resident
         </button>
@@ -88,12 +85,15 @@ if (!$records) {
                         <td>
                             <div class="table-thumbnail">
                                 <?php
-                                $thumbnailSource = '../../assets/img/dummy_resident_' . htmlspecialchars($row['gender'] ?? 'male') . '.jpg';
-                                if (isset($row['photo']) && !empty($row['photo'])) {
-                                    $thumbnailSource = htmlspecialchars($row['photo']);
-                                }
-                                ?>
-                                <img src="<?= $thumbnailSource; ?>" alt="Resident Photo" class="profile-photo-small">
+                                        // Determine the photo source for each resident
+                                        $residentPhotoSource = 'images/residents/dummy_resident_.png'; // Default dummy image
+                                        if (!empty($row['photo_path'])) {
+                                            $cleanPath = str_replace('frontdesk/', '', $row['photo_path']);
+                                            $residentPhotoSource = htmlspecialchars($cleanPath);
+                                        }
+                                        ?>
+                                <img src="<?= $residentPhotoSource; ?>" alt="Resident Photo"
+                                    class="resident-photo-thumb">
                             </div>
                         </td>
                         <td><?= htmlspecialchars($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['suffix'] ?? ''); ?>
@@ -107,7 +107,7 @@ if (!$records) {
                                     if (!empty($row['purok'])) $displayAddress[] = htmlspecialchars($row['purok']);
                                     if (!empty($row['barangay'])) $displayAddress[] = htmlspecialchars($row['barangay']);
                                     if (!empty($row['city'])) $displayAddress[] = htmlspecialchars($row['city']);
-                                    echo implode(', ', array_filter($displayAddress)); // Use array_filter for clean output
+                                    echo implode(' ', array_filter($displayAddress)); // Use array_filter for clean output
                                     ?>
                         </td>
                         <td><?= htmlspecialchars($row['gender']); ?></td>
@@ -155,94 +155,96 @@ if (!$records) {
 
 <div id="AddresidentModal" class="modal-overlay">
     <div class="add-resident-modal-content">
-        <h3 style="margin-bottom:2rem; font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">
-            RegisterNew
-            Resident</h3>
+        <h3 style="margin-bottom:1rem; font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">
+            Register New Resident
+        </h3>
         <form id="addResidentForm" class="modal-form" action="../backend/fd_controllers/residents.controller.php"
             method="POST" enctype="multipart/form-data">
-            <div class="form-divider">
-                <div class="form-group">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" name="first_name" class="form-control" required>
+            <div class="modal-body">
+                <div class="form-divider">
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" name="first_name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="middleName">Middle Name/Initial:</label>
+                        <input type="text" id="middleName" name="middle_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" name="last_name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="suffix">Suffix:</label>
+                        <input type="text" id="suffix" name="suffix" class="form-control"
+                            placeholder="e.g., Jr., Sr., III">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="middleName">Middle Name/Initial:</label>
-                    <input type="text" id="middleName" name="middle_name" class="form-control">
+                <div class="form-divider">
+                    <div class="form-group">
+                        <label for="birthDate">Date of Birth:</label>
+                        <input type="date" id="birthDate" name="birthday" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" name="age" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" class="form-control" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="civilStatus">Civil Status:</label>
+                        <select id="civilStatus" name="civil_status" class="form-control" required>
+                            <option value="">Select Status</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                            <option value="Separated">Separated</option>
+                            <option value="Annulled">Annulled</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="last_name" class="form-control" required>
+                <div class="form-divider">
+                    <div class="form-group">
+                        <label for="houseNumber">House No.:</label>
+                        <input type="text" id="houseNumber" name="houseNumber" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Street:</label>
+                        <input type="text" id="street" name="street" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="purok">Purok/Zone:</label>
+                        <input type="text" id="purok" name="purok" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="barangay">Barangay:</label>
+                        <input type="text" id="barangay" name="barangay" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" id="city" name="city" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact_number">Contact No.:</label>
+                        <input type="text" id="contact_number" name="contact_number" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="suffix">Suffix:</label>
-                    <input type="text" id="suffix" name="suffix" class="form-control" placeholder="e.g., Jr., Sr., III">
-                </div>
-            </div>
-            <div class="form-divider">
-                <div class="form-group">
-                    <label for="birthDate">Date of Birth:</label>
-                    <input type="date" id="birthDate" name="birthday" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="age">Age:</label>
-                    <input type="number" id="age" name="age" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="gender">Gender:</label>
-                    <select id="gender" name="gender" class="form-control" required>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <!-- <option value="Other">Other</option> -->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="civilStatus">Civil Status:</label>
-                    <select id="civilStatus" name="civil_status" class="form-control" required>
-                        <option value="">Select Status</option>
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                        <option value="Widowed">Widowed</option>
-                        <option value="Separated">Separated</option>
-                        <option value="Annulled">Annulled</option>
-                        <option value="Divorced">Divorced</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-divider">
-                <div class="form-group">
-                    <label for="houseNumber">House No.:</label>
-                    <input type="text" id="houseNumber" name="houseNumber" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="street">Street:</label>
-                    <input type="text" id="street" name="street" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="purok">Purok/Zone:</label>
-                    <input type="text" id="purok" name="purok" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="barangay">Barangay:</label>
-                    <input type="text" id="barangay" name="barangay" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="contact_number">Contact No.:</label>
-                    <input type="text" id="contact_number" name="contact_number" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address:</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-            </div>
 
-            <div class="form-group" style="margin-top: 1rem; border-top: 1px solid #ccc; padding-top: 1rem;">
-                <label for="photo">Resident Photo (Optional):</label>
-                <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file">
+                <div class="form-group" style="margin-top: 1rem; border-top: 1px solid #ccc; padding-top: 1rem;">
+                    <label for="photo">Resident Photo (Optional):</label>
+                    <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file">
+                </div>
             </div>
             <div class="modal-actions">
                 <button type="submit" class="btn btn-good">Register Resident</button>
@@ -251,52 +253,138 @@ if (!$records) {
         </form>
     </div>
 </div>
+
 <div id="NewCertificateRequestModal" class="modal-overlay">
     <div class="new-certificate-request-modal-content">
         <h3 style="text-align: center;">Request New Certificate</h3>
+
         <form id="newCertificateRequestForm" class="modal-form">
             <div class="form-group-2">
                 <label for="residentSearchInput">Selected Resident:</label>
-                <input type="text" id="residentSearchInput" class="form-control-2" placeholder="Selected Resident"
-                    disabled>
+                <input type="text" id="residentSearchInput" class="form-control-2" placeholder=" Selected Resident"
+                    disabled style="text-transform: capitalize;">
                 <div id="residentSearchResults" class="search-results-dropdown">
                 </div>
                 <input type="hidden" id="selectedResidentId" name="resident_id">
             </div>
 
             <div id="selectedResidentInfo" class="selected-resident-info">
-                <p><strong>Selected Resident Status:</strong> <span id="residentNameDisplay"
-                        style="display: none;">N/A</span></p>
-                <div id="residentBanWarning" class="alert alert-danger">
-                    <i class="fas fa-exclamation-triangle"></i> This resident is currently <strong
-                        class="text-danger">BANNED</strong> from receiving certificates. Reason: <span
-                        id="banReasonDisplay"></span>
+                <p>
+                    <strong>Selected Resident Status:</strong>
+                    <span id="residentStatusDisplay" style="font-weight: bold;">N/A</span>
+                </p>
+                <div id="residentBanWarning" class="alert alert-danger" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i> This resident is currently
+                    <strong class="text-danger">BANNED</strong>
+                    from receiving certificates. Reason:
+                    <span id="banReasonDisplay"> Lupon Case or Pending Due</span>
                 </div>
             </div>
 
             <div class="form-group-2">
                 <label for="selectCertificateType">Certificate Type:</label>
-                <select id="selectCertificateType" name="certificate_type" class="form-control-2" required>
+                <select id="selectCertificateType" name="certificate_type_name" class="form-control-2" required>
                     <option value="">-- Select Certificate Type --</option>
-                    <option value="Barangay Residency">Barangay Residency</option>
                     <option value="Certificate of Indigency">Certificate of Indigency</option>
-                    <option value="Non-Residency Certificate">Certificate of Non-Residency</option>
+                    <option value="Barangay Residency">Barangay Residency</option>
+                    <option value="Certificate of Non-Residency">Certificate of Non-Residency</option>
                     <option value="Barangay Permit">Barangay Permit</option>
                     <option value="Barangay Endorsement">Barangay Endorsement</option>
                     <option value="Vehicle Clearance">Vehicle Clearance</option>
                 </select>
             </div>
+
             <div class="form-group-2" id="photoUploadGroup" style="display: none;">
                 <label for="certificatePhoto">Resident Photo (Optional for some certificates):</label>
                 <input type="file" id="certificatePhoto" name="certificate_photo" accept="image/*"
                     class="form-control-2">
                 <p class="form-text text-muted">A photo may be required for certain certificate types.</p>
             </div>
-            <div class="form-group-2">
-                <label for="certificatePurpose">Purpose:</label>
-                <textarea id="certificatePurpose" name="purpose" class="form-control-2" rows="3" required
-                    placeholder="e.g., For school enrollment, For job application, For business registration"></textarea>
+
+
+            <div class="form-certificate-specific-fields" data-certificate-type="default_purpose"
+                style="display: none;">
+                <div class="form-group-2">
+                    <label for="defaultPurpose">Purpose:</label>
+                    <textarea id="defaultPurpose" name="purpose" class="form-control-2" rows="3"
+                        placeholder="e.g., For school enrollment, For job application, For business registration"></textarea>
+                </div>
+                <div class="form-group-2"></div>
             </div>
+
+            <div class="form-certificate-specific-fields" data-certificate-type="Barangay Endorsement"
+                style="display: none;">
+                <div class="form-group-2">
+                    <label for="endorsementPurpose">Purpose:</label>
+                    <textarea id="endorsementPurpose" name="purpose" class="form-control-2" rows="3"
+                        placeholder="e.g., For business registration, For financial aid"></textarea>
+                </div>
+                <div class="form-group-2">
+                    <label for="businessName">Business Name:</label>
+                    <input type="text" id="businessName" name="business_name" class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="businessAddress">Business Address:</label>
+                    <input type="text" id="businessAddress" name="business_address" class="form-control-2">
+                </div>
+            </div>
+
+            <div class="form-certificate-specific-fields" data-certificate-type="Barangay Permit"
+                style="display: none;">
+                <div class="form-group-2">
+                    <label for="permitPurpose">Purpose:</label>
+                    <textarea id="permitPurpose" name="purpose" class="form-control-2" rows="3"
+                        placeholder="e.g., For operating a sari-sari store, For construction"></textarea>
+                </div>
+                <div class="form-group-2"></div>
+            </div>
+
+            <div class="form-certificate-specific-fields" data-certificate-type="Vehicle Clearance"
+                style="display: none;">
+                <div class="form-group-2">
+                    <label for="vehiclePurpose">Purpose:</label>
+                    <textarea id="vehiclePurpose" name="purpose" class="form-control-2" rows="3"
+                        placeholder="e.g., For vehicle registration, For selling vehicle"></textarea>
+                </div>
+                <div class="form-group-2">
+                    <label for="vehicleType">Vehicle Type:</label>
+                    <input type="text" id="vehicleType" name="vehicle_type" class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="vehicleMake">Vehicle Make:</label>
+                    <input type="text" id="vehicleMake" name="vehicle_make" class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="vehicleColor">Vehicle Color:</label>
+                    <input type="text" id="vehicleColor" name="vehicle_color" class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="vehicleYearModel">Vehicle Year Model:</label>
+                    <input type="text" id="vehicleYearModel" name="vehicle_year_model" class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="vehiclePlateNumber">Vehicle Plate Number:</label>
+                    <input type="text" id="vehiclePlateNumber" name="vehicle_plate_number" class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="vehicleBodyNumber">Vehicle Body Number:</label>
+                    <input type="text" id="vehicleBodyNumber" name="vehicle_body_number" class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="vehicleRegistrationNumber">Vehicle Registration Number:</label>
+                    <input type="text" id="vehicleRegistrationNumber" name="vehicle_registration_number"
+                        class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="vehicleMotorNumber">Vehicle Motor Number:</label>
+                    <input type="text" id="vehicleMotorNumber" name="vehicle_motor_number" class="form-control-2">
+                </div>
+                <div class="form-group-2">
+                    <label for="vehicleChassisNumber">Vehicle Chassis Number:</label>
+                    <input type="text" id="vehicleChassisNumber" name="vehicle_chassis_number" class="form-control-2">
+                </div>
+            </div>
+
             <div class="modal-actions">
                 <button type="submit" class="btn btn-good" id="generateCertificateBtn">Generate Certificate</button>
                 <button type="button" id="CloseNewCertificateRequestModalBtn" class="btn btn-cancel">Cancel</button>

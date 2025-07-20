@@ -101,8 +101,8 @@ try {
         <div class="action-buttons">
             <button class="btn btn-primary" data-url="./fd_residents.php" data-load-content="true">Register New
                 Resident</button>
-            <button class="btn btn-secondary" data-url="./fd_certificate.php" data-load-content="true">Issue
-                Certificate</button>
+            <!-- <button class="btn btn-secondary" data-url="./fd_certificate.php" data-load-content="true">Issue
+                Certificate</button> -->
         </div>
     </div>
 

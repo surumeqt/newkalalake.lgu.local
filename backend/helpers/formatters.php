@@ -46,5 +46,5 @@ function formatAddress($data) {
         $data['barangay'] ?? '',
         $data['city'] ?? ''
     ];
-    return implode(', ', array_filter($addressParts));
+    return implode(' ', array_filter($addressParts));
 }

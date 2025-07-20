@@ -24,155 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "/newkalalake.lgu.local/frontdesk/components/logout.php";
         });
     }
-
-    // Elements for the Status Modal
-    const statusModal = document.getElementById("status-modal");
-    const docketInputStatus = document.getElementById("modal-docket-status");
-    const statusSelectedValueInput = document.getElementById(
-        "status-selected-value"
-    );
-    const statusForm = document.getElementById("status-form");
-    const statusSelectionDropdown = document.getElementById("status-selection");
-    const statusReportSummaryGroup = document.getElementById(
-        "status-report-summary-group"
-    );
-    const statusReportSummaryTextarea = document.getElementById(
-        "status_report_summary_text"
-    );
-    const cancelStatusBtn = statusModal
-        ? statusModal.querySelector(".cancel-status-btn")
-        : null;
-
-    // --- NEW: Ensure the modal is hidden on page load ---
-    if (statusModal) {
-        statusModal.style.display = "none"; // Explicitly hide it on DOMContentLoaded
-    }
-    // --- END NEW ---
-
-    // Function to toggle the visibility and required status of the report summary
-    const toggleReportSummary = (selectedStatus) => {
-        if (statusReportSummaryGroup && statusReportSummaryTextarea) {
-            if (selectedStatus === "Rehearing") {
-                statusReportSummaryGroup.style.display = "none";
-                statusReportSummaryTextarea.removeAttribute("required");
-                statusReportSummaryTextarea.value = "";
-            } else {
-                statusReportSummaryGroup.style.display = "block";
-                statusReportSummaryTextarea.setAttribute(
-                    "required",
-                    "required"
-                );
-            }
-        }
-    };
-
-    // Event listener for opening the Status Modal (when "Change Status" button is clicked)
-    document.addEventListener("click", function (event) {
-        const clickedButton = event.target.closest(".open-lupon-modal");
-
-        if (clickedButton) {
-            const docket = clickedButton.getAttribute("data-docket");
-            const hearingStatus = clickedButton.getAttribute("data-hearing");
-
-            if (
-                statusModal &&
-                docketInputStatus &&
-                statusSelectedValueInput &&
-                statusForm &&
-                statusSelectionDropdown
-            ) {
-                docketInputStatus.value = docket;
-                statusSelectionDropdown.value = ""; // Reset dropdown selection on open
-                statusSelectedValueInput.value = ""; // Clear hidden input on open
-                statusReportSummaryTextarea.value = ""; // Clear summary on open
-
-                // Initially hide the summary group when the modal opens
-                toggleReportSummary(""); // Pass empty string to ensure it hides initially
-
-                statusModal.style.display = "flex"; // This line will show the modal when the button is clicked
-                console.log(
-                    "Opening Status Modal (from cases.php button). Original status:",
-                    hearingStatus
-                );
-            } else {
-                console.warn(
-                    "Status modal elements not found or misconfigured for .open-lupon-modal."
-                );
-            }
-        }
-    });
-
-    // Event listener for the status dropdown change
-    if (statusSelectionDropdown) {
-        statusSelectionDropdown.addEventListener("change", function () {
-            const selectedStatus = this.value;
-            statusSelectedValueInput.value = selectedStatus;
-            toggleReportSummary(selectedStatus);
-            console.log("Status dropdown changed to:", selectedStatus);
-        });
-    }
-
-    // Event listener for form submission
-    if (statusForm && statusSelectedValueInput) {
-        statusForm.addEventListener("submit", function (event) {
-            const selectedStatus = statusSelectedValueInput.value;
-            const summaryText = statusReportSummaryTextarea.value;
-            const isSummaryVisible =
-                statusReportSummaryGroup.style.display !== "none";
-
-            if (!selectedStatus) {
-                alert("Please select a status option.");
-                event.preventDefault();
-                return;
-            }
-
-            if (
-                isSummaryVisible &&
-                statusReportSummaryTextarea.hasAttribute("required") &&
-                !summaryText.trim()
-            ) {
-                alert("Please enter the report summary.");
-                event.preventDefault();
-                return;
-            }
-
-            console.log("Submitting Status Form:");
-            console.log("Docket:", docketInputStatus.value);
-            console.log("Selected Status:", selectedStatus);
-            if (isSummaryVisible) {
-                console.log("Report Summary:", summaryText);
-            }
-        });
-    }
-
-    // Event listeners for closing the modal
-    if (statusModal) {
-        statusModal.addEventListener("click", (event) => {
-            if (event.target === statusModal) {
-                statusModal.style.display = "none";
-                if (statusForm) statusForm.reset();
-                toggleReportSummary("");
-                console.log("Closing Status Modal by clicking overlay.");
-            }
-        });
-    }
-
-    if (cancelStatusBtn) {
-        cancelStatusBtn.addEventListener("click", () => {
-            if (statusModal) {
-                statusModal.style.display = "none";
-                if (statusForm) statusForm.reset();
-                toggleReportSummary("");
-                console.log("Closing Status Modal via Cancel button.");
-            }
-        });
-    }
 });
 
 let currentResidentIdForCertificates = null;
-
-// frontdesk\js\modal.logic.js
-// (Add this function or merge its contents into your existing initializeAddResidentModal if present)
 
 // frontdesk\js\modal.logic.js
 
@@ -232,64 +86,83 @@ function initializeAddResidentModal() {
     }
 }
 
-// NEW FUNCTION: Function to initialize the Select Certificate Type Modal
-function initializeSelectCertificateTypeModal() {
-    console.log("Attempting to initialize Select Certificate Type Modal..."); // Debugging
+// // NEW FUNCTION: Function to initialize the Select Certificate Type Modal
+// function initializeSelectCertificateTypeModal() {
+//     console.log("Attempting to initialize Select Certificate Type Modal..."); // Debugging
 
-    const openModalBtn = document.getElementById("issueCertificateModalBtn");
-    const SelectCertificateTypeModal = document.getElementById(
-        "SelectCertificateTypeModal"
-    );
-    const closeModalBtn = document.getElementById("sc-closeModalBtn");
+//     const openModalBtn = document.getElementById("issueCertificateModalBtn");
+//     const SelectCertificateTypeModal = document.getElementById(
+//         "SelectCertificateTypeModal"
+//     );
+//     const closeModalBtn = document.getElementById("sc-closeModalBtn");
 
-    if (openModalBtn && SelectCertificateTypeModal && closeModalBtn) {
-        console.log(
-            "Select Certificate Type Modal elements found. Attaching listeners."
-        );
+//     if (openModalBtn && SelectCertificateTypeModal && closeModalBtn) {
+//         console.log(
+//             "Select Certificate Type Modal elements found. Attaching listeners."
+//         );
 
-        openModalBtn.addEventListener("click", () => {
-            SelectCertificateTypeModal.classList.add("active");
-            console.log("Select Certificate Type Modal Opened!");
-        });
+//         openModalBtn.addEventListener("click", () => {
+//             SelectCertificateTypeModal.classList.add("active");
+//             console.log("Select Certificate Type Modal Opened!");
+//         });
 
-        closeModalBtn.addEventListener("click", () => {
-            SelectCertificateTypeModal.classList.remove("active");
-            console.log("Select Certificate Type Modal Closed!");
-        });
+//         closeModalBtn.addEventListener("click", () => {
+//             SelectCertificateTypeModal.classList.remove("active");
+//             console.log("Select Certificate Type Modal Closed!");
+//         });
 
-        // Close modal if overlay is clicked
-        SelectCertificateTypeModal.addEventListener("click", (event) => {
-            if (event.target === SelectCertificateTypeModal) {
-                SelectCertificateTypeModal.classList.remove("active");
-                console.log(
-                    "Select Certificate Type Modal Closed by clicking outside!"
-                );
-            }
-        });
-    } else {
-        console.warn(
-            "Could not find all Select Certificate Type Modal elements. This is normal if fd_residents.php is not loaded yet."
-        );
-        if (!openModalBtn) console.warn("Missing #issueCertificateModalBtn");
-        if (!SelectCertificateTypeModal)
-            console.warn("Missing #SelectCertificateTypeModal");
-        if (!closeModalBtn) console.warn("Missing #sc-closeModalBtn");
-    }
-}
+//         // Close modal if overlay is clicked
+//         SelectCertificateTypeModal.addEventListener("click", (event) => {
+//             if (event.target === SelectCertificateTypeModal) {
+//                 SelectCertificateTypeModal.classList.remove("active");
+//                 console.log(
+//                     "Select Certificate Type Modal Closed by clicking outside!"
+//                 );
+//             }
+//         });
+//     } else {
+//         console.warn(
+//             "Could not find all Select Certificate Type Modal elements. This is normal if fd_residents.php is not loaded yet."
+//         );
+//         if (!openModalBtn) console.warn("Missing #issueCertificateModalBtn");
+//         if (!SelectCertificateTypeModal)
+//             console.warn("Missing #SelectCertificateTypeModal");
+//         if (!closeModalBtn) console.warn("Missing #sc-closeModalBtn");
+//     }
+// }
 
 // Function to initialize the Edit Resident Modal (existing from your files)
 // frontdesk\js\modal.logic.js
 
+// It should be defined similarly to reflectAge, but targetting the 'edit_' prefixed IDs
+function reflectAgeForEditModal() {
+    const birthdayInput = document.getElementById("edit_birthDate");
+    const ageInput = document.getElementById("edit_age");
+
+    if (birthdayInput && birthdayInput.value) {
+        const birthDate = new Date(birthdayInput.value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (
+            monthDiff < 0 ||
+            (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+            age--;
+        }
+        ageInput.value = age;
+    } else {
+        ageInput.value = "";
+    }
+}
+
+
 function initializeEditResidentModal() {
     console.log("Attempting to initialize Edit Resident Modal...");
 
-    const OpenEditResidentModalBtn = document.getElementById(
-        "OpenEditResidentModalBtn"
-    );
-    const EditResidentModal = document.getElementById("EditResidentModal");
-    const CloseEditResidentModalBtn = document.getElementById(
-        "CloseEditResidentModalBtn"
-    );
+    const openEditResidentModalBtn = document.getElementById("OpenEditResidentModalBtn");
+    const editResidentModal = document.getElementById("EditResidentModal");
+    const closeEditResidentModalBtn = document.getElementById("CloseEditResidentModalBtn");
 
     // Get references to all input fields in the edit modal (using the new 'edit_' prefixed IDs)
     const form = document.getElementById("editResidentForm");
@@ -309,13 +182,13 @@ function initializeEditResidentModal() {
     const editContactNumber = document.getElementById("edit_contact_number");
     const editEmail = document.getElementById("edit_email");
     const editResidentIdHidden = document.getElementById("edit_residentId"); // Hidden ID field
-    // const currentResidentPhoto = document.getElementById("currentResidentPhoto"); // If you added img tag for photo
+    const editPhotoInput = document.getElementById("edit_photo"); // File input for photo
 
 
     if (
-        OpenEditResidentModalBtn &&
-        EditResidentModal &&
-        CloseEditResidentModalBtn &&
+        openEditResidentModalBtn &&
+        editResidentModal &&
+        closeEditResidentModalBtn &&
         editFirstName && // Check at least one key field
         editBirthDate && // Ensure all critical fields exist
         editGender &&
@@ -323,70 +196,74 @@ function initializeEditResidentModal() {
     ) {
         console.log("Edit Resident Modal elements found. Attaching listeners.");
 
-        // Add 'blur' listener for birthDate to automatically calculate age
-        editBirthDate.addEventListener('blur', () => {
-            reflectAgeForEditModal(); // A new specific function for this modal
-        });
-        // You might also want 'change' for date pickers that don't blur immediately
-        // editBirthDate.addEventListener('change', reflectAgeForEditModal);
+        editBirthDate.addEventListener('blur', reflectAgeForEditModal);
+        editBirthDate.addEventListener('change', reflectAgeForEditModal); // For date pickers
 
-        OpenEditResidentModalBtn.addEventListener("click", () => {
-            EditResidentModal.classList.add("active");
-            console.log("Edit Resident Modal Opened!");
+        openEditResidentModalBtn.addEventListener("click", function() { // Use 'function' to bind 'this' correctly
+            const residentId = this.dataset.residentId; // Get resident ID from data-resident-id attribute
+            console.log("Edit Resident Modal Opened for ID:", residentId);
 
-            // Populate the form fields with current resident data
-            if (residentDataForEdit) {
-                editResidentIdHidden.value = residentDataForEdit.resident_id || '';
-                editFirstName.value = residentDataForEdit.first_name || '';
-                editMiddleName.value = residentDataForEdit.middle_name || '';
-                editLastName.value = residentDataForEdit.last_name || '';
-                editSuffix.value = residentDataForEdit.suffix || '';
-                editBirthDate.value = residentDataForEdit.birthday || ''; // Date fields need YYYY-MM-DD
-                // No need to set editAge directly as it's calculated
+            if (residentId) {
+                // Fetch resident data via AJAX
+                fetch(`../backend/fd_controllers/residents.controller.php?resident_id=${residentId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success && data.data) {
+                            const residentDataForEdit = data.data;
+                            editResidentIdHidden.value = residentDataForEdit.resident_id || '';
+                            editFirstName.value = residentDataForEdit.first_name || '';
+                            editMiddleName.value = residentDataForEdit.middle_name || '';
+                            editLastName.value = residentDataForEdit.last_name || '';
+                            editSuffix.value = residentDataForEdit.suffix || '';
+                            editBirthDate.value = residentDataForEdit.birthday || ''; // Date needs YYYY-MM-DD
+                            editGender.value = residentDataForEdit.gender || '';
+                            editCivilStatus.value = residentDataForEdit.civil_status || '';
+                            editHouseNumber.value = residentDataForEdit.house_number || ''; // Use house_number from DB
+                            editStreet.value = residentDataForEdit.street || '';
+                            editPurok.value = residentDataForEdit.purok || '';
+                            editBarangay.value = residentDataForEdit.barangay || '';
+                            editCity.value = residentDataForEdit.city || '';
+                            editContactNumber.value = residentDataForEdit.contact_number || '';
+                            editEmail.value = residentDataForEdit.email || '';
 
-                // For select elements, set the value directly
-                editGender.value = residentDataForEdit.gender || '';
-                editCivilStatus.value = residentDataForEdit.civil_status || '';
-
-                editHouseNumber.value = residentDataForEdit.houseNumber || '';
-                editStreet.value = residentDataForEdit.street || '';
-                editPurok.value = residentDataForEdit.purok || '';
-                editBarangay.value = residentDataForEdit.barangay || '';
-                editCity.value = residentDataForEdit.city || '';
-                editContactNumber.value = residentDataForEdit.contact_number || '';
-                editEmail.value = residentDataForEdit.email || '';
-
-                // If you have an image tag for the current photo:
-                // if (currentResidentPhoto && residentDataForEdit.photo_path) {
-                //     currentResidentPhoto.src = residentDataForEdit.photo_path; // Assuming photo_path is the URL
-                //     currentResidentPhoto.style.display = 'block';
-                // } else if (currentResidentPhoto) {
-                //     currentResidentPhoto.style.display = 'none';
-                // }
-
-                // After populating birthDate, reflect the age
-                reflectAgeForEditModal();
+                            reflectAgeForEditModal(); // Calculate age after setting birthday
+                            editResidentModal.classList.add("active"); // Show modal after populating
+                        } else {
+                            alert('Error fetching resident data: ' + data.message);
+                            console.error('Error fetching resident data:', data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error during data fetch for edit modal:", error);
+                        alert('An error occurred while loading resident data: ' + error.message);
+                    });
             } else {
-                console.warn("No resident data available to populate the edit modal.");
-                // Optionally clear the form if no data is present
-                form.reset();
+                console.warn("No resident ID found for edit modal.");
+                alert("Cannot edit: Resident ID is missing.");
             }
         });
 
-        CloseEditResidentModalBtn.addEventListener("click", () => {
-            EditResidentModal.classList.remove("active");
+        closeEditResidentModalBtn.addEventListener("click", () => {
+            editResidentModal.classList.remove("active");
             console.log("Edit Resident Modal Closed!");
             form.reset(); // Clear the form on close
             editAge.value = ""; // Clear age field specifically
+            editPhotoInput.value = ""; // Clear file input
         });
 
         // Close modal if overlay is clicked
-        EditResidentModal.addEventListener("click", (event) => {
-            if (event.target === EditResidentModal) {
-                EditResidentModal.classList.remove("active");
+        editResidentModal.addEventListener("click", (event) => {
+            if (event.target === editResidentModal) {
+                editResidentModal.classList.remove("active");
                 console.log("Edit Resident Modal Closed by clicking outside!");
                 form.reset(); // Clear the form on close
                 editAge.value = ""; // Clear age field specifically
+                editPhotoInput.value = ""; // Clear file input
             }
         });
 
@@ -395,8 +272,9 @@ function initializeEditResidentModal() {
             event.preventDefault(); // Prevent default form submission
 
             const formData = new FormData(this); // 'this' refers to the form
-            // You might want to remove the 'age' field from formData if it's disabled and not part of your backend
-            formData.delete('age'); 
+            // The 'age' field is disabled, so it won't be submitted by default.
+            // If you want to ensure it's not sent, or if you make it enabled,
+            // you might re-add: formData.delete('age');
             
             console.log("Submitting Edit Resident Form...");
 
@@ -414,11 +292,8 @@ function initializeEditResidentModal() {
                 console.log("Edit response:", data);
                 if (data.success) {
                     alert('Resident updated successfully!');
-                    EditResidentModal.classList.remove('active'); // Close modal
-                    // OPTIONAL: Reload the content to show updated profile
-                    // This assumes loadContent is available from navigations.js
-                    // You might need to make loadContent a global function or pass it.
-                    // For now, a full page reload is simpler if not using full SPA
+                    editResidentModal.classList.remove('active'); // Close modal
+                    // Reload the current page to reflect changes
                     window.location.reload(); 
                 } else {
                     alert('Error updating resident: ' + data.message);
@@ -434,81 +309,58 @@ function initializeEditResidentModal() {
         console.warn(
             "Could not find all Edit Resident Modal elements. This is normal if fd_resident_profile.php is not loaded yet, or IDs are mismatched."
         );
-        // More specific warnings for debugging
-        if (!OpenEditResidentModalBtn) console.warn("Missing #OpenEditResidentModalBtn");
-        if (!EditResidentModal) console.warn("Missing #EditResidentModal");
-        if (!CloseEditResidentModalBtn) console.warn("Missing #CloseEditResidentModalBtn");
+        if (!openEditResidentModalBtn) console.warn("Missing #OpenEditResidentModalBtn");
+        if (!editResidentModal) console.warn("Missing #EditResidentModal");
+        if (!closeEditResidentModalBtn) console.warn("Missing #CloseEditResidentModalBtn");
         if (!editFirstName) console.warn("Missing #edit_firstName (or other form fields). Check all 'edit_' prefixed IDs.");
         if (!editResidentIdHidden) console.warn("Missing #edit_residentId hidden input.");
     }
 }
 
-// Helper function for age calculation in the edit modal
-function reflectAgeForEditModal() {
-    const birthdayInput = document.getElementById("edit_birthDate");
-    const ageInput = document.getElementById("edit_age");
+// // NEW FUNCTION: Function to initialize the Select Certificate Type Modal 2
+// function initializeSelectCertificateTypeModal2() {
+//     console.log("Attempting to initialize Select Certificate Type Modal..."); // Debugging
 
-    if (birthdayInput && ageInput && birthdayInput.value) {
-        const birthDate = new Date(birthdayInput.value);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        if (
-            monthDiff < 0 ||
-            (monthDiff === 0 && today.getDate() < birthDate.getDate())
-        ) {
-            age--;
-        }
-        ageInput.value = age;
-    } else if (ageInput) {
-        ageInput.value = "";
-    }
-}
+//     const openModalBtn = document.getElementById("issueCertificateModalBtn");
+//     const SelectCertificateTypeModal2 = document.getElementById(
+//         "SelectCertificateTypeModal2"
+//     );
+//     const closeModalBtn = document.getElementById("sc-closeModalBtn");
 
-// NEW FUNCTION: Function to initialize the Select Certificate Type Modal 2
-function initializeSelectCertificateTypeModal2() {
-    console.log("Attempting to initialize Select Certificate Type Modal..."); // Debugging
+//     if (openModalBtn && SelectCertificateTypeModal2 && closeModalBtn) {
+//         console.log(
+//             "Select Certificate Type Modal elements found. Attaching listeners."
+//         );
 
-    const openModalBtn = document.getElementById("issueCertificateModalBtn");
-    const SelectCertificateTypeModal2 = document.getElementById(
-        "SelectCertificateTypeModal2"
-    );
-    const closeModalBtn = document.getElementById("sc-closeModalBtn");
+//         openModalBtn.addEventListener("click", () => {
+//             SelectCertificateTypeModal2.classList.add("active");
+//             console.log("Select Certificate Type Modal Opened!");
+//         });
 
-    if (openModalBtn && SelectCertificateTypeModal2 && closeModalBtn) {
-        console.log(
-            "Select Certificate Type Modal elements found. Attaching listeners."
-        );
+//         closeModalBtn.addEventListener("click", () => {
+//             SelectCertificateTypeModal2.classList.remove("active");
+//             console.log("Select Certificate Type Modal Closed!");
+//         });
 
-        openModalBtn.addEventListener("click", () => {
-            SelectCertificateTypeModal2.classList.add("active");
-            console.log("Select Certificate Type Modal Opened!");
-        });
-
-        closeModalBtn.addEventListener("click", () => {
-            SelectCertificateTypeModal2.classList.remove("active");
-            console.log("Select Certificate Type Modal Closed!");
-        });
-
-        // Close modal if overlay is clicked
-        SelectCertificateTypeModal2.addEventListener("click", (event) => {
-            if (event.target === SelectCertificateTypeModal2) {
-                SelectCertificateTypeModal2.classList.remove("active");
-                console.log(
-                    "Select Certificate Type Modal Closed by clicking outside!"
-                );
-            }
-        });
-    } else {
-        console.warn(
-            "Could not find all Select Certificate Type Modal elements. This is normal if fd_resident_profile.php is not loaded yet."
-        );
-        if (!openModalBtn) console.warn("Missing #issueCertificateModalBtn");
-        if (!SelectCertificateTypeModal2)
-            console.warn("Missing #SelectCertificateTypeModal2");
-        if (!closeModalBtn) console.warn("Missing #sc-closeModalBtn");
-    }
-}
+//         // Close modal if overlay is clicked
+//         SelectCertificateTypeModal2.addEventListener("click", (event) => {
+//             if (event.target === SelectCertificateTypeModal2) {
+//                 SelectCertificateTypeModal2.classList.remove("active");
+//                 console.log(
+//                     "Select Certificate Type Modal Closed by clicking outside!"
+//                 );
+//             }
+//         });
+//     } else {
+//         console.warn(
+//             "Could not find all Select Certificate Type Modal elements. This is normal if fd_resident_profile.php is not loaded yet."
+//         );
+//         if (!openModalBtn) console.warn("Missing #issueCertificateModalBtn");
+//         if (!SelectCertificateTypeModal2)
+//             console.warn("Missing #SelectCertificateTypeModal2");
+//         if (!closeModalBtn) console.warn("Missing #sc-closeModalBtn");
+//     }
+// }
 
 // NEW FUNCTION: Function to delete resident profile
 function initializeDeleteResidentModal() {
@@ -553,53 +405,193 @@ function initializeDeleteResidentModal() {
 }
 
 
-// NEW FUNCTION: Function New Certificate Request Modal
+// NEW FUNCTION: Function New Certificate Request Modal (This is where the new logic goes)
 function initializeNewCertificateRequestModal() {
     console.log("Attempting to initialize New Certificate Request Modal..."); // Debugging
 
-    // Removed querySelectorAll for the buttons. We'll use event delegation.
-    const newCertificateModal = document.getElementById(
-        "NewCertificateRequestModal"
-    );
-    const closeModalBtn = document.getElementById(
-        "CloseNewCertificateRequestModalBtn"
-    );
+    const newCertificateModal = document.getElementById("NewCertificateRequestModal");
+    const closeModalBtn = document.getElementById("CloseNewCertificateRequestModalBtn");
     const selectedResidentIdInput = document.getElementById("selectedResidentId");
     const residentSearchInputModal = document.querySelector("#NewCertificateRequestModal #residentSearchInput");
-    const residentNameDisplay = document.getElementById("residentNameDisplay");
-    const residentBanWarning = document.getElementById("residentBanWarning"); // Get the ban warning element
-    const banReasonDisplay = document.getElementById("banReasonDisplay"); // Get the ban reason display element
+    const residentStatusDisplay = document.getElementById("residentStatusDisplay");
+    const residentBanWarning = document.getElementById("residentBanWarning");
+    const banReasonDisplay = document.getElementById("banReasonDisplay");
+    const generateCertificateBtn = document.getElementById("generateCertificateBtn");
 
-    if (newCertificateModal && closeModalBtn && selectedResidentIdInput && residentSearchInputModal && residentNameDisplay && residentBanWarning && banReasonDisplay) {
-        console.log(
-            "New Certificate Modal elements found. Attaching listeners via event delegation."
-        );
+    // --- NEW ELEMENTS FOR DYNAMIC FORMS ---
+    const certificateTypeSelect = document.getElementById('selectCertificateType');
+    const specificFormSections = document.querySelectorAll('.form-certificate-specific-fields');
+    const photoUploadGroup = document.getElementById('photoUploadGroup');
+    // --- END NEW ELEMENTS ---
 
-        // Event delegation: Attach click listener to a static parent (e.g., document or #residents-body)
-        // We'll use document for broadest coverage.
+    if (
+        newCertificateModal &&
+        closeModalBtn &&
+        selectedResidentIdInput &&
+        residentSearchInputModal &&
+        residentStatusDisplay &&
+        residentBanWarning &&
+        banReasonDisplay &&
+        generateCertificateBtn &&
+        certificateTypeSelect && // Check for the new elements
+        specificFormSections.length > 0 &&
+        photoUploadGroup
+    ) {
+        console.log("New Certificate Modal elements found. Attaching listeners via event delegation.");
+
+        // --- NEW DYNAMIC FORM LOGIC ---
+        // Function to hide all specific form sections
+        function hideAllSpecificForms() {
+            specificFormSections.forEach(section => {
+                section.style.display = 'none';
+                // Optionally, clear inputs in hidden sections to prevent submitting old data
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.value = ''; // Clear text inputs
+                    input.checked = false; // Uncheck checkboxes/radios
+                    input.removeAttribute('required'); // Remove required attribute when hidden
+                });
+            });
+        }
+
+        // Function to show the relevant form section
+        function showRelevantForm() {
+            hideAllSpecificForms(); // Start by hiding everything
+
+            const selectedValue = certificateTypeSelect.value;
+            let targetDataAttribute;
+
+            // Determine which data-certificate-type to show based on the selected value
+            if (selectedValue === "Certificate of Indigency" ||
+                selectedValue === "Barangay Residency" ||
+                selectedValue === "Certificate of Non-Residency") {
+                targetDataAttribute = "default_purpose";
+            } else if (selectedValue === "Barangay Endorsement") {
+                targetDataAttribute = "Barangay Endorsement";
+            } else if (selectedValue === "Barangay Permit") {
+                targetDataAttribute = "Barangay Permit";
+            } else if (selectedValue === "Vehicle Clearance") {
+                targetDataAttribute = "Vehicle Clearance";
+            }
+            // Add more else if blocks for other certificate types if they have unique forms
+
+            if (targetDataAttribute) {
+                const sectionToShow = document.querySelector(`[data-certificate-type="${targetDataAttribute}"]`);
+                if (sectionToShow) {
+                    sectionToShow.style.display = 'block'; // Show the specific section
+                    // Make inputs in the visible section required if necessary
+                    sectionToShow.querySelectorAll('[data-required-if-visible="true"]').forEach(input => {
+                        input.setAttribute('required', 'true');
+                    });
+                }
+            }
+            // Also handle photo upload visibility here
+            if (selectedValue === 'Vehicle Clearance') { // Example: Photo required for Vehicle Clearance
+                photoUploadGroup.style.display = 'block';
+                // You might want to add a 'required' attribute to the file input here if it's always required for this type
+                // photoUploadGroup.querySelector('input[type="file"]').setAttribute('required', 'true');
+            } else {
+                photoUploadGroup.style.display = 'none';
+                // photoUploadGroup.querySelector('input[type="file"]').removeAttribute('required');
+            }
+        }
+
+        // Event listener for when the certificate type changes
+        certificateTypeSelect.addEventListener('change', showRelevantForm);
+        // --- END NEW DYNAMIC FORM LOGIC ---
+
+
         document.addEventListener("click", (event) => {
-            // Check if the clicked element (or one of its parents) has the class 'open-new-certificate-modal-btn'
-            // closest() method checks the element itself, and then its ancestors (parent, grandparent, etc.)
-            const clickedButton = event.target.closest(".open-new-certificate-modal-btn");
+            const clickedButton = event.target.closest(
+                ".open-new-certificate-modal-btn"
+            );
 
             if (clickedButton) {
-                // Get the resident ID and name from the data attributes of the clicked button
-                const residentId = clickedButton.getAttribute("data-resident-id");
-                const residentName = clickedButton.getAttribute("data-resident-name");
+                const residentId =
+                    clickedButton.getAttribute("data-resident-id");
+                const residentName =
+                    clickedButton.getAttribute("data-resident-name");
 
-                // Populate the modal fields with the resident's data
+                // Populate the modal fields with the resident's data (initially)
                 selectedResidentIdInput.value = residentId;
-                residentSearchInputModal.value = residentName; // Set the disabled input with the resident's name
-                residentNameDisplay.textContent = residentName; // Update the display text
-                residentNameDisplay.style.display = 'inline'; // Ensure the name display is visible
+                residentSearchInputModal.value = residentName;
 
-                // Reset ban warning visibility
-                residentBanWarning.style.display = 'none';
-                banReasonDisplay.textContent = '';
+                // Reset status display and warning before fetching new data
+                residentStatusDisplay.textContent = "Loading..."; // Initial status
+                residentStatusDisplay.className = ''; // Clear previous classes
+                residentBanWarning.style.display = "none";
+                banReasonDisplay.textContent = "";
+                generateCertificateBtn.disabled = false; // Enable by default
 
-                // Open the modal
+                // Reset certificate type dropdown and hide all specific forms on modal open
+                certificateTypeSelect.value = ""; // Reset dropdown to default
+                hideAllSpecificForms(); // Hide all type-specific forms
+                photoUploadGroup.style.display = 'none'; // Hide photo upload by default
+
+                // Open the modal immediately
                 newCertificateModal.classList.add("active");
-                console.log("New Certificate Modal Opened for Resident ID:", residentId, "Name:", residentName);
+                console.log(
+                    "New Certificate Modal Opened for Resident ID:",
+                    residentId,
+                    "Name:",
+                    residentName
+                );
+
+
+                // Fetch resident status via AJAX
+                fetch(
+                    "../backend/fd_controllers/residents.controller.php?resident_id=" +
+                    residentId
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        if (data.success && data.data) {
+                            const isBanned = data.data.is_banned;
+
+                            if (isBanned === 1) {
+                                residentStatusDisplay.textContent = "Banned";
+                                residentStatusDisplay.className = 'text-danger'; // Add class for styling
+                                residentBanWarning.style.display = "block"; // Show the warning
+                                banReasonDisplay.textContent =
+                                    "Lupon Case or Pending Due"; // Set static reason as requested
+                                generateCertificateBtn.disabled = true; // Disable the button
+                                console.log(
+                                    `Resident ID ${residentId} is BANNED. Static Reason Displayed.`
+                                );
+                            } else {
+                                residentStatusDisplay.textContent = "Not Banned";
+                                residentStatusDisplay.className = 'text-success'; // Add class for styling
+                                residentBanWarning.style.display = "none"; // Hide the warning
+                                banReasonDisplay.textContent = ""; // Clear the reason
+                                generateCertificateBtn.disabled = false; // Ensure button is enabled
+                                console.log(
+                                    `Resident ID ${residentId} is ACTIVE.`
+                                );
+                            }
+                        } else {
+                            console.error(
+                                "Failed to fetch resident details:",
+                                data.message
+                            );
+                            // Fallback if data fetching fails
+                            residentStatusDisplay.textContent = "Error Loading Status";
+                            residentStatusDisplay.className = 'text-warning';
+                            residentBanWarning.style.display = "none";
+                            generateCertificateBtn.disabled = false;
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching resident status:", error);
+                        // In case of network error, ensure button is not disabled unexpectedly
+                        residentStatusDisplay.textContent = "Network Error";
+                        residentStatusDisplay.className = 'text-warning';
+                        residentBanWarning.style.display = "none";
+                        generateCertificateBtn.disabled = false;
+                    });
             }
         });
 
@@ -607,13 +599,20 @@ function initializeNewCertificateRequestModal() {
         closeModalBtn.addEventListener("click", () => {
             newCertificateModal.classList.remove("active");
             console.log("New Certificate Modal Closed!");
-            // Optionally clear the modal fields on close for the next use
-            selectedResidentIdInput.value = '';
-            residentSearchInputModal.value = '';
-            residentNameDisplay.textContent = 'N/A';
-            residentNameDisplay.style.display = 'none';
-            residentBanWarning.style.display = 'none';
-            banReasonDisplay.textContent = '';
+            // Clear and reset modal fields on close
+            selectedResidentIdInput.value = "";
+            residentSearchInputModal.value = "";
+            residentStatusDisplay.textContent = "N/A"; // Reset status
+            residentStatusDisplay.className = '';
+            residentBanWarning.style.display = "none";
+            banReasonDisplay.textContent = "";
+            generateCertificateBtn.disabled = false; // Reset button state on close
+
+            // --- Reset dynamic form specific elements on close ---
+            certificateTypeSelect.value = ""; // Reset dropdown
+            hideAllSpecificForms(); // Hide all specific forms
+            photoUploadGroup.style.display = 'none'; // Hide photo upload
+            // --- END Reset dynamic form specific elements ---
         });
 
         // Event listener for closing the modal by clicking outside (on the overlay)
@@ -623,32 +622,51 @@ function initializeNewCertificateRequestModal() {
                 console.log(
                     "New Certificate Modal Closed by clicking outside!"
                 );
-                // Optionally clear the modal fields on close
-                selectedResidentIdInput.value = '';
-                residentSearchInputModal.value = '';
-                residentNameDisplay.textContent = 'N/A';
-                residentNameDisplay.style.display = 'none';
-                residentBanWarning.style.display = 'none';
-                banReasonDisplay.textContent = '';
+                // Clear and reset modal fields on close
+                selectedResidentIdInput.value = "";
+                residentSearchInputModal.value = "";
+                residentStatusDisplay.textContent = "N/A"; // Reset status
+                residentStatusDisplay.className = '';
+                residentBanWarning.style.display = "none";
+                banReasonDisplay.textContent = "";
+                generateCertificateBtn.disabled = false; // Reset button state on close
+
+                // --- Reset dynamic form specific elements on close ---
+                certificateTypeSelect.value = ""; // Reset dropdown
+                hideAllSpecificForms(); // Hide all specific forms
+                photoUploadGroup.style.display = 'none'; // Hide photo upload
+                // --- END Reset dynamic form specific elements ---
             }
         });
+
+        // Initial state: hide all specific forms when the modal is first initialized
+        hideAllSpecificForms();
+        photoUploadGroup.style.display = 'none';
+
     } else {
-        // Warning messages if elements are not found, useful for debugging
         console.warn(
             "Could not find all New Certificate Modal elements. This is normal if fd_residents.php is not loaded yet or elements have changed."
         );
-        // Detail what's missing for easier debugging
-        if (!newCertificateModal) console.warn("Missing #NewCertificateRequestModal");
-        if (!closeModalBtn) console.warn("Missing #CloseNewCertificateRequestModalBtn");
-        if (!selectedResidentIdInput) console.warn("Missing #selectedResidentId");
-        if (!residentSearchInputModal) console.warn("Missing #NewCertificateRequestModal #residentSearchInput");
-        if (!residentNameDisplay) console.warn("Missing #residentNameDisplay");
+        if (!newCertificateModal)
+            console.warn("Missing #NewCertificateRequestModal");
+        if (!closeModalBtn)
+            console.warn("Missing #CloseNewCertificateRequestModalBtn");
+        if (!selectedResidentIdInput)
+            console.warn("Missing #selectedResidentId");
+        if (!residentSearchInputModal)
+            console.warn(
+                "Missing #NewCertificateRequestModal #residentSearchInput"
+            );
+        if (!residentStatusDisplay) console.warn("Missing #residentStatusDisplay");
         if (!residentBanWarning) console.warn("Missing #residentBanWarning");
         if (!banReasonDisplay) console.warn("Missing #banReasonDisplay");
+        if (!generateCertificateBtn)
+            console.warn("Missing #generateCertificateBtn");
+        if (!certificateTypeSelect) console.warn("Missing #selectCertificateType (new)");
+        if (specificFormSections.length === 0) console.warn("Missing .form-certificate-specific-fields (new)");
+        if (!photoUploadGroup) console.warn("Missing #photoUploadGroup (new)");
     }
 }
-// Make sure this function is called when the DOM is ready
-document.addEventListener('DOMContentLoaded', initializeNewCertificateRequestModal);
 
 
 function initializeDeleteResidentModal() {
@@ -784,5 +802,147 @@ function initializeBanResidentModal() {
         if (!closeModalBtn) console.warn("Missing #br-closeModalBtn");
         if (!confirmBanBtn) console.warn("Missing #confirmBanResidentBtn");
         if (!banResidentIdInput) console.warn("Missing #banResidentIdInput");
+    }
+}
+function initializeUnbanResidentModal() {
+    console.log("Attempting to initialize Unban Resident Modal...");
+
+    const unbanResidentModalBtn = document.getElementById(
+        "unbanResidentModalBtn"
+    );
+    const unbanResidentModal = document.getElementById("UnBanResidentModal");
+    const confirmUnBanResidentBtn = document.getElementById(
+        "confirmUnBanResidentBtn"
+    );
+    const closeUnBanModalBtn = document.getElementById("ubr-closeModalBtn");
+    const unbanResidentIdInput = document.getElementById(
+        "unbanResidentIdInput"
+    );
+    const residentStatusBadge = document.getElementById("residentStatusBadge"); // To update status visually
+    const banResidentModalBtn = document.getElementById("banResidentModalBtn"); // To toggle visibility
+
+    // Ensure all necessary elements are present
+    if (
+        unbanResidentModalBtn &&
+        unbanResidentModal &&
+        confirmUnBanResidentBtn &&
+        closeUnBanModalBtn &&
+        unbanResidentIdInput &&
+        residentStatusBadge &&
+        banResidentModalBtn
+    ) {
+        console.log(
+            "Unban Resident Modal elements found. Attaching listeners."
+        );
+
+        // 1. Open the Unban Modal when the "Unban Resident" button is clicked
+        unbanResidentModalBtn.addEventListener("click", function () {
+            const residentId = this.dataset.residentId; // Get resident ID from data attribute
+            if (residentId) {
+                unbanResidentIdInput.value = residentId; // Set the hidden input value
+                unbanResidentModal.classList.add("active"); // Show the modal
+                console.log("Unban Resident Modal Opened for ID:", residentId);
+            } else {
+                console.warn("No resident ID found for unban modal button.");
+                alert("Cannot unban: Resident ID is missing.");
+            }
+        });
+
+        // 2. Close the Unban Modal when the "Cancel" button is clicked
+        closeUnBanModalBtn.addEventListener("click", () => {
+            unbanResidentModal.classList.remove("active");
+            unbanResidentIdInput.value = ""; // Clear the hidden input
+            console.log("Unban Resident Modal Closed!");
+        });
+
+        // 3. Close modal if overlay is clicked
+        unbanResidentModal.addEventListener("click", (event) => {
+            if (event.target === unbanResidentModal) {
+                unbanResidentModal.classList.remove("active");
+                unbanResidentIdInput.value = ""; // Clear the hidden input
+                console.log("Unban Resident Modal Closed by clicking outside!");
+            }
+        });
+
+        // 4. Handle the "Confirm Unban" action
+        confirmUnBanResidentBtn.addEventListener("click", function () {
+            const residentIdToUnban = unbanResidentIdInput.value;
+
+            if (residentIdToUnban) {
+                console.log(
+                    "Confirming unban for Resident ID:",
+                    residentIdToUnban
+                );
+
+                // Create FormData to send the action and resident_id
+                const formData = new FormData();
+                formData.append("action", "unban_resident"); // Corresponds to your PHP switch case
+                formData.append("resident_id", residentIdToUnban);
+
+                // Send AJAX request to the backend controller
+                fetch("../backend/fd_controllers/residents.controller.php", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(
+                                `HTTP error! Status: ${response.status}`
+                            );
+                        }
+                        return response.json(); // Assuming your backend returns JSON
+                    })
+                    .then((data) => {
+                        console.log("Unban response:", data);
+                        if (data.success) {
+                            alert("Resident successfully unbanned!");
+                            unbanResidentModal.classList.remove("active"); // Close the modal
+
+                            // Update the UI
+                            residentStatusBadge.textContent = "Active";
+                            residentStatusBadge.classList.remove(
+                                "status-banned"
+                            );
+                            residentStatusBadge.classList.add("status-active");
+
+                            // Toggle button visibility
+                            unbanResidentModalBtn.style.display = "none";
+                            banResidentModalBtn.style.display = "inline-block";
+
+                            // Optional: Reload the page or update relevant sections if needed
+                            // window.location.reload(); // Uncomment if a full reload is preferred
+                        } else {
+                            alert(
+                                "Error unbanning resident: " +
+                                    (data.message || "Unknown error.")
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error during unban request:", error);
+                        alert(
+                            "An error occurred during the unban process: " +
+                                error.message
+                        );
+                    });
+            } else {
+                console.warn("Resident ID not found for unban confirmation.");
+                alert("Cannot unban: Resident ID is missing.");
+            }
+        });
+    } else {
+        console.warn(
+            "Could not find all Unban Resident Modal elements. This is normal if this script runs before the HTML is fully loaded, or if IDs are mismatched."
+        );
+        if (!unbanResidentModalBtn)
+            console.warn("Missing #unbanResidentModalBtn");
+        if (!unbanResidentModal) console.warn("Missing #UnBanResidentModal");
+        if (!confirmUnBanResidentBtn)
+            console.warn("Missing #confirmUnBanResidentBtn");
+        if (!closeUnBanModalBtn) console.warn("Missing #ubr-closeModalBtn");
+        if (!unbanResidentIdInput)
+            console.warn("Missing #unbanResidentIdInput");
+        if (!residentStatusBadge) console.warn("Missing #residentStatusBadge");
+        if (!banResidentModalBtn) console.warn("Missing #banResidentModalBtn");
     }
 }
