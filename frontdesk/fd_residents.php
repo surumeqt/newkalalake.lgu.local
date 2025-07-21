@@ -261,7 +261,7 @@ if (!$records) {
         <form id="newCertificateRequestForm" class="modal-form">
             <div class="form-group-2">
                 <label for="residentSearchInput">Selected Resident:</label>
-                <input type="text" id="residentSearchInput" class="form-control-2" placeholder=" Selected Resident"
+                <input type="text" id="residentSearchInput" class="form-control-2" placeholder="Selected Resident"
                     disabled style="text-transform: capitalize;">
                 <div id="residentSearchResults" class="search-results-dropdown">
                 </div>

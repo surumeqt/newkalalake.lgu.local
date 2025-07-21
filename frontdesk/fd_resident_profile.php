@@ -332,10 +332,3 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
         </div>
     </div>
 </div>
-
-<script>
-// Embed the PHP resident data into a JavaScript variable
-// This variable will be accessible to the modal.logic.js after this script runs
-const residentDataForEdit = <?php echo json_encode($resident); ?>;
-console.log("Resident data embedded for edit:", residentDataForEdit); // For debugging
-</script>

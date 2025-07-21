@@ -1,5 +1,4 @@
 <?php
-// file: frontdesk/fd_app.php   
 include '../backend/config/database.config.php';
 include '../backend/helpers/redirects.php';
 redirectIfNotLoggedIn();
@@ -8,9 +7,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGU - Brgy. New Kalalake System</title>
@@ -58,9 +55,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <span class="user-greeting">Welcome, <?php echo htmlspecialchars($user_email); ?></span>
             </header>
 
-            <!-- dynamically loading content from fd_dashboard.php, fd_residents.php, fd_certificate.php -->
             <div class="content-display">
-
+                <!-- dynamically loading content from fd_dashboard.php, fd_residents.php, fd_certificate.php -->
             </div>
         </div>
     </div>

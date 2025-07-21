@@ -359,4 +359,37 @@ class PDFGenerator extends FPDF {
 
         return $this->Output('S');
     }
+    public function BarangayEndorsementBlob(){
+
+        $this->AddPage();
+        $this->Ln(30);
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, 'OFFICE OF THE PUNONG BARANGAY', 0, 1, 'C');
+
+        $this->Ln(20);
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(0, 10, 'BARANGAY ENDORSEMENT', 0, 1, 'C');
+
+        $this->Ln(20);
+        $this->SetFont('Arial', '', 11);
+        $this->MultiCell(0, 5, "     This is to endorse Mary Joy Rutor Aube residing at 135 Norton Street, New Kalalake, Olongapo City and the registered operator of 3MJ'S SARI-SARI STORE located at No. 135 Norton Street, New Kalalake, Olongapo City.",0, 'J');
+
+        $this->Ln(5);
+        $this->MultiCell(0, 5, "        This endorsement is being issued in connection with their application for LOAN and for whatever legal purpose and intent it may best serve him.", 0, 'J');
+
+        $this->Ln(7);
+        $this->Cell(0, 10, "Issued this 14th day May 2025 at Barangay New Kalalake, Olongapo City.", 0, 1, 'J');
+
+        $this->Ln(35);
+        $this->SetFont('Arial','BU',11);
+        $this->Cell(0,8,'Hon. Sherwin Sionzon',0,1,'R');
+        $this->SetFont('Arial','',10);
+        $this->Cell(185,6,'Lupon Chairman',0,1,'R');
+
+        $this->Ln(65);
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(0, 10, 'Note: Valid Only with official dry seal and within 1 year from the date issued.', 0, 1);
+
+        return $this->Output('S');
+    }
 }
