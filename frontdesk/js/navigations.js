@@ -131,6 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     attachPaginationListeners();
                 }
                 // --- END IMPORTANT NEW CALL --
+                if (typeof initializePhotoUpload === "function") {
+                    initializePhotoUpload();
+                }
                 // You might need to call other initialization functions here
                 // if other dynamically loaded content also requires JS setup.
 

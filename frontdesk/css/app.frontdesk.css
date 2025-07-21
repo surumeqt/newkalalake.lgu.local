@@ -2,8 +2,8 @@
 @font-face {
     font-family: "Monda";
     src: url("../fonts/Monda-Regular.woff2") format("woff2"),
-         url("../fonts/Monda-Regular.woff") format("woff"),
-         url("../fonts/Monda-Regular.ttf") format("truetype");
+        url("../fonts/Monda-Regular.woff") format("woff"),
+        url("../fonts/Monda-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -11,8 +11,8 @@
 @font-face {
     font-family: "Monda";
     src: url("../fonts/Monda-Bold.woff2") format("woff2"),
-         url("../fonts/Monda-Bold.woff") format("woff"),
-         url("../fonts/Monda-Bold.ttf") format("truetype");
+        url("../fonts/Monda-Bold.woff") format("woff"),
+        url("../fonts/Monda-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -37,7 +37,7 @@
     --btn-small-width: 80px;
     --btn-padding: 8px 16px;
     --btn-good: #28a745;
-    --btn-good-hover: #218838; 
+    --btn-good-hover: #218838;
     --btn-bad: #dc3545;
     --btn-orange: #fd7e14;
     --btn-neutral: #6c757d;
@@ -134,7 +134,7 @@ body {
     color: var(--bg-white);
     cursor: default;
 }
-.fdresidentprofile_li{
+.fdresidentprofile_li {
     margin-left: 30px;
     display: none;
 }
@@ -282,12 +282,11 @@ body {
 
 /* CONTENT DISPLAY DEFAULT END */
 
-
 /* --- Dashboard Specific Styles (incorporating your root variables) --- */
 
-.dashboard-content {
+/* .dashboard-content {
 
-}
+} */
 
 .dashboard-header {
     margin-bottom: var(--spacing-lg);
@@ -329,7 +328,9 @@ body {
 
 .stat-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-heavy); /* Slightly more prominent shadow on hover */
+    box-shadow: var(
+        --shadow-heavy
+    ); /* Slightly more prominent shadow on hover */
 }
 
 .stat-card h3 {
@@ -381,16 +382,6 @@ body {
 }
 
 /* Quick Actions */
-.quick-actions {
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
-}
-
-.quick-actions h3 {
-    font-size: 1.5em;
-    color: var(--dark-text);
-    margin-bottom: var(--spacing-md);
-}
 
 .action-buttons {
     display: flex;
@@ -405,12 +396,11 @@ body {
     border-radius: var(--border-radius-sm);
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.3s ease;
+    transition: all 0.15s ease;
     font-family: "Monda", sans-serif; /* Ensure button text uses Monda */
 }
 .btn-2 {
     /* padding: var(--btn-padding); */
-
     border: none;
     border-radius: var(--border-radius-sm);
     cursor: pointer;
@@ -435,7 +425,7 @@ body {
 .btn-info:hover {
     background-color: var(--btn-good-hover);
 }
-.btn-danger{
+.btn-danger {
     background-color: var(--btn-bad);
     color: var(--bg-white);
 }
@@ -451,10 +441,47 @@ body {
 .btn-secondary:hover {
     background-color: #5a6268; /* Slightly darker grey for hover */
 }
-.add-resident-btn{
+.add-resident-btn {
     background-color: var(--btn-good);
     color: var(--bg-white);
+    vertical-align: middle;
 }
+.btn-img-con-1 {
+    width: 26px;
+    height: 26px;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.btn-img-con-1 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.btn-img-con-2 {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.btn-img-con-2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.btn-img-con-3 {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.btn-img-con-3 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* Recent Activity Section */
 .recent-activity-section {
     display: grid;
@@ -540,16 +567,16 @@ body {
     flex-wrap: wrap; /* Allows items to wrap on smaller screens */
     gap: var(--spacing-sm); /* Space between header items */
 }
-.back-con{
+.back-con {
     background-color: var(--primary-blue);
     color: var(--bg-white);
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--border-radius-md);
 }
-.back-con:hover{
+.back-con:hover {
     background-color: var(--primary-blue-hover);
 }
-.back-btn{
+.back-btn {
     text-decoration: none;
     color: var(--bg-white);
 }
@@ -607,7 +634,7 @@ body {
     width: 100%;
     border-collapse: collapse; /* Remove space between table cells */
     min-width: 700px; /* Ensure table is wide enough to trigger scroll if needed */
-        border-radius: 8px;
+    border-radius: 8px;
     overflow: hidden;
 }
 .data-table tbody td {
@@ -645,13 +672,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; 
-    background-color: var(--border-light); 
-    flex-shrink: 0; 
+    overflow: hidden;
+    background-color: var(--border-light);
+    flex-shrink: 0;
 }
 
 /* Style for the actual image inside the thumbnail */
-.table-thumbnail .resident-photo-thumb { /* Target the specific image class */
+.table-thumbnail .resident-photo-thumb {
+    /* Target the specific image class */
     width: 100%; /* Make the image take up 100% of the container's width */
     height: 100%; /* Make the image take up 100% of the container's height */
     object-fit: cover; /* Changed from 'cover' to 'contain' if you want the whole image visible */
@@ -677,41 +705,40 @@ body {
     object-fit: cover;
 }
 
-
 /* Table Action Buttons */
 .data-table .btn-sm {
     padding: 5px 10px;
     font-size: 0.85em;
     margin-bottom: 5px;
     width: var(--btn-small-width);
+    margin: 0 auto;
 }
 .data-table .btn-sm-2 {
     padding: 5px 10px;
     font-size: 0.85em;
     margin-bottom: 5px;
     margin-right: 5px;
-    width: 50px;
 }
 .data-table .btn-sm:last-child {
     margin-bottom: 0;
 }
-.issue-certificate-btn{
+.issue-certificate-btn {
     background-color: var(--primary-blue);
     color: white;
 }
-.ban-resident-btn{
+.ban-resident-btn {
     background-color: var(--btn-neutral);
     color: white;
 }
-.view-resident-btn{
+.view-resident-btn {
     background-color: var(--btn-good);
     color: white;
 }
-.edit-resident-btn{
+.edit-resident-btn {
     background-color: var(--btn-orange);
     color: white;
 }
-.delete-resident-btn{
+.delete-resident-btn {
     background-color: var(--btn-bad);
     color: white;
 }
@@ -726,7 +753,7 @@ body {
     padding-top: var(--spacing-sm);
     border-top: 1px solid var(--border-light);
 }
-.table-pagination-controls{
+.table-pagination-controls {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -758,79 +785,17 @@ body {
     font-weight: 600;
 }
 
-/* Modal Form Styles (assuming some basic form-group/form-control from app.frontdesk.css) */
-.modal-form {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    gap: var(--spacing-sm); /* Space between form groups */
-    margin-top: var(--spacing-md);
-    max-height: 60vh; /* Limit height for scrollable content */
-    overflow-y: auto; /* Make form scrollable if content is long */
-    padding-right: 15px; /* Account for scrollbar width */
-}
-.form-divider {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 8px;
-    max-width: 800px;
-}
-.form-group {
-    margin-bottom: 0; /* Reset default margin if flex gap is used */
-    display: flex;
-    flex-direction: column;
-}
 
-.form-group label {
-    font-weight: 600;
-    color: var(--dark-text);
-    margin-bottom: 5px;
-    font-size: 0.9em;
-    text-align: left;
-}
-
-.form-control {
-    width: 100%;
-    max-width: 200px;
-    padding: 10px 12px;
-    border: 1px solid var(--border-light);
-    border-radius: var(--border-radius-sm);
-    font-size: 1em;
-    color: var(--dark-text);
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-}
-
-.form-control:focus {
-    border-color: var(--primary-blue);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-}
-
-.form-control-file {
-    border: 1px solid var(--border-light);
-    border-radius: var(--border-radius-sm);
-    padding: 8px 12px;
-    background-color: var(--bg-light);
-    cursor: pointer;
-}
-
-.modal-actions {
-    margin-top: var(--spacing-lg); /* Add more space before buttons at bottom of form */
-}
-
-.certificateTypeBtn{
+.certificateTypeBtn {
     width: 100%;
     gap: var(--spacing-sm);
     margin-top: 1rem;
 }
-.btn-select{
+.btn-select {
     background-color: var(--primary-blue);
     color: white;
     margin-bottom: 5px;
 }
-
-
-
 
 /* Profile Header Section (Photo and Summary) */
 .profile-header {
@@ -849,7 +814,7 @@ body {
     height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    background-color: #6c757d; /* Matches the color in your provided CSS */
+    background-color: var(--bg-light); /* Matches the color in your provided CSS */
     display: flex; /* Keep flexbox for centering content */
     justify-content: center;
     align-items: center;
@@ -934,7 +899,8 @@ body {
 }
 
 /* --- Responsive Adjustments --- */
-@media (min-width: 600px) { /* Adjust breakpoint as needed for tablet/medium screens */
+@media (min-width: 600px) {
+    /* Adjust breakpoint as needed for tablet/medium screens */
     .profile-header {
         flex-direction: row; /* Change to row for wider screens */
         text-align: left;
@@ -947,7 +913,8 @@ body {
     }
 }
 
-@media (min-width: 768px) { /* For larger screens (e.g., desktops) */
+@media (min-width: 768px) {
+    /* For larger screens (e.g., desktops) */
     .profile-section {
         /* Distribute space for two columns with gap when screen is wide enough */
         flex: 1 1 calc(50% - var(--spacing-md) / 2);

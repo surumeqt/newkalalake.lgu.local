@@ -14,8 +14,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="icon" type="image/png" href="images/logos/barangay_logo.png">
     <link rel="stylesheet" href="css/app.frontdesk.css">
     <link rel="stylesheet" href="css/modal.style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>

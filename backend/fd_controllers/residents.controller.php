@@ -216,11 +216,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button class='btn btn-sm btn-primary issue-certificate-btn open-new-certificate-modal-btn'
                                 data-resident-id='" . htmlspecialchars($row['resident_id']) . "'
                                 data-resident-name='" . htmlspecialchars($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['suffix']) . "'>
-                                <i class='fas fa-file-alt'></i> Issue
+                                Issue
+                                <span class='btn-img-con-2'>
+                                    <img class='btn-img' src='images/icons/document.png' alt='issue certificate'>
+                                </span>
                             </button>
                             <button class='btn btn-sm btn-info view-resident-btn' data-url='./fd_resident_profile.php'
-                                data-load-content='true' data-resident-id='" . htmlspecialchars($row['resident_id']) . "'><i
-                                        class='fas fa-eye'></i> View
+                                data-load-content='true' data-resident-id='" . htmlspecialchars($row['resident_id']) . "'>
+                                View
+                                <span class='btn-img-con-2'>
+                                    <img class='btn-img' src='images/icons/view.png' alt='view resident'>
+                                </span>
                             </button>
                         </td>
                     </tr>";

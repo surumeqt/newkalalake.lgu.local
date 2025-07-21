@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Resident Registration Modal</title>
+        <link rel="stylesheet" href="modal.css" />
+    </head>
+    <body>
+        <!-- Modal Overlay -->
+        <div class="modal-overlay">
+            <!-- Modal Content -->
+            <div class="add-resident-modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h2 class="modal-title">Register New Resident</h2>
+                </div>
+
+                <!-- Form -->
+                <form class="modal-form">
+                    <!-- Scrollable Content Area -->
+                    <div class="modal-body">
+                        <!-- Personal Information Section -->
+                        <div class="form-divider">
+                            <h3 class="section-title">Personal Information</h3>
+
+                            <!-- Name Fields Row -->
+                            <div class="grid-4">
+                                <div class="form-group">
+                                    <label for="firstName" class="field-label">
+                                        First Name
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="firstName"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="middleName" class="field-label">
+                                        Middle Name / Initial
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="middleName"
+                                        class="form-control"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastName" class="field-label">
+                                        Last Name
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="suffix" class="field-label">
+                                        Suffix
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="suffix"
+                                        class="form-control"
+                                        placeholder="Jr., Sr., III"
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- Birth & Demographics Row -->
+                            <div class="grid-4">
+                                <div class="form-group">
+                                    <label
+                                        for="dateOfBirth"
+                                        class="field-label"
+                                    >
+                                        Date of Birth
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input
+                                        type="date"
+                                        id="dateOfBirth"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="age" class="field-label">
+                                        Age
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="age"
+                                        class="form-control readonly"
+                                        readonly
+                                        placeholder="Auto-calculated"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gender" class="field-label">
+                                        Gender <span class="required">*</span>
+                                    </label>
+                                    <select
+                                        id="gender"
+                                        class="form-control"
+                                        required
+                                    >
+                                        <option value="">Select gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label
+                                        for="civilStatus"
+                                        class="field-label"
+                                    >
+                                        Civil Status
+                                        <span class="required">*</span>
+                                    </label>
+                                    <select
+                                        id="civilStatus"
+                                        class="form-control"
+                                        required
+                                    >
+                                        <option value="">
+                                            Select civil status
+                                        </option>
+                                        <option value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="widowed">Widowed</option>
+                                        <option value="divorced">
+                                            Divorced
+                                        </option>
+                                        <option value="separated">
+                                            Separated
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Information Section -->
+                        <div class="form-divider">
+                            <h3 class="section-title">Address Information</h3>
+
+                            <!-- Address Row 1 -->
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label for="houseNo" class="field-label">
+                                        House No.
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="houseNo"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="street" class="field-label">
+                                        Street <span class="required">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="street"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="purokZone" class="field-label">
+                                        Purok / Zone
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="purokZone"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- Address Row 2 -->
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label for="barangay" class="field-label">
+                                        Barangay <span class="required">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="barangay"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city" class="field-label">
+                                        City <span class="required">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="city"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information Section -->
+                        <div class="form-divider">
+                            <h3 class="section-title">Contact Information</h3>
+
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label for="contactNo" class="field-label">
+                                        Contact No.
+                                        <span class="optional">(Optional)</span>
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="contactNo"
+                                        class="form-control"
+                                        placeholder="+63 XXX XXX XXXX"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="field-label">
+                                        Email Address
+                                        <span class="optional">(Optional)</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        class="form-control"
+                                        placeholder="example@email.com"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Photo Upload Section -->
+                        <div class="form-divider">
+                            <h3 class="section-title">Photo Upload</h3>
+
+                            <div class="photo-upload-container">
+                                <div class="photo-upload-area">
+                                    <div class="form-group">
+                                        <label class="field-label"
+                                            >Upload Photo</label
+                                        >
+                                        <div class="upload-button-container">
+                                            <input
+                                                type="file"
+                                                id="photo"
+                                                accept="image/*"
+                                                class="form-control-file"
+                                            />
+                                            <button
+                                                type="button"
+                                                class="upload-button"
+                                            >
+                                                <svg
+                                                    class="upload-icon"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                >
+                                                    <path
+                                                        d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                    ></path>
+                                                    <polyline
+                                                        points="7,10 12,15 17,10"
+                                                    ></polyline>
+                                                    <line
+                                                        x1="12"
+                                                        y1="15"
+                                                        x2="12"
+                                                        y2="3"
+                                                    ></line>
+                                                </svg>
+                                                Choose Image File
+                                            </button>
+                                            <span
+                                                class="file-name"
+                                                style="display: none"
+                                            ></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="photo-preview"
+                                    style="display: none"
+                                >
+                                    <img
+                                        class="preview-image"
+                                        alt="Photo preview"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fixed Footer -->
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-cancel">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-good">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+            "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+        line-height: 1.6;
+        color: #374151;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    /* Modal Content */
+    .add-resident-modal-content {
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        width: 100%;
+        max-width: 56rem; /* max-w-4xl */
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    /* Modal Header */
+    .modal-header {
+        padding: 1.5rem 1.5rem 1rem 1.5rem;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0;
+    }
+
+    .title-icon {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .close-button {
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        color: #6b7280;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s ease;
+    }
+
+    .close-button:hover {
+        background-color: #f3f4f6;
+        color: #374151;
+    }
+
+    .close-button svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    /* Form */
+    .modal-form {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+    }
+
+    /* Scrollable Content Area */
+    .modal-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    /* Form Sections */
+    .form-divider {
+        background-color: #f9fafb;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 1rem;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    /* Field Groups */
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .field-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #374151;
+    }
+
+    .required {
+        color: #ef4444;
+    }
+
+    .optional {
+        color: #6b7280;
+    }
+
+    /* Form Inputs */
+    .form-control {
+        height: 2.5rem;
+        width: 100%;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+        background-color: white;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: #374151;
+        transition: all 0.15s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-control::placeholder {
+        color: #9ca3af;
+    }
+
+    .form-control.readonly {
+        background-color: #f3f4f6;
+        color: #6b7280;
+    }
+
+    .form-control[readonly] {
+        background-color: #f3f4f6;
+        color: #6b7280;
+    }
+
+    /* Select Dropdown */
+    select.form-control {
+        cursor: pointer;
+    }
+
+    /* Photo Upload */
+    .photo-upload-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+        .photo-upload-container {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+    }
+
+    .photo-upload-area {
+        flex: 1;
+    }
+
+    .upload-button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+        .upload-button-container {
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+
+    .form-control-file {
+        display: none;
+    }
+
+    .upload-button {
+        height: 2.5rem;
+        padding: 0 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        background-color: white;
+        color: #374151;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.15s ease;
+    }
+
+    .upload-button:hover {
+        border-color: #2563eb;
+        color: #2563eb;
+    }
+
+    .upload-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .file-name {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 0.5rem;
+    }
+
+    @media (min-width: 640px) {
+        .file-name {
+            margin-top: 0;
+        }
+    }
+
+    .photo-preview {
+        flex-shrink: 0;
+    }
+
+    .photo-preview img {
+        width: 6rem;
+        height: 6rem;
+        border: 2px solid #d1d5db;
+        border-radius: 0.5rem;
+        object-fit: cover;
+        background-color: white;
+    }
+
+    /* Modal Footer */
+    .modal-actions {
+        padding: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+        background-color: white;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+        .modal-actions {
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+    }
+
+    /* Buttons */
+    .btn-cancel {
+        background-color: white;
+        color: #374151;
+        border-color: #d1d5db;
+    }
+
+    .btn-cancel:hover {
+        background-color: #f9fafb;
+        border-color: #9ca3af;
+    }
+
+    .btn-good {
+        background-color: #2563eb;
+        color: white;
+    }
+
+    .btn-good:hover {
+        background-color: #1d4ed8;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .modal-overlay {
+            padding: 0.5rem;
+        }
+
+        .modal-header {
+            padding: 1rem;
+        }
+
+        .modal-body {
+            padding: 0 1rem;
+        }
+
+        .modal-actions {
+            padding: 1rem;
+        }
+
+        .grid-4 {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Custom scrollbar */
+    .modal-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+</style>

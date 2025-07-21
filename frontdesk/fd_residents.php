@@ -54,7 +54,10 @@ if (!$records) {
                 placeholder="Search residents Name, Address, etc." onkeyup="liveSearch()">
         </div>
         <button class="btn btn-success add-resident-btn" id="openModalBtn">
-            <i class="fas fa-user-plus"></i> Register New Resident
+            <span class="btn-img-con-1">
+                <img class="btn-img" src="images/icons/add-user.png" alt="add-user">
+            </span>
+            Register New Resident
         </button>
     </div>
 </div>
@@ -118,12 +121,18 @@ if (!$records) {
                             <button class="btn btn-sm btn-primary issue-certificate-btn open-new-certificate-modal-btn"
                                 data-resident-id="<?= htmlspecialchars($row['resident_id']); ?>"
                                 data-resident-name="<?= htmlspecialchars($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['suffix'] ?? ''); ?>">
-                                <i class="fas fa-file-alt"></i> Issue
+                                Issue
+                                <span class="btn-img-con-2">
+                                    <img class="btn-img" src="images/icons/document.png" alt="issue certificate">
+                                </span>
                             </button>
                             <button class="btn btn-sm btn-info view-resident-btn" data-url="./fd_resident_profile.php"
                                 data-load-content="true"
-                                data-resident-id="<?= htmlspecialchars($row['resident_id']); ?>"><i
-                                    class="fas fa-eye"></i> View
+                                data-resident-id="<?= htmlspecialchars($row['resident_id']); ?>">
+                                View
+                                <span class="btn-img-con-2">
+                                    <img class="btn-img" src="images/icons/view.png" alt="view resident">
+                                </span>
                             </button>
                         </td>
                     </tr>
@@ -155,106 +164,162 @@ if (!$records) {
 
 <div id="AddresidentModal" class="modal-overlay">
     <div class="add-resident-modal-content">
-        <h3 style="margin-bottom:1rem; font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">
-            Register New Resident
-        </h3>
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h2 class="modal-title">Register New Resident</h2>
+        </div>
         <form id="addResidentForm" class="modal-form" action="../backend/fd_controllers/residents.controller.php"
             method="POST" enctype="multipart/form-data">
             <div class="modal-body">
                 <div class="form-divider">
-                    <div class="form-group">
-                        <label for="firstName">First Name:</label>
-                        <input type="text" id="firstName" name="first_name" class="form-control" required>
+                    <h3 class="section-title">Personal Information</h3>
+                    <!-- Name Fields Row -->
+                    <div class="grid-4">
+                        <div class="form-group">
+                            <label for="firstName" class="field-label">First Name <span
+                                    class="required">*</span></label>
+                            <input type="text" id="firstName" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="middleName" class="field-label">Middle Name/Initial </label>
+                            <input type="text" id="middleName" name="middle_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="field-label">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="last_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="suffix">Suffix</label>
+                            <input type="text" id="suffix" name="suffix" class="form-control"
+                                placeholder="Jr., Sr., III">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="middleName">Middle Name/Initial:</label>
-                        <input type="text" id="middleName" name="middle_name" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name:</label>
-                        <input type="text" id="lastName" name="last_name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="suffix">Suffix:</label>
-                        <input type="text" id="suffix" name="suffix" class="form-control"
-                            placeholder="e.g., Jr., Sr., III">
+                    <!-- Birth & Demographics Row -->
+                    <div class="grid-4">
+                        <div class="form-group">
+                            <label for="birthDate" class="field-label">Date of Birth <span
+                                    class="required">*</span></label>
+                            <input type="date" id="birthDate" name="birthday" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="age" class="field-label">Age:</label>
+                            <input type="number" id="age" name="age" class="form-control readonly"
+                                placeholder="Auto Generated" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender" class="field-label">Gender <span class="required">*</span></label>
+                            <select id="gender" name="gender" class="form-control" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="civilStatus" class="field-label">Civil Status <span
+                                    class="required">*</span></label>
+                            <select id="civilStatus" name="civil_status" class="form-control" required>
+                                <option value="">Select Status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widowed">Widowed</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Annulled">Annulled</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <!-- Address Information Section -->
                 <div class="form-divider">
-                    <div class="form-group">
-                        <label for="birthDate">Date of Birth:</label>
-                        <input type="date" id="birthDate" name="birthday" class="form-control" required>
+                    <h3 class="section-title">Address Information</h3>
+                    <!-- Address Row 1 -->
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label for="houseNumber" class="field-label">House No. <span class="required">*</span>
+                            </label>
+                            <input type="text" id="houseNumber" name="houseNumber" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="street" class="field-label">Street <span class="required">*</span></label>
+                            <input type="text" id="street" name="street" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="purok" class="field-label">Purok / Zone</label>
+                            <input type="text" id="purok" name="purok" class="form-control">
+                        </div>
+
                     </div>
-                    <div class="form-group">
-                        <label for="age">Age:</label>
-                        <input type="number" id="age" name="age" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="gender">Gender:</label>
-                        <select id="gender" name="gender" class="form-control" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="civilStatus">Civil Status:</label>
-                        <select id="civilStatus" name="civil_status" class="form-control" required>
-                            <option value="">Select Status</option>
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Widowed">Widowed</option>
-                            <option value="Separated">Separated</option>
-                            <option value="Annulled">Annulled</option>
-                            <option value="Divorced">Divorced</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-divider">
-                    <div class="form-group">
-                        <label for="houseNumber">House No.:</label>
-                        <input type="text" id="houseNumber" name="houseNumber" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="street">Street:</label>
-                        <input type="text" id="street" name="street" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="purok">Purok/Zone:</label>
-                        <input type="text" id="purok" name="purok" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="barangay">Barangay:</label>
-                        <input type="text" id="barangay" name="barangay" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="city">City:</label>
-                        <input type="text" id="city" name="city" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contact_number">Contact No.:</label>
-                        <input type="text" id="contact_number" name="contact_number" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address:</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
+                    <!-- Address Row 2 -->
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="barangay" class="field-label">Barangay <span class="required">*</span></label>
+                            <input type="text" id="barangay" name="barangay" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city" class="field-label">City <span class="required">*</span></label>
+                            <input type="text" id="city" name="city" class="form-control" required>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 1rem; border-top: 1px solid #ccc; padding-top: 1rem;">
-                    <label for="photo">Resident Photo (Optional):</label>
-                    <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file">
+                <!-- Contact Information Section -->
+                <div class="form-divider">
+                    <h3 class="section-title">Contact Information</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="contact_number" class="field-label">
+                                Contact No.
+                                <span class="optional">(Optional)</span>
+                            </label>
+                            <input type="tel" id="contact_number" name="contact_number" class="form-control"
+                                placeholder="+63 XXX XXX XXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="field-label">Email Address <span
+                                    class="optional">(Optional)</span></label>
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="example@email.com">
+                        </div>
+                    </div>
                 </div>
+                <!-- Photo Upload Section -->
+                <div class="form-divider">
+                    <h3 class="section-title">Resident Photo Upload</h3>
+
+                    <div class="photo-upload-container">
+                        <div class="photo-upload-area">
+                            <div class="form-group">
+                                <label class="field-label" for="photo">Upload Photo (Optional)</label>
+                                <div class="upload-button-container">
+                                    <input type="file" id="photo" name="photo" accept="image/*"
+                                        class="form-control-file" style="display: none;">
+                                    <button type="button" class="upload-button">
+                                        <span>
+                                            <img src="images/icons/upload-icon.png" alt="upload-icon">
+                                        </span>
+                                        Choose Image File
+                                    </button>
+                                    <span class="file-name" style="display: none"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="photo-preview" style="display: none">
+                            <img class="preview-image" alt="Photo preview" />
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="action" value="add_resident">
             </div>
             <div class="modal-actions">
-                <button type="submit" class="btn btn-good">Register Resident</button>
                 <button type="button" id="closeModalBtn" class="btn btn-cancel">Cancel</button>
+                <button type="submit" class="btn btn-good">Register Resident</button>
             </div>
         </form>
     </div>
 </div>
 
+<!-- Modal Overlay -->
 <div id="NewCertificateRequestModal" class="modal-overlay">
+    <!-- Modal Content -->
     <div class="new-certificate-request-modal-content">
         <h3 style="text-align: center;">Request New Certificate</h3>
 

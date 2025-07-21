@@ -76,7 +76,10 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
 <div class="page-content-header">
     <div class="back-con">
         <a class="back-btn" href="./fd_residents.php" data-load-content="true" data-url="fd_residents.php">
-            <i class="fas fa-arrow-left"></i> Back
+            <span class="btn-img-con-3">
+                <img class="btn-img" src="images/icons/back-left.png" alt="back">
+            </span>
+            Back
         </a>
     </div>
     <h2>Resident Profile</h2>
@@ -114,7 +117,12 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
         ?>
         <div class="profile-sections">
             <div class="profile-section basic-info-section">
-                <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
+                <h4>
+                    <span class="btn-img-con-3">
+                        <img class="btn-img" src="images/icons/info-circle.png" alt="info">
+                    </span>
+                    Basic Information
+                </h4>
                 <p><strong>Birth Date:</strong> <?= htmlspecialchars($resident['birthday'] ?? 'N/A'); ?></p>
                 <p><strong>Age:</strong> <?= htmlspecialchars($residentAge); ?></p>
                 <p><strong>Gender:</strong> <?= htmlspecialchars($resident['gender'] ?? 'N/A'); ?></p>
@@ -123,7 +131,12 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
                 <p><strong>Email:</strong><?= htmlspecialchars($resident['email'] ?? 'N/A'); ?></p>
             </div>
             <div class="profile-section address-info-section">
-                <h4><i class="fas fa-map-marker-alt"></i> Address</h4>
+                <h4>
+                    <span class="btn-img-con-3">
+                        <img class="btn-img" src="images/icons/map-marker.png" alt="address">
+                    </span>
+                    Address
+                </h4>
                 <p><strong>House No:</strong> <?= htmlspecialchars($resident['house_number'] ?? 'N/A'); ?></p>
                 <p><strong>Street:</strong> <?= htmlspecialchars($resident['street'] ?? 'N/A'); ?></p>
                 <p><strong>Purok/Zone:</strong> <?= htmlspecialchars($resident['purok'] ?? 'N/A'); ?></p>
@@ -133,7 +146,12 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
             </div>
             <div>
                 <div class="profile-section admin-info-section">
-                    <h4><i class="fas fa-tools"></i> Administration Info</h4>
+                    <h4>
+                        <span class="btn-img-con-3">
+                            <img class="btn-img" src="images/icons/tools.png" alt="tools">
+                        </span>
+                        Administration Info
+                    </h4>
                     <p><strong>Date Registered:</strong> <?= htmlspecialchars($resident['created_at'] ?? 'N/A'); ?></p>
                     <p><strong>Last Updated:</strong>
                         <?= htmlspecialchars($resident['updated_at'] ?? $resident['created_at'] ?? 'N/A'); ?></p>
@@ -142,30 +160,49 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
                 <div class="profile-section profile-actions-bar">
                     <button id="OpenEditResidentModalBtn" class="btn btn-warning edit-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>">
-                        <i class="fas fa-edit"></i> Edit Profile
+                        <span class="btn-img-con-3">
+                            <img class="btn-img" src="images/icons/edit.png" alt="edit">
+                        </span>
+                        Edit Profile
                     </button>
                     <?php if (isset($resident['is_banned']) && $resident['is_banned'] == 1): ?>
                     <button id="unbanResidentModalBtn" class="btn btn-good unban-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>">
-                        <i class="fas fa-check-circle"></i> Unban Resident
+                        <span class="btn-img-con-3">
+                            <img class="btn-img" src="images/icons/check-mark.png" alt="unban">
+                        </span>
+                        Unban Resident
                     </button>
                     <button id="banResidentModalBtn" class="btn btn-danger ban-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>" style="display: none;">
-                        <i class="fas fa-ban"></i> Ban Resident
+                        <span class="btn-img-con-3">
+                            <img class="btn-img" src="images/icons/block.png" alt="ban">
+                        </span>
+                        Ban Resident
                     </button>
                     <?php else: ?>
                     <button id="banResidentModalBtn" class="btn btn-danger ban-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>">
-                        <i class="fas fa-ban"></i> Ban Resident
+                        <span class="btn-img-con-3">
+                            <img class="btn-img" src="images/icons/block.png" alt="ban">
+                        </span>
+                        Ban Resident
                     </button>
                     <button id="unbanResidentModalBtn" class="btn btn-good unban-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>" style="display: none;">
-                        <i class="fas fa-check-circle"></i> Unban Resident
+                        <span class="btn-img-con-3">
+                            <img class="btn-img" src="images/icons/check-mark.png" alt="unban">
+                        </span>
+                        Unban Resident
                     </button>
                     <?php endif; ?>
                     <button id="deleteResidentModalBtn" class="btn btn-secondary delete-resident-btn"
                         data-resident-id="<?= htmlspecialchars($residentId); ?>">
-                        <i class="fas fa-trash-alt"></i> Delete Resident
+
+                        <span class="btn-img-con-3">
+                            <img class="btn-img" src="images/icons/delete.png" alt="delete">
+                        </span>
+                        Delete Resident
                     </button>
                 </div>
             </div>
@@ -175,7 +212,12 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
         <?php endif; ?>
 
         <div class="profile-section issued-certificates-section">
-            <h4><i class="fas fa-certificate"></i> Issued Certificates History</h4>
+            <h4>
+                <span class="btn-img-con-3">
+                    <img class="btn-img" src="images/icons/certificate.png" alt="certificate">
+                </span>
+                Issued Certificates History
+            </h4>
             <div class="table-responsive">
                 <table class="data-table">
                     <thead>
@@ -201,100 +243,146 @@ if (isset($_GET['id']) && is_string($_GET['id']) && !empty($_GET['id'])) {
 
 <div id="EditResidentModal" class="modal-overlay">
     <div class="edit-resident-modal-content">
-        <h3 style="margin-bottom:1rem; font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">Edit
-            Resident Information</h3>
+        <div class="modal-header">
+            <h2 class="modal-title">
+                Edit Resident Information
+            </h2>
+        </div>
         <form id="editResidentForm" class="modal-form">
-            <div class="form-divider">
-                <div class="form-group">
-                    <label for="edit_firstName">First Name:</label>
-                    <input type="text" id="edit_firstName" name="first_name" class="form-control" required>
+            <div class="modal-body">
+                <div class="form-divider">
+                    <h3 class="section-title">Personal Information</h3>
+                    <!-- Name Fields Row -->
+                    <div class="grid-4">
+                        <div class="form-group">
+                            <label for="edit_firstName">First Name:</label>
+                            <input type="text" id="edit_firstName" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_middleName">Middle Name/Initial:</label>
+                            <input type="text" id="edit_middleName" name="middle_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_lastName">Last Name:</label>
+                            <input type="text" id="edit_lastName" name="last_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_suffix">Suffix:</label>
+                            <input type="text" id="edit_suffix" name="suffix" class="form-control"
+                                placeholder="Jr., Sr., III">
+                        </div>
+                    </div>
+                    <div class="grid-4">
+                        <!-- Birth & Demographics Row -->
+                        <div class="form-group">
+                            <label for="edit_birthDate">Date of Birth:</label>
+                            <input type="date" id="edit_birthDate" name="birthday" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_age">Age:</label>
+                            <input type="number" id="edit_age" name="age" class="form-control readonly"
+                                placeholder="Auto Generated" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_gender">Gender:</label>
+                            <select id="edit_gender" name="gender" class="form-control" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_civilStatus">Civil Status:</label>
+                            <select id="edit_civilStatus" name="civil_status" class="form-control" required>
+                                <option value="">Select Status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widowed">Widowed</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Annulled">Annulled</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="edit_middleName">Middle Name/Initial:</label>
-                    <input type="text" id="edit_middleName" name="middle_name" class="form-control">
+                <!-- Address Information Section -->
+                <div class="form-divider">
+                    <h3 class="section-title">Address Information</h3>
+                    <!-- Address Row 1 -->
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label for="edit_houseNumber">House No.:</label>
+                            <input type="text" id="edit_houseNumber" name="houseNumber" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_street">Street:</label>
+                            <input type="text" id="edit_street" name="street" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_purok">Purok/Zone:</label>
+                            <input type="text" id="edit_purok" name="purok" class="form-control">
+                        </div>
+                    </div>
+                    <!-- Address Row 2 -->
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="edit_barangay">Barangay:</label>
+                            <input type="text" id="edit_barangay" name="barangay" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_city">City:</label>
+                            <input type="text" id="edit_city" name="city" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="edit_lastName">Last Name:</label>
-                    <input type="text" id="edit_lastName" name="last_name" class="form-control" required>
+                <!-- Contact Information Section -->
+                <div class="form-divider">
+                    <h3 class="section-title">Contact Information</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="edit_contact_number">Contact No.</label>
+                            <input type="tel" id="edit_contact_number" name="contact_number" class="form-control"
+                                placeholder="+63 XXX XXX XXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_email">Email Address</label>
+                            <input type="email" id="edit_email" name="email" class="form-control"
+                                placeholder="example@email.com">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="edit_suffix">Suffix:</label>
-                    <input type="text" id="edit_suffix" name="suffix" class="form-control"
-                        placeholder="e.g., Jr., Sr., III">
-                </div>
-            </div>
-            <div class="form-divider">
-                <div class="form-group">
-                    <label for="edit_birthDate">Date of Birth:</label>
-                    <input type="date" id="edit_birthDate" name="birthday" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_age">Age:</label>
-                    <input type="number" id="edit_age" name="age" class="form-control" disabled required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_gender">Gender:</label>
-                    <select id="edit_gender" name="gender" class="form-control" required>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="edit_civilStatus">Civil Status:</label>
-                    <select id="edit_civilStatus" name="civil_status" class="form-control" required>
-                        <option value="">Select Status</option>
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                        <option value="Widowed">Widowed</option>
-                        <option value="Separated">Separated</option>
-                        <option value="Annulled">Annulled</option>
-                        <option value="Divorced">Divorced</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-divider">
-                <div class="form-group">
-                    <label for="edit_houseNumber">House No.:</label>
-                    <input type="text" id="edit_houseNumber" name="houseNumber" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="edit_street">Street:</label>
-                    <input type="text" id="edit_street" name="street" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_purok">Purok/Zone:</label>
-                    <input type="text" id="edit_purok" name="purok" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="edit_barangay">Barangay:</label>
-                    <input type="text" id="edit_barangay" name="barangay" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_city">City:</label>
-                    <input type="text" id="edit_city" name="city" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_contact_number">Contact No.:</label>
-                    <input type="text" id="edit_contact_number" name="contact_number" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_email">Email Address:</label>
-                    <input type="email" id="edit_email" name="email" class="form-control" required>
-                </div>
-            </div>
+                <!-- Photo Upload Section -->
+                <div class="form-divider">
+                    <h3 class="section-title">Resident Photo Upload</h3>
 
-            <div class="form-group" style="margin-top: 1rem; border-top: 1px solid #ccc; padding-top: 1rem;">
-                <label for="edit_photo">Resident Photo (Optional):</label>
-                <input type="file" id="edit_photo" name="photo" accept="image/*" class="form-control-file">
+                    <div class="photo-upload-container">
+                        <div class="photo-upload-area">
+                            <div class="form-group">
+                                <label for="edit_photo">Resident Photo (Optional)</label>
+                                <div class="upload-button-container">
+                                    <input type="file" id="edit_photo" name="photo" accept="image/*"
+                                        class="form-control-file" style="display: none;">
+                                    <button type="button" class="upload-button upload-button-edit">
+                                        <span>
+                                            <img src="images/icons/upload-icon.png" alt="upload-icon">
+                                        </span>
+                                        Choose Image File
+                                    </button>
+                                    <span class="file-name file-name-edit" style="display: none"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="photo-preview photo-preview-edit" style="display: none">
+                            <img class="preview-image-edit" alt="Photo preview" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-good">Save</button>
+                    <button type="button" id="CloseEditResidentModalBtn" class="btn btn-cancel">Cancel</button>
+                </div>
+                <input type="hidden" id="edit_residentId" name="resident_id">
+                <input type="hidden" name="action" value="update_resident">
             </div>
-            <div class="modal-actions">
-                <button type="submit" class="btn btn-good">Save</button>
-                <button type="button" id="CloseEditResidentModalBtn" class="btn btn-cancel">Cancel</button>
-            </div>
-            <input type="hidden" id="edit_residentId" name="resident_id">
-            <input type="hidden" name="action" value="update_resident">
-        </form>
         </form>
     </div>
 </div>

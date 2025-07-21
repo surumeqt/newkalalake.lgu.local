@@ -153,8 +153,66 @@ function handlePaginationClick(event) {
         liveSearch(page);
     }
 }
-
 // Initial call to load residents and attach pagination listeners when the page loads
 document.addEventListener("DOMContentLoaded", () => {
     liveSearch(); // Load initial data
 });
+
+function initializePhotoUpload() {
+    const photoInput = document.getElementById("photo");
+    const uploadButton = document.querySelector(".upload-button");
+    const fileNameSpan = document.querySelector(".file-name");
+    const photoPreviewContainer = document.querySelector(".photo-preview");
+    const previewImage = document.querySelector(".preview-image");
+
+    if (
+        photoInput &&
+        uploadButton &&
+        fileNameSpan &&
+        photoPreviewContainer &&
+        previewImage
+    ) {
+        // When the custom button is clicked, trigger the hidden file input click
+        uploadButton.addEventListener("click", () => {
+            photoInput.click();
+        });
+
+        // When a file is selected in the input
+        photoInput.addEventListener("change", function () {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                const reader = new FileReader();
+
+                // Display file name
+                fileNameSpan.textContent = file.name;
+                fileNameSpan.style.display = "inline-block"; // Show the file name
+
+                // Read file for preview
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                    photoPreviewContainer.style.display = "block"; // Show the preview container
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // No file selected
+                fileNameSpan.textContent = "No file chosen";
+                fileNameSpan.style.display = "none"; // Hide if no file
+                photoPreviewContainer.style.display = "none"; // Hide preview
+                previewImage.src = ""; // Clear preview image
+            }
+        });
+
+        // Optional: Clear photo and preview when modal is closed or form reset
+        const addResidentForm = document.getElementById("addResidentForm");
+        addResidentForm.addEventListener("reset", () => {
+            fileNameSpan.textContent = "No file chosen";
+            fileNameSpan.style.display = "none";
+            photoPreviewContainer.style.display = "none";
+            previewImage.src = "";
+        });
+    } else {
+        console.warn(
+            "Could not find all elements for photo upload initialization. Check IDs and classes."
+        );
+    }
+}
