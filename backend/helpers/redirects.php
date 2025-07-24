@@ -12,7 +12,7 @@ function redirectBasedOnRole($role) {
             header("Location: /newkalalake.lgu.local/app/app.php");
             break;
         case 'frontdesk':
-            header('Location: ../../app/frontdesk/fd_app.php');
+            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php");
             break;
         default:
             header('Location: ./index.php');
