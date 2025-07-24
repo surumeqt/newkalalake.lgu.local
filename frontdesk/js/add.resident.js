@@ -11,3 +11,4 @@ document.addEventListener('click', function(event){
         closeModal();
     }
 })
+ 

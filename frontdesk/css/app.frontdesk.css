@@ -550,13 +550,13 @@ td img {
     border-top: 1px dashed var(--border-light);
     padding-top: var(--spacing-md);
     margin-top: var(--spacing-md);
-    display: flex;
+    display: none;    
     flex-direction: column;
     gap: var(--spacing-md);
 }
 
-.certificate-input-section.hidden {
-    display: none !important;
+.certificate-input-section.active {
+    display: flex !important;
 }
 
 .certificate-container .issue-certificate-btn {

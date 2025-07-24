@@ -20,6 +20,7 @@
                     <li><a href="./fd_dashboard.php" data-load-content="true">Dashboard</a></li>
                     <li><a href="./fd_residents.php" data-load-content="true">Residents</a></li>
                     <li><a href="./fd_certificate.php" data-load-content="true">Certificate</a></li>
+                    <li><a href="./fd_records.php" data-load-content="true">History Records</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">

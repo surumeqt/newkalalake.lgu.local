@@ -14,26 +14,106 @@
             </select>
         </div>
 
-        <div id="barangay-endorsement-inputs" class="certificate-input-section hidden">
+        <div id="certificate-indigency-inputs" class="certificate-input-section">
             <div class="form-group">
-                <label for="endorsement-name">Name:</label>
-                <input type="text" id="endorsement-name" name="endorsement_name" class="certificate-form-control" required>
+                <label for="resident-name">Name:</label>
+                <input type="text" id="resident-name" name="resident-name" class="certificate-form-control" required>
             </div>
             <div class="form-group">
-                <label for="endorsement-address">Address:</label>
-                <input type="text" id="endorsement-address" name="endorsement_address" class="certificate-form-control" required>
+                <label for="resident-age">Age:</label>
+                <input type="text" id="resident-age" name="resident-age" class="certificate-form-control" required>
             </div>
             <div class="form-group">
-                <label for="endorsement-business-name">Business Name:</label>
-                <input type="text" id="endorsement-business-name" name="endorsement_business_name" class="certificate-form-control">
+                <label for="resident-birthdate">Birthdate:</label>
+                <input type="text" id="resident-birthdate" name="resident-birthdate" class="certificate-form-control">
             </div>
             <div class="form-group">
-                <label for="endorsement-business-address">Business Address:</label>
-                <input type="text" id="endorsement-business-address" name="endorsement_business_address" class="certificate-form-control">
+                <label for="resident-address">Address:</label>
+                <input type="text" id="resident-address" name="resident-address" class="certificate-form-control">
             </div>
             <div class="form-group">
-                <label for="endorsement-purpose">Purpose:</label>
-                <textarea id="endorsement-purpose" name="endorsement_purpose" class="certificate-form-control" rows="3" required></textarea>
+                <label for="purpose">Purpose:</label>
+                <textarea id="purpose" name="purpose" class="certificate-form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Indigency</button>
+        </div>
+
+        <div id="certificate-residency-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" id="resident-name" name="resident-name" class="certificate-form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="resident-age">Age:</label>
+                <input type="text" id="resident-age" name="resident-age" class="certificate-form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="resident-birthdate">Birthdate:</label>
+                <input type="text" id="resident-birthdate" name="resident-birthdate" class="certificate-form-control">
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" id="resident-address" name="resident-address" class="certificate-form-control">
+            </div>
+            <div class="form-group">
+                <label for="purpose">Purpose:</label>
+                <textarea id="purpose" name="purpose" class="certificate-form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Residency</button>
+        </div>
+
+        <div id="certificate-nonresidency-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" id="resident-name" name="resident-name" class="certificate-form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" id="resident-address" name="resident-address" class="certificate-form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="purpose">Purpose:</label>
+                <textarea id="purpose" name="purpose" class="certificate-form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Non-Residency</button>
+        </div>
+
+        <div id="certificate-permit-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" id="resident-name" name="resident-name" class="certificate-form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" id="resident-address" name="resident-address" class="certificate-form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="purpose">Purpose:</label>
+                <textarea id="purpose" name="purpose" class="certificate-form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Permit</button>
+        </div>
+
+        <div id="barangay-endorsement-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" id="resident-name" name="resident-name" class="certificate-form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" id="resident-address" name="resident-address" class="certificate-form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="resident-business-name">Business Name:</label>
+                <input type="text" id="resident-business-name" name="resident-business-name" class="certificate-form-control">
+            </div>
+            <div class="form-group">
+                <label for="resident-business-address">Business Address:</label>
+                <input type="text" id="resident-business-address" name="resident-business-address" class="certificate-form-control">
+            </div>
+            <div class="form-group">
+                <label for="purpose">Purpose:</label>
+                <textarea id="purpose" name="purpose" class="certificate-form-control" rows="3" required></textarea>
             </div>
             <button type="submit" class="issue-certificate-btn">Issue Endorsement</button>
         </div>
