@@ -60,7 +60,7 @@
     <div id="add-resident-modal">
         <div id="modal-content-wrapper">
             <h1>Register New Residents</h1>
-            <form id="addResidentForm" class="modal-form" action="../backend/fd_controllers/residents.controller.php"
+            <form id="addResidentForm" class="modal-form" action="../backend/fd_controllers/resident.controller.php"
                 method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-divider">
@@ -85,7 +85,7 @@
                     <div class="form-divider">
                         <div class="form-group">
                             <label for="birthDate">Date of Birth:</label>
-                            <input type="date" id="birthDate" name="birthday" class="form-control" required>
+                            <input type="date" id="birthDate" name="birthday" class="form-control" required onchange="reflectAge()">
                         </div>
                         <div class="form-group">
                             <label for="age">Age:</label>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="form-group">
                             <label for="contact_number">Contact No.:</label>
-                            <input type="text" id="contact_number" name="contact_number" class="form-control" required>
+                            <input type="text" id="contact_number" name="contact" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address:</label>
@@ -148,7 +148,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button type="button" class="cancel-btn" id="cancel-add-resident">Cancel</button>
+                    <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
                     <button type="submit">Add Resident</button>
                 </div>
             </form>
@@ -156,7 +156,6 @@
     </div>
 
     <!-- Edit Resident Modal -->
-
     <div id="edit-resident-modal">
         <div class="edit-resident-modal-content">
             <h1>Edit Resident</h1>
@@ -166,10 +165,28 @@
         </div>
      </div>
 
+    <!-- Delete Resident Modal -->
+    <div id="delete-resident-modal">
+        <div class="delete-resident-modal-content">
+            <h1>Delete this Resident</h1>
+            <p>this is will delete the resident records in the database</p>
+            <form action="../backend/fd_controllers/delete.controller.php" method="POST">
+                <p>
+                    Delete resident with ID:
+                    <input type="text" id="resident-id-display-delete" name="resident_id" hidden>
+                    <span>resident name</span>
+                </p>
+                <div class="delete-modal-actions">
+                    <button type="submit" name="delete">Delete</button>
+                    <button type="button" onclick="closeEditModal()">Close</button>
+                </div>
+            </form>
+        </div>
+     </div>
+
     <!-- MODALS END -->
 
     <script src="js/navigations.js"></script>
-    <script src="js/add.resident.js"></script>
     <script src="js/functions.js"></script>
     <script src="js/logout.modal.logic.js"></script>
 </body>

@@ -130,3 +130,41 @@
 }
 
 /* EDIT RESIDENT MODAL END*/
+
+/* DELETE RESIDENT MODAL*/
+
+#delete-resident-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#delete-resident-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.delete-resident-modal-content {
+    background-color: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+/* EDIT RESIDENT MODAL END*/

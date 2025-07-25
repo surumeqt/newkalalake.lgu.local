@@ -1,21 +1,51 @@
+// RESIDENTS FUNCTIONALITY
+
 function liveSearch() {
     const docket = document.getElementById('search-input').value;
-    const status = document.getElementById('hearing-status-filter').value;
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    formData.append('SearchByDcn', docket);
-    formData.append('Hearing_status', status);
+    formData.append('SearchByName', docket);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("records-body").innerHTML = xhr.responseText;
+            document.getElementById("residents-table-body").innerHTML = xhr.responseText;
         }
     };
 
-    xhr.open("POST", "../backend/filter.records.controller.php", true);
+    xhr.open("POST", "../backend/fd_controllers/search.residents.php", true);
     xhr.send(formData);
 }
+
+function reflectAge(){
+    const birthDateInput = document.getElementById("birthDate");
+    const ageInput = document.getElementById("age");
+
+    const birthDateValue = birthDateInput.value;
+    if (!birthDateValue) return;
+
+    const today = new Date();
+    const birthDate = new Date(birthDateValue);
+    
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+
+    if (age >= 0) {
+        ageInput.value = age;
+        ageInput.setAttribute("readonly", true);
+    } else {
+        ageInput.value = '';
+        ageInput.removeAttribute("readonly");
+        alert("Invalid birth date.");
+    }
+}
+
+// CERTIFICATES PAGE FUNCTIONALITY
 
 function handleCertificateChange(selectElement) {
     const selectedCertificate = selectElement.value;
@@ -41,6 +71,13 @@ function handleCertificateChange(selectElement) {
     }
 }
 
+// MODALS OPEN/CLOSE FUNCTIONALITY
+
+function addResident() {
+    const modal = document.getElementById('add-resident-modal');
+    modal.classList.add('show');
+}
+
 function editResident(residentId) {
     const modal = document.getElementById('edit-resident-modal');
     const idDisplay = document.getElementById('resident-id-display');
@@ -51,8 +88,20 @@ function editResident(residentId) {
     }
 }
 
+function deleteResident(residentId) {
+    const modal = document.getElementById('delete-resident-modal');
+    const idDisplay = document.getElementById('resident-id-display-delete');
+
+    if (modal && idDisplay) {
+        idDisplay.value = residentId;
+        modal.classList.add('show');
+    }
+}
+
 function closeEditModal() {
     document.getElementById('edit-resident-modal').classList.remove('show');
+    document.getElementById('delete-resident-modal').classList.remove('show');
+    document.getElementById('add-resident-modal').classList.remove('show');
 }
 
 

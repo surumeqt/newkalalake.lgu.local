@@ -19,3 +19,18 @@ function getOrdinalSuffix($number) {
     }
     return 'th';
 }
+function generateRandomIds() {
+    $datePart = date('Ym');
+    $randomDigit = rand(100, 999);
+    return $datePart . $randomDigit;
+}
+function formatAddress($data) {
+    $addressParts = [
+        $data['houseNumber'] ?? '',
+        $data['street'] ?? '',
+        $data['purok'] ?? '',
+        $data['barangay'] ?? '',
+        $data['city'] ?? ''
+    ];
+    return implode(' ', array_filter($addressParts));
+}
