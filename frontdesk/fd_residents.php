@@ -1,3 +1,6 @@
+<?php 
+$userId = 202520310;
+?>
 <div class="residents-container">
     <h1>Resident Records</h1>
 
@@ -30,7 +33,7 @@
                     <td>22</td>
                     <td>07-24-2025</td>
                     <td class="action-buttons">
-                        <button class="button edit-btn">Edit</button>
+                        <button class="button edit-btn" onclick="editResident('<?php echo $userId; ?>')">Edit</button>
                         <button class="button delete-btn">Delete</button>
                     </td>
                 </tr>

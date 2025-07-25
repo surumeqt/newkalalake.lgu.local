@@ -229,7 +229,6 @@ body {
     padding: 2rem;
     justify-self: center;
     width: 100%;
-    max-width: 72rem;
 }
 
 .residents-container h1 {
@@ -281,7 +280,7 @@ body {
 }
 
 .overflow-x-auto {
-    overflow-x: auto;
+    overflow-x: scroll;
     border-radius: 0.5rem;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     border: 1px solid #e5e7eb;

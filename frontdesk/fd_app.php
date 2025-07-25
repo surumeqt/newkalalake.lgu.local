@@ -108,7 +108,6 @@
                                 <option value="Widowed">Widowed</option>
                                 <option value="Separated">Separated</option>
                                 <option value="Annulled">Annulled</option>
-                                <option value="Divorced">Divorced</option>
                             </select>
                         </div>
                     </div>
@@ -156,11 +155,22 @@
         </div>
     </div>
 
+    <!-- Edit Resident Modal -->
+
+    <div id="edit-resident-modal">
+        <div class="edit-resident-modal-content">
+            <h1>Edit Resident</h1>
+            <p>this is the resident profile, the user can edit or update specific resident information</p>
+            <p>Editing resident with ID: <span id="resident-id-display"></span></p>
+            <button onclick="closeEditModal()">Close</button>
+        </div>
+     </div>
+
     <!-- MODALS END -->
 
     <script src="js/navigations.js"></script>
     <script src="js/add.resident.js"></script>
-    <script src="js/toggle.certificates.js"></script>
+    <script src="js/functions.js"></script>
     <script src="js/logout.modal.logic.js"></script>
 </body>
 </html>

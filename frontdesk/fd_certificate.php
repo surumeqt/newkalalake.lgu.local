@@ -3,7 +3,7 @@
     <form action="" id="certificateForm"> 
         <div class="form-group"> 
             <label for="certificate-type">Certificate Type:</label>
-            <select id="certificate-type" name="certificate_type" class="certificate-form-control">
+            <select id="certificate-type" name="certificate_type" class="certificate-form-control" onchange="handleCertificateChange(this)">
                 <option value="">-- Select Certificate Type --</option>
                 <option value="Certificate of Indigency">Certificate of Indigency</option>
                 <option value="Barangay Residency">Barangay Residency</option>
