@@ -1,7 +1,7 @@
 <div class="certificate-container">
     <h1>Issue A Certificate</h1>
-    <form action="../backend/fd_controllers/certificate.controller.php" method="POST" id="certificateForm"> 
-        <div class="form-group"> 
+    <form action="../backend/fd_controllers/certificate.controller.php" method="POST" id="certificateForm">
+        <div class="form-group">
             <label for="certificate-type">Certificate Type:</label>
             <select id="certificate-type" name="certificate_type" class="certificate-form-control" onchange="handleCertificateChange(this)">
                 <option value="">-- Select Certificate Type --</option>
@@ -17,11 +17,11 @@
         <div id="certificate-indigency-inputs" class="certificate-input-section">
             <div class="form-group">
                 <label for="resident-name">Name:</label>
-                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)" required>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
             </div>
             <div class="form-group">
                 <label for="resident-age">Age:</label>
-                <input type="text" class="resident-age" name="resident-age" required>
+                <input type="text" class="resident-age" name="resident-age">
             </div>
             <div class="form-group">
                 <label for="resident-birthdate">Birthdate:</label>
@@ -33,19 +33,19 @@
             </div>
             <div class="form-group">
                 <label for="purpose">Purpose:</label>
-                <textarea name="purpose" rows="3" required></textarea>
+                <textarea name="purpose" rows="3"></textarea>
             </div>
-            <button type="submit" class="issue-certificate-btn">Issue Indigency</button>
+            <button type="submit" class="issue-certificate-btn" onclick="console.log('clicked')">Issue Indigency</button>
         </div>
 
         <div id="certificate-residency-inputs" class="certificate-input-section">
             <div class="form-group">
                 <label for="resident-name">Name:</label>
-                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)" required>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
             </div>
             <div class="form-group">
                 <label for="resident-age">Age:</label>
-                <input type="text" class="resident-age" name="resident-age" required>
+                <input type="text" class="resident-age" name="resident-age">
             </div>
             <div class="form-group">
                 <label for="resident-birthdate">Birthdate:</label>
@@ -57,7 +57,7 @@
             </div>
             <div class="form-group">
                 <label for="purpose">Purpose:</label>
-                <textarea name="purpose" rows="3" required></textarea>
+                <textarea name="purpose" rows="3"></textarea>
             </div>
             <button type="submit" class="issue-certificate-btn">Issue Residency</button>
         </div>
@@ -65,15 +65,15 @@
         <div id="certificate-nonresidency-inputs" class="certificate-input-section">
             <div class="form-group">
                 <label for="resident-name">Name:</label>
-                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)" required>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
                 <label for="resident-address">Address:</label>
-                <input type="text" class="resident-address" name="resident-address" required>
+                <input type="text" class="resident-address" name="resident-address">
             </div>
             <div class="form-group">
                 <label for="purpose">Purpose:</label>
-                <textarea name="purpose" rows="3" required></textarea>
+                <textarea name="purpose" rows="3"></textarea>
             </div>
             <button type="submit" class="issue-certificate-btn">Issue Non-Residency</button>
         </div>
@@ -81,15 +81,15 @@
         <div id="certificate-permit-inputs" class="certificate-input-section">
             <div class="form-group">
                 <label for="resident-name">Name:</label>
-                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)" required>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
             </div>
             <div class="form-group">
                 <label for="resident-address">Address:</label>
-                <input type="text" class="resident-address" name="resident-address" required>
+                <input type="text" class="resident-address" name="resident-address">
             </div>
             <div class="form-group">
                 <label for="purpose">Purpose:</label>
-                <textarea name="purpose" rows="3" required></textarea>
+                <textarea name="purpose" rows="3"></textarea>
             </div>
             <button type="submit" class="issue-certificate-btn">Issue Permit</button>
         </div>
@@ -97,11 +97,11 @@
         <div id="barangay-endorsement-inputs" class="certificate-input-section">
             <div class="form-group">
                 <label for="resident-name">Name:</label>
-                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)" required>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
             </div>
             <div class="form-group">
                 <label for="resident-address">Address:</label>
-                <input type="text" class="resident-address" name="resident-address" required>
+                <input type="text" class="resident-address" name="resident-address">
             </div>
             <div class="form-group">
                 <label for="resident-business-name">Business Name:</label>
@@ -113,9 +113,25 @@
             </div>
             <div class="form-group">
                 <label for="purpose">Purpose:</label>
-                <textarea name="purpose" rows="3" required></textarea>
+                <textarea name="purpose" rows="3"></textarea>
             </div>
             <button type="submit" class="issue-certificate-btn">Issue Endorsement</button>
+        </div>
+
+        <div id="vehicle-clearance-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" class="resident-address" name="resident-address">
+            </div>
+            <div class="form-group">
+                <label for="purpose">Purpose:</label>
+                <textarea name="purpose" rows="3"></textarea>
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Vehicle Clearance</button>
         </div>
     </form>
 </div>

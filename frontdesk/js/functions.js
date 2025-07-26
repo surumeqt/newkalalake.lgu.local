@@ -1,5 +1,4 @@
 // RESIDENTS FUNCTIONALITY
-
 function liveSearch() {
     const docket = document.getElementById('search-input').value;
 
@@ -46,10 +45,8 @@ function reflectAge(){
 }
 
 // CERTIFICATES PAGE FUNCTIONALITY
-
 function handleCertificateChange(selectElement) {
     const selectedCertificate = selectElement.value;
-
     const sections = document.querySelectorAll(".certificate-input-section");
 
     const certificateMap = {
@@ -57,16 +54,30 @@ function handleCertificateChange(selectElement) {
         "Barangay Residency": "certificate-residency-inputs",
         "Certificate of Non-Residency": "certificate-nonresidency-inputs",
         "Barangay Permit": "certificate-permit-inputs",
-        "Barangay Endorsement": "barangay-endorsement-inputs"
+        "Barangay Endorsement": "barangay-endorsement-inputs",
+        "Vehicle Clearance": "vehicle-clearance-inputs"
     };
 
-    sections.forEach(section => section.classList.remove("active"));
+    sections.forEach(section => {
+        section.classList.remove("active");
+        const inputs = section.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.setAttribute('disabled', 'disabled');
+            if (input.type !== 'submit' && input.type !== 'button') {
+                input.value = '';
+            }
+        });
+    });
 
     const selectedSectionId = certificateMap[selectedCertificate];
     if (selectedSectionId) {
         const selectedSection = document.getElementById(selectedSectionId);
         if (selectedSection) {
-        selectedSection.classList.add("active");
+            selectedSection.classList.add("active");
+            const activeInputs = selectedSection.querySelectorAll('input, textarea, select');
+            activeInputs.forEach(input => {
+                input.removeAttribute('disabled');
+            });
         }
     }
 }
@@ -111,7 +122,6 @@ function fillResidentData(inputElement) {
 }
 
 // MODALS OPEN/CLOSE FUNCTIONALITY
-
 function addResident() {
     const modal = document.getElementById('add-resident-modal');
     modal.classList.add('show');

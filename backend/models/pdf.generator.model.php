@@ -359,4 +359,58 @@ class PDFGenerator extends FPDF {
 
         return $this->Output('S');
     }
+    public function generateIndigencyBlob(){
+        $this->AddPage();
+
+        $this->Ln(10);
+        $this->SetFont('Arial','B',10);
+        $this->Cell(0,8,'Baranagay Indigency',0,1,'C');
+
+        return $this->Output('S');
+    }
+    public function generateResidencyBlob(){
+        $this->AddPage();
+
+        $this->Ln(10);
+        $this->SetFont('Arial','B',10);
+        $this->Cell(0,8,'Barangay Residency',0,1,'C');
+
+        return $this->Output('S');
+    }
+    public function generateNonResidencyBlob(){
+        $this->AddPage();
+
+        $this->Ln(10);
+        $this->SetFont('Arial','B',10);
+        $this->Cell(0,8,'Barangay Non-Residency',0,1,'C');
+
+        return $this->Output('S');
+    }
+    public function generatePermitBlob(){
+        $this->AddPage();
+
+        $this->Ln(10);
+        $this->SetFont('Arial','B',10);
+        $this->Cell(0,8,'Barangay Permit',0,1,'C');
+
+        return $this->Output('S');
+    }
+    public function generateEndorsementBlob(){
+        $this->AddPage();
+
+        $this->Ln(10);
+        $this->SetFont('Arial','B',10);
+        $this->Cell(0,8,'Barangay Endorsement',0,1,'C');
+
+        return $this->Output('S');
+    }
+    public function generateVClearanceBlob(){
+        $this->AddPage();
+
+        $this->Ln(10);
+        $this->SetFont('Arial','B',10);
+        $this->Cell(0,8,'Vehicle Clearance',0,1,'C');
+
+        return $this->Output('S');
+    }
 }
