@@ -71,6 +71,45 @@ function handleCertificateChange(selectElement) {
     }
 }
 
+function fillResidentData(inputElement) {
+    const section = inputElement.closest('.certificate-input-section');
+    const name = inputElement.value.trim();
+
+    if (name.length < 3) return;
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('name', name);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            try {
+                const response = JSON.parse(xhr.responseText);
+                if (!response.found) return;
+
+                const map = {
+                    'resident-age': 'age',
+                    'resident-address': 'address',
+                    'resident-birthdate': 'birthday'
+                };
+
+                Object.entries(map).forEach(([selector, key]) => {
+                    const input = section.querySelector(`.${selector}`);
+                    if (input) {
+                        input.value = response[key] || '';
+                    }
+                });
+
+            } catch (e) {
+                console.error("JSON parse error", xhr.responseText);
+            }
+        }
+    };
+
+    xhr.open("POST", "../backend/fd_controllers/fill.resident.details.php", true);
+    xhr.send(formData);
+}
+
 // MODALS OPEN/CLOSE FUNCTIONALITY
 
 function addResident() {

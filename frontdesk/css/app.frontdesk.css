@@ -472,7 +472,7 @@ td img {
 }
 
 .form-control:focus {
-    border-color: var(--primary-blue);
+    border-color: black;
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
@@ -527,7 +527,14 @@ td img {
     font-size: 0.95em;
 }
 
-.certificate-container .certificate-form-control {
+.certificate-container .certificate-form-control,
+.certificate-container .resident-name,
+.certificate-container .resident-age,
+.certificate-container .resident-birthdate,
+.certificate-container .resident-address,
+.certificate-container .resident-business-address,
+.certificate-container .resident-business-name,
+.certificate-container textarea {
     width: 100%;
     padding: var(--spacing-xs) 12px;
     border: 1px solid var(--border-light);
@@ -539,7 +546,14 @@ td img {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.certificate-container .certificate-form-control:focus {
+.certificate-container .certificate-form-control:focus,
+.certificate-container .resident-name:focus,
+.certificate-container .resident-age:focus,
+.certificate-container .resident-birthdate:focus,
+.certificate-container .resident-address:focus,
+.certificate-container .resident-business-address:focus,
+.certificate-container .resident-business-name:focus,
+.certificate-container textarea:focus {
     border-color: var(--primary-blue);
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);

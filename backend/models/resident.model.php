@@ -53,4 +53,12 @@ class ResidentModel {
         $stmt->execute(['%' . $searchInput . '%', '%' . $searchInput . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function findByFullName($name) {
+        $query = "SELECT * FROM residents WHERE CONCAT(first_name, ' ', middle_name, ' ', last_name) = :name LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
