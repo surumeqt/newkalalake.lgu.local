@@ -3,7 +3,16 @@ require_once __DIR__ . '/../models/resident.model.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $residentModel = new ResidentModel();
-
+    $fileBlobs = [];
+    foreach ($_FILES['file_upload']['tmp_name'] as $index => $tmpName) {
+        if ($_FILES['file_upload']['error'][$index] === UPLOAD_ERR_OK) {
+            $filedata = file_get_contents($tmpName);
+            $fileBlobs[] = base64_encode($filedata);
+        }
+    }
+    if (!empty($fileBlobs)) {
+        $encodedBlob = json_encode($fileBlobs);
+    }
     $data = [
         'first_name' => $_POST['first_name'],
         'middle_name' => $_POST['middle_name'],
@@ -20,8 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'city' => $_POST['city'],
         'contact' => $_POST['contact'],
         'email' => $_POST['email'],
+        'fileBlob' => $encodedBlob
     ];
-    
-    $residentModel->createResident($data);
-    header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php");
+    try {
+        $residentModel->createResident($data);
+        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php");
+        exit();
+    } catch (PDOException $e) {
+        echo "Database Error: " . $e->getMessage();
+    }
 }

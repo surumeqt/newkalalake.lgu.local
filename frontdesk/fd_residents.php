@@ -1,4 +1,5 @@
 <?php 
+header('Content-Type: application/json');
 require_once __DIR__ . '/../backend/models/resident.model.php';
 
 $model = new ResidentModel();
@@ -33,7 +34,13 @@ $records = $model->getResidents();
                     <?php foreach (array_slice($records, 0, 10) as $rows): ?>
                         <tr>
                             <td>
-                                <img src="https://www.kindpng.com/picc/m/722-7221920_placeholder-profile-image-placeholder-png-transparent-png.png" alt="placeholder">
+                                <?php
+                                $photoData = json_decode($rows['photo'], true);
+                                $photoSrc = (!empty($photoData) && isset($photoData[0]))
+                                    ? 'data:image/jpeg;base64,' . $photoData[0]
+                                    : 'https://www.kindpng.com/picc/m/722-7221920_placeholder-profile-image-placeholder-png-transparent-png.png';
+                                ?>
+                                <img src="<?= $photoSrc ?>" alt="Resident Photo">
                             </td>
                             <td><?= htmlspecialchars($rows['first_name'].' '.$rows['middle_name'].' '.$rows['last_name']) ?></td>
                             <td><?= htmlspecialchars($rows['address']) ?></td>

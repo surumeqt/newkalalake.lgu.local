@@ -14,11 +14,11 @@ class ResidentModel {
         $query = "INSERT INTO residents (
             resident_id, first_name, middle_name, last_name, suffix,
             birthday, age, gender, civil_status, address,
-            contact_number, email
+            contact_number, email, photo
         ) VALUES (
             ?, ?, ?, ?, ?,
             ?, ?, ?, ?, ?,
-            ?, ?
+            ?, ?, ?
         )";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([
@@ -33,7 +33,8 @@ class ResidentModel {
             $data['civil_status'],
             formatAddress($data),
             $data['contact'],
-            $data['email']
+            $data['email'],
+            $data['fileBlob']
         ]);
     }
     public function getResidents(){
@@ -60,4 +61,5 @@ class ResidentModel {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
 }

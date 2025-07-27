@@ -144,7 +144,7 @@
 
                     <div class="form-group" style="margin-top: 1rem; border-top: 1px solid #ccc; padding-top: 1rem;">
                         <label for="photo">Resident Photo (Optional):</label>
-                        <input type="file" id="photo" name="photo" accept="image/*" class="form-control-file">
+                        <input type="file" id="photo" name="file_upload[]" accept="image/*" class="form-control-file">
                     </div>
                 </div>
                 <div class="form-actions">
@@ -161,7 +161,10 @@
             <h1>Edit Resident</h1>
             <p>this is the resident profile, the user can edit or update specific resident information</p>
             <p>Editing resident with ID: <span id="resident-id-display"></span></p>
-            <button onclick="closeEditModal()">Close</button>
+            <div class="edit-resident-modal-actions">
+                <button>Save</button>
+                <button onclick="closeEditModal()">Close</button>
+            </div>
         </div>
      </div>
 
