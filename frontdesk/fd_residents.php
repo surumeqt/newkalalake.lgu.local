@@ -1,4 +1,4 @@
-<?php 
+<?php
 header('Content-Type: application/json');
 require_once __DIR__ . '/../backend/models/resident.model.php';
 
@@ -29,31 +29,37 @@ $records = $model->getResidents();
             </thead>
             <tbody id="residents-table-body">
                 <?php if (empty($records)): ?>
-                    <tr><td colspan="9" style="text-align: center;">No records found.</td></tr>
+                <tr>
+                    <td colspan="9" style="text-align: center;">No records found.</td>
+                </tr>
                 <?php else: ?>
-                    <?php foreach (array_slice($records, 0, 10) as $rows): ?>
-                        <tr>
-                            <td>
-                                <?php
+                <?php foreach (array_slice($records, 0, 10) as $rows): ?>
+                <tr>
+                    <td>
+                        <?php
                                 $photoData = json_decode($rows['photo'], true);
                                 $photoSrc = (!empty($photoData) && isset($photoData[0]))
                                     ? 'data:image/jpeg;base64,' . $photoData[0]
                                     : 'https://www.kindpng.com/picc/m/722-7221920_placeholder-profile-image-placeholder-png-transparent-png.png';
                                 ?>
-                                <img src="<?= $photoSrc ?>" alt="Resident Photo">
-                            </td>
-                            <td><?= htmlspecialchars($rows['first_name'].' '.$rows['middle_name'].' '.$rows['last_name']) ?></td>
-                            <td><?= htmlspecialchars($rows['address']) ?></td>
-                            <td><?= htmlspecialchars($rows['gender']) ?></td>
-                            <td><?= htmlspecialchars($rows['birthday']) ?></td>
-                            <td><?= htmlspecialchars($rows['age']) ?></td>
-                            <td><?= htmlspecialchars($rows['created_at']) ?></td>
-                            <td class="action-buttons">
-                                <button class="button edit-btn" onclick="editResident('<?php echo $rows['resident_id']; ?>')">Edit</button>
-                                <button class="button delete-btn" onclick="deleteResident('<?php echo $rows['resident_id']; ?>')">Delete</button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                        <img src="<?= $photoSrc ?>" alt="Resident Photo">
+                    </td>
+                    <td><?= htmlspecialchars($rows['first_name'] . ' ' . $rows['middle_name'] . ' ' . $rows['last_name']) ?>
+                    </td>
+                    <td><?= htmlspecialchars($rows['address']) ?></td>
+                    <td><?= htmlspecialchars($rows['gender']) ?></td>
+                    <td><?= htmlspecialchars($rows['birthday']) ?></td>
+                    <td><?= htmlspecialchars($rows['age']) ?></td>
+                    <td><?= htmlspecialchars($rows['created_at']) ?></td>
+                    <td class="action-buttons">
+                        <button class="button edit-btn"
+                            onclick="editResident('<?php echo $rows['resident_id']; ?>')">Edit</button>
+                        <button class="button view-btn">View</button>
+                        <button class="button delete-btn"
+                            onclick="deleteResident('<?php echo $rows['resident_id']; ?>')">Delete</button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
                 <?php endif; ?>
             </tbody>
         </table>
