@@ -43,7 +43,33 @@ function reflectAge(){
         alert("Invalid birth date.");
     }
 }
+function reflectEditAge() {
+    const birthDateInput = document.getElementById("editBirthDate");
+    const ageInput = document.getElementById("editAge");
 
+    const birthDateValue = birthDateInput.value;
+    if (!birthDateValue) return;
+
+    const today = new Date();
+    const birthDate = new Date(birthDateValue);
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+
+    if (age >= 0) {
+        ageInput.value = age;
+        ageInput.setAttribute("readonly", true);
+    } else {
+        ageInput.value = "";
+        ageInput.removeAttribute("readonly");
+        alert("Invalid birth date.");
+    }
+}
 // CERTIFICATES PAGE FUNCTIONALITY
 function handleCertificateChange(selectElement) {
     const selectedCertificate = selectElement.value;

@@ -54,7 +54,6 @@ $records = $model->getResidents();
                     <td class="action-buttons">
                         <button class="button edit-btn"
                             onclick="editResident('<?php echo $rows['resident_id']; ?>')">Edit</button>
-                        <button class="button view-btn">View</button>
                         <button class="button delete-btn"
                             onclick="deleteResident('<?php echo $rows['resident_id']; ?>')">Delete</button>
                     </td>

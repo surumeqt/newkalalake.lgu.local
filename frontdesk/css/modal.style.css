@@ -118,15 +118,18 @@
 }
 
 .edit-resident-modal-content {
-    background-color: var(--bg-white);
-    padding: var(--spacing-lg);
-    border-radius: var(--border-radius-md);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 1000px;
-    width: 90%;
-    transform: translateY(-20px);
-    transition: transform 0.3s ease;
+    background-color: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 30px;
+    width: 100%;
+    max-width: 80rem; /* max-w-4xl */
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 /* EDIT RESIDENT MODAL END*/

@@ -23,7 +23,6 @@
                 <ul>
                     <li><a href="./fd_dashboard.php" data-load-content="true">Dashboard</a></li>
                     <li><a href="./fd_residents.php" data-load-content="true">Residents</a></li>
-                    <li><a href="./fd_resident_profile.php" data-load-content="true">Resident Profile</a></li>
                     <li><a href="./fd_certificate.php" data-load-content="true">Certificate</a></li>
                     <li><a href="./fd_records.php" data-load-content="true">History Records</a></li>
                 </ul>
@@ -218,13 +217,296 @@
     <!-- Edit Resident Modal -->
     <div id="edit-resident-modal">
         <div class="edit-resident-modal-content">
-            <h1>Edit Resident</h1>
-            <p>this is the resident profile, the user can edit or update specific resident information</p>
-            <p>Editing resident with ID: <span id="resident-id-display"></span></p>
-            <div class="edit-resident-modal-actions">
-                <button>Save</button>
-                <button onclick="closeEditModal()">Close</button>
+            <div class="page-header">
+                <h1 class="page-title">Resident Profile</h1>
             </div>
+            <form action="" class="edit-modal-form">
+                <div class="resident-profile-container">
+                    <div class="resident-info-container">
+                        <div class="devider-info-container basic-info-container">
+                            <div class="profile-header profile-section">
+                                <div class="profile-image">
+                                    <img src="images/logo.png" alt="user">
+                                </div>
+                                <div class="profile-info">
+                                    <p><strong>ID:</strong>
+                                        <span class="profile-id" id="resident-id-display"></span>
+                                    </p>
+
+                                    <p><strong>Status:</strong>
+                                        <span class="profile-status">Not Banned</span>
+                                    </p>
+
+                                    <p><strong>Date Registered:</strong>
+                                        <span>january 1, 2000</span>
+                                    </p>
+                                    <p><strong>Last Updated:</strong>
+                                        <span>january 1, 2000</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="basic-info-section profile-section">
+                                <h4 class="info-header">
+                                    <img class="btn-img" src="images/icons/info-circle.png" alt="info">
+                                    Basic Information
+                                </h4>
+                                <div class="info-group">
+                                    <label for="editFirstName">
+
+                                        <strong>First Name:</strong>
+
+                                    </label>
+                                    <input type="text" id="editFirstName" name="editFirstName" class="input-control"
+                                        placeholder="First Name">
+                                </div>
+                                <div class="info-group">
+                                    <label for="editMiddleName">
+
+                                        <strong>Middle Name:</strong>
+
+                                    </label>
+                                    <input type="text" id="editMiddleName" name="editMiddleName" class="input-control"
+                                        placeholder="Middle Name">
+                                </div>
+                                <div class="info-group">
+                                    <label for="editLastName">
+                                        <strong>Last Name:</strong>
+                                    </label>
+                                    <input type="text" id="editLastName" name="editLastName" class="input-control"
+                                        placeholder="Last Name">
+                                </div>
+                                <div class="info-group">
+                                    <label for="editSuffix">
+                                        <strong>Suffix:</strong>
+                                    </label>
+                                    <input type="text" id="editSuffix" name="editSuffix" class="input-control"
+                                        placeholder="e.g., Jr., Sr., III"">
+                            </div>
+                            <div class=" info-group">
+                                    <label for="editBirthDate">
+                                        <strong>Birth Date:</strong>
+                                    </label>
+                                    <input type="date" id="editBirthDate" name="editBirthDate" class="input-control"
+                                        onchange="reflectEditAge()">
+                                </div>
+                                <div class="info-group">
+                                    <label for="editAge">
+                                        <strong>Age:</strong>
+                                    </label>
+                                    <input type="text" id="editAge" name="editAge" class="input-control readonly"
+                                        placeholder="Auto Generated" required>
+                                </div>
+                                <div class="info-group">
+                                    <label for="editGender">
+                                        <strong>Gender:</strong>
+                                    </label>
+                                    <select id="editGender" name="editGender" class="input-control" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="info-group">
+                                    <label for="editCivilStatus">
+                                        <strong>Civil Status:</strong>
+                                    </label>
+                                    <select id="editCivilStatus" name="editCivilStatus" class="input-control" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Widowed">Widowed</option>
+                                        <option value="Separated">Separated</option>
+                                        <option value="Annulled">Annulled</option>
+                                    </select>
+                                </div>
+                                <div class="info-group">
+                                    <label for="editOccupation">
+                                        <strong>Occupation:</strong>
+                                    </label>
+                                    <select name="editOccupation" id="editOccupation" class="input-control">
+                                        <option value="">Select Occupation</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Employed">Employed</option>
+                                        <option value="Unemployed">Unemployed</option>
+                                    </select>
+                                </div>
+                                <div class="info-group">
+                                    <label for="editAddress">
+                                        <strong>Address:</strong>
+                                    </label>
+                                    <input type="text" id="editAddress" name="editAddress" class="input-control"
+                                        placeholder="Address" required>
+                                </div>
+                                <div class="info-group">
+                                    <label for="editContactNo">
+                                        <strong>Contact No.</strong>
+                                    </label>
+                                    <input type="tel" id="editContactNo" name="editContactNo" class="input-control"
+                                        placeholder="+63 XXX XXX XXXX">
+                                </div>
+                                <div class="info-group">
+                                    <label for="editEmail">
+                                        <strong>Email:</strong>
+                                    </label>
+                                    <input type="email" id="editEmail" name="editEmail" class="input-control"
+                                        placeholder="RwNwI@example.com">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="devider-info-container additional-info-container">
+                            <div class="personal-info-section profile-section">
+                                <h4 class="info-header">
+                                    <img class="btn-img" src="images/icons/tools.png" alt="tools">
+                                    Family Information
+                                </h4>
+                                <h3>Father Name</h3>
+                                <div class="section-devider">
+                                    <div class="info-group-2">
+                                        <label for="editFatherFirstName">
+                                            <strong>First Name</strong>
+                                        </label>
+                                        <input type="text" id="editFatherFirstName" name="editFatherFirstName"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editFatherMiddleName">
+                                            <strong>Middle Name</strong>
+                                        </label>
+                                        <input type="text" id="editFatherMiddleName" name="editFatherMiddleName"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editFatherLastName">
+                                            <strong>Last Name</strong>
+                                        </label>
+                                        <input type="text" id="editFatherLastName" name="editFatherLastName"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editFatherSuffix">
+                                            <strong>Suffix</strong>
+                                        </label>
+                                        <input type="text" id="editFatherSuffix" name="editFatherSuffix"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editFatherBirthDate"><strong>Birth Date</strong></label>
+                                        <input type="date" id="editFatherBirthDate" name="editFatherBirthDate"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editFatherAge"><strong>Age</strong></label>
+                                        <input type="text" id="editFatherAge" name="editFatherAge"
+                                            class="input-control-2 readonly" placeholder="Auto Generated" required>
+                                    </div>
+                                    <div class="info-group-2">
+
+                                        <label for="editFatherOccupation"><strong>Occupation</strong></label>
+                                        <select name="editFatherOccupation" id="editFatherOccupation"
+                                            class="input-control-2">
+                                            <option value="">Select Occupation</option>
+                                            <option value="Student">Student</option>
+                                            <option value="Employed">Employed</option>
+                                            <option value="Unemployed">Unemployed</option>
+                                        </select>
+                                    </div>
+                                    <div class="info-group-2">
+                                        <!-- contact number -->
+                                        <label for="editFatherContactNo"><strong>Contact No.</strong></label>
+                                        <input type="tel" id="editFatherContactNo" name="editFatherContactNo"
+                                            class="input-control-2" placeholder="+63 XXX XXX XXXX">
+                                    </div>
+                                </div>
+                                <h3 style="margin-top: 30px;">Mother Name</h3>
+                                <div class="section-devider">
+                                    <div class="info-group-2">
+                                        <label for="editMotherFirstName">
+                                            <strong>First Name</strong>
+                                        </label>
+                                        <input type="text" id="editMotherFirstName" name="editMotherFirstName"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editMotherMiddleName">
+                                            <strong>Middle Name</strong>
+                                        </label>
+                                        <input type="text" id="editMotherMiddleName" name="editMotherMiddleName"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editMotherLastName">
+                                            <strong>Last Name</strong>
+                                        </label>
+                                        <input type="text" id="editMotherLastName" name="editMotherLastName"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editMotherSuffix">
+                                            <strong>Suffix</strong>
+                                        </label>
+                                        <input type="text" id="editMotherSuffix" name="editMotherSuffix"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <!-- birth date -->
+                                        <label for="editMotherBirthDate"><strong>Birth Date</strong></label>
+                                        <input type="date" id="editMotherBirthDate" name="editMotherBirthDate"
+                                            class="input-control-2">
+                                    </div>
+                                    <div class="info-group-2">
+                                        <!-- age -->
+                                        <label for="editMotherAge"><strong>Age</strong></label>
+                                        <input type="text" id="editMotherAge" name="editMotherAge"
+                                            class="input-control-2 readonly" placeholder="Auto Generated" required>
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editMotherOccupation"><strong>Occupation</strong></label>
+                                        <select name="editMotherOccupation" id="editMotherOccupation"
+                                            slelected="selected" class="input-control-2">
+                                            <option value="">Select Occupation</option>
+                                            <option value="Student">Student</option>
+                                            <option value="Employed">Employed</option>
+                                            <option value="Unemployed">Unemployed</option>
+                                        </select>
+                                    </div>
+                                    <div class="info-group-2">
+                                        <label for="editMotherContactNo"><strong>Contact No.</strong></label>
+                                        <input type="tel" id="editMotherContactNo" name="editMotherContactNo"
+                                            class="input-control-2" placeholder="+63 XXX XXX XXXX">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="past-activities-container profile-section">
+                        <h4 class="info-header">
+                            <img class="btn-img" src="images/icons/certificate.png" alt="certificate">
+                            Resident Past Activities
+                        </h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Certificate Type</th>
+                                    <th>Purpose</th>
+                                    <th>Date Issued</th>
+                                    <th>Issued By</th>
+                                    <th>Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" style="text-align: center;">No certificate history available.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="edit-resident-modal-actions">
+                    <button class="btn close-edit-btn" type="button" onclick="closeEditModal()">Close</button>
+                    <button class="btn save-edit-btn">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 
