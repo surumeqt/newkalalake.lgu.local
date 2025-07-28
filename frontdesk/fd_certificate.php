@@ -35,7 +35,7 @@
                 <label for="purpose">Purpose:</label>
                 <textarea name="purpose" rows="3"></textarea>
             </div>
-            <button type="submit" class="issue-certificate-btn" onclick="console.log('clicked')">Issue Indigency</button>
+            <button type="submit" class="issue-certificate-btn">Issue Indigency</button>
         </div>
 
         <div id="certificate-residency-inputs" class="certificate-input-section">
@@ -81,14 +81,10 @@
         <div id="certificate-permit-inputs" class="certificate-input-section">
             <div class="form-group">
                 <label for="resident-name">Name:</label>
-                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
+                <input type="text" name="resident-name" class="resident-name">
             </div>
             <div class="form-group">
-                <label for="resident-address">Address:</label>
-                <input type="text" class="resident-address" name="resident-address">
-            </div>
-            <div class="form-group">
-                <label for="purpose">Purpose:</label>
+                <label for="purpose">Permission to ...</label>
                 <textarea name="purpose" rows="3"></textarea>
             </div>
             <button type="submit" class="issue-certificate-btn">Issue Permit</button>

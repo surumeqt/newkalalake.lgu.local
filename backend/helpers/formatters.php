@@ -9,6 +9,14 @@ function formatHearingDate($dateStr) {
     return "{$day}{$suffix} day of {$month}, {$year}";
 }
 
+function formatBirthdate($birthdate){
+    $date = new DateTime($birthdate);
+    $day = $date->format('j');
+    $month = $date->format('F');
+    $year = $date->format('Y');
+    return "{$month} {$day}, {$year}";
+}
+
 function getOrdinalSuffix($number) {
     if (!in_array(($number % 100), [11, 12, 13])) {
         switch ($number % 10) {

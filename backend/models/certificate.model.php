@@ -13,9 +13,9 @@ class CertificateModel {
     public function createCertificate($data) {
         $certTypeshii = $this->certificateType($data,$data['certificate_type']);
 
-        // --- Add debugging here ---
+        // --- debugging here ---
         echo "<pre>";
-        echo "Value of \$data['resident_name'] before calling findIdByFullName:\n";
+        echo "IF YOURE SEEING THIS ERROR, REMOVE THE WHITESPACE BEFORE THE NAME\n";
         var_dump($data['resident_name']);
         echo "</pre>";
         // -------------------------

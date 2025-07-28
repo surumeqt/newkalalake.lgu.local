@@ -1,0 +1,6 @@
+".$this->data['resident_name']."
+".$this->data['resident_age']."
+".formatBirthdate($this->data['resident_birthdate'])."
+".$this->data['resident_address']."
+".$this->data['purpose']."
+".formatHearingDate($this->todaysDate)."
