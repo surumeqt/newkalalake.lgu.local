@@ -120,9 +120,49 @@
                 <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
             </div>
             <div class="form-group">
+                <label for="resident-age">Age:</label>
+                <input type="text" class="resident-age" name="resident-age">
+            </div>
+            <div class="form-group">
                 <label for="resident-address">Address:</label>
                 <input type="text" class="resident-address" name="resident-address">
             </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Make</th>
+                        <th>Color</th>
+                        <th>Year Model</th>
+                        <th>Plate Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="vehicle-type"></td>
+                        <td><input type="text" name="vehicle-make"></td>
+                        <td><input type="text" name="vehicle-color"></td>
+                        <td><input type="text" name="vehicle-model"></td>
+                        <td><input type="text" name="vehicle-plate"></td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>Body Number</th>
+                        <th>CR Number</th>
+                        <th>Motor Number</th>
+                        <th>Chasis Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="vehicle-body-number"></td>
+                        <td><input type="text" name="vehicle-cr-number"></td>
+                        <td><input type="text" name="vehicle-motor-number"></td>
+                        <td><input type="text" name="vehicle-chasis-number"></td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="form-group">
                 <label for="purpose">Purpose:</label>
                 <textarea name="purpose" rows="3"></textarea>

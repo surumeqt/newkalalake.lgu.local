@@ -394,7 +394,7 @@ td img {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     padding: 30px;
     width: 100%;
-    max-width: 56rem; /* max-w-4xl */
+    max-width: 56rem;
     max-height: 90vh;
     display: flex;
     flex-direction: column;
@@ -453,7 +453,6 @@ td img {
 .form-actions button.cancel-btn:hover {
     background-color: #d1d5db;
 }
-/* Grid Layouts */
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr;
@@ -492,21 +491,14 @@ td img {
     max-height: 90vh;
     overflow-y: auto;
     padding: 5px 0;
-    /* border-top: 1px solid #e5e7eb; */
 }
-/* Modal Header */
 .modal-header {
     padding: 0 1.5rem 1.5rem 1.5rem;
-    /* text-align: center; */
-    /* border-bottom: 1px solid #e5e7eb; */
 }
 .modal-title {
     font-size: 1.8rem;
     font-weight: 700;
     color: #1f2937;
-    /* display: flex;
-    align-items: center; */
-    /* gap: 0.5rem; */
     margin: 0;
     text-align: center;
 }
@@ -527,10 +519,6 @@ td img {
 
 }
 .form-divider {
-    /* display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 1rem;
-    max-width: 800px; */
     background-color: #f9fafb;
     border-radius: 0.5rem;
     padding: 1.5rem;
@@ -544,13 +532,6 @@ td img {
     gap: 0.5rem;
 }
 
-/* .form-group label {
-    font-weight: 600;
-    color: var(--dark-text);
-    margin-bottom: 5px;
-    font-size: 0.9em;
-    text-align: left;
-} */
 .field-label {
     font-size: 0.875rem;
     font-weight: 500;
@@ -572,7 +553,7 @@ td img {
 .form-control[readonly] {
     background-color: #f3f4f6;
 }
-/* Form Inputs */
+
 .form-control {
     height: 2.5rem;
     width: 100%;
@@ -657,7 +638,8 @@ td img {
 .certificate-container .resident-address,
 .certificate-container .resident-business-address,
 .certificate-container .resident-business-name,
-.certificate-container textarea {
+.certificate-container textarea ,
+.certificate-container td input {
     width: 100%;
     padding: var(--spacing-xs) 12px;
     border: 1px solid var(--border-light);
@@ -676,7 +658,8 @@ td img {
 .certificate-container .resident-address:focus,
 .certificate-container .resident-business-address:focus,
 .certificate-container .resident-business-name:focus,
-.certificate-container textarea:focus {
+.certificate-container textarea:focus,
+.certificate-container td input:focus {
     border-color: var(--primary-blue);
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
@@ -717,8 +700,10 @@ td img {
     display: none !important;
 }
 
-/* resident profile start*/
-/* Modal header */
+/* CERTIFICATE CONTAINER END */
+
+/* RESIDENT PROFILE */
+
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -729,7 +714,7 @@ td img {
 }
 
 .modal-title {
-    font-size: 1.75rem; /* text-2xl */
+    font-size: 1.75rem;
     color: var(--dark-text);
     margin: 0;
 }
@@ -749,45 +734,41 @@ td img {
     color: var(--dark-text);
 }
 
-/* Form layout */
 .edit-modal-form {
     display: flex;
     flex-direction: column;
-    flex: 1; /* Allow form to take available space */
-    overflow-y: auto; /* Enable scrolling for the form content */
-    padding: 0 var(--spacing-xs); /* Add some padding around the scrollable content */
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 var(--spacing-xs);
 }
 
-/* CHANGE START: This is the primary change for layout */
 .resident-profile-sections {
-    display: flex; /* Use flexbox for stacking sections */
-    flex-direction: column; /* Stack vertically */
-    gap: var(--spacing-md); /* Gap between major sections */
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
     overflow-y: auto;
     padding: 0 var(--spacing-xs); 
 }
 
 .top-info-row {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns for Basic and Family info */
+    grid-template-columns: 1fr 1fr;
     gap: var(--spacing-md);
 }
-/* CHANGE END */
 
-/* Profile sections */
 .profile-section {
     background-color: var(--bg-white);
     border: 1px solid var(--border-light);
     border-radius: var(--border-radius-sm);
     padding: var(--spacing-sm);
-    box-shadow: var(--shadow-subtle); /* Added subtle shadow to sections */
+    box-shadow: var(--shadow-subtle);
 }
 
 .info-header {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-    font-size: 1.25rem; /* text-lg */
+    font-size: 1.25rem;
     color: var(--dark-text);
     margin-bottom: var(--spacing-md);
     padding-bottom: var(--spacing-xs);
@@ -795,11 +776,10 @@ td img {
 }
 
 .info-header img {
-    height: 1.2em; /* Adjust icon size relative to text */
+    height: 1.2em;
     width: 1.2em;
 }
 
-/* No specific grid-column span needed for profile-summary here, as it's part of top-info-row */
 
 .profile-header-content {
     display: flex;
@@ -807,7 +787,7 @@ td img {
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-md);
     padding-bottom: var(--spacing-md);
-    border-bottom: 1px dashed var(--border-light); /* Dashed line for subtle separation */
+    border-bottom: 1px dashed var(--border-light);
 }
 
 .profile-image {
@@ -820,7 +800,7 @@ td img {
     justify-content: center;
     align-items: center;
     border: 3px solid var(--primary-blue);
-    flex-shrink: 0; /* Prevent shrinking on smaller screens */
+    flex-shrink: 0;
 }
 
 .profile-image img {
@@ -841,10 +821,9 @@ td img {
     display: inline-block;
 }
 
-/* Form groups for inputs */
 .form-group-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Auto-fit columns */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--spacing-sm);
 }
 
@@ -856,7 +835,7 @@ td img {
 .info-group {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem; /* Small gap between label and input */
+    gap: 0.25rem;
 }
 
 .info-group label {
@@ -870,16 +849,16 @@ td img {
     padding: var(--btn-padding);
     border-radius: var(--border-radius-sm);
     border: 1px solid var(--border-light);
-    width: 100%; /* Fill available space */
+    width: 100%;
     font-size: 1rem;
     color: var(--dark-text);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    outline: none; /* Remove default outline */
+    outline: none;
 }
 
 .input-control:focus {
     border-color: var(--primary-blue);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Focus ring */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
 .input-control.readonly {
@@ -897,9 +876,8 @@ td img {
     border-bottom: 1px solid var(--border-light);
 }
 
-/* Table styles for past activities */
 .table-responsive {
-    overflow-x: auto; /* Enable horizontal scrolling for tables on small screens */
+    overflow-x: auto;
 }
 .past-activities-container {
     margin-bottom: var(--spacing-xs);
@@ -925,14 +903,13 @@ td img {
     color: var(--dark-text);
 }
 
-/* Modal actions (buttons) */
 .edit-resident-modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: var(--spacing-sm);
     padding-top: var(--spacing-md);
     border-top: 1px solid var(--border-light);
-    background-color: var(--bg-white); /* Ensure background is white to cover scrolling content */
+    background-color: var(--bg-white);
     margin-top: var(--spacing-xs);
 }
 
@@ -951,7 +928,7 @@ td img {
 }
 
 .save-edit-btn:hover {
-    background-color: #1a56db; /* Darker blue on hover */
+    background-color: #1a56db;
 }
 
 .close-edit-btn {
@@ -969,7 +946,6 @@ td img {
     font-size: 0.7rem;
     color: var(--light-text);
 }
-/* Original buttons (if still used elsewhere) */
 .edit-resident-btn {
     background-color: #fd7e14;
     color: white;
@@ -998,92 +974,4 @@ td img {
 .delete-resident-btn:hover {
     background-color: #5c636a;
 }
-
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-    .top-info-row {
-        grid-template-columns: 1fr; /* Stack columns on medium screens */
-    }
-
-    .edit-resident-modal-content {
-        width: 90%;
-        margin: var(--spacing-md) auto; /* Add margin for better visual on smaller screens */
-    }
-}
-
-@media (max-width: 768px) {
-    .modal-title {
-        font-size: 1.5rem;
-    }
-
-    .profile-header-content {
-        flex-direction: column; /* Stack profile image and info */
-        text-align: center;
-    }
-
-    .profile-meta-info p {
-        text-align: left; /* Align text left after stacking */
-    }
-
-    .profile-meta-info strong {
-        min-width: unset; /* Remove min-width */
-        display: block; /* Make strong tag block for better stacking on small screens */
-    }
-
-    .form-group-grid {
-        grid-template-columns: 1fr; /* Single column layout for all inputs */
-    }
-
-    .form-group-grid.two-columns {
-        grid-template-columns: 1fr;
-    }
-
-    .edit-resident-modal-actions {
-        flex-direction: column; /* Stack buttons vertically */
-        align-items: stretch; /* Stretch buttons to full width */
-    }
-
-    .btn {
-        width: 100%; /* Full width buttons */
-    }
-
-    .edit-resident-modal-content {
-        padding: var(--spacing-sm); /* Reduce padding on smaller screens */
-        border-radius: var(--border-radius-sm);
-    }
-}
-
-@media (max-width: 480px) {
-    .modal-title {
-        font-size: 1.25rem;
-    }
-
-    .info-header {
-        font-size: 1.1rem;
-    }
-
-    .profile-image {
-        width: 80px;
-        height: 80px;
-    }
-
-    .profile-meta-info p {
-        font-size: 0.85rem;
-    }
-
-    .input-control {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.75rem;
-    }
-
-    .past-activities-container th,
-    .past-activities-container td {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.6rem;
-    }
-
-    .edit-resident-modal-content {
-        margin: var(--spacing-xs) auto; /* Even less margin on very small screens */
-    }
-}
-/* resident profile end*/
+/* RESIDENT PROFILE END */

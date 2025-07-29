@@ -378,16 +378,37 @@ class PDFGenerator extends FPDF {
 
         $this->Ln(5);
         $this->SetFont('Times', '', 11);
-        $this->MultiCell(0, 5, "This is to certify that ".$this->data['resident_name'].", ".$this->data['resident_age']." years old".", Born on ".formatBirthdate($this->data['resident_birthdate'])." is a bonafide resident of ".$this->data['resident_address'].".",0, 'J');
+        $this->Write(5, "         This is to certify that ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_name']);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, ", ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_age']." years old");
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, ", Born on ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, formatBirthdate($this->data['resident_birthdate']));
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " is a bonafide resident of ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_address'].".");
+        
+        $this->Ln(10);
+        $this->SetFont('Times', '', 11);
+        $this->MultiCell(0, 5, "         This certifies further that the above-mentioned person has no sufficient regular source of income and belongs to an indigent family.", 0, 'J');
 
         $this->Ln(5);
-        $this->MultiCell(0, 5, "This certifies further that the above-mentioned person has no sufficient regular source of income and belongs to an indigent family.", 0, 'J');
+        $this->Write(5, "         This certificate is issued upon the request of the above-mentioned for ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['purpose']." PURPOSES.");
 
-        $this->Ln(5);
-        $this->MultiCell(0, 5, "This certificate is issued upon the request of the above-mentioned for ".$this->data['purpose'].".", 0, 'J');
-
-        $this->Ln(7);
-        $this->Cell(0, 10, "Issued this ".formatHearingDate($this->todaysDate)." at Barangay New Kalalake, Olongapo City.", 0, 1, 'J');
+        $this->Ln(10);
+        $this->Write(5, "Issued this ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
 
         $this->Ln(35);
         $this->SetFont('Times','BU',12);
@@ -418,13 +439,37 @@ class PDFGenerator extends FPDF {
 
         $this->Ln(5);
         $this->SetFont('Times', '', 11);
-        $this->MultiCell(0, 5, "As per record found in this office, this is to certify that ".$this->data['resident_name'].", ".$this->data['resident_age']." years old".", Born on ".formatBirthdate($this->data['resident_birthdate'])." and presently residing at ".$this->data['resident_address'].", With Good Moral Character and law abiding citizen on this Barangay.",0);
+        $this->Write(5, "         As per record found in this office, this is to certify that ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_name']);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, ", ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_age'] . " years old");
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, ", Born on ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, formatBirthdate($this->data['resident_birthdate']));
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " and presently residing at ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_address']);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, ", With Good Moral Character and law abiding citizen on this Barangay.");
 
-        $this->Ln(5);
-        $this->MultiCell(0, 5, "This certificate is issued upon the request of the above-mentioned for ".$this->data['purpose'].".", 0, 'J');
+        $this->Ln(10);
+        $this->Write(5, "         This certificate is issued upon the request of the above-mentioned for ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['purpose']." PURPOSES");
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " and whatever legal intent it may serve.");
 
-        $this->Ln(7);
-        $this->Cell(0, 10, "Issued this ".formatHearingDate($this->todaysDate)." at Barangay New Kalalake, Olongapo City.", 0, 1, 'J');
+        $this->Ln(10);
+        $this->Write(5, "Issued this ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
 
         $this->Ln(35);
         $this->SetFont('Times','BU',12);
@@ -432,12 +477,9 @@ class PDFGenerator extends FPDF {
         $this->SetFont('Times','',11);
         $this->Cell(185,6,'Lupon Chairman',0,1,'R');
 
-        $this->Ln(50);
-        $this->SetFont('Times', 'B', 8);
-        $this->Cell(0, 10, 'Note: Valid Only with official dry seal and within (90) days from the date issued.', 0, 1);
-
         return $this->Output('S');
     }
+
     public function generateNonResidencyBlob(){
 
         $this->AddPage();
@@ -455,33 +497,55 @@ class PDFGenerator extends FPDF {
 
         $this->Ln(5);
         $this->SetFont('Times', '', 11);
-        $this->MultiCell(0, 5, "As per record found in this office, this is to certify that ".$this->data['resident_name'].", Whose reported address was ".$this->data['resident_address'].", is NOT A RESIDENT of this Barangay.",0);
+        $this->Write(5, "    As per record found in this office, this is to certify that ");
 
-        $this->Ln(5);
-        $this->MultiCell(0, 5, "This certification is issued for ".$this->data['purpose']." purposes and for whatever legal purpose this may serve.", 0, 'J');
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_name']);
 
-        $this->Ln(7);
-        $this->Cell(0, 10, "Issued this ".formatHearingDate($this->todaysDate)." at Barangay New Kalalake, Olongapo City.", 0, 1, 'J');
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, ", whose reported address was ");
 
-        $this->Ln(35);
-        $this->Cell(0,0,'Attested By:',0, 1);
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_address']);
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, ", is NOT A RESIDENT of this Barangay.");
 
         $this->Ln(10);
-        $this->SetFont('Times','B',11);
-        $this->Cell(100,8,'_________________',0,0);
-        $this->Cell(90,8,'___________________',0,1, 'R');
-        $this->Cell(100,8,'Percival T. Roxas',0,0);
-        $this->Cell(90,8,'Hon. Sherwin Sionzon',0,1,'R');
-        $this->SetFont('Times','',10);
-        $this->Cell(100,8,'Barangay Secretary',0,0);
-        $this->Cell(90,8,'Punong Barangay',0,1, 'R');
+        $this->Write(5, "This certification is issued for ");
 
-        $this->Ln(50);
-        $this->SetFont('Times', 'B', 8);
-        $this->Cell(0, 10, 'Note: Valid Only with official dry seal and within (90) days from the date issued.', 0, 1);
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['purpose']);
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " purposes and for whatever legal purpose this may serve.");
+
+        $this->Ln(10);
+        $this->Write(5, "Issued this ");
+
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
+
+        $this->Ln(35);
+        $this->Cell(0, 0, 'Attested By:', 0, 1);
+
+        $this->Ln(20);
+        $this->SetFont('Times', 'B', 11);
+        $this->Cell(100, 8, '_________________', 0, 0);
+        $this->Cell(90, 8, '_______________________', 0, 1, 'R');
+        $this->Cell(100, 8, 'Percival T. Roxas', 0, 0);
+        $this->Cell(90, 8, 'Hon. Sherwin C. Sionzon', 0, 1, 'R');
+
+        $this->SetFont('Times', '', 10);
+        $this->Cell(100, 8, 'Barangay Secretary', 0, 0);
+        $this->Cell(90, 8, 'Punong Barangay', 0, 1, 'R');
 
         return $this->Output('S');
     }
+
     public function generatePermitBlob(){
 
         $this->AddPage();
@@ -492,27 +556,46 @@ class PDFGenerator extends FPDF {
         $this->Ln(10);
         $this->SetFont('Times', 'B', 15); 
         $this->Cell(0, 10, 'BARANGAY PERMIT', 0, 1, 'C');
-        
+
         $this->Ln(11);
         $this->SetFont('Times', '', 11);
-        $this->MultiCell(0, 5, "       This is to grant ".$this->data['resident_name']." permission to ".$this->data['purpose'].".", 0, 'J');
+        $this->Write(5, "       This is to grant ");
 
-        $this->Ln(5);
-        $this->Cell(0, 10, "     This permit is being issued upon their request for whatever purpose this may serve.", 0, 0);
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_name']);
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " permission to ");
+
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['purpose'] . ".");
 
         $this->Ln(10);
-        $this->Cell(0, 10, "     Issued this ".formatHearingDate($this->todaysDate)." at Barangay New Kalalake, Olongapo City.", 0, 0);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, "     This permit is being issued upon their request for whatever purpose this may serve.");
+
+
+        $this->Ln(10);
+        $this->Write(5, "     Issued this ");
+
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
 
         $this->Ln(40);
-        $this->SetFont('Times','BU',11);
-        $this->Cell(0,8,'Hon. Sherwin Sionzon',0,1,'R');
-        $this->SetFont('Times','',10);
-        $this->Cell(185,6,'Lupon Chairman',0,1,'R');
+        $this->SetFont('Times', 'BU', 11);
+        $this->Cell(0, 8, 'Hon. Sherwin Sionzon', 0, 1, 'R');
+
+        $this->SetFont('Times', '', 10);
+        $this->Cell(185, 6, 'Punong Barangay', 0, 1, 'R');
 
         return $this->Output('S');
     }
+
     public function generateEndorsementBlob(){
-        
+
         $this->AddPage();
         $this->Ln(10);
         $this->SetFont('Times', 'B', 12);
@@ -524,32 +607,161 @@ class PDFGenerator extends FPDF {
 
         $this->Ln(10);
         $this->SetFont('Times', '', 11);
-        $this->MultiCell(0, 5, "         This is to endorse ".$this->data['resident_name']." residing at ".$this->data['resident_address']." and the registered operator of ".$this->data['resident_business_name']." located at ".$this->data['resident_business_address'].".",0, 'J');
+        $this->Write(5, "         This is to endorse ");
 
-        $this->Ln(5);
-        $this->MultiCell(0, 5, "         This endorsement is being issued in connection with their application for ".$this->data['purpose']." and for whatever legal purpose and intent it may best serve him.", 0, 'J');
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_name']);
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " residing at ");
+
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_address']);
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " and the registered operator of ");
+
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_business_name']);
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " located at ");
+
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_business_address'] . ".");
 
         $this->Ln(10);
-        $this->Cell(0, 10, "Issued this ".formatHearingDate($this->todaysDate)." at Barangay New Kalalake, Olongapo City.", 0, 1, 'J');
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, "         This endorsement is being issued in connection with their application for ");
+
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['purpose']);
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " and for whatever legal purpose and intent it may best serve him.");
+
+        $this->Ln(10);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, "         Issued this ");
+
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
 
         $this->Ln(35);
-        $this->SetFont('Times','BU',11);
-        $this->Cell(0,8,'Hon. Sherwin Sionzon',0,1,'R');
-        $this->SetFont('Times','',10);
-        $this->Cell(185,6,'Lupon Chairman',0,1,'R');
+        $this->SetFont('Times', 'BU', 11);
+        $this->Cell(0, 8, 'Hon. Sherwin Sionzon', 0, 1, 'R');
 
-        $this->Ln(50);
+        $this->SetFont('Times', '', 10);
+        $this->Cell(185, 6, 'Punong Barangay', 0, 1, 'R');
+
+        $this->Ln(65);
         $this->SetFont('Times', 'B', 8);
-        $this->Cell(0, 10, 'Note: Valid Only with official dry seal and within 1 year from the date issued.', 0, 1);
+        $this->Cell(0, 10, 
+            'Note: Valid Only with official dry seal and within 1 year from the date issued.', 
+            0, 1
+        );
 
         return $this->Output('S');
     }
+
     public function generateVClearanceBlob(){
+        
         $this->AddPage();
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 12);
+        $this->Cell(0, 10, 'OFFICE OF THE PUNONG BARANGAY', 0, 1, 'C');
 
         $this->Ln(10);
-        $this->SetFont('Arial','B',10);
-        $this->Cell(0,8,'Vehicle Clearance',0,1,'C');
+        $this->SetFont('Times', 'B', 15);
+        $this->Cell(0, 10, 'VEHICLE CLEARANCE', 0, 1, 'C');
+
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 12);
+        $this->Cell(0, 5, 'To Whom It May Concern', 0, 1);
+
+        $this->Ln(5);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, "         This is to certify that, as records in this office ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['resident_name'].", ".$this->data['resident_age'].", at ".$this->data['resident_address']);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, ", is a bonafide resident and law-abiding citizen of this community.");
+
+        $this->Ln(10);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, "         This is to certify further that review of said records reveals that the vehicle describes hereunder ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, "HAS NOT BEEN INVOLVED IN ANY CRIMINAL ACTIVITY");
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " , and that there is ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, "NO PENDING ACTION OR CASES");
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " involving subject filed in the Lupong Tagapamayapa of this barangay");
+
+        // First Table Header
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 11);
+        $this->Cell(38, 10, 'Type', 1);
+        $this->Cell(38, 10, 'Make', 1);
+        $this->Cell(38, 10, 'Color', 1);
+        $this->Cell(38, 10, 'Year Model', 1);
+        $this->Cell(38, 10, 'Plate Number', 1);
+        $this->Ln();
+
+        // First Table Row
+        $this->SetFont('Times', '', 11);
+        $this->Cell(38, 10, $this->data['vehicle_type'], 1);
+        $this->Cell(38, 10, $this->data['vehicle_make'], 1);
+        $this->Cell(38, 10, $this->data['vehicle_color'], 1);
+        $this->Cell(38, 10, $this->data['vehicle_year_model'], 1);
+        $this->Cell(38, 10, $this->data['vehicle_plate_number'], 1);
+        $this->Ln();
+
+        // Vertical space between tables
+        $this->Ln(5);
+
+        // Second Table Header
+        $this->SetFont('Times', 'B', 11);
+        $this->Cell(48, 10, 'Body Number', 1);
+        $this->Cell(48, 10, 'CR Number', 1);
+        $this->Cell(48, 10, 'Motor Number', 1);
+        $this->Cell(48, 10, 'Chasis Number', 1);
+        $this->Ln();
+
+        // Second Table Row
+        $this->SetFont('Times', '', 11);
+        $this->Cell(48, 10, $this->data['vehicle_body_number'], 1);
+        $this->Cell(48, 10, $this->data['vehicle_cr_number'], 1);
+        $this->Cell(48, 10, $this->data['vehicle_motor_number'], 1);
+        $this->Cell(48, 10, $this->data['vehicle_chasis_number'], 1);
+        $this->Ln();
+
+        $this->Ln(5);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, "         This clearance is issued upon the request of the above-mentioned person in compliance with the requirements for
+        the application of ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['purpose']);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " of the above-described vehicle.");
+
+        $this->Ln(10);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, "Issued this ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
+
+        $this->Ln(30);
+        $this->SetFont('Times','BU',14);
+        $this->Cell(0,8,'Hon. Sherwin Sionzon',0,1,'R');
+        $this->SetFont('Times','',12);
+        $this->Cell(185,6,'Punong Barangay',0,1,'R');
 
         return $this->Output('S');
     }
