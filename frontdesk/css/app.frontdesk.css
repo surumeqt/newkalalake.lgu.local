@@ -20,6 +20,7 @@
     --bg-light: #f8f9fa;
     --bg-white: #ffffff;
     --border-light: #e9ecef;
+    --shadow-light: 0 2px 3px rgba(0, 0, 0, 0.05);
     --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-heavy: 0 2px 4px rgba(0, 0, 0, 0.15);
     --spacing-xs: 8px;
@@ -199,6 +200,64 @@ body {
     font-size: 0.95rem;
     color: var(--light-text);
     font-weight: 500;
+}
+/* Overlay for smaller screens */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 9; /* Below sidebar, above main content */
+    display: none; /* Hidden by default */
+}
+.sidebar.active + .sidebar-overlay {
+    display: block; /* Show overlay when sidebar is active */
+}
+
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 20; /* Ensure sidebar is on top */
+        transform: translateX(-100%); /* Hide sidebar off-screen */
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Add shadow when open */
+    }
+
+    .sidebar.active {
+        transform: translateX(0); /* Show sidebar on-screen */
+    }
+
+    .menu-toggle {
+        display: block; /* Show the menu toggle button */
+    }
+
+    .user-greeting {
+        display: none; /* Hide user greeting on smaller screens to save space */
+    }
+
+    .dashboard-layout {
+        /* Ensure main content is not covered when sidebar is open */
+        overflow-x: hidden;
+    }
+}
+
+/* Optional: Adjust for even smaller screens like phones */
+@media (max-width: 480px) {
+    .logo-area h1 {
+        font-size: 1.2rem;
+    }
+    .current-page-title {
+        font-size: 1.2rem;
+    }
+    .top-bar {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
 }
 
 /* CONTENT DISPLAY DEFAULT */
@@ -974,4 +1033,472 @@ td img {
 .delete-resident-btn:hover {
     background-color: #5c636a;
 }
-/* RESIDENT PROFILE END */
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .top-info-row {
+        grid-template-columns: 1fr; /* Stack columns on medium screens */
+    }
+
+    .edit-resident-modal-content {
+        width: 90%;
+        margin: var(--spacing-md) auto; /* Add margin for better visual on smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-title {
+        font-size: 1.5rem;
+    }
+
+    .profile-header-content {
+        flex-direction: column; /* Stack profile image and info */
+        text-align: center;
+    }
+
+    .profile-meta-info p {
+        text-align: left; /* Align text left after stacking */
+    }
+
+    .profile-meta-info strong {
+        min-width: unset; /* Remove min-width */
+        display: block; /* Make strong tag block for better stacking on small screens */
+    }
+
+    .form-group-grid {
+        grid-template-columns: 1fr; /* Single column layout for all inputs */
+    }
+
+    .form-group-grid.two-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-resident-modal-actions {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: stretch; /* Stretch buttons to full width */
+    }
+
+    .btn {
+        width: 100%; /* Full width buttons */
+    }
+
+    .edit-resident-modal-content {
+        padding: var(--spacing-sm); /* Reduce padding on smaller screens */
+        border-radius: var(--border-radius-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-title {
+        font-size: 1.25rem;
+    }
+
+    .info-header {
+        font-size: 1.1rem;
+    }
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-meta-info p {
+        font-size: 0.85rem;
+    }
+
+    .input-control {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .past-activities-container th,
+    .past-activities-container td {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .edit-resident-modal-content {
+        margin: var(--spacing-xs) auto; /* Even less margin on very small screens */
+    }
+}
+/* resident profile end*/
+:root {
+     /* New Dashboard Specific Colors/Variables */
+    --dashboard-card-1: #007bff; /* Primary Blue */
+    --dashboard-card-2: #28a745; /* Green */
+    --dashboard-card-3: #ffc107; /* Yellow */
+    --dashboard-card-4: #17a2b8; /* Cyan */
+    --dashboard-card-text: #ffffff; /* White text for colored cards */
+    --dashboard-bg-contrast: #e9ecef; /* Slightly darker background for modal/sections if needed */
+
+    /* Chart specific colors */
+    --chart-male: #007bff;
+    --chart-female: #dc3545;
+    --chart-bar-color: #6f42c1; /* Purple */
+    --chart-bar-bg: #e2e6ea; /* Light gray for bars */   
+}
+
+/* Dashboard CSS Start */
+.dashboard-container {
+    background-color: var(--bg-white);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-heavy);
+    display: flex;
+    flex-direction: column; 
+    gap: var(--spacing-lg); 
+}
+
+.dashboard-intro {
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--border-light);
+}
+
+.dashboard-intro h1 {
+    font-size: 2.5rem;
+    color: var(--dark-text);
+    /* margin-bottom: var(--spacing-xs); */
+    font-weight: 700;
+}
+
+.dashboard-intro p {
+    color: var(--light-text);
+    font-size: 1.1rem;
+    /* max-width: 600px; */
+    margin: 0 auto;
+}
+
+/* New Section Styling */
+.dashboard-section {
+    background-color: var(--bg-white); 
+    display: flex;
+    flex-direction: column;
+
+}
+
+.dashboard-section h2 {
+    font-size: 1.75rem;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: 600;
+}
+.dashboard-section h2 .fas {
+    color: var(--primary-blue); /* Consistent icon color for section headers */
+}
+
+/* Metrics Grid Container */
+.metrics-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xs);
+}
+
+/* Charts Grid Container */
+.charts-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Allow charts to be larger */
+    gap: var(--spacing-md);
+}
+
+/* Activity Feed Container (for specific layout needs) */
+.activity-feed-container {
+    /* If the activity feed itself is a direct child of the section, it just takes full width */
+    /* Add any specific flex or grid properties if the activity feed needs internal layout */
+}
+
+/* Dashboard Grid Item - General Styles */
+.dashboard-grid-item {
+    background-color: var(--bg-white);
+    color: var(--dark-text); /* Default dark text for non-colored cards */
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.dashboard-grid-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-heavy);
+}
+
+.dashboard-grid-item h3 {
+    font-size: 2.2rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.dashboard-grid-item p {
+    font-size: 1rem;
+    /* This color applies to the charts and activity feed items */
+    color: var(--light-text);
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.dashboard-grid-item small {
+    font-size: 0.85rem;
+    /* This color applies to the charts and activity feed items */
+    color: var(--light-text);
+    margin-top: var(--spacing-xs);
+    opacity: 0.8;
+}
+
+/* Specific styling for the initial colored metric cards */
+.metrics-grid-container .dashboard-grid-item { /* Target only items within metrics-grid */
+    color: var(--dashboard-card-text); /* White text for these specific cards */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+    padding-top: calc(var(--spacing-md) + 15px);
+}
+/* Re-applying text color specifically for metric cards */
+.metrics-grid-container .dashboard-grid-item p,
+.metrics-grid-container .dashboard-grid-item small {
+    color: var(--dashboard-card-text);
+}
+
+
+/* Background colors for initial cards */
+.metrics-grid-container .grid-item-1 { background-image: linear-gradient(135deg, #007bff 0%, #0056b3 100%); }
+.metrics-grid-container .grid-item-2 { background-image: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); }
+.metrics-grid-container .grid-item-3 { background-image: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); }
+.metrics-grid-container .grid-item-4 { background-image: linear-gradient(135deg, #17a2b8 0%, #138496 100%); }
+
+/* Icon styling for colored cards (now for <img>) */
+.metrics-grid-container .icon-wrapper {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-md);
+    opacity: 0.8;
+    transition: transform 0.3s ease;
+    /* Adjustments for img tags */
+    width: 48px; /* Set a specific width for images */
+    height: 48px; /* Set a specific height for images */
+    display: flex; /* To center the image if needed */
+    align-items: center;
+    justify-content: center;
+}
+.metrics-grid-container .icon-wrapper img {
+    width: 100%; /* Make image fill the wrapper */
+    height: 100%;
+    object-fit: contain; /* Ensure the entire image is visible */
+    filter: brightness(0) invert(1) opacity(0.8); /* Makes a colored image white and slightly transparent */
+    /* If your images are already white or have the desired color, remove this filter */
+}
+
+.metrics-grid-container .dashboard-grid-item:hover .icon-wrapper {
+    transform: scale(1.1);
+}
+/* Remove specific Font Awesome icon styling as they are no longer used for metric cards */
+.metrics-grid-container .icon-wrapper .fas { display: none; }
+
+
+/* Chart Placeholder Styling (now applies to both gender and age) */
+.charts-grid-container .chart-placeholder {
+    background-color: var(--bg-white);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    color: var(--dark-text); /* Ensure charts text is dark */
+}
+
+.chart-title {
+    font-size: 1.25rem;
+    color: var(--dark-text);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: 600;
+}
+.chart-title .fas { /* Specific icon for charts header */
+    color: var(--primary-blue);
+}
+
+
+.chart-mockup {
+    width: 100%;
+    max-width: 300px;
+    height: 150px;
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+/* Bar Chart Mockup (now used for both Gender and Age) */
+.bar-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+    padding-bottom: 0;
+}
+.bar-chart .bar-set {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: flex-end;
+    gap: var(--spacing-xs);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--border-light);
+}
+.bar-chart .bar {
+    width: 25%; /* Default for 4 bars, adjust if only 2 bars */
+    background-color: var(--chart-bar-color); /* Default bar color */
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+/* Specific width for Gender Bar Chart (2 bars) */
+.charts-grid-container .chart-placeholder .bar-set .bar:nth-child(1),
+.charts-grid-container .chart-placeholder .bar-set .bar:nth-child(2) {
+    width: 45%; /* Adjust width for 2 bars */
+}
+
+.bar-chart .bar:hover {
+    transform: scaleY(1.05);
+    background-color: #5a33a3; /* Darker purple on hover (general) */
+}
+
+/* Specific hover colors for gender bars */
+.charts-grid-container .chart-placeholder .bar-set .bar[style*="background-color: var(--chart-male)"]:hover {
+    background-color: #0056b3; /* Darker blue for male bar */
+}
+.charts-grid-container .chart-placeholder .bar-set .bar[style*="background-color: var(--chart-female)"]:hover {
+    background-color: #a71d2a; /* Darker red for female bar */
+}
+
+.bar-chart .bar-labels {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 0.75rem;
+    color: var(--light-text);
+    margin-top: var(--spacing-xs);
+}
+
+.chart-note {
+    font-size: 0.8rem;
+    color: var(--light-text);
+    text-align: center;
+    margin-top: var(--spacing-sm);
+}
+
+/* Activity Feed */
+.activity-feed {
+    background-color: var(--bg-white);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    color: var(--dark-text);
+}
+
+.activity-feed-title {
+    /* This title is now handled by .dashboard-section h2 */
+    display: none; /* Hide old title */
+}
+
+.activity-feed ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-feed li {
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px dashed var(--border-light);
+    font-size: 0.95rem;
+    color: var(--light-text);
+}
+
+.activity-feed li:last-child {
+    border-bottom: none;
+}
+
+.activity-feed li strong {
+    color: var(--dark-text);
+}
+
+.view-all-btn {
+    background-color: var(--primary-blue);
+    color: var(--dashboard-card-text);
+    border: none;
+    padding: var(--btn-padding);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    margin-top: var(--spacing-md);
+    align-self: flex-end;
+    transition: background-color 0.2s ease;
+}
+
+.view-all-btn:hover {
+    background-color: #0056b3;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    /* All grid containers become single column on smaller screens by default due to auto-fit minmax */
+    .metrics-grid-container,
+    .charts-grid-container {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-grid-item {
+        padding: var(--spacing-sm);
+    }
+    .dashboard-grid-item h3 {
+        font-size: 1.8rem;
+    }
+
+    /* Adjust row layout for metric cards on small screens */
+    .metrics-grid-container .dashboard-grid-item {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: var(--spacing-md);
+    }
+    .metrics-grid-container .dashboard-grid-item p,
+    .metrics-grid-container .dashboard-grid-item small {
+        text-align: right;
+    }
+    .metrics-grid-container .icon-wrapper {
+        position: static;
+        /* Reset absolute positioning */
+        width: 30px; /* Adjust size for mobile row layout */
+        height: 30px;
+        margin-right: var(--spacing-sm); /* Add margin to separate from text */
+        opacity: 1; /* Ensure full opacity */
+    }
+    .metrics-grid-container .icon-wrapper img {
+        filter: none; /* Remove filter for better image display on small screens if colored */
+        /* If your images are already monochrome and you want them white, keep the filter */
+    }
+}
+
+@media (min-width: 1025px) {
+    /* For larger screens, charts can span 2 columns */
+    .charts-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

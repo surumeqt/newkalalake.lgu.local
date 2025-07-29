@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGU - Brgy. New Kalalake System</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="css/app.frontdesk.css">
     <link rel="stylesheet" href="css/modal.style.css">
 </head>
@@ -33,6 +34,8 @@
             </div>
         </aside>
 
+        <div class="sidebar-overlay"></div>
+        
         <div class="main-panel">
             <header class="top-bar">
                 <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
