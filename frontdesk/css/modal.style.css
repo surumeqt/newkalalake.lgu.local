@@ -3,7 +3,24 @@
     * This file contains the styles for the modal component used in the application.
     * EACH modal should have a unique class name to avoid conflicts.
 */
-
+/* Variables for consistency */
+:root {
+    --primary-blue: #2563eb;
+    --secondary-gray: #6b7280;
+    --light-text: #4b5563;
+    --dark-text: #1f2937;
+    --border-light: #e5e7eb;
+    --bg-white: #ffffff;
+    --bg-light: #f3f4f6;
+    --shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    --border-radius-sm: 0.375rem;
+    --border-radius-md: 0.5rem;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --btn-padding: 0.625rem 1.25rem;
+}
 /* LOGOUT MODAL */
 
 .modal-overlay {
@@ -118,16 +135,16 @@
 }
 
 .edit-resident-modal-content {
-    background-color: #fff;
-    border-radius: 0.75rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    padding: 30px;
-    width: 100%;
-    max-width: 80rem; /* max-w-4xl */
-    max-height: 90vh;
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    padding: var(--spacing-md);
+    width: 95%; /* Adjust width for responsiveness */
+    max-width: 80rem; /* max-w-4xl from original */
+    max-height: 90vh; /* Allow vertical scrolling for content */
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; /* Hide overflow of content itself, form will scroll */
     transform: scale(0.95);
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
