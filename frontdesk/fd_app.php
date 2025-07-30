@@ -35,7 +35,7 @@
         </aside>
 
         <div class="sidebar-overlay"></div>
-        
+
         <div class="main-panel">
             <header class="top-bar">
                 <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
@@ -243,43 +243,43 @@
                                 </div>
                             </div>
                             <div class="basic-info-section">
-                                <h4 class="info-header">
+                                <h4 class="info-header info-header-2">
                                     <img class="btn-img" src="images/icons/info-circle.png" alt="info" />
-                                    Basic Information
+                                    Personal Information
                                 </h4>
                                 <div class="form-group-grid">
                                     <div class="info-group">
-                                        <label for="editFirstName"><strong>First Name:</strong></label>
+                                        <label for="editFirstName"><strong>First Name</strong></label>
                                         <input type="text" id="editFirstName" name="editFirstName" class="input-control"
                                             placeholder="First Name" />
                                     </div>
                                     <div class="info-group">
-                                        <label for="editMiddleName"><strong>Middle Name:</strong></label>
+                                        <label for="editMiddleName"><strong>Middle Name</strong></label>
                                         <input type="text" id="editMiddleName" name="editMiddleName"
                                             class="input-control" placeholder="Middle Name" />
                                     </div>
                                     <div class="info-group">
-                                        <label for="editLastName"><strong>Last Name:</strong></label>
+                                        <label for="editLastName"><strong>Last Name</strong></label>
                                         <input type="text" id="editLastName" name="editLastName" class="input-control"
                                             placeholder="Last Name" />
                                     </div>
                                     <div class="info-group">
-                                        <label for="editSuffix"><strong>Suffix:</strong></label>
+                                        <label for="editSuffix"><strong>Suffix</strong></label>
                                         <input type="text" id="editSuffix" name="editSuffix" class="input-control"
                                             placeholder="e.g., Jr., Sr., III" />
                                     </div>
                                     <div class="info-group">
-                                        <label for="editBirthDate"><strong>Birth Date:</strong></label>
+                                        <label for="editBirthDate"><strong>Birth Date</strong></label>
                                         <input type="date" id="editBirthDate" name="editBirthDate" class="input-control"
                                             onchange="reflectEditAge()" />
                                     </div>
                                     <div class="info-group">
-                                        <label for="editAge"><strong>Age:</strong></label>
+                                        <label for="editAge"><strong>Age</strong></label>
                                         <input type="text" id="editAge" name="editAge" class="input-control readonly"
                                             placeholder="Auto Generated" required />
                                     </div>
                                     <div class="info-group">
-                                        <label for="editGender"><strong>Gender:</strong></label>
+                                        <label for="editGender"><strong>Gender</strong></label>
                                         <select id="editGender" name="editGender" class="input-control" required>
                                             <option value="">Select Gender</option>
                                             <option value="Male">Male</option>
@@ -287,7 +287,7 @@
                                         </select>
                                     </div>
                                     <div class="info-group">
-                                        <label for="editCivilStatus"><strong>Civil Status:</strong></label>
+                                        <label for="editCivilStatus"><strong>Civil Status</strong></label>
                                         <select id="editCivilStatus" name="editCivilStatus" class="input-control"
                                             required>
                                             <option value="">Select Status</option>
@@ -299,37 +299,22 @@
                                         </select>
                                     </div>
                                     <div class="info-group">
-                                        <label for="editIsDeceased"><strong>Resident Status:</strong></label>
+                                        <label for="editIsDeceased"><strong>Resident Status</strong></label>
                                         <select id="editIsDeceased" name="editIsDeceased" class="input-control"
                                             onchange="toggleDeceasedDate('resident')">
                                             <option value="false">Alive</option>
                                             <option value="true">Deceased</option>
                                         </select>
                                     </div>
-                                    <div class="info-group" id="residentDeceasedDateGroup" style="display: none;">
-                                        <label for="editDeceasedDate"><strong>Date of Decease:</strong></label>
-                                        <input type="date" id="editDeceasedDate" name="editDeceasedDate"
-                                            class="input-control" />
-                                        <small class="field-note">Optional: Date of passing for deceased
-                                            residents.</small>
-                                    </div>
+
                                     <div class="info-group">
-                                        <label for="editOccupation"><strong>Occupation:</strong></label>
-                                        <select name="editOccupation" id="editOccupation" class="input-control">
-                                            <option value="">Select Occupation</option>
-                                            <option value="Student">Student</option>
-                                            <option value="Employed">Employed</option>
-                                            <option value="Unemployed">Unemployed</option>
-                                        </select>
-                                    </div>
-                                    <div class="info-group">
-                                        <label for="editAddress"><strong>Address:</strong></label>
+                                        <label for="editAddress"><strong>Address</strong></label>
                                         <input type="text" id="editAddress" name="editAddress" class="input-control"
                                             placeholder="Address" required />
                                     </div>
                                     <div class="info-group">
                                         <label for="editEducationalAttainment"><strong>Educational
-                                                Attainment:</strong></label>
+                                                Attainment</strong></label>
                                         <select id="editEducationalAttainment" name="editEducationalAttainment"
                                             class="input-control" required>
                                             <option value="">Select Attainment</option>
@@ -348,25 +333,95 @@
                                         <small class="field-note">Select "N/A" if not graduated from any level.</small>
                                     </div>
                                     <div class="info-group">
+                                        <label for="editOccupation"><strong>Occupation</strong></label>
+                                        <select name="editOccupation" id="editOccupation" class="input-control"
+                                            onclick="toggleOccupationVisibility()">
+                                            <option value="">Select Occupation</option>
+                                            <option value="Student">Student</option>
+                                            <option value="Employed">Employed</option>
+                                            <option value="Unemployed">Unemployed</option>
+                                        </select>
+                                    </div>
+                                    <div class="info-group" id="editJobTitleContainer" style="display: none;">
+                                        <label for="editjobTitle"><strong>Job Title</strong></label>
+                                        <input type="text" id="editjobTitle" name="editjobTitle"
+                                            class="input-control"></label>
+                                    </div>
+                                    <!-- Monthly Income -->
+                                    <div class="info-group" id="editMonthlyIncomeContainer" style="display: none;">
+                                        <label for="editMonthlyIncome"><strong>Monthly Income</strong></label>
+                                        <input type="text" id="editMonthlyIncome" name="editMonthlyIncome"
+                                            class="input-control" placeholder="0.00" />
+                                    </div>
+                                    <div class="info-group">
                                         <label for="editContactNo"><strong>Contact No.</strong></label>
                                         <input type="tel" id="editContactNo" name="editContactNo" class="input-control"
                                             placeholder="+63 XXX XXX XXXX" />
                                     </div>
                                     <div class="info-group">
-                                        <label for="editEmail"><strong>Email:</strong></label>
+                                        <label for="editEmail"><strong>Email</strong></label>
                                         <input type="email" id="editEmail" name="editEmail" class="input-control"
                                             placeholder="RwNwI@example.com" />
+                                    </div>
+                                </div>
+                                <h3 style="margin-top: 30px;">Emergency Contact</h3>
+                                <div class="emergency-contact-container grid-three-columns">
+                                    <div class="info-group">
+                                        <label for="editEmergencyContactName"><strong>Name</strong></label>
+                                        <input type="text" id="editEmergencyContactName" name="editEmergencyContactName"
+                                            class="input-control">
+                                    </div>
+                                    <div class="info-group">
+                                        <label for="editEmergencyContactRelationship"><strong>Relationship</strong>
+                                        </label>
+                                        <input type="text" id="editEmergencyContactRelationship"
+                                            name="editEmergencyContactRelationship" class="input-control">
+                                    </div>
+                                    <div class="info-group">
+                                        <label for="editEmergencyContactNo"><strong>Contact No.</strong></label>
+                                        <input type="tel" id="editEmergencyContactNo" name="editEmergencyContactNo"
+                                            class="input-control" placeholder="+63 XXX XXX XXXX">
+                                    </div>
+                                </div>
+                                <div class="have-a-business-container">
+                                    <div class="info-group">
+                                        <h3>Have a Business?</h3>
+
+                                        <div class="radio-group">
+                                            <div class="radio-item">
+                                                <input type="radio" name="haveABusiness" value="true"
+                                                    id="haveABusinessYes" onclick="toggleBusinessVisibility()">
+                                                <label for="haveABusinessYes">Yes</label>
+                                            </div>
+                                            <div class="radio-item">
+                                                <input type="radio" name="haveABusiness" value="false"
+                                                    id="haveABusinessNo" onclick="toggleBusinessVisibility()">
+                                                <label for="haveABusinessNo">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="zxcv" id="zxcv" style="display: none;">
+                                        <div class="info-group">
+                                            <label for="editBusinessName"><strong>Business Name</strong></label>
+                                            <input type="text" id="editBusinessName" name="editBusinessName"
+                                                class="input-control" />
+                                        </div>
+                                        <div class="info-group">
+                                            <label for="editBusinessAddress"><strong>Business Address</strong></label>
+                                            <input type="text" id="editBusinessAddress" name="editBusinessAddress"
+                                                class="input-control" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="profile-section family-info-section">
-                            <h4 class="info-header">
+                            <h4 class="info-header info-header-2">
                                 <img class="btn-img" src="images/icons/family.png" alt="family" />
                                 Family Background
                             </h4>
-                            <h3>Father Name</h3>
+                            <h3>Father's Profile</h3>
                             <div class="form-group-grid two-columns">
                                 <div class="info-group">
                                     <label for="editFatherFirstName"><strong>First Name</strong></label>
@@ -391,7 +446,7 @@
                                 <div class="info-group">
                                     <label for="editFatherBirthDate"><strong>Birth Date</strong></label>
                                     <input type="date" id="editFatherBirthDate" name="editFatherBirthDate"
-                                        class="input-control" />
+                                        class="input-control" onchange="reflectFatherAge()" />
                                 </div>
                                 <div class="info-group">
                                     <label for="editFatherAge"><strong>Age</strong></label>
@@ -408,22 +463,16 @@
                                     </select>
                                 </div>
                                 <div class="info-group">
-                                    <label for="editFatherIsDeceased"><strong>Father Status:</strong></label>
-                                    <select id="editFatherIsDeceased" name="editFatherIsDeceased" class="input-control"
-                                        onchange="toggleDeceasedDate('father')">
+                                    <label for="editFatherIsDeceased"><strong>Father Status</strong></label>
+                                    <select id="editFatherIsDeceased" name="editFatherIsDeceased" class="input-control">
                                         <option value="false">Alive</option>
                                         <option value="true">Deceased</option>
                                     </select>
                                 </div>
-                                <div class="info-group" id="fatherDeceasedDateGroup" style="display: none;">
-                                    <label for="editFatherDeceasedDate"><strong>Date of Decease:</strong></label>
-                                    <input type="date" id="editFatherDeceasedDate" name="editFatherDeceasedDate"
-                                        class="input-control" />
-                                    <small class="field-note">Optional: Date of passing for deceased father.</small>
-                                </div>
+
                                 <div class="info-group">
                                     <label for="editFatherEducationalAttainment"><strong>Educational
-                                            Attainment:</strong></label>
+                                            Attainment</strong></label>
                                     <select id="editFatherEducationalAttainment" name="editFatherEducationalAttainment"
                                         class="input-control">
                                         <option value="">Select Attainment</option>
@@ -445,7 +494,7 @@
                                         class="input-control" placeholder="+63 XXX XXX XXXX" />
                                 </div>
                             </div>
-                            <h3 style="margin-top: 30px;">Mother Name</h3>
+                            <h3 style="margin-top: 30px;">Mother's Profile</h3>
                             <div class="form-group-grid two-columns">
                                 <div class="info-group">
                                     <label for="editMotherFirstName"><strong>First Name</strong></label>
@@ -470,7 +519,7 @@
                                 <div class="info-group">
                                     <label for="editMotherBirthDate"><strong>Birth Date</strong></label>
                                     <input type="date" id="editMotherBirthDate" name="editMotherBirthDate"
-                                        class="input-control" />
+                                        class="input-control" onchange="reflectMotherAge()" />
                                 </div>
                                 <div class="info-group">
                                     <label for="editMotherAge"><strong>Age</strong></label>
@@ -487,22 +536,16 @@
                                     </select>
                                 </div>
                                 <div class="info-group">
-                                    <label for="editMotherIsDeceased"><strong>Mother Status:</strong></label>
+                                    <label for="editMotherIsDeceased"><strong>Mother Status</strong></label>
                                     <select id="editMotherIsDeceased" name="editMotherIsDeceased" class="input-control"
                                         onchange="toggleDeceasedDate('mother')">
                                         <option value="false">Alive</option>
                                         <option value="true">Deceased</option>
                                     </select>
                                 </div>
-                                <div class="info-group" id="motherDeceasedDateGroup" style="display: none;">
-                                    <label for="editMotherDeceasedDate"><strong>Date of Decease:</strong></label>
-                                    <input type="date" id="editMotherDeceasedDate" name="editMotherDeceasedDate"
-                                        class="input-control" />
-                                    <small class="field-note">Optional: Date of passing for deceased mother.</small>
-                                </div>
                                 <div class="info-group">
                                     <label for="editMotherEducationalAttainment"><strong>Educational
-                                            Attainment:</strong></label>
+                                            Attainment</strong></label>
                                     <select id="editMotherEducationalAttainment" name="editMotherEducationalAttainment"
                                         class="input-control">
                                         <option value="">Select Attainment</option>
@@ -522,6 +565,31 @@
                                     <label for="editMotherContactNo"><strong>Contact No.</strong></label>
                                     <input type="tel" id="editMotherContactNo" name="editMotherContactNo"
                                         class="input-control" placeholder="+63 XXX XXX XXXX" />
+                                </div>
+                            </div>
+                            <h3>Brothers and Sisters</h3>
+                            <div class="siblings-container grid-three-columns">
+                                <!-- number of broders -->
+                                <div class="info-group">
+                                    <label for="editBrothers"><strong>Number of Brothers</strong></label>
+                                    <input type="number" id="editBrothers" name="editBrothers" class="input-control"
+                                        min="0" />
+                                </div>
+                                <!-- number of sisters -->
+                                <div class="info-group">
+                                    <label for="editSisters"><strong>Number of Sisters</strong></label>
+                                    <input type="number" id="editSisters" name="editSisters" class="input-control"
+                                        min="0" />
+                                </div>
+                                <!-- order of birth, are you the first child -->
+                                <div class="info-group">
+                                    <label for="editOrderOfBirth"><strong>Order of Birth</strong></label>
+                                    <select name="editOrderOfBirth" id="editOrderOfBirth" class="input-control">
+                                        <option value="First Born (Oldest)">First Born (Oldest)</option>
+                                        <option value="Middle Child">Middle Child</option>
+                                        <option value="Youngest">Youngest</option>
+                                        <option value="Only Child">Only Child</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

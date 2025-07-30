@@ -70,6 +70,62 @@ function reflectEditAge() {
         alert("Invalid birth date.");
     }
 }
+// father age calculation
+function reflectFatherAge() {
+    const birthDateInput = document.getElementById("editFatherBirthDate");
+    const ageInput = document.getElementById("editFatherAge");
+
+    const birthDateValue = birthDateInput.value;
+    if (!birthDateValue) return;
+
+    const today = new Date();
+    const birthDate = new Date(birthDateValue);
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+
+    if (age >= 0) {
+        ageInput.value = age;
+        ageInput.setAttribute("readonly", true);
+    } else {
+        ageInput.value = "";
+        ageInput.removeAttribute("readonly");
+        alert("Invalid birth date.");
+    }
+}
+// mother age calculation
+function reflectMotherAge() {
+    const birthDateInput = document.getElementById("editMotherBirthDate");
+    const ageInput = document.getElementById("editMotherAge");
+
+    const birthDateValue = birthDateInput.value;
+    if (!birthDateValue) return;
+
+    const today = new Date();
+    const birthDate = new Date(birthDateValue);
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+
+    if (age >= 0) {
+        ageInput.value = age;
+        ageInput.setAttribute("readonly", true);
+    } else {
+        ageInput.value = "";
+        ageInput.removeAttribute("readonly");
+        alert("Invalid birth date.");
+    }
+}
 // CERTIFICATES PAGE FUNCTIONALITY
 function handleCertificateChange(selectElement) {
     const selectedCertificate = selectElement.value;
@@ -182,5 +238,30 @@ function closeEditModal() {
     document.getElementById('delete-resident-modal').classList.remove('show');
     document.getElementById('add-resident-modal').classList.remove('show');
 }
+// BUSINESS VISIBILITY FUNCTIONALITY Radio Button
+function toggleBusinessVisibility() {
+    const haveABusinessYes = document.getElementById("haveABusinessYes"); // radio button
+    const haveABusinessNo = document.getElementById("haveABusinessNo"); // radio button
+    const zxcvDiv = document.getElementById("zxcv"); // hidden div to show
 
+    if (haveABusinessYes.checked) {
+        zxcvDiv.style.display = "block";
+    } else if (haveABusinessNo.checked) {
+        zxcvDiv.style.display = "none";
+    }
+}
 
+// occupation visibility
+function toggleOccupationVisibility() {
+    const editOccupation = document.getElementById("editOccupation"); // select tag
+    const editjobTitle = document.getElementById("editJobTitleContainer"); // hidden div to show
+    const editMonthlyIncome = document.getElementById("editMonthlyIncomeContainer"); // hidden div to show
+
+    if (editOccupation.value === "Employed") {
+        editjobTitle.style.display = "block";
+        editMonthlyIncome.style.display = "block";
+    } else {
+        editjobTitle.style.display = "none";
+        editMonthlyIncome.style.display = "none";
+    }
+}
