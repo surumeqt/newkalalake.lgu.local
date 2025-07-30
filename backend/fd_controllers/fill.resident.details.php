@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 require_once '../models/resident.model.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
-    $name = trim($_POST['name']);
+    $name = $_POST['name'];
     
     $model = new ResidentModel();
     $resident = $model->findByFullName($name);

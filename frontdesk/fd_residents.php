@@ -44,7 +44,8 @@ $records = $model->getResidents();
                                 ?>
                         <img src="<?= $photoSrc ?>" alt="Resident Photo">
                     </td>
-                    <td><?= htmlspecialchars($rows['first_name'] . ' ' . $rows['middle_name'] . ' ' . $rows['last_name']) ?>
+                    <td>
+                        <?= htmlspecialchars($rows['first_name'] . (!empty($rows['middle_name']) ? ' ' . $rows['middle_name'] : '') . ' ' . $rows['last_name']) . (!empty($rows['suffix']) ? ' ' . $rows['suffix'] : '') ?>
                     </td>
                     <td><?= htmlspecialchars($rows['address']) ?></td>
                     <td><?= htmlspecialchars($rows['gender']) ?></td>

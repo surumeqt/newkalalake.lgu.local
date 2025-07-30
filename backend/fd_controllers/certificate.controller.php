@@ -7,6 +7,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         'resident_age' => $_POST['resident-age'] ?? '',
         'resident_birthdate' => $_POST['resident-birthdate'] ?? '',
         'resident_address' => $_POST['resident-address'] ?? '',
+        'resident_monthly_salary' => $_POST['resident-monthly-salary'] ?? '',
+        'resident_occupation' => $_POST['resident-occupation'] ?? '',
         'resident_business_name' => $_POST['resident-business-name'] ?? '',
         'resident_business_address' => $_POST['resident-business-address'] ?? '',
         'purpose' => $_POST['purpose'] ?? '',

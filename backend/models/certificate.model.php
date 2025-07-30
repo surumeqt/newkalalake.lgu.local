@@ -21,7 +21,7 @@ class CertificateModel {
         // -------------------------
 
         $residentId = $this->findIdByFullName($data['resident_name']);
-        
+
         $sql = "INSERT INTO certificates (
                     resident_id,
                     certificate_type,
@@ -61,18 +61,36 @@ class CertificateModel {
             case 'Vehicle Clearance':
                 $pdfBlob = $pdfGen->generateVClearanceBlob();
                 break;
+            case 'Certification for 1st time Job Seekers':
+                $pdfBlob = $pdfGen->generateJobSeekerBlob();
+                break;
+            case 'Certification for Low Income':
+                $pdfBlob = $pdfGen->generateLowIncomeBlob();
+                break;
+            case 'Oath of Undertaking':
+                $pdfBlob = $pdfGen->generateOathofUndertakingBlob();
+                break;
+            case 'Barangay Clearance':
+                $pdfBlob = $pdfGen->generateBarangayClearance();
+                break;
             default:
                 throw new Exception("Invalid certificate type");
         }
         return $pdfBlob;
     }
     private function findIdByFullName($residentName) {
-        $query = "SELECT resident_id FROM residents WHERE CONCAT(first_name, ' ', middle_name, ' ', last_name) = ?";
+        $query = "SELECT resident_id FROM residents 
+            WHERE TRIM(CONCAT_WS(' ',
+                first_name,
+                NULLIF(TRIM(middle_name), ''),
+                last_name,
+                NULLIF(TRIM(suffix), '')
+            )) = ?";
+
         $stmt = $this->conn->prepare($query);
 
         if ($stmt->execute([$residentName])) {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
             if ($result) {
                 return $result['resident_id'];
             }

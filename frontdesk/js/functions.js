@@ -78,7 +78,11 @@ function handleCertificateChange(selectElement) {
     const certificateMap = {
         "Certificate of Indigency": "certificate-indigency-inputs",
         "Barangay Residency": "certificate-residency-inputs",
+        "Barangay Clearance": "certificate-clearance-inputs",
         "Certificate of Non-Residency": "certificate-nonresidency-inputs",
+        "Certification for 1st time Job Seekers": "certificate-js-inputs",
+        "Certification for Low Income": "certificate-lowIncome-inputs",
+        "Oath of Undertaking": "certificate-oath-inputs",
         "Barangay Permit": "certificate-permit-inputs",
         "Barangay Endorsement": "barangay-endorsement-inputs",
         "Vehicle Clearance": "vehicle-clearance-inputs"

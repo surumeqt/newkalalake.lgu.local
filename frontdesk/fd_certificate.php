@@ -5,11 +5,15 @@
             <label for="certificate-type">Certificate Type:</label>
             <select id="certificate-type" name="certificate_type" class="certificate-form-control" onchange="handleCertificateChange(this)">
                 <option value="">-- Select Certificate Type --</option>
-                <option value="Certificate of Indigency">Certificate of Indigency</option>
-                <option value="Barangay Residency">Barangay Residency</option>
-                <option value="Certificate of Non-Residency">Certificate of Non-Residency</option>
                 <option value="Barangay Permit">Barangay Permit</option>
+                <option value="Barangay Clearance">Barangay Clearance</option>
                 <option value="Barangay Endorsement">Barangay Endorsement</option>
+                <option value="Barangay Residency">Barangay Residency</option>
+                <option value="Certificate of Indigency">Certificate of Indigency</option>
+                <option value="Certificate of Non-Residency">Certificate of Non-Residency</option>
+                <option value="Certification for 1st time Job Seekers">Certification for 1st time Job Seekers</option>
+                <option value="Certification for Low Income">Certification for Low Income</option>
+                <option value="Oath of Undertaking">Oath of Undertaking</option>
                 <option value="Vehicle Clearance">Vehicle Clearance</option>
             </select>
         </div>
@@ -36,6 +40,66 @@
                 <textarea name="purpose" rows="3"></textarea>
             </div>
             <button type="submit" class="issue-certificate-btn">Issue Indigency</button>
+        </div>
+
+        <div id="certificate-clearance-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
+            </div>
+            <div class="form-group">
+                <label for="resident-age">Age:</label>
+                <input type="text" class="resident-age" name="resident-age">
+            </div>
+            <div class="form-group">
+                <label for="resident-birthdate">Birthdate:</label>
+                <input type="date" class="resident-birthdate" name="resident-birthdate">
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" class="resident-address" name="resident-address">
+            </div>
+            <div class="form-group">
+                <label for="purpose">Purpose:</label>
+                <textarea name="purpose" rows="3"></textarea>
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Clearance</button>
+        </div>
+
+        <div id="certificate-js-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
+            </div>
+            <div class="form-group">
+                <label for="resident-age">Age:</label>
+                <input type="text" class="resident-age" name="resident-age">
+            </div>
+            <div class="form-group">
+                <label for="resident-birthdate">Birthdate:</label>
+                <input type="date" class="resident-birthdate" name="resident-birthdate">
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" class="resident-address" name="resident-address">
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Certificate</button>
+        </div>
+
+        <div id="certificate-oath-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
+            </div>
+            <div class="form-group">
+                <label for="resident-age">Age:</label>
+                <input type="text" class="resident-age" name="resident-age">
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" class="resident-address" name="resident-address">
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Oath of Undertaking</button>
         </div>
 
         <div id="certificate-residency-inputs" class="certificate-input-section">
@@ -76,6 +140,26 @@
                 <textarea name="purpose" rows="3"></textarea>
             </div>
             <button type="submit" class="issue-certificate-btn">Issue Non-Residency</button>
+        </div>
+
+        <div id="certificate-lowIncome-inputs" class="certificate-input-section">
+            <div class="form-group">
+                <label for="resident-name">Name:</label>
+                <input type="text" name="resident-name" class="resident-name" onblur="fillResidentData(this)">
+            </div>
+            <div class="form-group">
+                <label for="resident-address">Address:</label>
+                <input type="text" class="resident-address" name="resident-address">
+            </div>
+            <div class="form-group">
+                <label for="resident-monthly-salary">Monthly Income:</label>
+                <input type="number" id="resident-monthly-salary" name="resident-monthly-salary" class="resident-monthly-salary">
+            </div>
+            <div class="form-group">
+                <label for="resident-occupation">Occupation:</label>
+                <input type="text" id="resident-occupation" name="resident-occupation" class="resident-occupation">
+            </div>
+            <button type="submit" class="issue-certificate-btn">Issue Low Income Certification</button>
         </div>
 
         <div id="certificate-permit-inputs" class="certificate-input-section">

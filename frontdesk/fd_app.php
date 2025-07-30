@@ -226,7 +226,7 @@
                     &times;
                 </button>
             </div>
-            <form action="" class="edit-modal-form">
+            <form action="../backend/fd_controllers/update.resident.controller.php" method="POST" class="edit-modal-form">
                 <div class="resident-profile-sections">
                     <div class="top-info-row">
                         <div class="profile-section profile-summary">
@@ -235,7 +235,7 @@
                                     <img src="images/logo.png" alt="user" />
                                 </div>
                                 <div class="profile-meta-info">
-                                    <p><strong>ID:</strong> <span class="profile-id" id="resident-id-display"></span>
+                                    <p><strong>ID:</strong><span class="profile-id" id="resident-id-display" name="resident_id"></span>
                                     </p>
                                     <p><strong>Status:</strong> <span class="profile-status">Not Banned</span></p>
                                     <p><strong>Date Registered:</strong> <span>january 1, 2000</span></p>

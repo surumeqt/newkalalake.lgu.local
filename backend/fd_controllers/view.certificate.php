@@ -10,7 +10,7 @@ $certificateId = $_GET['id'];
 $db = new Connection();
 $pdo = $db->connect();
 
-$stmt = $pdo->prepare("SELECT fileBlob FROM certificates WHERE id = ?");
+$stmt = $pdo->prepare("SELECT fileBlob FROM certificates WHERE id = ? ORDER BY id DESC");
 $stmt->execute([$certificateId]);
 $row = $stmt->fetch();
 

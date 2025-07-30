@@ -10,10 +10,14 @@ class PDFGenerator extends FPDF {
         parent::__construct();
         $this->data = $data;
         $this->todaysDate = date('Y-m-d');
-        $this->AliasNbPages();
     }
 
     function Header() {
+        $bgPath = __DIR__ . '/../../frontdesk/images/pdfbglogo.png';
+        if (file_exists($bgPath)) {
+            $this->Image($bgPath, 25, 70, 160, 160);
+        }
+
         $imagePath = __DIR__ . '/../../app/images/header.png';
         if (file_exists($imagePath)) {
             $this->Image($imagePath, 7, 7, 190);
@@ -765,4 +769,256 @@ class PDFGenerator extends FPDF {
 
         return $this->Output('S');
     }
+    public function generateJobSeekerBlob(){
+
+        $this->AddPage();
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 12);
+        $this->Cell(0, 10, 'OFFICE OF THE PUNONG BARANGAY', 0, 1, 'C');
+
+        $this->Ln(5);
+        $this->SetFont('Times', 'B', 20);
+        $this->Cell(0, 10, 'C E R T I F I C A T I O N', 0, 1, 'C');
+        $this->SetFont('Times', '', 15);
+        $this->Cell(0, 10, '( First Time Job Seekers Assistance Act - RA 11261 )', 0, 1, 'C');
+
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 13);
+        $this->Cell(0, 5, 'To Whom It May Concern', 0, 1);
+
+        $this->Ln(5);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, "         This is to certify that ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, $this->data['resident_name'].", ".$this->data['resident_age']." y/o");
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " is presently residing at ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, $this->data['resident_address']);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " is qualified to avail the ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, "RA 11261 or The First Time Job Seekers Assistance Act of 2019.");
+
+        $this->Ln(10);
+        $this->SetFont('Times', '', 12);
+        $this->MultiCell(0, 5, '         This further certifies that the holder/bearer was informed of his/her rights, including the duties and responsibilities accorded by RA 11261 through the OATH OF UNDERTAKING he/she has signed and excuted in the presence of Barangay Officials.', 0);
+
+        $this->Ln(5);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, "Issued this ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
+
+        $this->Ln(35);
+        $this->SetFont('Times','B',13);
+        $this->Cell(0,8,'_______________________',0,1,'R');
+        $this->Cell(0,8,'Hon. Sherwin C. Sionzon',0,1,'R');
+        $this->SetFont('Times','',12);
+        $this->Cell(180,6,'Punong Barangay',0,1,'R');
+
+        return $this->Output('S');
+    }
+    public function generateLowIncomeBlob(){
+
+        $this->AddPage();
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 12);
+        $this->Cell(0, 10, 'OFFICE OF THE PUNONG BARANGAY', 0, 1, 'C');
+
+        $this->Ln(5);
+        $this->SetFont('Times', 'B', 20);
+        $this->Cell(0, 10, 'C E R T I F I C A T I O N  O F  L O W - I N C O M E', 0, 1, 'C');
+
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 13);
+        $this->Cell(0, 5, 'To Whom It May Concern', 0, 1);
+
+        $this->Ln(5);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, "         This is to certify that ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, $this->data['resident_name']);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, ", presently residing at ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, $this->data['resident_address']);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " belongs to indigent family of his Barangay.");
+
+        $this->Ln(10);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, "         This further certifies that the above-mentioned name belong to low income families of this barangay, is employed with a monthly income of Php ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, $this->data['resident_monthly_salary']);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " as ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, $this->data['resident_occupation']);
+        
+        $this->Ln(5);
+        $this->SetFont('Times', '', 12);
+        $this->MultiCell(0, 5, "This certificate is issued upon the request of the above-mentioned for whatever legal purpose this may serve.", 0);
+
+        $this->Ln(5);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, "Issued this ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
+
+        $this->Ln(40);
+        $this->SetFont('Times','B',13);
+        $this->Cell(0,8,'_______________________',0,1,'R');
+        $this->Cell(0,8,'Hon. Sherwin C. Sionzon',0,1,'R');
+        $this->SetFont('Times','',12);
+        $this->Cell(180,6,'Punong Barangay',0,1,'R');
+
+        $this->Ln(65);
+        $this->SetFont('Times', 'B', 8);
+        $this->Cell(0, 10, 'Note: Valid Only with official dry seal and within (90) days from the date issued.', 0, 1);
+
+        return $this->Output('S');
+    }
+    public function generateOathofUndertakingBlob(){
+
+        $this->AddPage();
+        $this->Ln(5);
+        $this->SetFont('Times', 'B', 12);
+        $this->Cell(0, 10, 'OFFICE OF THE PUNONG BARANGAY', 0, 1, 'C');
+
+        $this->Ln(5);
+        $this->SetFont('Times', 'B', 20);
+        $this->Cell(0, 10, 'OATH OF UNDERTAKING', 0, 1, 'C');
+        $this->SetFont('Times', 'B', 15);
+        $this->Cell(0, 10, 'Republic Act No. 11261 - First Time Jobseekers Assistance Act', 0, 1, 'C');
+
+        $this->Ln(5);
+        $this->SetFont('Times', '', 12);
+        $this->Write(7, "         I, ");
+        $this->SetFont('Times', 'BU', 12);
+        $this->Write(7, $this->data['resident_name'].", ".$this->data['resident_age']." years of age");
+        $this->SetFont('Times', '', 12);
+        $this->Write(7, ", resident of ");
+        $this->SetFont('Times', 'BU', 12);
+        $this->Write(7, $this->data['resident_address']);
+        $this->SetFont('Times', '', 12);
+        $this->Write(7, ", availing the benefits of Republic Act No. 11261, Otherwise known as the First Time Jobseekers Act of 2019, do hereby declare, agree, and undertake to abide and to bound by the following:");
+
+        $this->Ln(10);
+        $this->Write(5, "1. That this is the first time that will actively look for a job, and therefore requesting that a Barangay Certification be issued in my favor to avail the benefits of the law;");
+        $this->Ln(10);
+        $this->Write(5, "2. That I am aware that the benefits and privileges under the said law shall be valid only for one (1) year from the date that the Barangay Certification is issued.");
+        $this->Ln(10);
+        $this->Write(5, "3. That I can avail the benefits of the law only once;");
+        $this->Ln(10);
+        $this->Write(5, "4. That I understand that my personal information shall be included in the Roaster/List of The First Time Jobseekers and will not be used for any unlawful purpose;");
+        $this->Ln(10);
+        $this->Write(5, "5. That I will not inform and report to the Barangay personally, through text or other means or through my family/relatives once I get employed; and");
+        $this->Ln(10);
+        $this->Write(5, "6. That I am not beneficiary of the Job Start Program under R.A No.10869 and other laws, that give similar exemptions for the documents or transactions exempted under R.A. No. 11261.");
+        $this->Ln(10);
+        $this->Write(5, "7. That if issued the certification, I will not use the same in my fraud, neither falsify not help and assists in the fabrication of the said certification.");
+        $this->Ln(10);
+        $this->Write(5, "8. That this undertaking is made solely for the purpose of obtaining a Barangay Certification consistent with the objectives of R.A. No.11261 and not for any other purpose");
+        $this->Ln(10);
+        $this->Write(5, "9. That I consent to the use of my personal information pursuant to the Data Privacy Act and other applicable laws, and regulations.");
+
+        $this->Ln(10);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, "Issued this ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
+
+        $this->Ln(10);
+        $this->Cell(100,8,'Signed By:',0,0);
+        $this->Cell(52,8,'Witnessed By:',0,1,'R');
+
+        $this->Ln(5);
+        $this->SetFont('Times','BU',13);
+        $this->Cell(100,8,strtoupper($this->data['resident_name']),0,0);
+        $this->Cell(90,8,'HON. SHERWIN C. SIONZON',0,1, 'R');
+        $this->SetFont('Times','',12);
+        $this->Cell(180,6,'Punong Barangay',0,1,'R');
+
+        return $this->Output('S');
+    }
+    public function generateBarangayClearance(){
+        $this->AddPage();
+
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 12);
+        $this->Cell(0, 10, 'OFFICE OF THE PUNONG BARANGAY', 0, 1, 'C');
+
+        $this->Ln(5);
+        $this->SetFont('Times', 'B', 20);
+        $this->Cell(0, 10, 'BARANGAY CLEARANCE', 0, 1, 'C');
+
+        $this->Ln(10);
+        $this->SetFont('Times', 'B', 13);
+        $this->Cell(0, 5, 'To Whom It May Concern', 0, 1);
+
+        $this->Ln(10);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, "         As per barangay records, this is to certify that, ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, $this->data['resident_name'].", ".$this->data['resident_age']." year/old");
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, ", Born on ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, formatBirthdate($this->data['resident_birthdate']));
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " is a bonafide resident at ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, $this->data['resident_address']);
+
+        $this->ln(10);
+        $this->SetFont('Times', '', 12);
+        $this->MultiCell(0, 5, '         This certifies further that the above named person has no derogatory records or complaints filed against the person is known to me as a law abiding citizen of this community with good moral character.');
+
+        $this->Ln(5);
+        $this->Write(5, "         This certificate is issued upon the request of the above-mentioned for ");
+        $this->SetFont('Times', 'B', 11);
+        $this->Write(5, $this->data['purpose']);
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, " and for whatever legal intent it may serve.");
+
+        $this->Ln(10);
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, "Issued this ");
+        $this->SetFont('Times', 'B', 12);
+        $this->Write(5, formatHearingDate($this->todaysDate));
+        $this->SetFont('Times', '', 12);
+        $this->Write(5, " at Barangay New Kalalake, Olongapo City.");
+
+        $this->Ln(40);
+        $this->SetFont('Times','B',13);
+        $this->Cell(0,8,'_______________________',0,1,'R');
+        $this->Cell(0,8,'Hon. Sherwin C. Sionzon',0,1,'R');
+        $this->SetFont('Times','',12);
+        $this->Cell(180,6,'Punong Barangay',0,1,'R');
+
+        $this->Ln(50);
+        $this->SetFont('Times', 'B', 8);
+        $this->Cell(0, 10, 'Note: Valid Only with official dry seal and within (90) days from the date issued.', 0, 1);
+
+        return $this->Output('S');
+    }
 }
+// header("Content-Type: application/pdf");
+
+// $data = [
+//     'resident_name' => 'John Kenneth Almazan Esmena',
+//     'resident_age' => '22',
+//     'resident_address' => '123 Norton 14st. New Kalalake, Olongapo City',
+//     'resident_monthly_salary' => '3000',
+//     'resident_occupation' => 'Programmer',
+//     'purpose' => 'MEDICAL ASSISTANCE'
+// ];
+// $pdf = new PDFGenerator($data);
+// echo $pdf->generateBarangayClearance();
