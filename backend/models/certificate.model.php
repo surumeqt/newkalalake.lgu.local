@@ -97,4 +97,22 @@ class CertificateModel {
         }
         return null;
     }
+    public function residentIssuedCertificates($residentId){
+        $query = "SELECT
+                id,
+                resident_id,
+                certificate_type,
+                purpose,
+                created_at,
+                issued_by
+            FROM
+                certificates
+            WHERE
+                resident_id = ?
+            ORDER BY
+                created_at DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$residentId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

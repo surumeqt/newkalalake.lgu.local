@@ -226,7 +226,15 @@
                     &times;
                 </button>
             </div>
-            <form action="../backend/fd_controllers/update.resident.controller.php" method="POST" class="edit-modal-form">
+
+            <!-- Loader element matching functions.js -->
+            <div id="modal-loader" class="modal-loader">
+                <div class="spinner"></div>
+                <p>Loading resident data...</p>
+            </div>
+
+            <!-- Form element now has id="edit-resident-form" and is initially hidden -->
+            <form action="../backend/fd_controllers/update.resident.controller.php" method="POST" class="edit-modal-form" id="edit-resident-form">
                 <div class="resident-profile-sections">
                     <div class="top-info-row">
                         <div class="profile-section profile-summary">
@@ -235,8 +243,7 @@
                                     <img src="images/logo.png" alt="user" />
                                 </div>
                                 <div class="profile-meta-info">
-                                    <p><strong>ID:</strong><span class="profile-id" id="resident-id-display" name="resident_id"></span>
-                                    </p>
+                                    <p><strong>ID:</strong><input type="text" class="profile-id" id="resident-id-display" name="resident_id" readonly></p>
                                     <p><strong>Status:</strong> <span class="profile-status">Not Banned</span></p>
                                     <p><strong>Date Registered:</strong> <span>january 1, 2000</span></p>
                                     <p><strong>Last Updated:</strong> <span>january 1, 2000</span></p>
@@ -307,6 +314,12 @@
                                         </select>
                                     </div>
 
+                                    <!-- NEW: Deceased Date for Resident -->
+                                    <div class="info-group" id="editDeceasedDateContainer" style="display: none;">
+                                        <label for="editDeceasedDate"><strong>Date of Decease</strong></label>
+                                        <input type="date" id="editDeceasedDate" name="editDeceasedDate" class="input-control" />
+                                    </div>
+
                                     <div class="info-group">
                                         <label for="editAddress"><strong>Address</strong></label>
                                         <input type="text" id="editAddress" name="editAddress" class="input-control"
@@ -314,7 +327,7 @@
                                     </div>
                                     <div class="info-group">
                                         <label for="editEducationalAttainment"><strong>Educational
-                                                Attainment</strong></label>
+                                                    Attainment</strong></label>
                                         <select id="editEducationalAttainment" name="editEducationalAttainment"
                                             class="input-control" required>
                                             <option value="">Select Attainment</option>
@@ -335,7 +348,7 @@
                                     <div class="info-group">
                                         <label for="editOccupation"><strong>Occupation</strong></label>
                                         <select name="editOccupation" id="editOccupation" class="input-control"
-                                            onclick="toggleOccupationVisibility()">
+                                            onchange="toggleOccupationVisibility()">
                                             <option value="">Select Occupation</option>
                                             <option value="Student">Student</option>
                                             <option value="Employed">Employed</option>
@@ -464,15 +477,22 @@
                                 </div>
                                 <div class="info-group">
                                     <label for="editFatherIsDeceased"><strong>Father Status</strong></label>
-                                    <select id="editFatherIsDeceased" name="editFatherIsDeceased" class="input-control">
+                                    <select id="editFatherIsDeceased" name="editFatherIsDeceased" class="input-control"
+                                        onchange="toggleDeceasedDate('father')">
                                         <option value="false">Alive</option>
                                         <option value="true">Deceased</option>
                                     </select>
                                 </div>
 
+                                <!-- NEW: Deceased Date for Father -->
+                                <div class="info-group" id="editFatherDeceasedDateContainer" style="display: none;">
+                                    <label for="editFatherDeceasedDate"><strong>Date of Decease</strong></label>
+                                    <input type="date" id="editFatherDeceasedDate" name="editFatherDeceasedDate" class="input-control" />
+                                </div>
+
                                 <div class="info-group">
                                     <label for="editFatherEducationalAttainment"><strong>Educational
-                                            Attainment</strong></label>
+                                                Attainment</strong></label>
                                     <select id="editFatherEducationalAttainment" name="editFatherEducationalAttainment"
                                         class="input-control">
                                         <option value="">Select Attainment</option>
@@ -543,9 +563,16 @@
                                         <option value="true">Deceased</option>
                                     </select>
                                 </div>
+
+                                <!-- NEW: Deceased Date for Mother -->
+                                <div class="info-group" id="editMotherDeceasedDateContainer" style="display: none;">
+                                    <label for="editMotherDeceasedDate"><strong>Date of Decease</strong></label>
+                                    <input type="date" id="editMotherDeceasedDate" name="editMotherDeceasedDate" class="input-control" />
+                                </div>
+
                                 <div class="info-group">
                                     <label for="editMotherEducationalAttainment"><strong>Educational
-                                            Attainment</strong></label>
+                                                Attainment</strong></label>
                                     <select id="editMotherEducationalAttainment" name="editMotherEducationalAttainment"
                                         class="input-control">
                                         <option value="">Select Attainment</option>
@@ -610,7 +637,7 @@
                                         <th>Document</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="certificates-table-body">
                                     <tr>
                                         <td colspan="5" style="text-align: center;">No certificate history available.
                                         </td>
@@ -636,7 +663,7 @@
             <form action="../backend/fd_controllers/delete.controller.php" method="POST">
                 <p>
                     Delete resident with ID:
-                    <input type="text" id="resident-id-display-delete" name="resident_id" hidden>
+                    <input type="text" id="resident-id-display-delete" name="resident_id">
                     <span>resident name</span>
                 </p>
                 <div class="delete-modal-actions">

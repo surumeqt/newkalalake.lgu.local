@@ -31,6 +31,20 @@
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
     --btn-padding: 8px 16px;
+
+    /* New Dashboard Specific Colors/Variables */
+    --dashboard-card-1: #007bff; /* Primary Blue */
+    --dashboard-card-2: #28a745; /* Green */
+    --dashboard-card-3: #ffc107; /* Yellow */
+    --dashboard-card-4: #17a2b8; /* Cyan */
+    --dashboard-card-text: #ffffff; /* White text for colored cards */
+    --dashboard-bg-contrast: #e9ecef; /* Slightly darker background for modal/sections if needed */
+
+    /* Chart specific colors */
+    --chart-male: #007bff;
+    --chart-female: #dc3545;
+    --chart-bar-color: #6f42c1; /* Purple */
+    --chart-bar-bg: #e2e6ea; /* Light gray for bars */
 }
 
 /* Custom scrollbar for better aesthetics */
@@ -871,12 +885,13 @@ td img {
     object-fit: cover;
 }
 
-.profile-meta-info p {
+.profile-meta-info p , .profile-meta-info p input{
+    border: none;
     margin-bottom: var(--spacing-xs);
     color: var(--light-text);
     font-size: 0.95rem;
 }
-
+.profile-meta-info p input:focus {outline: none; border: none;}
 .profile-meta-info strong {
     color: var(--dark-text);
     min-width: 120px;
@@ -1059,24 +1074,10 @@ td img {
     background-color: #5c636a;
 }
 
-/* resident profile end*/
-:root {
-    /* New Dashboard Specific Colors/Variables */
-    --dashboard-card-1: #007bff; /* Primary Blue */
-    --dashboard-card-2: #28a745; /* Green */
-    --dashboard-card-3: #ffc107; /* Yellow */
-    --dashboard-card-4: #17a2b8; /* Cyan */
-    --dashboard-card-text: #ffffff; /* White text for colored cards */
-    --dashboard-bg-contrast: #e9ecef; /* Slightly darker background for modal/sections if needed */
+/* RESIDENT PROFILE END */
 
-    /* Chart specific colors */
-    --chart-male: #007bff;
-    --chart-female: #dc3545;
-    --chart-bar-color: #6f42c1; /* Purple */
-    --chart-bar-bg: #e2e6ea; /* Light gray for bars */
-}
+/* DASHBOARD CSS START */
 
-/* Dashboard CSS Start */
 .dashboard-container {
     background-color: var(--bg-white);
     padding: var(--spacing-md);
@@ -1095,18 +1096,15 @@ td img {
 .dashboard-intro h1 {
     font-size: 2.5rem;
     color: var(--dark-text);
-    /* margin-bottom: var(--spacing-xs); */
     font-weight: 700;
 }
 
 .dashboard-intro p {
     color: var(--light-text);
     font-size: 1.1rem;
-    /* max-width: 600px; */
     margin: 0 auto;
 }
 
-/* New Section Styling */
 .dashboard-section {
     background-color: var(--bg-white);
     display: flex;
@@ -1125,36 +1123,27 @@ td img {
     font-weight: 600;
 }
 .dashboard-section h2 .fas {
-    color: var(--primary-blue); /* Consistent icon color for section headers */
+    color: var(--primary-blue);
 }
 
-/* Metrics Grid Container */
 .metrics-grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--spacing-xs);
 }
 
-/* Charts Grid Container */
 .charts-grid-container {
     display: grid;
     grid-template-columns: repeat(
         auto-fit,
         minmax(300px, 1fr)
-    ); /* Allow charts to be larger */
+    );
     gap: var(--spacing-md);
 }
 
-/* Activity Feed Container (for specific layout needs) */
-.activity-feed-container {
-    /* If the activity feed itself is a direct child of the section, it just takes full width */
-    /* Add any specific flex or grid properties if the activity feed needs internal layout */
-}
-
-/* Dashboard Grid Item - General Styles */
 .dashboard-grid-item {
     background-color: var(--bg-white);
-    color: var(--dark-text); /* Default dark text for non-colored cards */
+    color: var(--dark-text);
     padding: var(--spacing-md);
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-subtle);
@@ -1179,7 +1168,6 @@ td img {
 
 .dashboard-grid-item p {
     font-size: 1rem;
-    /* This color applies to the charts and activity feed items */
     color: var(--light-text);
     margin-bottom: 0;
     padding-bottom: 0;
@@ -1187,16 +1175,13 @@ td img {
 
 .dashboard-grid-item small {
     font-size: 0.85rem;
-    /* This color applies to the charts and activity feed items */
     color: var(--light-text);
     margin-top: var(--spacing-xs);
     opacity: 0.8;
 }
 
-/* Specific styling for the initial colored metric cards */
 .metrics-grid-container .dashboard-grid-item {
-    /* Target only items within metrics-grid */
-    color: var(--dashboard-card-text); /* White text for these specific cards */
+    color: var(--dashboard-card-text);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1206,13 +1191,11 @@ td img {
     overflow: hidden;
     padding-top: calc(var(--spacing-md) + 15px);
 }
-/* Re-applying text color specifically for metric cards */
 .metrics-grid-container .dashboard-grid-item p,
 .metrics-grid-container .dashboard-grid-item small {
     color: var(--dashboard-card-text);
 }
 
-/* Background colors for initial cards */
 .metrics-grid-container .grid-item-1 {
     background-image: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
 }
@@ -1226,37 +1209,32 @@ td img {
     background-image: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
 }
 
-/* Icon styling for colored cards (now for <img>) */
 .metrics-grid-container .icon-wrapper {
     position: absolute;
     top: var(--spacing-sm);
     right: var(--spacing-md);
     opacity: 0.8;
     transition: transform 0.3s ease;
-    /* Adjustments for img tags */
-    width: 48px; /* Set a specific width for images */
-    height: 48px; /* Set a specific height for images */
-    display: flex; /* To center the image if needed */
+    width: 48px;
+    height: 48px;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 .metrics-grid-container .icon-wrapper img {
-    width: 100%; /* Make image fill the wrapper */
+    width: 100%;
     height: 100%;
-    object-fit: contain; /* Ensure the entire image is visible */
-    filter: brightness(0) invert(1) opacity(0.8); /* Makes a colored image white and slightly transparent */
-    /* If your images are already white or have the desired color, remove this filter */
+    object-fit: contain;
+    filter: brightness(0) invert(1) opacity(0.8);
 }
 
 .metrics-grid-container .dashboard-grid-item:hover .icon-wrapper {
     transform: scale(1.1);
 }
-/* Remove specific Font Awesome icon styling as they are no longer used for metric cards */
 .metrics-grid-container .icon-wrapper .fas {
     display: none;
 }
 
-/* Chart Placeholder Styling (now applies to both gender and age) */
 .charts-grid-container .chart-placeholder {
     background-color: var(--bg-white);
     padding: var(--spacing-md);
@@ -1267,7 +1245,7 @@ td img {
     align-items: center;
     justify-content: center;
     min-height: 250px;
-    color: var(--dark-text); /* Ensure charts text is dark */
+    color: var(--dark-text);
 }
 
 .chart-title {
@@ -1280,7 +1258,6 @@ td img {
     font-weight: 600;
 }
 .chart-title .fas {
-    /* Specific icon for charts header */
     color: var(--primary-blue);
 }
 
@@ -1294,7 +1271,6 @@ td img {
     justify-content: center;
 }
 
-/* Bar Chart Mockup (now used for both Gender and Age) */
 .bar-chart {
     display: flex;
     flex-direction: column;
@@ -1312,36 +1288,34 @@ td img {
     border-bottom: 2px solid var(--border-light);
 }
 .bar-chart .bar {
-    width: 25%; /* Default for 4 bars, adjust if only 2 bars */
-    background-color: var(--chart-bar-color); /* Default bar color */
+    width: 25%;
+    background-color: var(--chart-bar-color);
     border-radius: var(--border-radius-sm);
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
 }
-/* Specific width for Gender Bar Chart (2 bars) */
 .charts-grid-container .chart-placeholder .bar-set .bar:nth-child(1),
 .charts-grid-container .chart-placeholder .bar-set .bar:nth-child(2) {
-    width: 45%; /* Adjust width for 2 bars */
+    width: 45%;
 }
 
 .bar-chart .bar:hover {
     transform: scaleY(1.05);
-    background-color: #5a33a3; /* Darker purple on hover (general) */
+    background-color: #5a33a3;
 }
 
-/* Specific hover colors for gender bars */
 .charts-grid-container
     .chart-placeholder
     .bar-set
     .bar[style*="background-color: var(--chart-male)"]:hover {
-    background-color: #0056b3; /* Darker blue for male bar */
+    background-color: #0056b3;
 }
 .charts-grid-container
     .chart-placeholder
     .bar-set
     .bar[style*="background-color: var(--chart-female)"]:hover {
-    background-color: #a71d2a; /* Darker red for female bar */
+    background-color: #a71d2a;
 }
 
 .bar-chart .bar-labels {
@@ -1360,7 +1334,6 @@ td img {
     margin-top: var(--spacing-sm);
 }
 
-/* Activity Feed */
 .activity-feed {
     background-color: var(--bg-white);
     padding: var(--spacing-md);
@@ -1370,8 +1343,7 @@ td img {
 }
 
 .activity-feed-title {
-    /* This title is now handled by .dashboard-section h2 */
-    display: none; /* Hide old title */
+    display: none;
 }
 
 .activity-feed ul {
@@ -1411,9 +1383,7 @@ td img {
     background-color: #0056b3;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 1024px) {
-    /* All grid containers become single column on smaller screens by default due to auto-fit minmax */
     .metrics-grid-container,
     .charts-grid-container {
         grid-template-columns: 1fr;
@@ -1425,7 +1395,6 @@ td img {
         font-size: 1.8rem;
     }
 
-    /* Adjust row layout for metric cards on small screens */
     .metrics-grid-container .dashboard-grid-item {
         flex-direction: row;
         align-items: center;
@@ -1438,21 +1407,20 @@ td img {
     }
     .metrics-grid-container .icon-wrapper {
         position: static;
-        /* Reset absolute positioning */
-        width: 30px; /* Adjust size for mobile row layout */
+        width: 30px;
         height: 30px;
-        margin-right: var(--spacing-sm); /* Add margin to separate from text */
-        opacity: 1; /* Ensure full opacity */
+        margin-right: var(--spacing-sm);
+        opacity: 1;
     }
     .metrics-grid-container .icon-wrapper img {
-        filter: none; /* Remove filter for better image display on small screens if colored */
-        /* If your images are already monochrome and you want them white, keep the filter */
+        filter: none;
     }
 }
 
 @media (min-width: 1025px) {
-    /* For larger screens, charts can span 2 columns */
     .charts-grid-container {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* DASHBOARD CSS END */

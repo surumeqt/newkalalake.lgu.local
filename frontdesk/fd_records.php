@@ -7,7 +7,10 @@ $conn = $db->connect();
 $sql = "SELECT 
             c.id,
             c.certificate_type,
+            c.purpose,
             c.fileBlob,
+            c.created_at,
+            c.issued_by,
             r.first_name,
             r.middle_name,
             r.last_name,

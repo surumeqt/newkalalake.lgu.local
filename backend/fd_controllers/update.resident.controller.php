@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../models/resident.model.php';
 
+$residentModel = new ResidentModel();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $resident_id = $_POST['resident_id'] ?? null;
 
@@ -9,32 +11,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 
     $data = [
+        // Resident's Personal Information
         'is_deceased' => $_POST['editIsDeceased'] === 'true' ? 1 : 0,
-        'deceased_date' => $_POST['editDeceasedDate'] ?? null,
-        'occupation' => $_POST['editOccupation'] ?? null,
         'educational_attainment' => $_POST['editEducationalAttainment'] ?? null,
+        'occupation' => $_POST['editOccupation'] ?? null,
+        'job_title' => $_POST['editjobTitle'] ?? null, // Corrected 'editJobTitle' to 'editjobTitle' as per HTML
+        'monthly_income' => $_POST['editMonthlyIncome'] ?? null,
 
+        // Emergency Contact Information
+        'emergency_contact_name' => $_POST['editEmergencyContactName'] ?? null,
+        'emergency_contact_relationship' => $_POST['editEmergencyContactRelationship'] ?? null,
+        'emergency_contact_no' => $_POST['editEmergencyContactNo'] ?? null,
+
+        // Business Information
+        'have_a_business' => $_POST['haveABusiness'] ?? null, // This will be 'true' or 'false' string
+        'business_name' => $_POST['editBusinessName'] ?? null,
+        'business_address' => $_POST['editBusinessAddress'] ?? null,
+
+        // Father's Profile
         'father_first_name' => $_POST['editFatherFirstName'] ?? null,
         'father_middle_name' => $_POST['editFatherMiddleName'] ?? null,
         'father_last_name' => $_POST['editFatherLastName'] ?? null,
         'father_suffix' => $_POST['editFatherSuffix'] ?? null,
         'father_birth_date' => $_POST['editFatherBirthDate'] ?? null,
+        'father_age' => $_POST['editFatherAge'] ?? null, // Similar to resident age, consider recalculating
         'father_is_deceased' => $_POST['editFatherIsDeceased'] === 'true' ? 1 : 0,
-        'father_deceased_date' => $_POST['editFatherDeceasedDate'] ?? null,
+        'father_deceased_date' => $_POST['editFatherDeceasedDate'] ?? null, // This field is not in your HTML, you might need to add it or remove this line.
         'father_occupation' => $_POST['editFatherOccupation'] ?? null,
         'father_educational_attainment' => $_POST['editFatherEducationalAttainment'] ?? null,
         'father_contact_no' => $_POST['editFatherContactNo'] ?? null,
 
+        // Mother's Profile
         'mother_first_name' => $_POST['editMotherFirstName'] ?? null,
         'mother_middle_name' => $_POST['editMotherMiddleName'] ?? null,
         'mother_last_name' => $_POST['editMotherLastName'] ?? null,
         'mother_suffix' => $_POST['editMotherSuffix'] ?? null,
         'mother_birth_date' => $_POST['editMotherBirthDate'] ?? null,
+        'mother_age' => $_POST['editMotherAge'] ?? null, // Similar to resident age, consider recalculating
         'mother_is_deceased' => $_POST['editMotherIsDeceased'] === 'true' ? 1 : 0,
-        'mother_deceased_date' => $_POST['editMotherDeceasedDate'] ?? null,
+        'mother_deceased_date' => $_POST['editMotherDeceasedDate'] ?? null, // This field is not in your HTML, you might need to add it or remove this line.
         'mother_occupation' => $_POST['editMotherOccupation'] ?? null,
         'mother_educational_attainment' => $_POST['editMotherEducationalAttainment'] ?? null,
         'mother_contact_no' => $_POST['editMotherContactNo'] ?? null,
+
+        // Siblings Information
+        'num_brothers' => $_POST['editBrothers'] ?? null,
+        'num_sisters' => $_POST['editSisters'] ?? null,
+        'order_of_birth' => $_POST['editOrderOfBirth'] ?? null,
     ];
 
     $success = $residentModel->insertAddedInfo($resident_id, $data);

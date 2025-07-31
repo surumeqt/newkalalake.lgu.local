@@ -3,7 +3,6 @@
     * This file contains the styles for the modal component used in the application.
     * EACH modal should have a unique class name to avoid conflicts.
 */
-/* Variables for consistency */
 :root {
     --primary-blue: #2563eb;
     --secondary-gray: #6b7280;
@@ -21,6 +20,7 @@
     --spacing-lg: 2rem;
     --btn-padding: 0.625rem 1.25rem;
 }
+
 /* LOGOUT MODAL */
 
 .modal-overlay {
@@ -139,12 +139,12 @@
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-subtle);
     padding: var(--spacing-md);
-    width: 95%; /* Adjust width for responsiveness */
-    max-width: 80rem; /* max-w-4xl from original */
-    max-height: 90vh; /* Allow vertical scrolling for content */
+    width: 95%;
+    max-width: 80rem;
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Hide overflow of content itself, form will scroll */
+    overflow: hidden;
     transform: scale(0.95);
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
@@ -188,3 +188,30 @@
 }
 
 /* EDIT RESIDENT MODAL END*/
+
+/* BASIC LOADER */
+.modal-loader {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+    color: #555;
+    padding: 20px;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
