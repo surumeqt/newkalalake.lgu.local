@@ -186,7 +186,24 @@
     transform: translateY(-20px);
     transition: transform 0.3s ease;
 }
-
+.delete-resident-modal-content form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.resident-id-display-input {
+    width: 100px;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    outline: none;
+}
+.delete-modal-actions {
+    margin-top: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
 /* EDIT RESIDENT MODAL END*/
 
 /* BASIC LOADER */
@@ -212,6 +229,10 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

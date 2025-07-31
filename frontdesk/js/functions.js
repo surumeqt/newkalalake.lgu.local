@@ -34,15 +34,16 @@ function checkRadioButton(name, value) {
 
 // Live search for residents table
 function liveSearch() {
-    const docket = document.getElementById('search-input').value;
+    const docket = document.getElementById("search-input").value;
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    formData.append('SearchByName', docket);
+    formData.append("SearchByName", docket);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("residents-table-body").innerHTML = xhr.responseText;
+            document.getElementById("residents-table-body").innerHTML =
+                xhr.responseText;
         }
     };
 
@@ -73,7 +74,7 @@ function reflectAge(){
         ageInput.value = age;
         ageInput.setAttribute("readonly", true);
     } else {
-        ageInput.value = '';
+        ageInput.value = "";
         ageInput.removeAttribute("readonly");
         alert("Invalid birth date."); // Consider replacing alert with a custom message box
     }
@@ -172,7 +173,9 @@ function reflectMotherAge() {
 function handleCertificateChange(selectElement) {
     const selectedCertificate = selectElement.value;
     const sections = document.querySelectorAll(".certificate-input-section");
-
+    const placeholder = document.getElementById(
+        "select-certificate-placeholder"
+    );
     const certificateMap = {
         "Certificate of Indigency": "certificate-indigency-inputs",
         "Barangay Residency": "certificate-residency-inputs",
@@ -183,10 +186,10 @@ function handleCertificateChange(selectElement) {
         "Oath of Undertaking": "certificate-oath-inputs",
         "Barangay Permit": "certificate-permit-inputs",
         "Barangay Endorsement": "barangay-endorsement-inputs",
-        "Vehicle Clearance": "vehicle-clearance-inputs"
+        "Vehicle Clearance": "vehicle-clearance-inputs",
     };
 
-    sections.forEach(section => {
+    sections.forEach((section) => {
         section.classList.remove("active");
         const inputs = section.querySelectorAll('input, textarea, select');
         inputs.forEach(input => {
@@ -197,14 +200,28 @@ function handleCertificateChange(selectElement) {
         });
     });
 
+    // --- NEW LOGIC FOR PLACEHOLDER VISIBILITY ---
+    if (placeholder) {
+        // Ensure placeholder element exists
+        if (selectedCertificate === "") {
+            // Assuming "" is the value for your default/placeholder option
+            placeholder.style.display = "block"; // Show the placeholder
+        } else {
+            placeholder.style.display = "none"; // Hide the placeholder
+        }
+    }
+    // --- END NEW LOGIC ---
+    
     const selectedSectionId = certificateMap[selectedCertificate];
     if (selectedSectionId) {
         const selectedSection = getElement(selectedSectionId);
         if (selectedSection) {
             selectedSection.classList.add("active");
-            const activeInputs = selectedSection.querySelectorAll('input, textarea, select');
-            activeInputs.forEach(input => {
-                input.removeAttribute('disabled');
+            const activeInputs = selectedSection.querySelectorAll(
+                "input, textarea, select"
+            );
+            activeInputs.forEach((input) => {
+                input.removeAttribute("disabled");
             });
         }
     }
@@ -212,14 +229,14 @@ function handleCertificateChange(selectElement) {
 
 // Autofills resident data in certificate forms based on name input
 function fillResidentData(inputElement) {
-    const section = inputElement.closest('.certificate-input-section');
+    const section = inputElement.closest(".certificate-input-section");
     const name = inputElement.value.trim();
 
     if (name.length < 3) return; // Only search if name is at least 3 characters long
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    formData.append('name', name);
+    formData.append("name", name);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -241,17 +258,20 @@ function fillResidentData(inputElement) {
                 Object.entries(map).forEach(([selector, key]) => {
                     const input = section.querySelector(`.${selector}`); // Using class selector as per HTML
                     if (input) {
-                        input.value = response[key] || '';
+                        input.value = response[key] || "";
                     }
                 });
-
             } catch (e) {
                 console.error("JSON parse error in fillResidentData:", xhr.responseText, e);
             }
         }
     };
 
-    xhr.open("POST", "../backend/fd_controllers/fill.resident.details.php", true);
+    xhr.open(
+        "POST",
+        "../backend/fd_controllers/fill.resident.details.php",
+        true
+    );
     xhr.send(formData);
 }
 
@@ -538,7 +558,7 @@ function deleteResident(residentId) {
 
     if (modal && idDisplay) {
         idDisplay.value = residentId;
-        modal.classList.add('show');
+        modal.classList.add("show");
     }
 }
 

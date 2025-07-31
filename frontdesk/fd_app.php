@@ -25,7 +25,6 @@
                     <li><a href="./fd_dashboard.php" data-load-content="true">Dashboard</a></li>
                     <li><a href="./fd_residents.php" data-load-content="true">Residents</a></li>
                     <li><a href="./fd_certificate.php" data-load-content="true">Certificate</a></li>
-                    <li><a href="./fd_records.php" data-load-content="true">History Records</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -234,7 +233,8 @@
             </div>
 
             <!-- Form element now has id="edit-resident-form" and is initially hidden -->
-            <form action="../backend/fd_controllers/update.resident.controller.php" method="POST" class="edit-modal-form" id="edit-resident-form">
+            <form action="../backend/fd_controllers/update.resident.controller.php" method="POST"
+                class="edit-modal-form" id="edit-resident-form">
                 <div class="resident-profile-sections">
                     <div class="top-info-row">
                         <div class="profile-section profile-summary">
@@ -243,7 +243,8 @@
                                     <img src="images/logo.png" alt="user" />
                                 </div>
                                 <div class="profile-meta-info">
-                                    <p><strong>ID:</strong><input type="text" class="profile-id" id="resident-id-display" name="resident_id" readonly></p>
+                                    <p><strong>ID:</strong><input type="text" class="profile-id"
+                                            id="resident-id-display" name="resident_id" readonly></p>
                                     <p><strong>Status:</strong> <span class="profile-status">Not Banned</span></p>
                                     <p><strong>Date Registered:</strong> <span>january 1, 2000</span></p>
                                     <p><strong>Last Updated:</strong> <span>january 1, 2000</span></p>
@@ -317,7 +318,8 @@
                                     <!-- NEW: Deceased Date for Resident -->
                                     <div class="info-group" id="editDeceasedDateContainer" style="display: none;">
                                         <label for="editDeceasedDate"><strong>Date of Decease</strong></label>
-                                        <input type="date" id="editDeceasedDate" name="editDeceasedDate" class="input-control" />
+                                        <input type="date" id="editDeceasedDate" name="editDeceasedDate"
+                                            class="input-control" />
                                     </div>
 
                                     <div class="info-group">
@@ -327,7 +329,7 @@
                                     </div>
                                     <div class="info-group">
                                         <label for="editEducationalAttainment"><strong>Educational
-                                                    Attainment</strong></label>
+                                                Attainment</strong></label>
                                         <select id="editEducationalAttainment" name="editEducationalAttainment"
                                             class="input-control" required>
                                             <option value="">Select Attainment</option>
@@ -487,12 +489,13 @@
                                 <!-- NEW: Deceased Date for Father -->
                                 <div class="info-group" id="editFatherDeceasedDateContainer" style="display: none;">
                                     <label for="editFatherDeceasedDate"><strong>Date of Decease</strong></label>
-                                    <input type="date" id="editFatherDeceasedDate" name="editFatherDeceasedDate" class="input-control" />
+                                    <input type="date" id="editFatherDeceasedDate" name="editFatherDeceasedDate"
+                                        class="input-control" />
                                 </div>
 
                                 <div class="info-group">
                                     <label for="editFatherEducationalAttainment"><strong>Educational
-                                                Attainment</strong></label>
+                                            Attainment</strong></label>
                                     <select id="editFatherEducationalAttainment" name="editFatherEducationalAttainment"
                                         class="input-control">
                                         <option value="">Select Attainment</option>
@@ -567,12 +570,13 @@
                                 <!-- NEW: Deceased Date for Mother -->
                                 <div class="info-group" id="editMotherDeceasedDateContainer" style="display: none;">
                                     <label for="editMotherDeceasedDate"><strong>Date of Decease</strong></label>
-                                    <input type="date" id="editMotherDeceasedDate" name="editMotherDeceasedDate" class="input-control" />
+                                    <input type="date" id="editMotherDeceasedDate" name="editMotherDeceasedDate"
+                                        class="input-control" />
                                 </div>
 
                                 <div class="info-group">
                                     <label for="editMotherEducationalAttainment"><strong>Educational
-                                                Attainment</strong></label>
+                                            Attainment</strong></label>
                                     <select id="editMotherEducationalAttainment" name="editMotherEducationalAttainment"
                                         class="input-control">
                                         <option value="">Select Attainment</option>
@@ -659,21 +663,21 @@
     <div id="delete-resident-modal">
         <div class="delete-resident-modal-content">
             <h1>Delete this Resident</h1>
-            <p>this is will delete the resident records in the database</p>
+            <p>Are you sure you want to delete this resident?</p>
             <form action="../backend/fd_controllers/delete.controller.php" method="POST">
                 <p>
                     Delete resident with ID:
-                    <input type="text" id="resident-id-display-delete" name="resident_id">
+                    <input type="text" id="resident-id-display-delete" name="resident_id"
+                        class="resident-id-display-input" readonly>
                     <span>resident name</span>
                 </p>
                 <div class="delete-modal-actions">
-                    <button type="submit" name="delete">Delete</button>
-                    <button type="button" onclick="closeEditModal()">Close</button>
+                    <button class="action-button delete" type="submit" name="delete"> Yes, Delete</button>
+                    <button class="action-button close-edit-btn" type="button" onclick="closeEditModal()">Close</button>
                 </div>
             </form>
         </div>
     </div>
-
     <!-- MODALS END -->
 
     <script src="js/navigations.js"></script>

@@ -639,6 +639,7 @@ td img {
     font-size: 0.875rem;
     line-height: 1.25rem;
     color: #374151;
+    text-transform: capitalize;
     transition: all 0.15s ease;
 }
 
@@ -666,8 +667,7 @@ td img {
 /* RESIDENTS CONTAINER END*/
 
 /* CERTIFICATES CONTAINER */
-
-.certificate-container {
+.certificate-page-container {
     background-color: #fff;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -676,6 +676,16 @@ td img {
     justify-self: center;
     width: 100%;
     max-width: 72rem;
+}
+.certificate-container {
+    /* background-color: #fff;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem; */
+    /* padding: 2rem; */
+    justify-self: center;
+    width: 100%;
+    /* max-width: 72rem; */
 }
 
 .certificate-container h1 {
@@ -686,7 +696,17 @@ td img {
     border-bottom: 2px solid var(--primary-blue);
     padding-bottom: var(--spacing-sm);
 }
-
+.records-container {
+    margin-top: var(--spacing-lg);
+}
+.records-container h1 {
+    /* text-align: center; */
+    color: var(--primary-blue);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.8em;
+    border-bottom: 2px solid var(--primary-blue);
+    padding-bottom: var(--spacing-sm);
+}
 .certificate-container form {
     display: flex;
     flex-direction: column;
@@ -725,7 +745,18 @@ td img {
     background-color: var(--bg-white);
     transition: border-color 0.2s, box-shadow 0.2s;
 }
-
+.resident-monthly-salary,
+.resident-occupation {
+    width: 100%;
+    padding: var(--spacing-xs) 12px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    font-size: 1em;
+    color: var(--dark-text);
+    box-sizing: border-box;
+    background-color: var(--bg-white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
 .certificate-container .certificate-form-control:focus,
 .certificate-container .resident-name:focus,
 .certificate-container .resident-age:focus,
@@ -733,26 +764,41 @@ td img {
 .certificate-container .resident-address:focus,
 .certificate-container .resident-business-address:focus,
 .certificate-container .resident-business-name:focus,
+.resident-monthly-salary:focus .resident-occupation:focus,
 .certificate-container textarea:focus,
 .certificate-container td input:focus {
     border-color: var(--primary-blue);
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
-
+.certificate-hidden {
+    background-color: var(--bg-light);
+    border: 1px dashed gray;
+    padding: var(--spacing-md);
+    height: 800px;
+    border-radius: var(--border-radius-md);
+}
 .certificate-input-section {
-    border-top: 1px dashed var(--border-light);
-    padding-top: var(--spacing-md);
-    margin-top: var(--spacing-md);
     display: none;
     flex-direction: column;
     gap: var(--spacing-md);
+    width: 100%;
 }
 
 .certificate-input-section.active {
     display: flex !important;
 }
+.select-certificate-placeholder {
+    color: var(--light-text);
+    text-align: center;
+    width: 100%;
 
+    /* To center vertically */
+    position: relative;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
 .certificate-container .issue-certificate-btn {
     background-color: var(--primary-blue);
     color: white;
@@ -770,11 +816,54 @@ td img {
 .certificate-container .issue-certificate-btn:hover {
     background-color: #0056b3;
 }
-
-.hidden {
-    display: none !important;
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-md);
 }
-
+.table-container th {
+    color: var(--dark-text);
+    font-weight: 600;
+}
+.actions-th {
+    text-align: center;
+}
+.actions-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.action-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: var(--border-radius-sm);
+    color: #fff;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+.delete {
+    background-color: #ef4444;
+}
+.delete:hover {
+    background-color: #dc2626;
+}
+.view {
+    background-color: #2563eb;
+}
+.view:hover {
+    background-color: #3b82f6;
+}
+.download {
+    background-color: #17ac17;
+}
+.download:hover {
+    background-color: #0f7f0f;
+}
 /* CERTIFICATE CONTAINER END */
 
 /* RESIDENT PROFILE */
@@ -885,13 +974,17 @@ td img {
     object-fit: cover;
 }
 
-.profile-meta-info p , .profile-meta-info p input{
+.profile-meta-info p,
+.profile-meta-info p input {
     border: none;
     margin-bottom: var(--spacing-xs);
     color: var(--light-text);
     font-size: 0.95rem;
 }
-.profile-meta-info p input:focus {outline: none; border: none;}
+.profile-meta-info p input:focus {
+    outline: none;
+    border: none;
+}
 .profile-meta-info strong {
     color: var(--dark-text);
     min-width: 120px;
@@ -1134,10 +1227,7 @@ td img {
 
 .charts-grid-container {
     display: grid;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(300px, 1fr)
-    );
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--spacing-md);
 }
 
