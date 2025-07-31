@@ -33,9 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
     try {
         $residentModel->createResident($data);
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php");
+        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=success");
         exit();
     } catch (PDOException $e) {
-        echo "Database Error: " . $e->getMessage();
+        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=error");
+        exit();
     }
 }

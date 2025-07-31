@@ -1,24 +1,51 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const notificationToast = document.getElementById("notification-toast");
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get("status");
 
-    if (notificationToast) {
-        // Check if there's any content to display (from PHP session)
-        const messageSpan = notificationToast.querySelector(
-            ".success-message, .error-message"
-        );
+    const toast = document.getElementById("notification-toast");
+    const toastContent = document.getElementById("toast-content");
+    const toastIcon = document.getElementById("toast-icon-img");
+    const toastMessage = document.getElementById("toast-message"); // Define messages and icons per status
 
-        if (messageSpan && messageSpan.textContent.trim() !== "") {
-            // Show the toast
-            notificationToast.classList.add("show");
+    const toastData = {
+        success: {
+            message: "Resident added successfully!",
+            icon: "images/icons/checkmark-48.png",
+            type: "success",
+        },
+        error: {
+            message: "Error submitting case. Please try again.",
+            icon: "images/icons/cross-48.png",
+            type: "error",
+        },
+        updated: {
+            message: "Resident updated successfully!",
+            icon: "images/icons/checkmark-48.png",
+            type: "success",
+        },
+        update_failed: {
+            message: "Failed to update resident. Please try again.",
+            icon: "images/icons/cross-48.png",
+            type: "error",
+        },
+    };
 
-            // Automatically hide after 5 seconds
-            setTimeout(() => {
-                notificationToast.classList.remove("show");
-                // Optional: Remove content after hiding for cleanliness
-                setTimeout(() => {
-                    notificationToast.innerHTML = "";
-                }, 500); // Match CSS transition duration
-            }, 5000); // 5000 milliseconds = 5 seconds
-        }
+    if (toastData[status]) {
+        // Apply content
+        toastMessage.textContent = toastData[status].message;
+        toastIcon.src = toastData[status].icon; // Reset class then apply type-specific class
+
+        toastContent.className = "toast-content " + toastData[status].type;
+
+        toast.classList.add("show"); // Auto-hide
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 5000);
+    } // Clean up URL
+
+    if (window.history.replaceState) {
+        const cleanUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState(null, null, cleanUrl);
     }
 });

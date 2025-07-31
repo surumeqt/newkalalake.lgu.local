@@ -664,26 +664,16 @@ td img {
 /* notifications.css */
 
 .notification-toast {
-    position: absolute;
-    top: 80px;
+    position: fixed;
+    top: 50px;
     right: 50px;
     width: 300px;
-    height: 50px;
-    background-color: #ffffff; /* Green for success */
-    color: #17ac17;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     opacity: 0;
-    visibility: hidden; 
-    transform: translateY(-50px); /* Start slightly above */
+    visibility: hidden;
+    transform: translateY(-50px);
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out,
         visibility 0.5s ease-in-out;
-    z-index: 1000; /* Ensure it's on top */
-    font-weight: bold;
-    display: flex; /* Use flexbox for centering content if needed */
-    align-items: center;
-    justify-content: center;
+    z-index: 1000;
 }
 
 .notification-toast.show {
@@ -692,18 +682,33 @@ td img {
     transform: translateY(0);
 }
 
-.notification-toast .success-message {
-    /* Specific styling for success text if needed */
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    border: 1px solid;
+    color: #333;
 }
 
-/* Optional: Style for an error message within the toast */
-.notification-toast.error {
-    background-color: #f44336; /* Red for error */
+.toast-content.success {
+    border-color: #22c55e;
+    color: #22c55e;
 }
 
-.notification-toast .error-message {
-    /* Specific styling for error text */
+.toast-content.error {
+    border-color: #ef4444;
+    color: #ef4444;
 }
+
+.toast-icon img {
+    width: 48px;
+    height: 48px;
+}
+
 /* RESIDENTS CONTAINER END*/
 
 /* CERTIFICATES CONTAINER */

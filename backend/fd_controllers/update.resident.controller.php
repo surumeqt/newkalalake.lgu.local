@@ -3,7 +3,7 @@ require_once __DIR__ . '/../models/resident.model.php';
 
 $residentModel = new ResidentModel();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $resident_id = $_POST['resident_id'] ?? null;
 
     if (!$resident_id) {
@@ -61,11 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     ];
 
     $success = $residentModel->insertAddedInfo($resident_id, $data);
-    
+
     if ($success) {
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?message=saved_successfully");
+        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=updated");
         exit();
     } else {
-        echo "Failed to update resident info.";
+        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=update_failed");
+        exit();
     }
 }

@@ -14,9 +14,6 @@
 </head>
 
 <body>
-    <div id="notification-toast" class="notification-toast">
-
-    </div>
     <div class="dashboard-layout">
         <aside class="sidebar">
             <div class="logo-area">
@@ -64,6 +61,17 @@
             </div>
         </div>
     </div>
+    <!-- Add Resident Status Modal if success or error -->
+    <!-- Toast Container -->
+    <div id="notification-toast" class="notification-toast">
+        <div id="toast-content" class="toast-content">
+            <div id="toast-icon" class="toast-icon">
+                <img id="toast-icon-img" src="" alt="icon" />
+            </div>
+            <div id="toast-message" class="toast-message">Default message</div>
+        </div>
+    </div>
+
 
     <!-- Add Resident Modal -->
     <div id="add-resident-modal">
