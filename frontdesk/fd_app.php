@@ -14,6 +14,9 @@
 </head>
 
 <body>
+    <div id="notification-toast" class="notification-toast">
+
+    </div>
     <div class="dashboard-layout">
         <aside class="sidebar">
             <div class="logo-area">
@@ -683,6 +686,7 @@
     <script src="js/navigations.js"></script>
     <script src="js/functions.js"></script>
     <script src="js/logout.modal.logic.js"></script>
+    <script src="js/notifications.js"></script>
 </body>
 
 </html>
