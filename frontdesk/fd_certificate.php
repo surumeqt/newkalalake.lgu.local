@@ -1,15 +1,15 @@
 <div class="certificate-page-container">
     <?php if (isset($_GET['certificate_issued'])): ?>
-    <div class="alert 
+        <div class="alert 
         <?= $_GET['certificate_issued'] === 'success' ? 'alert-success' : 'alert-error' ?>">
-        <?= $_GET['certificate_issued'] === 'success' ? 'Certificate issued successfully!' : 'An error occurred while issuing the certificate.' ?>
-    </div>
-    <script>
-    setTimeout(() => {
-        const alert = document.querySelector('.alert');
-        if (alert) alert.style.display = 'none';
-    }, 3000); // Hide after 3 seconds
-    </script>
+            <?= $_GET['certificate_issued'] === 'success' ? 'Certificate issued successfully!' : 'An error occurred while issuing the certificate.' ?>
+        </div>
+        <script>
+            setTimeout(() => {
+                const alert = document.querySelector('.alert');
+                if (alert) alert.style.display = 'none';
+            }, 3000); // Hide after 3 seconds
+        </script>
     <?php endif; ?>
 
     <div class="certificate-container">
@@ -276,6 +276,7 @@
                     <button type="submit" class="issue-certificate-btn">Issue Vehicle Clearance</button>
                 </div>
             </div>
+            <input type="hidden" name="issued-by" value="<?= $_SESSION['username'] ?>">
         </form>
     </div>
     <!-- History Records Section -->
@@ -303,25 +304,25 @@
                 ?>
                 <tbody id="records-table-body">
                     <?php foreach (array_slice($records, 0, 5) as $row): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['resident_id']) ?></td>
-                        <td><?= htmlspecialchars($row['first_name'] . (!empty($row['middle_name']) ? ' ' . $row['middle_name'] : '') . ' ' . $row['last_name']) . (!empty($row['suffix']) ? ' ' . $row['suffix'] : '') ?>
-                        </td>
-                        <td><?= htmlspecialchars($row['certificate_type']) ?></td>
-                        <td><?= htmlspecialchars($row['issued_by']) ?></td>
-                        <td class="actions-btn">
-                            <button class="action-button view">
-                                <a href="../backend/fd_controllers/view.certificate.php?id=<?= $row['id'] ?>"
-                                    target="_blank">
-                                    View
-                                </a>
-                            </button>
-                            <button class="action-button delete"
-                                onclick="deleteResident('<?php echo $row['resident_id']; ?>')">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><?= htmlspecialchars($row['resident_id']) ?></td>
+                            <td><?= htmlspecialchars($row['first_name'] . (!empty($row['middle_name']) ? ' ' . $row['middle_name'] : '') . ' ' . $row['last_name']) . (!empty($row['suffix']) ? ' ' . $row['suffix'] : '') ?>
+                            </td>
+                            <td><?= htmlspecialchars($row['certificate_type']) ?></td>
+                            <td><?= htmlspecialchars($row['issued_by']) ?></td>
+                            <td class="actions-btn">
+                                <button class="action-button view">
+                                    <a href="../backend/fd_controllers/view.certificate.php?id=<?= $row['id'] ?>"
+                                        target="_blank">
+                                        View
+                                    </a>
+                                </button>
+                                <button class="action-button delete"
+                                    onclick="deleteResident('<?php echo $row['resident_id']; ?>')">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

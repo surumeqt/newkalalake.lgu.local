@@ -3,15 +3,18 @@ require_once __DIR__ . '/../config/database.config.php';
 require_once __DIR__ . '/./pdf.generator.model.php';
 require_once __DIR__ . '/../helpers/formatters.php';
 
-class CertificateModel {
+class CertificateModel
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $db = new Connection();
         $this->conn = $db->connect();
     }
-    public function createCertificate($data) {
-        $certTypeshii = $this->certificateType($data,$data['certificate_type']);
+    public function createCertificate($data)
+    {
+        $certTypeshii = $this->certificateType($data, $data['certificate_type']);
 
         // --- debugging here ---
         echo "<pre>";
@@ -20,8 +23,10 @@ class CertificateModel {
         echo "</pre>";
         // -------------------------
 
-        $residentId = $this->findIdByFullName($data['resident_name']);
-
+        $residentId = $this->findIdByFullName(strtolower(preg_replace('/\s+/', ' ', trim($data['resident_name']))));
+        if (!$residentId) {
+            throw new Exception("Resident not found: " . $data['resident_name']);
+        }
         $sql = "INSERT INTO certificates (
                     resident_id,
                     certificate_type,
@@ -42,7 +47,8 @@ class CertificateModel {
             generateRandomIds()
         ]);
     }
-    private function certificateType($data, $type) {
+    private function certificateType($data, $type)
+    {
         $pdfGen = new PDFGenerator($data);
         switch ($type) {
             case 'Certificate of Indigency':
@@ -80,26 +86,41 @@ class CertificateModel {
         }
         return $pdfBlob;
     }
-    private function findIdByFullName($residentName) {
-        $query = "SELECT resident_id FROM residents 
-            WHERE TRIM(CONCAT_WS(' ',
-                first_name,
-                NULLIF(TRIM(middle_name), ''),
-                last_name,
-                NULLIF(TRIM(suffix), '')
-            )) = ?";
+    private function findIdByFullName($residentName)
+    {
+        // Normalize input name
+        $cleanedName = strtolower(preg_replace('/\s+/', ' ', trim($residentName)));
+
+        $query = "
+        SELECT resident_id FROM residents 
+        WHERE REPLACE(LOWER(TRIM(
+            CONCAT_WS(' ',
+                TRIM(first_name),
+                TRIM(NULLIF(middle_name, '')),
+                TRIM(last_name),
+                TRIM(NULLIF(suffix, ''))
+            )
+        )), '\t', '') = ?
+    ";
 
         $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$residentName])) {
+        if ($stmt->execute([$cleanedName])) {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($result) {
                 return $result['resident_id'];
+            } else {
+                error_log("Resident not found for normalized name: " . $cleanedName);
             }
         }
+        error_log("Looking for: '$cleanedName'");
+
         return null;
     }
-    public function residentIssuedCertificates($residentId){
+
+
+    public function residentIssuedCertificates($residentId)
+    {
         $query = "SELECT
                 id,
                 resident_id,
@@ -117,14 +138,16 @@ class CertificateModel {
         $stmt->execute([$residentId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function getTotalCertificatesIssued() {
+    public function getTotalCertificatesIssued()
+    {
         $query = "SELECT COUNT(id) AS total_certificates FROM certificates";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total_certificates'] ?? 0;
     }
-    public function getCertificatesIssuedToday() {
+    public function getCertificatesIssuedToday()
+    {
         $today = date('Y-m-d');
         $query = "SELECT COUNT(id) AS certificates_today FROM certificates WHERE DATE(created_at) = ?";
         $stmt = $this->conn->prepare($query);
@@ -132,7 +155,8 @@ class CertificateModel {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['certificates_today'] ?? 0;
     }
-    public function getRecentCertificateActivities($limit = 7) {
+    public function getRecentCertificateActivities($limit = 7)
+    {
         $query = "SELECT
                       c.created_at AS activity_date,
                       c.certificate_type,
@@ -149,7 +173,8 @@ class CertificateModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function listCertificate(){
+    public function listCertificate()
+    {
         $query = "SELECT 
             c.id,
             c.resident_id,
@@ -166,5 +191,11 @@ class CertificateModel {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function deleteCertificate($id)
+    {
+        $query = "DELETE FROM certificates WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute(['id' => $id]);
     }
 }

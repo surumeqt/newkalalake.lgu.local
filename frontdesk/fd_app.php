@@ -342,7 +342,7 @@
                                         <label for="editEducationalAttainment"><strong>Educational
                                                 Attainment</strong></label>
                                         <select id="editEducationalAttainment" name="editEducationalAttainment"
-                                            class="input-control" required>
+                                            class="input-control">
                                             <option value="">Select Attainment</option>
                                             <option value="N/A">N/A (Not Applicable / Not Graduated)</option>
                                             <option value="No Formal Education">No Formal Education</option>
@@ -477,7 +477,7 @@
                                 <div class="info-group">
                                     <label for="editFatherAge"><strong>Age</strong></label>
                                     <input type="text" id="editFatherAge" name="editFatherAge"
-                                        class="input-control readonly" placeholder="Auto Generated" required />
+                                        class="input-control readonly" placeholder="Auto Generated" />
                                 </div>
                                 <div class="info-group">
                                     <label for="editFatherOccupation"><strong>Occupation</strong></label>
@@ -558,7 +558,7 @@
                                 <div class="info-group">
                                     <label for="editMotherAge"><strong>Age</strong></label>
                                     <input type="text" id="editMotherAge" name="editMotherAge"
-                                        class="input-control readonly" placeholder="Auto Generated" required />
+                                        class="input-control readonly" placeholder="Auto Generated" />
                                 </div>
                                 <div class="info-group">
                                     <label for="editMotherOccupation"><strong>Occupation</strong></label>

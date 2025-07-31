@@ -672,7 +672,7 @@ td img {
     visibility: hidden;
     transform: translateY(-50px);
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out,
-    visibility 0.5s ease-in-out;
+        visibility 0.5s ease-in-out;
     z-index: 1000;
 }
 
@@ -880,6 +880,10 @@ td img {
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.5rem;
+}
+.actions-btn button a {
+    text-decoration: none;
+    color: #fff;
 }
 .action-button {
     border: none;
