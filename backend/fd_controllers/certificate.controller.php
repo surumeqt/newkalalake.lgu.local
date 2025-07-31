@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/certificate.model.php';
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = [
         'certificate_type' => $_POST['certificate_type'] ?? '',
         'resident_name' => $_POST['resident-name'] ?? '',
@@ -23,12 +24,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         'vehicle_chasis_number' => $_POST['vehicle-chasis-number'],
         'issued_by' => $_SESSION['username'] ?? ''
     ];
-    try {
-        $model = new CertificateModel();
-        $model->createCertificate($data);
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php");
+    if ($success) {
+        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=certificate_success");
         exit();
-    } catch (PDOException $e) {
-        echo "Database Error: " . $e->getMessage();
+    } else {
+        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=certificate_failed");
+        exit();
     }
 }

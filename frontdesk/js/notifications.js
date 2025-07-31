@@ -3,49 +3,53 @@ document.addEventListener("DOMContentLoaded", function () {
     const status = urlParams.get("status");
 
     const toast = document.getElementById("notification-toast");
-    const toastContent = document.getElementById("toast-content");
     const toastIcon = document.getElementById("toast-icon-img");
-    const toastMessage = document.getElementById("toast-message"); // Define messages and icons per status
+    const toastMessage = document.getElementById("toast-message");
 
-    const toastData = {
-        success: {
-            message: "Resident added successfully!",
-            icon: "images/icons/checkmark-48.png",
-            type: "success",
-        },
-        error: {
-            message: "Error submitting case. Please try again.",
-            icon: "images/icons/cross-48.png",
-            type: "error",
-        },
-        updated: {
-            message: "Resident updated successfully!",
-            icon: "images/icons/checkmark-48.png",
-            type: "success",
-        },
-        update_failed: {
-            message: "Failed to update resident. Please try again.",
-            icon: "images/icons/cross-48.png",
-            type: "error",
-        },
-    };
+    if (!toast) return;
 
-    if (toastData[status]) {
-        // Apply content
-        toastMessage.textContent = toastData[status].message;
-        toastIcon.src = toastData[status].icon; // Reset class then apply type-specific class
+    if (status) {
+        let message = "";
+        let icon = "";
+        let backgroundColor = "";
 
-        toastContent.className = "toast-content " + toastData[status].type;
+        switch (status) {
+            case "success":
+                message = "Resident added successfully!";
+                icon = "images/icons/checkmark-48.png";
+                break;
+            case "updated":
+                message = "Resident updated successfully!";
+                icon = "images/icons/checkmark-48.png";
+                break;
+            case "update_failed":
+                message = "Failed to update resident.";
+                icon = "images/icons/cross-48.png";
+                break;
+            case "certificate_success":
+                message = "Certificate issued successfully!";
+                icon = "images/icons/checkmark-48.png";
+                break;
+            case "certificate_failed":
+                message = "Failed to issue certificate.";
+                icon = "images/icons/cross-48.png";
+                break;
+            default:
+                return;
+        }
 
-        toast.classList.add("show"); // Auto-hide
+        toastMessage.textContent = message;
+        toastIcon.src = icon;
+        toast.style.backgroundColor = backgroundColor;
+        toast.classList.add("show");
 
         setTimeout(() => {
             toast.classList.remove("show");
-        }, 5000);
-    } // Clean up URL
+        }, 4000); // Clean the URL
 
-    if (window.history.replaceState) {
-        const cleanUrl = window.location.origin + window.location.pathname;
-        window.history.replaceState(null, null, cleanUrl);
+        if (window.history.replaceState) {
+            const cleanUrl = window.location.origin + window.location.pathname;
+            window.history.replaceState(null, null, cleanUrl);
+        }
     }
 });

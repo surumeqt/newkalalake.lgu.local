@@ -1,4 +1,17 @@
 <div class="certificate-page-container">
+    <?php if (isset($_GET['certificate_issued'])): ?>
+    <div class="alert 
+        <?= $_GET['certificate_issued'] === 'success' ? 'alert-success' : 'alert-error' ?>">
+        <?= $_GET['certificate_issued'] === 'success' ? 'Certificate issued successfully!' : 'An error occurred while issuing the certificate.' ?>
+    </div>
+    <script>
+    setTimeout(() => {
+        const alert = document.querySelector('.alert');
+        if (alert) alert.style.display = 'none';
+    }, 3000); // Hide after 3 seconds
+    </script>
+    <?php endif; ?>
+
     <div class="certificate-container">
         <h1>Issue A Certificate</h1>
         <form action="../backend/fd_controllers/certificate.controller.php" method="POST" id="certificateForm">
@@ -281,7 +294,7 @@
                         <th class="actions-th">Actions</th>
                     </tr>
                 </thead>
-                <?php 
+                <?php
                 require_once __DIR__ . '/../backend/models/certificate.model.php';
 
                 $certificateModel = new CertificateModel();
@@ -290,24 +303,25 @@
                 ?>
                 <tbody id="records-table-body">
                     <?php foreach (array_slice($records, 0, 5) as $row): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($row['resident_id']) ?></td>
-                            <td><?= htmlspecialchars($row['first_name'] . (!empty($row['middle_name']) ? ' ' . $row['middle_name'] : '') . ' ' . $row['last_name']) . (!empty($row['suffix']) ? ' ' . $row['suffix'] : '') ?></td>
-                            <td><?= htmlspecialchars($row['certificate_type']) ?></td>
-                            <td><?= htmlspecialchars($row['issued_by']) ?></td>
-                            <td class="actions-btn">
-                                <button class="action-button view">
-                                    <a href="../backend/fd_controllers/view.certificate.php?id=<?= $row['id'] ?>"
+                    <tr>
+                        <td><?= htmlspecialchars($row['resident_id']) ?></td>
+                        <td><?= htmlspecialchars($row['first_name'] . (!empty($row['middle_name']) ? ' ' . $row['middle_name'] : '') . ' ' . $row['last_name']) . (!empty($row['suffix']) ? ' ' . $row['suffix'] : '') ?>
+                        </td>
+                        <td><?= htmlspecialchars($row['certificate_type']) ?></td>
+                        <td><?= htmlspecialchars($row['issued_by']) ?></td>
+                        <td class="actions-btn">
+                            <button class="action-button view">
+                                <a href="../backend/fd_controllers/view.certificate.php?id=<?= $row['id'] ?>"
                                     target="_blank">
-                                        View
-                                    </a>
-                                </button>
-                                <button class="action-button delete"
-                                    onclick="deleteResident('<?php echo $row['resident_id']; ?>')">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+                                    View
+                                </a>
+                            </button>
+                            <button class="action-button delete"
+                                onclick="deleteResident('<?php echo $row['resident_id']; ?>')">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

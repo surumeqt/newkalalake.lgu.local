@@ -672,7 +672,7 @@ td img {
     visibility: hidden;
     transform: translateY(-50px);
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out,
-        visibility 0.5s ease-in-out;
+    visibility 0.5s ease-in-out;
     z-index: 1000;
 }
 
@@ -690,7 +690,7 @@ td img {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background-color: white;
-    border: 1px solid;
+    /* border: 1px solid; */
     color: #333;
 }
 

@@ -234,7 +234,7 @@ class ResidentModel {
     public function getResidentsRegisteredToday() {
         $today = date('Y-m-d');
         $query = "SELECT COUNT(resident_id) AS residents_today FROM residents WHERE DATE(created_at) = ?";
-        $stmt = $this->conn->prepare(query: $query);
+        $stmt = $this->conn->prepare($query);
         $stmt->execute([$today]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['residents_today'] ?? 0;
