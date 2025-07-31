@@ -28,7 +28,7 @@ if (empty($records)) {
                 <td>" . htmlspecialchars($rows['age']) . "</td>
                 <td>" . htmlspecialchars($rows['created_at']) . "</td>
                 <td class='action-buttons'>
-                    <button class=\"button edit-btn\" onclick=\"editResident('{$rows['resident_id']}')\">Edit</button>
+                    <button class=\"button edit-btn\" onclick=\"openEditModal('{$rows['resident_id']}')\">Edit</button>
                     <button class=\"button delete-btn\" onclick=\"deleteResident('{$rows['resident_id']}')\">Delete</button>
                 </td>
             </tr>

@@ -281,120 +281,34 @@
                         <th class="actions-th">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="records-table-body" class="">
-                    <!-- Static Data for Demonstration -->
-                    <tr class="">
-                        <td class="">
-                            RES-001
-                        </td>
-                        <td class="">
-                            John Doe
-                        </td>
-                        <td class="">
-                            Barangay Clearance
-                        </td>
-                        <td class="">
-                            Barangay Official
-                        </td>
-                        <td class="actions-btn">
-                            <button class="action-button view"
-                                onclick="alert('View functionality not yet implemented for ID: RES-001')">
-                                View
-                            </button>
-                            <button class="action-button download"
-                                onclick="alert('Download functionality not yet implemented for ID: RES-001')">
-                                Download
-                            </button>
-                            <button class="action-button delete"
-                                onclick="alert('Delete functionality not yet implemented for ID: RES-001')">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="">
-                            RES-002
-                        </td>
-                        <td class="">
-                            Jane Smith
-                        </td>
-                        <td class="">
-                            Certificate of Indigency
-                        </td>
-                        <td class="">
-                            Barangay Official B
-                        </td>
-                        <td class="actions-btn">
-                            <button class="action-button view"
-                                onclick="alert('View functionality not yet implemented for ID: RES-001')">
-                                View
-                            </button>
-                            <button class="action-button download"
-                                onclick="alert('Download functionality not yet implemented for ID: RES-001')">
-                                Download
-                            </button>
-                            <button class="action-button delete"
-                                onclick="alert('Delete functionality not yet implemented for ID: RES-001')">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="">
-                            RES-003
-                        </td>
-                        <td class="">
-                            Peter Jones
-                        </td>
-                        <td class="">
-                            Barangay Permit
-                        </td>
-                        <td class="">
-                            Barangay Official C
-                        </td>
-                        <td class="actions-btn">
-                            <button class="action-button view"
-                                onclick="alert('View functionality not yet implemented for ID: RES-001')">
-                                View
-                            </button>
-                            <button class="action-button download"
-                                onclick="alert('Download functionality not yet implemented for ID: RES-001')">
-                                Download
-                            </button>
-                            <button class="action-button delete"
-                                onclick="alert('Delete functionality not yet implemented for ID: RES-001')">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="">
-                        <td class="">
-                            RES-004
-                        </td>
-                        <td class="">
-                            Maria Clara
-                        </td>
-                        <td class="">
-                            Barangay Residency
-                        </td>
-                        <td class="">
-                            Barangay Official A
-                        </td>
-                        <td class="actions-btn">
-                            <button class="action-button view"
-                                onclick="alert('View functionality not yet implemented for ID: RES-001')">
-                                View
-                            </button>
-                            <button class="action-button download"
-                                onclick="alert('Download functionality not yet implemented for ID: RES-001')">
-                                Download
-                            </button>
-                            <button class="action-button delete"
-                                onclick="alert('Delete functionality not yet implemented for ID: RES-001')">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
+                <?php 
+                require_once __DIR__ . '/../backend/models/certificate.model.php';
+
+                $certificateModel = new CertificateModel();
+
+                $records = $certificateModel->listCertificate();
+                ?>
+                <tbody id="records-table-body">
+                    <?php foreach (array_slice($records, 0, 5) as $row): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['resident_id']) ?></td>
+                            <td><?= htmlspecialchars($row['first_name'] . (!empty($row['middle_name']) ? ' ' . $row['middle_name'] : '') . ' ' . $row['last_name']) . (!empty($row['suffix']) ? ' ' . $row['suffix'] : '') ?></td>
+                            <td><?= htmlspecialchars($row['certificate_type']) ?></td>
+                            <td><?= htmlspecialchars($row['issued_by']) ?></td>
+                            <td class="actions-btn">
+                                <button class="action-button view">
+                                    <a href="../backend/fd_controllers/view.certificate.php?id=<?= $row['id'] ?>"
+                                    target="_blank">
+                                        View
+                                    </a>
+                                </button>
+                                <button class="action-button delete"
+                                    onclick="deleteResident('<?php echo $row['resident_id']; ?>')">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

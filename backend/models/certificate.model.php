@@ -25,16 +25,18 @@ class CertificateModel {
         $sql = "INSERT INTO certificates (
                     resident_id,
                     certificate_type,
+                    purpose,
                     fileBlob,
                     issued_by,
                     certificate_no
                 ) VALUES (
-                    ?, ?, ?, ?, ?
+                    ?, ?, ?, ?, ?, ?
                 )";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
             $residentId,
             $data['certificate_type'],
+            $data['purpose'],
             $certTypeshii,
             $data['issued_by'],
             generateRandomIds()
@@ -144,6 +146,24 @@ class CertificateModel {
                   LIMIT ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function listCertificate(){
+        $query = "SELECT 
+            c.id,
+            c.resident_id,
+            c.certificate_type,
+            c.fileBlob,
+            c.issued_by,
+            r.first_name,
+            r.middle_name,
+            r.last_name,
+            r.suffix
+        FROM certificates c
+        JOIN residents r ON c.resident_id = r.resident_id ORDER BY c.id DESC";
+
+        $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

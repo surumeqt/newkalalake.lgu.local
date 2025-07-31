@@ -286,7 +286,7 @@ function loadDashboardStats() {
                         const metrics = response.metrics;
                         const demographics = response.demographics;
                         const activities = response.recent_activities;
-                        console.log("metrics: ", metrics);
+
                         // Update Metrics
                         setTextContent('total-residents-metric', metrics.total_residents);
                         setTextContent('residents-registered-today-metric', metrics.residents_registered_today);
@@ -598,7 +598,6 @@ function fetchCertificatesForResident(residentId) {
         if (xhrCertificates.readyState === 4 && xhrCertificates.status === 200) {
             try {
                 const response = JSON.parse(xhrCertificates.responseText);
-                console.log('response: ', xhrCertificates.responseText);
                 if (response.success && response.certificates) {
                     certificatesTableBody.innerHTML = ''; // Clear loading message
 
