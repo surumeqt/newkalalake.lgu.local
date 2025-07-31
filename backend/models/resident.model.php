@@ -220,8 +220,70 @@ class ResidentModel {
         LIMIT 1";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $residentId, PDO::PARAM_INT); // Bind the resident ID as an integer
+        $stmt->bindParam(1, $residentId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getTotalResidents() {
+        $query = "SELECT COUNT(resident_id) AS total_residents FROM residents";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total_residents'] ?? 0;
+    }
+    public function getResidentsRegisteredToday() {
+        $today = date('Y-m-d');
+        $query = "SELECT COUNT(resident_id) AS residents_today FROM residents WHERE DATE(created_at) = ?";
+        $stmt = $this->conn->prepare(query: $query);
+        $stmt->execute([$today]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['residents_today'] ?? 0;
+    }
+    public function getGenderDistribution() {
+        $query = "SELECT gender, COUNT(resident_id) AS count FROM residents GROUP BY gender";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $distribution = ['Male' => 0, 'Female' => 0];
+        foreach ($results as $row) {
+            if (isset($distribution[$row['gender']])) {
+                $distribution[$row['gender']] = (int)$row['count'];
+            }
+        }
+        return $distribution;
+    }
+    public function getAgeGroupDistribution() {
+        $query = "SELECT
+                    SUM(CASE WHEN age BETWEEN 0 AND 17 THEN 1 ELSE 0 END) AS age_0_17,
+                    SUM(CASE WHEN age BETWEEN 18 AND 35 THEN 1 ELSE 0 END) AS age_18_35,
+                    SUM(CASE WHEN age BETWEEN 36 AND 60 THEN 1 ELSE 0 END) AS age_36_60,
+                    SUM(CASE WHEN age > 60 THEN 1 ELSE 0 END) AS age_60_plus
+                  FROM residents";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return [
+            '0-17' => (int)($result['age_0_17'] ?? 0),
+            '18-35' => (int)($result['age_18_35'] ?? 0),
+            '36-60' => (int)($result['age_36_60'] ?? 0),
+            '60+' => (int)($result['age_60_plus'] ?? 0)
+        ];
+    }
+    public function getRecentResidentActivities($limit = 7) {
+        $query = "SELECT
+                      created_at AS activity_date,
+                      CONCAT(first_name, ' ', last_name) AS resident_name,
+                      'registered' AS activity_type
+                  FROM
+                      residents
+                  ORDER BY
+                      created_at DESC
+                  LIMIT ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

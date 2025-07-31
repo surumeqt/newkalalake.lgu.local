@@ -115,4 +115,36 @@ class CertificateModel {
         $stmt->execute([$residentId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getTotalCertificatesIssued() {
+        $query = "SELECT COUNT(id) AS total_certificates FROM certificates";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total_certificates'] ?? 0;
+    }
+    public function getCertificatesIssuedToday() {
+        $today = date('Y-m-d');
+        $query = "SELECT COUNT(id) AS certificates_today FROM certificates WHERE DATE(created_at) = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$today]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['certificates_today'] ?? 0;
+    }
+    public function getRecentCertificateActivities($limit = 7) {
+        $query = "SELECT
+                      c.created_at AS activity_date,
+                      c.certificate_type,
+                      CONCAT(r.first_name, ' ', r.last_name) AS resident_name
+                  FROM
+                      certificates c
+                  JOIN
+                      residents r ON c.resident_id = r.resident_id
+                  ORDER BY
+                      c.created_at DESC
+                  LIMIT ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

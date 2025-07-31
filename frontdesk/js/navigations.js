@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    loadDashboardStats();
     const navLinks = document.querySelectorAll(
         'nav a[data-load-content="true"]'
     );
@@ -6,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pageTitleElement = document.querySelector(".current-page-title");
     const menuToggleBtn = document.querySelector(".menu-toggle");
     const sidebar = document.querySelector(".sidebar");
-    const sidebarOverlay = document.querySelector(".sidebar-overlay"); // Get the new overlay
+    const sidebarOverlay = document.querySelector(".sidebar-overlay");
 
     const setActiveLink = (currentLink) => {
         navLinks.forEach((link) => link.classList.remove("active"));
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const loadContent = (url, linkElement = null) => {
         contentDisplay.innerHTML = '<p class="loading-message">Loading...</p>';
-
+        loadDashboardStats();
         fetch(url)
             .then((response) => {
                 if (!response.ok)

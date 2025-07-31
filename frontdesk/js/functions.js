@@ -13,7 +13,7 @@ function setInputValue(id, value) {
 function setTextContent(id, value) {
     const element = getElement(id);
     if (element) {
-        element.value = value || '';
+        element.textContent = value || '';
     }
 }
 
@@ -275,6 +275,114 @@ function fillResidentData(inputElement) {
     xhr.send(formData);
 }
 
+function loadDashboardStats() {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        const metrics = response.metrics;
+                        const demographics = response.demographics;
+                        const activities = response.recent_activities;
+                        console.log("metrics: ", metrics);
+                        // Update Metrics
+                        setTextContent('total-residents-metric', metrics.total_residents);
+                        setTextContent('residents-registered-today-metric', metrics.residents_registered_today);
+                        setTextContent('total-certificates-issued-metric', metrics.total_certificates_issued);
+                        setTextContent('certificates-issued-today-metric', metrics.certificates_issued_today);
+
+                        // Update current dates
+                        const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        setTextContent('current-date-total-residents', today);
+                        setTextContent('current-date-registered-today', today);
+                        setTextContent('current-date-certificates-today', today);
+
+
+                        // Update Gender Distribution Chart
+                        const maleCount = demographics.gender.Male;
+                        const femaleCount = demographics.gender.Female;
+                        const totalGender = maleCount + femaleCount;
+
+                        const maleHeight = totalGender > 0 ? (maleCount / totalGender) * 100 : 0;
+                        const femaleHeight = totalGender > 0 ? (femaleCount / totalGender) * 100 : 0;
+
+                        const genderMaleBar = getElement('gender-male-bar');
+                        const genderFemaleBar = getElement('gender-female-bar');
+                        const genderMaleCountSpan = getElement('gender-male-count');
+                        const genderFemaleCountSpan = getElement('gender-female-count');
+
+                        if (genderMaleBar) {
+                            genderMaleBar.style.height = `${maleHeight}%`;
+                            genderMaleBar.title = `Male: ${maleCount}`;
+                        }
+                        if (genderFemaleBar) {
+                            genderFemaleBar.style.height = `${femaleHeight}%`;
+                            genderFemaleBar.title = `Female: ${femaleCount}`;
+                        }
+                        if (genderMaleCountSpan) genderMaleCountSpan.textContent = maleCount;
+                        if (genderFemaleCountSpan) genderFemaleCountSpan.textContent = femaleCount;
+
+                        // Update Age Group Distribution Chart
+                        const ageGroups = demographics.age_groups;
+                        const ageGroupKeys = ['0-17', '18-35', '36-60', '60+'];
+                        let maxAgeCount = 0;
+                        ageGroupKeys.forEach(key => {
+                            if (ageGroups[key] > maxAgeCount) {
+                                maxAgeCount = ageGroups[key];
+                            }
+                        });
+
+                        ageGroupKeys.forEach(key => {
+                            const barElement = getElement(`age-${key.replace(/[^a-zA-Z0-9]/g, '-')}-bar`);
+                            const countElement = getElement(`age-${key.replace(/[^a-zA-Z0-9]/g, '-')}-count`);
+                            const count = ageGroups[key] || 0;
+                            const height = maxAgeCount > 0 ? (count / maxAgeCount) * 100 : 0;
+
+                            if (barElement) {
+                                barElement.style.height = `${height}%`;
+                                barElement.title = `${key}: ${count}`;
+                            }
+                            if (countElement) {
+                                countElement.textContent = count;
+                            }
+                        });
+
+
+                        // Update Recent Activities
+                        const activitiesList = getElement('recent-activities-list');
+                        if (activitiesList) {
+                            activitiesList.innerHTML = ''; // Clear existing activities
+                            if (activities.length > 0) {
+                                activities.forEach(activity => {
+                                    const listItem = document.createElement('li');
+                                    const date = new Date(activity.activity_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                                    listItem.innerHTML = `<strong>${date}:</strong> ${activity.description}`;
+                                    activitiesList.appendChild(listItem);
+                                });
+                            } else {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = 'No recent activities.';
+                                activitiesList.appendChild(listItem);
+                            }
+                        }
+
+                    } else {
+                        console.error("Error fetching dashboard data:", response.message);
+                    }
+                } catch (e) {
+                    console.error("JSON parse error for dashboard data:", e, xhr.responseText);
+                }
+            } else {
+                console.error("Network error fetching dashboard data. Status:", xhr.status, xhr.statusText);
+            }
+        }
+    };
+
+    xhr.open("GET", "../backend/fd_controllers/get.dashboard.stats.php", true);
+    xhr.send();
+}
 
 // --- MODALS OPEN/CLOSE AND HELPERS FUNCTIONALITY ---
 
@@ -297,7 +405,7 @@ function openEditModal(residentId) {
         editForm.style.display = 'none';    // Hide the form initially
 
         // Set the resident ID display immediately
-        setTextContent('resident-id-display', residentId);
+        setInputValue('resident-id-display', residentId);
 
         // Now, populate the rest of the form
         populateEditModal(residentId);
@@ -579,7 +687,7 @@ function closeEditModal() {
     }
 
     // Reset specific display elements in the edit modal
-    setTextContent('resident-id-display', '');
+    setInputValue('resident-id-display', '');
     const profileStatusSpan = document.querySelector('.profile-status');
     if (profileStatusSpan) profileStatusSpan.textContent = '';
     const dateRegisteredSpan = document.querySelector('.profile-meta-info p:nth-child(3) span');

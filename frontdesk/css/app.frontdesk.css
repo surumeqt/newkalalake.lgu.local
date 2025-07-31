@@ -32,19 +32,17 @@
     --border-radius-md: 8px;
     --btn-padding: 8px 16px;
 
-    /* New Dashboard Specific Colors/Variables */
-    --dashboard-card-1: #007bff; /* Primary Blue */
-    --dashboard-card-2: #28a745; /* Green */
-    --dashboard-card-3: #ffc107; /* Yellow */
-    --dashboard-card-4: #17a2b8; /* Cyan */
-    --dashboard-card-text: #ffffff; /* White text for colored cards */
-    --dashboard-bg-contrast: #e9ecef; /* Slightly darker background for modal/sections if needed */
+    --dashboard-card-1: #007bff;
+    --dashboard-card-2: #28a745;
+    --dashboard-card-3: #ffc107;
+    --dashboard-card-4: #17a2b8;
+    --dashboard-card-text: #ffffff;
+    --dashboard-bg-contrast: #e9ecef;
 
-    /* Chart specific colors */
     --chart-male: #007bff;
     --chart-female: #dc3545;
-    --chart-bar-color: #6f42c1; /* Purple */
-    --chart-bar-bg: #e2e6ea; /* Light gray for bars */
+    --chart-bar-color: #6f42c1;
+    --chart-bar-bg: #e2e6ea;
 }
 
 /* Custom scrollbar for better aesthetics */
