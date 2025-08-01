@@ -59,6 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $caseModel->insertFilesToCase($docket, $encodedBlobs);
     }
 
-    header("Location: ../app/app.php?entry=success");
+    header("Location: ../app/app.php?status=success");
     exit;
 }

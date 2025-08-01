@@ -193,4 +193,29 @@ class GetRecordsModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function searchCases($query, $status = null) {
+        $sql = "SELECT c.*, h.Hearing_Type, h.Hearing_Status
+                FROM cases c
+                LEFT JOIN hearings h ON ct.Docket_Case_Number = h.Docket_Case_Number
+                WHERE ";
+
+        $params = [];
+        $conditions = [];
+
+        $conditions[] = "(ct.Docket_Case_Number LIKE ? OR h.Hearing_Type LIKE ?)";
+        $params[] = '%' . $query . '%';
+        $params[] = '%' . $query . '%';
+
+        if ($status !== null) {
+            $conditions[] = "h.Hearing_Status = ?";
+            $params[] = $status;
+        }
+
+        $sql .= implode(" AND ", $conditions);
+        $sql .= " ORDER BY ct.created_at DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

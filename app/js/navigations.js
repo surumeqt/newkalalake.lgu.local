@@ -61,4 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
             sidebar.classList.toggle('active');
         });
     }
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('status')) {
+        url.searchParams.delete('status');
+        window.history.replaceState({}, document.title, url.toString());
+    }
 });

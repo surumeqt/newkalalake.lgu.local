@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'is_deceased' => $_POST['editIsDeceased'] === 'true' ? 1 : 0,
         'educational_attainment' => $_POST['editEducationalAttainment'] ?? null,
         'occupation' => $_POST['editOccupation'] ?? null,
-        'job_title' => $_POST['editjobTitle'] ?? null, // Corrected 'editJobTitle' to 'editjobTitle' as per HTML
+        'job_title' => $_POST['editjobTitle'] ?? null,
         'monthly_income' => $_POST['editMonthlyIncome'] ?? null,
 
         // Emergency Contact Information
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'emergency_contact_no' => $_POST['editEmergencyContactNo'] ?? null,
 
         // Business Information
-        'have_a_business' => $_POST['haveABusiness'] ?? null, // This will be 'true' or 'false' string
+        'have_a_business' => $_POST['haveABusiness'] ?? null,
         'business_name' => $_POST['editBusinessName'] ?? null,
         'business_address' => $_POST['editBusinessAddress'] ?? null,
 
@@ -34,9 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'father_last_name' => $_POST['editFatherLastName'] ?? null,
         'father_suffix' => $_POST['editFatherSuffix'] ?? null,
         'father_birth_date' => $_POST['editFatherBirthDate'] ?? null,
-        'father_age' => $_POST['editFatherAge'] ?? null, // Similar to resident age, consider recalculating
+        'father_age' => $_POST['editFatherAge'] ?? null,
         'father_is_deceased' => $_POST['editFatherIsDeceased'] === 'true' ? 1 : 0,
-        'father_deceased_date' => $_POST['editFatherDeceasedDate'] ?? null, // This field is not in your HTML, you might need to add it or remove this line.
+        // 'father_deceased_date' => $_POST['editFatherDeceasedDate'] ?? null, // This is not in the form
         'father_occupation' => $_POST['editFatherOccupation'] ?? null,
         'father_educational_attainment' => $_POST['editFatherEducationalAttainment'] ?? null,
         'father_contact_no' => $_POST['editFatherContactNo'] ?? null,
@@ -47,9 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'mother_last_name' => $_POST['editMotherLastName'] ?? null,
         'mother_suffix' => $_POST['editMotherSuffix'] ?? null,
         'mother_birth_date' => $_POST['editMotherBirthDate'] ?? null,
-        'mother_age' => $_POST['editMotherAge'] ?? null, // Similar to resident age, consider recalculating
+        'mother_age' => $_POST['editMotherAge'] ?? null,
         'mother_is_deceased' => $_POST['editMotherIsDeceased'] === 'true' ? 1 : 0,
-        'mother_deceased_date' => $_POST['editMotherDeceasedDate'] ?? null, // This field is not in your HTML, you might need to add it or remove this line.
+        // 'mother_deceased_date' => $_POST['editMotherDeceasedDate'] ?? null, // This is not in the form
         'mother_occupation' => $_POST['editMotherOccupation'] ?? null,
         'mother_educational_attainment' => $_POST['editMotherEducationalAttainment'] ?? null,
         'mother_contact_no' => $_POST['editMotherContactNo'] ?? null,
@@ -60,7 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'order_of_birth' => $_POST['editOrderOfBirth'] ?? null,
     ];
 
-    $success = $residentModel->insertAddedInfo($resident_id, $data);
+    $recordExists = $residentModel->hasAddedInfo($resident_id);
+
+    if ($recordExists) {
+        $success = $residentModel->updateAddedInfo($resident_id, $data);
+    } else {
+        $success = $residentModel->insertAddedInfo($resident_id, $data);
+    }
 
     if ($success) {
         header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=updated");

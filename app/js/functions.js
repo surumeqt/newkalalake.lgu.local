@@ -75,26 +75,40 @@ function setSelectOption(selectId, valueToSet) {
     selectElement.value = valueToSet;
 }
 
+let currentGalleryImages = [];
+let currentDocketNumber = '';
+
 function showGalleryImages(docketNumber) {
+    currentDocketNumber = docketNumber;
     const xhr = new XMLHttpRequest();
     xhr.open("GET", `../backend/get.gallery.php?docket=${encodeURIComponent(docketNumber)}`, true);
     xhr.setRequestHeader('Accept', 'application/json');
 
+    const modal = document.getElementById('gallery-modal');
+    const galleryContainer = modal.querySelector('.gallery-images');
+    const downloadBtn = document.getElementById('download-gallery-btn');
+    const loadingIndicator = document.getElementById('pdf-loading-indicator');
+
+    galleryContainer.innerHTML = '';
+    downloadBtn.disabled = true;
+    loadingIndicator.classList.add('hidden');
+    currentGalleryImages = [];
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-            const modal = document.getElementById('gallery-modal');
-            const galleryContainer = modal.querySelector('.gallery-images');
-
             if (xhr.status === 200) {
                 try {
                     const images = JSON.parse(xhr.responseText);
 
                     if (Array.isArray(images) && images.length > 0) {
+                        currentGalleryImages = images;
                         galleryContainer.innerHTML = images.map(base64 => `
                             <img src="data:image/jpeg;base64,${base64}" class="gallery-image" alt="Uploaded Image" />
                         `).join('');
+                        downloadBtn.disabled = false;
                     } else {
                         galleryContainer.innerHTML = '<p class="text-gray-600">No images uploaded for this case yet.</p>';
+                        downloadBtn.disabled = true;
                     }
 
                     modal.classList.add('active');
@@ -103,15 +117,71 @@ function showGalleryImages(docketNumber) {
                 } catch (e) {
                     galleryContainer.innerHTML = '<p class="text-red-600">Error loading images: Invalid data received.</p>';
                     console.error("Invalid JSON from backend:", xhr.responseText, e);
+                    downloadBtn.disabled = true;
                 }
             } else {
                 galleryContainer.innerHTML = `<p class="text-red-600">Failed to load images. Server responded with status: ${xhr.status}</p>`;
                 console.error("Server error:", xhr.status, xhr.responseText);
+                downloadBtn.disabled = true;
             }
         }
     };
-
     xhr.send();
+}
+async function initiateServerPdfDownload() {
+    if (currentGalleryImages.length === 0) {
+        console.warn("No images to download.");
+        return;
+    }
+
+    const downloadBtn = document.getElementById('download-gallery-btn');
+    const loadingIndicator = document.getElementById('pdf-loading-indicator');
+
+    downloadBtn.disabled = true;
+    loadingIndicator.classList.remove('hidden');
+
+    try {
+        const formData = new FormData();
+        formData.append('docketNumber', currentDocketNumber);
+        currentGalleryImages.forEach((base64, index) => {
+            formData.append(`images[${index}]`, base64);
+        });
+
+        const response = await fetch('../backend/download.view.images.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            const contentDisposition = response.headers.get('Content-Disposition');
+            let filename = `Gallery_${currentDocketNumber || 'unknown'}.pdf`;
+            if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
+                const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+                if (filenameMatch && filenameMatch.length > 1) {
+                    filename = filenameMatch[1];
+                }
+            }
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } else {
+            const errorText = await response.text();
+            console.error("Server responded with an error:", response.status, errorText);
+            alert(`Failed to generate PDF: ${errorText || 'Server error'}`);
+        }
+    } catch (error) {
+        console.error("Error initiating PDF download:", error);
+        alert("An unexpected error occurred while trying to download the PDF.");
+    } finally {
+        downloadBtn.disabled = false;
+        loadingIndicator.classList.add('hidden');
+    }
 }
 
 function closeGalleryModal() {

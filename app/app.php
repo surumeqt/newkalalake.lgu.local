@@ -61,7 +61,7 @@
                     <path d="M5 13l4 4L19 7" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <div class="success-message">Case successfully submitted!</div>
+            <div class="success-message">Successfull!</div>
         </div>
     <?php endif; ?>
 
@@ -172,6 +172,10 @@
     <div id="gallery-modal" class="modal-overlay-gallery">
         <div class="modal-content-gallery">
             <h3>Uploaded Files</h3>
+            <button id="download-gallery-btn" onclick="initiateServerPdfDownload()" disabled>
+                Download as PDF
+            </button>
+            <span id="pdf-loading-indicator" class="hidden">Generating PDF...</span>
             <div class="gallery-images"></div>
             <div class="modal-actions">
                 <button onclick="closeGalleryModal()" class="btn btn-cancel">Close</button>

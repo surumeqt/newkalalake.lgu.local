@@ -62,6 +62,7 @@
         </div>
     </div>
     <!-- Add Resident Status Modal if success or error -->
+     
     <!-- Toast Container -->
     <div id="notification-toast" class="notification-toast">
         <div id="toast-content" class="toast-content">

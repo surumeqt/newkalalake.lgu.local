@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $case->createCase($formData);
         $case->addHearing($formData);
         $case->saveAppealDocument($formData);
-        header("Location: ../app/app.php?entry=success");
+        header("Location: ../app/app.php?status=success");
         exit();
     } catch (PDOException $e) {
         echo "Database Error: " . $e->getMessage();

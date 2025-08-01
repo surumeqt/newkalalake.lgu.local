@@ -22,7 +22,6 @@
                         <option value="Dismissed">Dismissed</option>
                         <option value="Withdrawn">Withdrawn</option>
                         <option value="CFA">CFA</option>
-                        <option value="Banned">Banned</option>
                     </select>
                 </div>
             </div>
@@ -77,7 +76,6 @@
                                     data-docket="<?= htmlspecialchars($row['Docket_Case_Number']) ?>">
                                     View
                                 </button>
-                                <button class="table-action-btn edit-btn">Edit</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
