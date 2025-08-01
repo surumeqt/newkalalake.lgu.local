@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <?php include '../backend/helpers/redirects.php'; 
-    redirectIfNotLoggedIn(); 
+    <?php include '../backend/helpers/redirects.php';
+    redirectIfNotLoggedIn();
     $user_email = $_SESSION['username'];
     $showStatus = $_GET['status'] ?? '';
     ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGU - Brgy. New Kalalake System</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="css/app.admin.css">
     <link rel="stylesheet" href="css/modal.style.css">
 </head>
+
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">
@@ -58,7 +61,8 @@
         <div id="success-toast" class="success-toast">
             <div class="success-icon">
                 <svg viewBox="0 0 24 24" class="checkmark">
-                    <path d="M5 13l4 4L19 7" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5 13l4 4L19 7" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
             </div>
             <div class="success-message">Successful!</div>
@@ -67,7 +71,8 @@
         <div id="failed-toast" class="failed-toast">
             <div class="failed-icon">
                 <svg viewBox="0 0 24 24" class="crossmark">
-                    <path d="M18 6L6 18M6 6l12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18 6L6 18M6 6l12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
             </div>
             <div class="failed-message">Something Went Wrong!</div>
@@ -94,7 +99,8 @@
                 <input type="hidden" name="Docket_Case_Number" id="modal-docket-status">
                 <input type="hidden" name="Hearing_Status" id="status-selected-value">
 
-                <div class="form-group-status-select"> <label for="status-selection" class="summary-label">Select New Status:</label>
+                <div class="form-group-status-select"> <label for="status-selection" class="summary-label">Select New
+                        Status:</label>
                     <select id="status-selection" class="summary-select" required>
                         <option value="">-- Choose Status --</option>
                         <option name="Hearing_Status" value="Rehearing">Rehearing</option>
@@ -107,12 +113,8 @@
 
                 <div class="form-group-summary" id="status-report-summary-group" style="display: none;">
                     <label for="status_report_summary_text" class="summary-label">Report Summary:</label>
-                    <textarea
-                        id="status_report_summary_text"
-                        name="report_summary_text"
-                        rows="5"
-                        placeholder="Enter summary details here..."
-                        class="summary-textarea"></textarea>
+                    <textarea id="status_report_summary_text" name="report_summary_text" rows="5"
+                        placeholder="Enter summary details here..." class="summary-textarea"></textarea>
                 </div>
 
                 <div class="modal-actions-status">
@@ -122,7 +124,7 @@
             </form>
         </div>
     </div>
-    
+
 
     <!-- Summary Modal -->
     <div id="summary-modal" class="modal-overlay-summary">
@@ -134,13 +136,8 @@
 
                 <div class="form-group-summary">
                     <label for="report_summary_text" class="summary-label">Summary Details</label>
-                    <textarea
-                        id="report_summary_text"
-                        name="report_summary_text"
-                        rows="8"
-                        placeholder="Type the report summary here..."
-                        required
-                        class="summary-textarea"></textarea>
+                    <textarea id="report_summary_text" name="report_summary_text" rows="8"
+                        placeholder="Type the report summary here..." required class="summary-textarea"></textarea>
                 </div>
 
                 <div class="modal-actions-summary">
@@ -150,16 +147,18 @@
                             <select id="action-selection" class="summary-select" required>
                                 <option value="">-- Choose Option --</option>
                                 <option name="Hearing_Status" value="Ongoing">Ongoing</option>
-                                </select>
+                            </select>
                         </div>
                         <div class="form-group-date" id="next-hearing-date-group">
                             <label for="next_hearing_date" class="summary-label">Next Hearing Date</label>
-                            <input type="date" id="next_hearing_date" name="Hearing_Date" class="summary-input" required>
+                            <input type="date" id="next_hearing_date" name="Hearing_Date" class="summary-input"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="time">Time of Hearing (ex. 10:00 AM)</label>
                             <div class="form-relative-summary">
-                                <input type="text" placeholder="Enter Time of Hearing" id="hours" name="hours" required class="form-input">
+                                <input type="text" placeholder="Enter Time of Hearing" id="hours" name="hours" required
+                                    class="form-input">
                                 <select id="iat" name="iat" required class="form-relative-select-summary">
                                     <option value="">-- Select Time Class --</option>
                                     <option value="AM">AM</option>
@@ -199,4 +198,5 @@
     <script src="js/modal.logic.js"></script>
     <script src="js/modal.logic-summary.js"></script>
 </body>
+
 </html>
