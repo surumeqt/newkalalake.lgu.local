@@ -25,5 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } catch (PDOException $e) {
         echo "Database Error: " . $e->getMessage();
+        header("Location: ../app/app.php?status=failed");
+        exit();
     }
 }

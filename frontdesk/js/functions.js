@@ -195,16 +195,14 @@ function handleCertificateChange(selectElement) {
         inputs.forEach(input => {
             input.setAttribute('disabled', 'disabled');
             if (input.type !== 'submit' && input.type !== 'button') {
-                input.value = ''; // Clear values of hidden inputs
+                input.value = '';
             }
         });
     });
 
     // --- NEW LOGIC FOR PLACEHOLDER VISIBILITY ---
     if (placeholder) {
-        // Ensure placeholder element exists
         if (selectedCertificate === "") {
-            // Assuming "" is the value for your default/placeholder option
             placeholder.style.display = "block"; // Show the placeholder
         } else {
             placeholder.style.display = "none"; // Hide the placeholder
@@ -232,7 +230,7 @@ function fillResidentData(inputElement) {
     const section = inputElement.closest(".certificate-input-section");
     const name = inputElement.value.trim();
 
-    if (name.length < 3) return; // Only search if name is at least 3 characters long
+    if (name.length < 3) return;
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
@@ -249,10 +247,10 @@ function fillResidentData(inputElement) {
                     'resident-age': 'age',
                     'resident-address': 'address',
                     'resident-birthdate': 'birthday',
-                    'resident-monthly-salary': 'monthly_income', // Added for low income cert
-                    'resident-occupation': 'occupation',         // Added for low income cert
-                    'resident-business-name': 'business_name',   // Added for endorsement
-                    'resident-business-address': 'business_address' // Added for endorsement
+                    'resident-monthly-salary': 'monthly_income',
+                    'resident-occupation': 'occupation',
+                    'resident-business-name': 'business_name',
+                    'resident-business-address': 'business_address'
                 };
 
                 Object.entries(map).forEach(([selector, key]) => {
@@ -441,6 +439,7 @@ function populateEditModal(residentId) {
                         const resident = response.data;
 
                         // --- Section 1: .profile-header-content ---
+                        
                         // Profile Image
                         const profileImage = document.querySelector('.profile-image img');
                         if (profileImage) {

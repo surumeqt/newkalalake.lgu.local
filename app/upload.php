@@ -91,8 +91,8 @@
             <h3 class="upload-section-title">Document Upload</h3>
             <div class="upload-form-group">
                 <label for="upload_file_input" class="upload-form-label">Select Files</label>
-                <input type="file" id="upload_file_input" name="file_upload[]" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple class="upload-form-input-file">
-                <p class="upload-text-sm upload-text-gray-500 mt-1">Select one or more PDF, DOC, DOCX, JPG, or PNG files.</p>
+                <input type="file" id="upload_file_input" name="file_upload[]" accept=".svg,.jpg,.jpeg,.png" multiple class="upload-form-input-file">
+                <p class="upload-text-sm upload-text-gray-500 mt-1">Select one or more PNG, JPEG, JPG, or SVG files.</p>
             </div>
         </div>
 

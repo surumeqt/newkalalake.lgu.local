@@ -353,21 +353,19 @@
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
-/* Add this to your existing CSS file, e.g., styles.css */
 
 .summary-input[readonly],
-.summary-select[readonly], /* In case you want to apply this to select in the future */
+.summary-select[readonly],
 .summary-textarea[readonly] {
-    background-color: #e9ecef; /* A light dark gray to indicate non-interactiveness */
-    color: #495057; /* Slightly darker text for better contrast */
-    cursor: not-allowed; /* Indicate it's not editable */
+    background-color: #e9ecef;
+    color: #495057;
+    cursor: not-allowed;
     border: 1px solid #ced4da;
     box-shadow: none;
 }
 
-/* Style for the label when its associated input is read-only (optional, but good for consistency) */
 .summary-label.read-only {
-    color: #6c757d; /* Lighter text color for the label */
+    color: #6c757d;
 }
 
 .form-relative-summary{
@@ -565,12 +563,14 @@
 /* IMAGE MODAL END */
 
 
-/* Toast Container */
-.success-toast {
+/* TOAST NOTIFICATIONS */
+
+/* Base toast style */
+.success-toast,
+.failed-toast {
     position: fixed;
     top: 30px;
     right: 30px;
-    background-color: #38a169;
     color: white;
     padding: 16px 24px;
     border-radius: 8px;
@@ -582,8 +582,12 @@
     animation: slideFade 4s ease-in-out forwards;
 }
 
-/* Checkmark Icon */
-.success-icon {
+/* Success Toast Specific Styles */
+.success-toast {
+    background-color: #38a169;
+}
+
+.success-toast .success-icon {
     background-color: #2f855a;
     border-radius: 50%;
     padding: 8px;
@@ -592,7 +596,7 @@
     justify-content: center;
 }
 
-.checkmark {
+.success-toast .checkmark {
     width: 24px;
     height: 24px;
     stroke-dasharray: 48;
@@ -600,12 +604,47 @@
     animation: drawCheck 0.6s ease-out forwards;
 }
 
-.success-message {
+.success-toast .success-message {
     font-weight: 600;
     font-size: 16px;
 }
 
+/* Failed Toast Specific Styles */
+
+.failed-toast {
+    background-color: #e53e3e;
+}
+
+.failed-toast .failed-icon {
+    background-color: #c53030;
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.failed-toast .crossmark {
+    width: 24px;
+    height: 24px;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: drawCross 0.6s ease-out forwards;
+}
+
+.failed-toast .failed-message {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+
 @keyframes drawCheck {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes drawCross {
     to {
         stroke-dashoffset: 0;
     }

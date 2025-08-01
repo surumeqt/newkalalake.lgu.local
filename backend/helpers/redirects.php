@@ -9,10 +9,10 @@ function redirectIfNotLoggedIn() {
 function redirectBasedOnRole($role) {
     switch ($role) {
         case 'admin':
-            header("Location: /newkalalake.lgu.local/app/app.php");
+            header("Location: /newkalalake.lgu.local/app/app.php?status=success");
             break;
         case 'frontdesk':
-            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php");
+            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php??status=success");
             break;
         default:
             header('Location: ./index.php');

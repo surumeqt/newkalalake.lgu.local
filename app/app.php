@@ -4,7 +4,7 @@
     <?php include '../backend/helpers/redirects.php'; 
     redirectIfNotLoggedIn(); 
     $user_email = $_SESSION['username'];
-    $showSuccess = isset($_GET['status']) && $_GET['status'] === 'success';
+    $showStatus = $_GET['status'] ?? '';
     ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,14 +54,23 @@
     </div>
 
     <!-- MODALS -->
-    <?php if ($showSuccess): ?>
+    <?php if ($showStatus === 'success'): ?>
         <div id="success-toast" class="success-toast">
             <div class="success-icon">
                 <svg viewBox="0 0 24 24" class="checkmark">
                     <path d="M5 13l4 4L19 7" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <div class="success-message">Successfull!</div>
+            <div class="success-message">Successful!</div>
+        </div>
+    <?php elseif ($showStatus === 'failed'): ?>
+        <div id="failed-toast" class="failed-toast">
+            <div class="failed-icon">
+                <svg viewBox="0 0 24 24" class="crossmark">
+                    <path d="M18 6L6 18M6 6l12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="failed-message">Something Went Wrong!</div>
         </div>
     <?php endif; ?>
 

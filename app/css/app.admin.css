@@ -113,8 +113,8 @@ body {
     margin-bottom: var(--spacing-md);
 }
 .brgy_logo {
-    width: 5rem; /* 80px */
-    height: 5rem; /* 80px */
+    width: 5rem;
+    height: 5rem;
     margin-bottom: var(--spacing-sm);
 }
 .logo-area h1 {
