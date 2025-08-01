@@ -4,7 +4,7 @@ require_once __DIR__ . '/config/database.config.php';
 require_once __DIR__ . '/models/user.model.php';
 require_once __DIR__ . '/helpers/redirects.php';
 
-$message = ''; // Initialize message variable
+$message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['email'] ?? '';
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $loggedInUser['user_id'];
         $_SESSION['username'] = $loggedInUser['username'];
         $_SESSION['role'] = $loggedInUser['role'];
-        redirectBasedOnRole($loggedInUser['role']);
+        redirectBasedOnRole($loggedInUser['role'], '?status=success');
         exit;
     } else {
         $message = "Invalid credentials!";
@@ -27,23 +27,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php if (!empty($message)): ?>
     <div style="
-        background-color: #f8d7da; /* Light red background */
-        color: #721c24; /* Dark red text */
-        border: 1px solid #f5c6cb; /* Red border */
-        padding: 15px 20px; /* Increased padding */
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        padding: 15px 20px;
         margin-bottom: 20px;
-        border-radius: 8px; /* Slightly more rounded corners */
+        border-radius: 8px;
         text-align: center;
-        font-size: 1rem; /* Slightly larger font */
-        max-width: 400px; /* Adjust as needed for your layout */
+        font-size: 1rem;
+        max-width: 400px;
         margin-left: auto;
         margin-right: auto;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtle shadow */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     ">
         <p style="margin-bottom: 15px; font-weight: 600;"><?= htmlspecialchars($message) ?></p>
         <a href="../index.php" style="
             display: inline-block;
-            background-color: #dc3545; /* Red button style */
+            background-color: #dc3545;
             color: white;
             padding: 10px 20px;
             border-radius: 5px;

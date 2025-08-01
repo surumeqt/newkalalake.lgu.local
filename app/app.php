@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <?php include '../backend/helpers/redirects.php';
-    redirectIfNotLoggedIn();
+    redirectIfNotLoggedIn(['lupon']);
     $user_email = $_SESSION['username'];
     $showStatus = $_GET['status'] ?? '';
     ?>
@@ -14,7 +13,6 @@
     <link rel="stylesheet" href="css/app.admin.css">
     <link rel="stylesheet" href="css/modal.style.css">
 </head>
-
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">

@@ -1,18 +1,32 @@
 <?php
-function redirectIfNotLoggedIn() {
+function redirectIfNotLoggedIn($allowedRoles = []) {
     session_start();
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: ../index.php?Invalid+Access');
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
+        header('Location: ../index.php?error=unauthorized');
         exit();
     }
+
+    if (!in_array($_SESSION['role'], $allowedRoles)) {
+        switch ($_SESSION['role']) {
+            case 'lupon':
+                redirectBasedOnRole('lupon', '?status=failed');
+                break;
+            case 'admin':
+                redirectBasedOnRole('admin', '?status=failed');
+                break;
+            default:
+                header('Location: ../../frontdesk/logout.php');
+                exit();
+        }
+    }
 }
-function redirectBasedOnRole($role) {
+function redirectBasedOnRole($role, $message = '') {
     switch ($role) {
         case 'lupon':
-            header("Location: /newkalalake.lgu.local/app/app.php?status=success");
+            header("Location: /newkalalake.lgu.local/app/app.php"."$message");
             break;
         case 'admin':
-            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=success");
+            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php"."$message");
             break;
         default:
             header('Location: ../index.php');

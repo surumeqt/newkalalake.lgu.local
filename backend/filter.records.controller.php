@@ -39,7 +39,6 @@ foreach ($records as $row) {
                 data-docket=". htmlspecialchars($row['Docket_Case_Number']) . "
                 >View
             </button>
-            <button class='table-action-btn edit-btn'>Edit</button>
         </td>
     </tr>";
 }
