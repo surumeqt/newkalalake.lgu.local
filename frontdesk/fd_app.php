@@ -62,7 +62,7 @@
         </div>
     </div>
     <!-- Add Resident Status Modal if success or error -->
-     
+
     <!-- Toast Container -->
     <div id="notification-toast" class="notification-toast">
         <div id="toast-content" class="toast-content">
@@ -677,12 +677,8 @@
             <h1>Delete this Resident</h1>
             <p>Are you sure you want to delete this resident?</p>
             <form action="../backend/fd_controllers/delete.controller.php" method="POST">
-                <p>
-                    Delete resident with ID:
-                    <input type="text" id="resident-id-display-delete" name="resident_id"
-                        class="resident-id-display-input" readonly>
-                    <span>resident name</span>
-                </p>
+                <input type="text" id="resident-id-display-delete" name="resident_id" class="resident-id-display-input"
+                    hidden>
                 <div class="delete-modal-actions">
                     <button class="action-button delete" type="submit" name="delete"> Yes, Delete</button>
                     <button class="action-button close-edit-btn" type="button" onclick="closeEditModal()">Close</button>
@@ -690,6 +686,21 @@
             </form>
         </div>
     </div>
+    <div id="delete-certificate-modal">
+        <div class="delete-resident-modal-content">
+            <h1>Delete this Certificate</h1>
+            <p>Are you sure you want to delete this certificate?</p>
+            <form action="../backend/fd_controllers/delete_certificate.controller.php" method="POST">
+                <input type="text" id="certificate-id-display-delete" name="certificate_id"
+                    class="resident-id-display-input" hidden>
+                <div class="delete-modal-actions">
+                    <button class="action-button delete" type="submit" name="delete_certificate">Yes, Delete</button>
+                    <button class="action-button close-edit-btn" type="button" onclick="closeEditModal()">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODALS END -->
 
     <script src="js/navigations.js"></script>

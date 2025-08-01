@@ -34,6 +34,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 message = "Failed to issue certificate.";
                 icon = "images/icons/cross-48.png";
                 break;
+            case "deleted":
+                message = "Resident deleted successfully!";
+                icon = "images/icons/checkmark-48.png";
+                break;
+            case "cert_deleted":
+                message = "Certificate deleted successfully!";
+                icon = "images/icons/checkmark-48.png";
+                break;
             default:
                 return;
         }

@@ -578,6 +578,15 @@ function populateEditModal(residentId) {
     xhrResident.open("POST", "../backend/fd_controllers/fill.edit.resident.modal.php", true);
     xhrResident.send(formDataResident);
 }
+function deleteCertificate(certId) {
+    const modal = getElement("delete-certificate-modal");
+    const idDisplay = getElement("certificate-id-display-delete");
+
+    if (modal && idDisplay) {
+        idDisplay.value = certId;
+        modal.classList.add("show");
+    }
+}
 
 function fetchCertificatesForResident(residentId) {
     const certificatesTableBody = getElement('certificates-table-body');
@@ -716,6 +725,8 @@ function closeEditModal() {
     // Also close other modals if they are open (original behavior from your functions.js)
     const deleteModal = getElement('delete-resident-modal');
     if (deleteModal) deleteModal.classList.remove('show');
+    const certDeleteModal = getElement("delete-certificate-modal");
+    if (certDeleteModal) certDeleteModal.classList.remove("show");
     const addModal = getElement('add-resident-modal');
     if (addModal) addModal.classList.remove('show');
 }
