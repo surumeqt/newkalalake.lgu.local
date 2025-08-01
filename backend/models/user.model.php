@@ -25,20 +25,4 @@ class user {
         }
         return false;
     }
-
-    public function getAllUsers() {
-        $stmt = $this->conn->query("SELECT user_id, username, position, role, createdAt FROM users");
-        return $stmt->fetchAll();
-    }
-
-    public function deleteUser($user_id) {
-        $stmt = $this->conn->prepare("DELETE FROM users WHERE user_id = ?");
-        return $stmt->execute([$user_id]);
-    }
-
-    public function findById($user_id) {
-        $stmt = $this->conn->prepare("SELECT user_id, username, position, role FROM users WHERE user_id = ?");
-        $stmt->execute([$user_id]);
-        return $stmt->fetch();
-    }
 }

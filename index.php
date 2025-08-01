@@ -13,7 +13,7 @@
         <!-- Header Section -->
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800 mb-2">Barangay New Kalalake - LGU</h1>
-            <p class="text-gray-600">Data Encoding Login</p>
+            <p class="text-gray-600">Data Encoding & Database Login</p>
         </div>
 
         <!-- Login Form -->

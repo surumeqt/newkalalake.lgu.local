@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <?php include '../backend/helpers/redirects.php';
     redirectIfNotLoggedIn();
@@ -11,8 +10,7 @@
     <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="css/app.frontdesk.css">
     <link rel="stylesheet" href="css/modal.style.css">
-</head>
-
+</head> 
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">

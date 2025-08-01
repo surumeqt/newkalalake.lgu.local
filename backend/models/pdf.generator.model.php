@@ -571,8 +571,8 @@ class PDFGenerator extends FPDF {
         $this->SetFont('Times', '', 11);
         $this->Write(5, " permission to ");
 
-        $this->SetFont('Times', 'B', 11);
-        $this->Write(5, strtoupper($this->data['purpose']) . ".");
+        $this->SetFont('Times', '', 11);
+        $this->Write(5, $this->data['purpose'] . ".");
 
         $this->Ln(10);
         $this->SetFont('Times', '', 11);
@@ -984,7 +984,7 @@ class PDFGenerator extends FPDF {
         $this->Ln(5);
         $this->Write(5, "         This certificate is issued upon the request of the above-mentioned for ");
         $this->SetFont('Times', 'B', 11);
-        $this->Write(5, strtoupper($this->data['purpose']));
+        $this->Write(5, strtoupper($this->data['purpose'])." PURPOSES");
         $this->SetFont('Times', '', 11);
         $this->Write(5, " and for whatever legal intent it may serve.");
 

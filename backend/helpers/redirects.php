@@ -8,14 +8,14 @@ function redirectIfNotLoggedIn() {
 }
 function redirectBasedOnRole($role) {
     switch ($role) {
-        case 'admin':
+        case 'lupon':
             header("Location: /newkalalake.lgu.local/app/app.php?status=success");
             break;
-        case 'frontdesk':
-            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php??status=success");
+        case 'admin':
+            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=success");
             break;
         default:
-            header('Location: ./index.php');
+            header('Location: ../index.php');
     }
     exit();
 }
