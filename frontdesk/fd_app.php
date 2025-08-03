@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <?php include '../backend/helpers/redirects.php';
     redirectIfNotLoggedIn(['admin']);
@@ -10,7 +11,8 @@
     <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="css/app.frontdesk.css">
     <link rel="stylesheet" href="css/modal.style.css">
-</head> 
+</head>
+
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">
@@ -212,9 +214,25 @@
                     <div class="form-divider">
                         <h3 class="section-title">Resident Photo Upload</h3>
                         <div class="form-group">
-                            <label class="field-label" for="photo">Resident Photo (Optional)</label>
-                            <input type="file" id="photo" name="file_upload[]" accept="image/*"
+                            <label class="field-label" for="photo-upload">Upload Resident Photo (Optional)</label>
+                            <input type="file" id="photo-upload" name="file_upload[]" accept="image/*"
                                 class="form-control-file">
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label">Take Resident Photo (Optional)</label>
+                            <div class="camera-stuff-container">
+                                <video id="camera-feed" class="camera-feed" autoplay></video>
+                                <button type="button" id="start-camera-btn" class="btn btn-secondary">Start
+                                    Camera</button>
+                                <div class="camera-controls">
+                                    <button type="button" id="take-photo-btn" class="btn btn-primary"
+                                        style="display:none;">Take Photo</button>
+                                    <button type="button" id="stop-camera-btn" class="btn btn-danger"
+                                        style="display:none;">Stop Camera</button>
+                                </div>
+                            </div>
+                            <canvas id="photo-canvas" style="display:none;"></canvas>
+                            <input type="hidden" id="photo-blob" name="file_upload[]">
                         </div>
                     </div>
                 </div>
@@ -243,21 +261,39 @@
             </div>
 
             <!-- Form element now has id="edit-resident-form" and is initially hidden -->
-            <form action="../backend/fd_controllers/update.resident.controller.php" method="POST"
-                class="edit-modal-form" id="edit-resident-form">
+            <form id="edit-resident-form" action="../backend/fd_controllers/update.resident.controller.php"
+                method="POST" class="edit-modal-form" id="edit-resident-form" enctype="multipart/form-data">
                 <div class="resident-profile-sections">
                     <div class="top-info-row">
                         <div class="profile-section profile-summary">
-                            <div class="profile-header-content">
-                                <div class="profile-image">
-                                    <img src="images/logo.png" alt="user" />
+                            <div class="profile-header">
+                                <div class="profile-header-content">
+                                    <div class="profile-image">
+                                        <img id="resident-photo-display" src="images/logo.png" alt="user" />
+                                        <div class="edit-camera-stuff-container" style="display:none;">
+                                            <video id="edit-camera-feed" class="camera-feed" autoplay muted
+                                                playsinline></video>
+                                            <canvas id="edit-photo-canvas" style="display:none;"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="profile-meta-info">
+                                        <p><strong>ID:</strong><input type="text" class="profile-id"
+                                                id="resident-id-display" name="resident_id" readonly></p>
+                                        <p><strong>Status:</strong> <span class="profile-status">Not Banned</span></p>
+                                        <p><strong>Date Registered:</strong> <span>january 1, 2000</span></p>
+                                        <p><strong>Last Updated:</strong> <span>january 1, 2000</span></p>
+                                    </div>
                                 </div>
-                                <div class="profile-meta-info">
-                                    <p><strong>ID:</strong><input type="text" class="profile-id"
-                                            id="resident-id-display" name="resident_id" readonly></p>
-                                    <p><strong>Status:</strong> <span class="profile-status">Not Banned</span></p>
-                                    <p><strong>Date Registered:</strong> <span>january 1, 2000</span></p>
-                                    <p><strong>Last Updated:</strong> <span>january 1, 2000</span></p>
+                                <div class="alter-photo-btn-container">
+                                    <button type="button" id="edit-start-camera-btn" class="btn btn-secondary">Take
+                                        Photo</button>
+                                    <button type="button" id="edit-take-photo-btn" class="btn btn-primary"
+                                        style="display:none;">Capture</button>
+                                    <button type="button" id="edit-stop-camera-btn" class="btn btn-danger"
+                                        style="display:none;">Cancel</button>
+                                    <label class="field-label" for="edit-photo-upload">Update Photo</label>
+                                    <input type="file" id="edit-photo-upload" name="file_upload[]" accept="image/*"
+                                        class="form-control-file">
                                 </div>
                             </div>
                             <div class="basic-info-section">
@@ -705,6 +741,8 @@
     <script src="js/functions.js"></script>
     <script src="js/logout.modal.logic.js"></script>
     <script src="js/notifications.js"></script>
+    <script src="js/add_resident_camera.js"></script>
+    <script src="js/update_resident_camera.js"></script>
 </body>
 
 </html>

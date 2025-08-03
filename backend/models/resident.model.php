@@ -2,15 +2,18 @@
 require_once __DIR__ . '/../config/database.config.php';
 require_once __DIR__ . '/../helpers/formatters.php';
 
-class ResidentModel {
+class ResidentModel
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $db = new Connection();
         $this->conn = $db->connect();
     }
 
-    public function createResident($data) {
+    public function createResident($data)
+    {
         $query = "INSERT INTO residents (
             resident_id, first_name, middle_name, last_name, suffix,
             birthday, age, gender, civil_status, address,
@@ -37,16 +40,18 @@ class ResidentModel {
             $data['fileBlob']
         ]);
     }
-    public function hasAddedInfo($resident_id) {
+    public function hasAddedInfo($resident_id)
+    {
         $query = "SELECT COUNT(*) FROM residents_added_info WHERE resident_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$resident_id]);
         return $stmt->fetchColumn() > 0;
     }
 
-    public function insertAddedInfo($resident_id, $data) {
+    public function insertAddedInfo($resident_id, $data)
+    {
         $sql = "INSERT INTO residents_added_info (
-            resident_id, is_deceased, occupation, educational_attainment,
+            resident_id, is_deceased, deceased_date, occupation, educational_attainment,
             job_title, monthly_income,
             father_first_name, father_middle_name, father_last_name, father_suffix,
             father_birth_date, father_age, father_is_deceased, father_occupation,
@@ -65,7 +70,7 @@ class ResidentModel {
             ?, ?, ?, ?, ?,
             ?, ?, ?, ?, ?,
             ?, ?, ?,
-            ?, ?, ?
+            ?, ?, ?, ?
         )";
 
         $stmt = $this->conn->prepare($sql);
@@ -73,6 +78,7 @@ class ResidentModel {
         $values = [
             $resident_id,
             $data['is_deceased'] ?? null,
+            $data['deceased_date'] ?? null,
             $data['occupation'] ?? null,
             $data['educational_attainment'] ?? null,
             $data['job_title'] ?? null,
@@ -120,9 +126,11 @@ class ResidentModel {
 
         return $stmt->execute($values);
     }
-    public function updateAddedInfo($resident_id, $data) {
+    public function updateAddedInfo($resident_id, $data)
+    {
         $sql = "UPDATE residents_added_info SET
             is_deceased = ?,
+            deceased_date = ?,
             occupation = ?,
             educational_attainment = ?,
             job_title = ?,
@@ -162,6 +170,7 @@ class ResidentModel {
 
         $values = [
             $data['is_deceased'] ?? null,
+            $data['deceased_date'] ?? null,
             $data['occupation'] ?? null,
             $data['educational_attainment'] ?? null,
             $data['job_title'] ?? null,
@@ -205,31 +214,94 @@ class ResidentModel {
             $data['num_brothers'] ?? null,
             $data['num_sisters'] ?? null,
             $data['order_of_birth'] ?? null,
-            
+
             // WHERE clause
             $resident_id
         ];
 
         return $stmt->execute($values);
     }
-    public function getResidents(){
+    public function updateResident($resident_id, $data)
+    {
+        // Build the query dynamically to only include the photo if it exists.
+        $query = "UPDATE residents SET
+    first_name = ?,
+    middle_name = ?,
+    last_name = ?,
+    suffix = ?,
+    birthday = ?,
+    age = ?,
+    gender = ?,
+    civil_status = ?,
+    address = ?,
+    contact_number = ?,
+    email = ?";
+
+        $values = [
+            $data['editFirstName'],
+            $data['editMiddleName'],
+            $data['editLastName'],
+            $data['editSuffix'],
+            $data['editBirthDate'],
+            $data['editAge'],
+            $data['editGender'],
+            $data['editCivilStatus'],
+            $data['editAddress'],
+            $data['editContactNo'],
+            $data['editEmail']
+        ];
+
+        // Check if a new photo blob was provided.
+        if (!empty($data['fileBlob'])) {
+            $query .= ", photo = ?";
+            $values[] = $data['fileBlob'];
+        }
+
+        // Add the WHERE clause and resident_id to the values.
+        $query .= " WHERE resident_id = ?";
+        $values[] = $resident_id;
+
+        $stmt = $this->conn->prepare($query);
+
+        // Execute the query with the dynamically built values array.
+        return $stmt->execute($values);
+    }
+    public function startTransaction()
+    {
+        return $this->conn->beginTransaction();
+    }
+
+    public function commitTransaction()
+    {
+        return $this->conn->commit();
+    }
+
+    public function rollBackTransaction()
+    {
+        return $this->conn->rollBack();
+    }
+    public function getResidents()
+    {
         $query = "SELECT * FROM residents";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function deleteResident($id){
+    public function deleteResident($id)
+    {
         $query = "DELETE FROM residents WHERE resident_id = ?";
         $stmt = $this->conn->prepare($query);
         return $stmt->execute([$id]);
     }
-    public function searchByLnameOrFname($searchInput){
+    public function searchByLnameOrFname($searchInput)
+    {
         $query = "SELECT * FROM residents WHERE last_name LIKE ? OR first_name LIKE ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute(['%' . $searchInput . '%', '%' . $searchInput . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function findByFullName($name) {
+    public function findByFullName($name)
+    {
         $query = "SELECT * FROM residents WHERE 
             TRIM(
                 CONCAT_WS(' ',
@@ -247,7 +319,8 @@ class ResidentModel {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
-    public function getResidentDetailsById($residentId) {
+    public function getResidentDetailsById($residentId)
+    {
         $query = "SELECT
             r.resident_id,
             r.first_name,
@@ -317,14 +390,16 @@ class ResidentModel {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getTotalResidents() {
+    public function getTotalResidents()
+    {
         $query = "SELECT COUNT(resident_id) AS total_residents FROM residents";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total_residents'] ?? 0;
     }
-    public function getResidentsRegisteredToday() {
+    public function getResidentsRegisteredToday()
+    {
         $today = date('Y-m-d');
         $query = "SELECT COUNT(resident_id) AS residents_today FROM residents WHERE DATE(created_at) = ?";
         $stmt = $this->conn->prepare($query);
@@ -332,7 +407,8 @@ class ResidentModel {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['residents_today'] ?? 0;
     }
-    public function getGenderDistribution() {
+    public function getGenderDistribution()
+    {
         $query = "SELECT gender, COUNT(resident_id) AS count FROM residents GROUP BY gender";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -346,7 +422,8 @@ class ResidentModel {
         }
         return $distribution;
     }
-    public function getAgeGroupDistribution() {
+    public function getAgeGroupDistribution()
+    {
         $query = "SELECT
                     SUM(CASE WHEN age BETWEEN 0 AND 17 THEN 1 ELSE 0 END) AS age_0_17,
                     SUM(CASE WHEN age BETWEEN 18 AND 35 THEN 1 ELSE 0 END) AS age_18_35,
@@ -364,7 +441,8 @@ class ResidentModel {
             '60+' => (int)($result['age_60_plus'] ?? 0)
         ];
     }
-    public function getRecentResidentActivities($limit = 7) {
+    public function getRecentResidentActivities($limit = 7)
+    {
         $query = "SELECT
                         created_at AS activity_date,
                         CONCAT(first_name, ' ', last_name) AS resident_name,

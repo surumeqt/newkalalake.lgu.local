@@ -60,10 +60,11 @@
                 <h4 class="chart-title">Gender Distribution</h4>
                 <div class="chart-mockup bar-chart">
                     <div class="bar-set">
-                        <div class="bar" id="gender-male-bar" style="height: 70%; background-color: var(--chart-male);" title="Male: 688">
+                        <div class="bar" id="gender-male-bar" style="height: 70%; background-color: var(--chart-male);"
+                            title="Male: 688">
                         </div>
-                        <div class="bar" id="gender-female-bar" style="height: 55%; background-color: var(--chart-female);"
-                            title="Female: 562"></div>
+                        <div class="bar" id="gender-female-bar"
+                            style="height: 55%; background-color: var(--chart-female);" title="Female: 562"></div>
                     </div>
                     <div class="bar-labels">
                         <span>Male (<span id="gender-male-count">0</span>)</span>
@@ -83,10 +84,10 @@
                         <div class="bar" id="age-60-plus-bar" style="height: 30%;" title="60+: 250"></div>
                     </div>
                     <div class="bar-labels" id="age-group-labels">
-                        <span>0-17 (<span id="age-0-17-count">0</span>)</span>
-                        <span>18-35 (<span id="age-18-35-count">0</span>)</span>
-                        <span>36-60 (<span id="age-36-60-count">0</span>)</span>
-                        <span>60+ (<span id="age-60-plus-count">0</span>)</span>
+                        <span class="age-0-17">0-17 (<span id="age-0-17-count">0</span>)</span>
+                        <span class="age-18-35">18-35 (<span id="age-18-35-count">0</span>)</span>
+                        <span class="age-36-60">36-60 (<span id="age-36-60-count">0</span>)</span>
+                        <span class="age-60-plus">60+ (<span id="age-60-plus-count">0</span>)</span>
                     </div>
                 </div>
                 <small class="chart-note">Breakdown of residents by age categories.</small>

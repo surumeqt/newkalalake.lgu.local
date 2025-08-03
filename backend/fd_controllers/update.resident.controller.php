@@ -1,18 +1,51 @@
 <?php
 require_once __DIR__ . '/../models/resident.model.php';
 
-$residentModel = new ResidentModel();
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $residentModel = new ResidentModel();
     $resident_id = $_POST['resident_id'] ?? null;
 
     if (!$resident_id) {
         die("Resident ID is required.");
     }
 
+    $encodedBlob = null;
+    if (isset($_FILES['file_upload']) && $_FILES['file_upload']['error'][0] === UPLOAD_ERR_OK) {
+        $fileBlobs = [];
+        foreach ($_FILES['file_upload']['tmp_name'] as $index => $tmpName) {
+            $filedata = file_get_contents($tmpName);
+            // It's better to store the raw binary data directly, not Base64 encoded in the database.
+            // Let's pass the raw data to the model.
+            $fileBlobs[] = $filedata;
+        }
+        if (!empty($fileBlobs)) {
+            // Pass the raw data directly to the model.
+            $encodedBlob = $fileBlobs[0];
+        }
+    } else {
+        error_log("No photo uploaded or upload error: " . $_FILES['file_upload']['error'][0]);
+    }
+
+    // Add the file blob to the data array only if it exists.
     $data = [
-        // Resident's Personal Information
+        // Resident's Personal Information in table residents
+        'editFirstName' => $_POST['editFirstName'] ?? null,
+        'editMiddleName' => $_POST['editMiddleName'] ?? null,
+        'editLastName' => $_POST['editLastName'] ?? null,
+        'editSuffix' => $_POST['editSuffix'] ?? null,
+        'editBirthDate' => $_POST['editBirthDate'] ?? null,
+        'editAge' => $_POST['editAge'] ?? null,
+        'editGender' => $_POST['editGender'] ?? null,
+        'editCivilStatus' => $_POST['editCivilStatus'] ?? null,
+        'editAddress' => $_POST['editAddress'] ?? null,
+        'editContactNo' => $_POST['editContactNo'] ?? null,
+        'editEmail' => $_POST['editEmail'] ?? null,
+        'fileBlob' => $encodedBlob, // Pass raw blob data
+
+        // the rest of the data are from table residents_added_info
+        // Resident's additional Personal Information
         'is_deceased' => $_POST['editIsDeceased'] === 'true' ? 1 : 0,
+        'deceased_date' => $_POST['editDeceasedDate'] ?? null,
         'educational_attainment' => $_POST['editEducationalAttainment'] ?? null,
         'occupation' => $_POST['editOccupation'] ?? null,
         'job_title' => $_POST['editjobTitle'] ?? null,
@@ -60,18 +93,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'order_of_birth' => $_POST['editOrderOfBirth'] ?? null,
     ];
 
-    $recordExists = $residentModel->hasAddedInfo($resident_id);
+    // Wrap the updates in a transaction for atomicity
+    try {
+        $residentModel->startTransaction();
 
-    if ($recordExists) {
-        $success = $residentModel->updateAddedInfo($resident_id, $data);
-    } else {
-        $success = $residentModel->insertAddedInfo($resident_id, $data);
-    }
+        // 1. Update the main residents table
+        $success1 = $residentModel->updateResident($resident_id, $data);
 
-    if ($success) {
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=updated");
-        exit();
-    } else {
+        // 2. Update or insert into the residents_added_info table
+        $recordExists = $residentModel->hasAddedInfo($resident_id);
+
+        if ($recordExists) {
+            $success2 = $residentModel->updateAddedInfo($resident_id, $data);
+        } else {
+            $success2 = $residentModel->insertAddedInfo($resident_id, $data);
+        }
+
+        if ($success1 && $success2) {
+            $residentModel->commitTransaction();
+            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=updated");
+            exit();
+        } else {
+            $residentModel->rollBackTransaction();
+            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=update_failed");
+            exit();
+        }
+    } catch (Exception $e) {
+        $residentModel->rollBackTransaction();
+        // Log the error for debugging
+        error_log("Transaction failed: " . $e->getMessage());
         header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=update_failed");
         exit();
     }

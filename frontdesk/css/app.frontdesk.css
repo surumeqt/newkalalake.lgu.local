@@ -660,6 +660,42 @@ td img {
     border-color: #2563eb;
     color: #2563eb;
 }
+
+.camera-stuff-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Adjust maximum width as needed */
+    margin: 0 auto;
+    overflow: hidden;
+    /* border: 1px solid var(--border-light); */
+    border-radius: var(--border-radius-md);
+    background-color: var(--bg-dark);
+}
+
+.camera-feed {
+    display: none; /* Initially hidden */
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* Flips the video horizontally to mirror the user */
+    border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+}
+
+#start-camera-btn,
+#take-photo-btn,
+#stop-camera-btn {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+}
+
+.camera-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+}
+
 /* notifications.css */
 
 .notification-toast {
@@ -998,11 +1034,21 @@ td img {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
+}
+.alter-photo-btn-container {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: var(--spacing-xs);
+}
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
     margin-bottom: var(--spacing-md);
     padding-bottom: var(--spacing-md);
     border-bottom: 1px dashed var(--border-light);
 }
-
 .profile-image {
     width: 100px;
     height: 100px;
@@ -1025,7 +1071,6 @@ td img {
 .profile-meta-info p,
 .profile-meta-info p input {
     border: none;
-    margin-bottom: var(--spacing-xs);
     color: var(--light-text);
     font-size: 0.95rem;
 }
@@ -1426,7 +1471,7 @@ td img {
     border-bottom: 2px solid var(--border-light);
 }
 .bar-chart .bar {
-    width: 25%;
+    width: 35%;
     background-color: var(--chart-bar-color);
     border-radius: var(--border-radius-sm);
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
@@ -1464,7 +1509,12 @@ td img {
     color: var(--light-text);
     margin-top: var(--spacing-xs);
 }
-
+.age-18-35 {
+    margin-left: 1.2rem;
+}
+.age-36-60 {
+    margin-left: 0.5rem;
+}
 .chart-note {
     font-size: 0.8rem;
     color: var(--light-text);
