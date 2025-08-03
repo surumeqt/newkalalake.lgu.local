@@ -44,7 +44,7 @@
 
 /* Set the base font size for the entire document for rem scaling */
 html {
-    font-size: 16px;
+    font-size: 17px;
 }
 
 /* Custom scrollbar for better aesthetics */
@@ -412,7 +412,7 @@ body {
 
 .recent-cases-table th {
     padding: var(--spacing-xs) var(--spacing-md);
-    text-align: left;
+    text-align: center;
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--light-text);
@@ -668,7 +668,7 @@ body {
 
 .database-records-table th {
     padding: var(--spacing-xs) var(--spacing-md);
-    text-align: left;
+    text-align: center;
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--light-text);

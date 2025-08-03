@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['images']) && isset($_
     }
 
     header('Content-Type: application/pdf');
-    header('Content-Disposition: attachment; filename="Gallery_' . $docketNumber . '.pdf"');
+    header('Content-Disposition: attachment; filename="Docket_Number_' . $docketNumber . '.pdf"');
     header('Cache-Control: private, max-age=0, must-revalidate');
     header('Pragma: public');
     ini_set('zlib.output_compression','0');

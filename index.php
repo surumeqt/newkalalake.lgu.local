@@ -20,6 +20,10 @@
         body {
             font-family: 'Monda', sans-serif;
             background-color: #f0f2f5;
+            background-image: url('frontdesk/images/pdfbglogo.png');
+            background-repeat: repeat-x;
+            background-size: contain;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -42,6 +46,10 @@
             text-align: center;
             margin-bottom: 2.5rem;
         }
+        .header-section img {
+            width: 120px;
+            height: 120px;
+        }
 
         .header-section h1 {
             font-size: 2rem;
@@ -57,7 +65,7 @@
         }
 
         .form-spacing > div {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.50rem;
         }
 
         label {
@@ -144,29 +152,6 @@
             align-items: center;
         }
 
-        input[type="checkbox"] {
-            height: 1.1rem;
-            width: 1.1rem;
-            accent-color: #3498db;
-            border: 1px solid #c0c0c0;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            margin-right: 0.5rem;
-            flex-shrink: 0;
-        }
-
-        input[type="checkbox"]:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
-        }
-
-        .checkbox-label {
-            font-size: 0.9rem;
-            color: #34495e;
-            cursor: pointer;
-            margin-bottom: 0;
-        }
-
         .submit-button {
             width: 100%;
             display: flex;
@@ -197,6 +182,7 @@
 <body>
     <div class="login-card">
         <div class="header-section">
+            <img src="frontdesk/images/logo.png" alt="brgylogo">
             <h1>Barangay New Kalalake - LGU</h1>
             <p>Data Encoding & Database Login</p>
         </div>
@@ -232,18 +218,6 @@
                     <img src="app/images/close-eye-icon.png" alt="Hide Password" id="eye-closed-icon" class="hidden">
                 </button>
             </div>
-
-            <div class="flex-between">
-                <div class="flex-center-items">
-                    <input
-                        id="remember-me"
-                        name="remember-me"
-                        type="checkbox"
-                    >
-                    <label for="remember-me" class="checkbox-label">Remember me</label>
-                </div>
-            </div>
-
             <div>
                 <button type="submit" class="submit-button">Sign in</button>
             </div>
