@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         confirmLogoutBtn.addEventListener('click', () => {
-            window.location.href = "/newkalalake.lgu.local/app/components/logout.php";
+            window.location.href = "/newkalalake.lgu.local/app/logout.php";
         });
     }
 
@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statusModal) {
         statusModal.style.display = 'none';
     }
-
 
     // Function to toggle the visibility and required status of the report summary
     const toggleReportSummary = (selectedStatus) => {

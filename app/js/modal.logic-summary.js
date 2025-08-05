@@ -128,10 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             modalSelectedStatusForSubmit.value = selectedStatus;
 
-            console.log('Form Submit Data:');
-            console.log('Docket:', modalDocketInput.value);
-            console.log('Selected Status:', selectedStatus);
-            console.log('Summary:', summaryText);
+            // console.log('Form Submit Data:');
+            // console.log('Docket:', modalDocketInput.value);
+            // console.log('Selected Status:', selectedStatus);
+            // console.log('Summary:', summaryText);
             if (isNextHearingDateVisible) {
                 console.log('Next Hearing Date:', nextHearingDateValue);
             }
