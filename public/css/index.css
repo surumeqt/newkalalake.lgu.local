@@ -46,6 +46,7 @@ body {
     background-color: #003366;
     color: #fff;
     padding: 1.5rem 0;
+    height: 100vh;
     box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
     flex-shrink: 0;
     display: flex;
