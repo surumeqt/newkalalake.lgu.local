@@ -16,7 +16,7 @@
         </div>
 
         <!-- Login Form -->
-        <form class="form-spacing" action="backend/login.controller.php" method="POST">
+        <form class="form-spacing" action="../backend/login.controller.php" method="POST">
             <div>
                 <label for="email">Email Address</label>
                 <input
