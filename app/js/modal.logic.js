@@ -86,6 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Event listener for deleteing records
+    document.addEventListener('click', function (event) {
+        clickedViewButton = event.target.closest(".delete-btn");
+        if (clickedViewButton) {
+            const docket = clickedViewButton.getAttribute("data-docket");
+            deleteRecord(docket);
+        }
+    });
+
     // Event listener for the status dropdown change
     if (statusSelectionDropdown) {
         statusSelectionDropdown.addEventListener('change', function() {

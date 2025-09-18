@@ -128,6 +128,40 @@ function showGalleryImages(docketNumber) {
     };
     xhr.send();
 }
+
+function deleteRecord(docket) {
+    if (confirm(`Are you sure you want to delete the record with Docket No. ${docket}?`)) {
+        fetch('../backend/delete.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ docket: docket }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                const row = document.querySelector(`[data-docket="${docket}"]`).closest('tr');
+                if (row) {
+                    row.remove();
+                }
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while trying to delete the record.');
+        });
+    }
+}
+
 async function initiateServerPdfDownload() {
     if (currentGalleryImages.length === 0) {
         console.warn("No images to download.");

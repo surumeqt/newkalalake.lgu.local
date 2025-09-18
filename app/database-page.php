@@ -76,6 +76,11 @@
                                     data-docket="<?= htmlspecialchars($row['Docket_Case_Number']) ?>">
                                     View
                                 </button>
+                                <button
+                                    class="table-action-btn delete-btn"
+                                    data-docket="<?= htmlspecialchars($row['Docket_Case_Number']) ?>">
+                                    delete
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -742,13 +742,13 @@ body {
     background-color: #0056b3;
 }
 
-.edit-btn {
-    background-color: #ffc107;
-    color: var(--dark-text);
+.delete-btn {
+    background-color: #bd0000;
+    color: white;
 }
 
-.edit-btn:hover {
-    background-color: #e0a800;
+.delete-btn:hover {
+    background-color: #ff0000;
 }
 
 .pagination-controls {

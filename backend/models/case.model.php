@@ -198,4 +198,25 @@ class CaseEntry {
         }
         return null;
     }
+    public function deleteCaseAndSummary($docket) {
+        try {
+            $this->conn->beginTransaction();
+
+            $sql_cases = "DELETE FROM cases WHERE Docket_Case_Number = ?";
+            $stmt_cases = $this->conn->prepare($sql_cases);
+            $stmt_cases->execute([$docket]);
+
+            $sql_summary = "DELETE FROM summary WHERE Docket_Case_Number = ?";
+            $stmt_summary = $this->conn->prepare($sql_summary);
+            $stmt_summary->execute([$docket]);
+
+            $this->conn->commit();
+            return true;
+
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            error_log("Deletion failed: " . $e->getMessage());
+            return false;
+        }
+    }
 }
