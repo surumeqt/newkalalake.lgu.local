@@ -10,7 +10,7 @@
     <div class="login-container">
         <div class="login-card">
             <h2>LOGIN</h2>
-            <form class="login-form">
+            <form action="../backend/login.controller.php" method="post" class="login-form">
                 <div class="input-container">
                     <input type="text" id="username" placeholder="Username" name="username" required>
                     <img src="assets/icons/user.png" class="icon">
