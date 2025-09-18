@@ -1,0 +1,20 @@
+function loadContent(url) {
+    const mainContentArea = document.getElementById('main-content');
+    
+    mainContentArea.innerHTML = '<div class="loading-spinner"></div>';
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            mainContentArea.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error loading content:', error);
+            mainContentArea.innerHTML = '<p style="color: red;">Failed to load content. Please try again later.</p>';
+        });
+}
