@@ -18,3 +18,17 @@ function loadContent(url) {
             mainContentArea.innerHTML = '<p style="color: red;">Failed to load content. Please try again later.</p>';
         });
 }
+
+function showLogoutModal() {
+    const modal = document.getElementById('logoutModal');
+    if (modal) {
+        modal.classList.add('active');
+    }
+}
+
+function hideLogoutModal() {
+    const modal = document.getElementById('logoutModal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
