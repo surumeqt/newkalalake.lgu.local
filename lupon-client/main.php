@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lupon client</title>
     <link rel="stylesheet" href="../public/css/main.css">
+    <link rel="stylesheet" href="css/lupon.pages.css">
 </head>
 <body>
     <!-- Sidebar -->
     <aside class="sidebar">
-        <div class="sidebar-header">
+        <div>
             <h1>Lupon System</h1>
-            <button onclick="toggleSidebar()">
-                <img src="../public/assets/icons/menu-burger.png" width="30px" height="40px">
-            </button>
         </div>
         <nav>
             <ul>
@@ -25,6 +23,32 @@
                 <li>
                     <button onclick="loadContent('database.php')">
                         <img src="../public/assets/icons/database.png"> Database
+                    </button>
+                </li>
+            </ul>
+            <hr>
+            <ul>
+                <li>
+                    <button onclick="loadContent('case-entry.php')">
+                        <img src="../public/assets/icons/legal-case.png"> New Case
+                    </button>
+                </li>
+                <li>
+                    <button onclick="loadContent('case-pending.php')">
+                        <img src="../public/assets/icons/pending.png"> Pending Cases
+                    </button>
+                </li>
+                <li>
+                    <button onclick="loadContent('case-rehearing.php')">
+                        <img src="../public/assets/icons/calendar-clock.png"> Rehearing Cases
+                    </button>
+                </li>
+            </ul>
+            <hr>
+            <ul>
+                <li>
+                    <button onclick="loadContent('case-upload.php')">
+                        <img src="../public/assets/icons/document-circle-arrow-up.png"> Upload & Encode old Cases
                     </button>
                 </li>
             </ul>

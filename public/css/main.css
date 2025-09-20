@@ -15,6 +15,25 @@
     --text-color: #111827;
     --secondary-text-color: #6b7280;
     --border-color: #4b5563;
+    --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    /* Responsive Spacing (rem based on 16px root font size) */
+    --spacing-xs: 0.5rem;   /* 8px */
+    --spacing-sm: 0.9375rem; /* 15px */
+    --spacing-md: 1.25rem;  /* 20px */
+    --spacing-lg: 1.875rem; /* 30px */
+
+    /* Responsive Font Sizes */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-base: 1rem;   /* 16px */
+    --font-size-md: 1rem;
+    --font-size-lg: 1.25rem;  /* 20px */
+    --font-size-xl: 1.5rem;   /* 24px */
+    --font-size-xxl: 2rem;    /* 32px */
+    
+    --border-light: #e9ecef;
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
 }
 
 body {
@@ -42,7 +61,6 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 0.05em;
-    margin-bottom: 2rem;
 }
 
 .sidebar nav ul {
@@ -52,19 +70,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-}
-
-.sidebar-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.sidebar-header button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-left: 1rem;
 }
 
 .sidebar nav button , .sidebar-footer button {
