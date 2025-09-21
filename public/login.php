@@ -21,7 +21,7 @@
                     <img src="assets/icons/unlock.png" class="icon toggle-password-show" id="toggle-password-show">
                 </div>
                 <div class="forgot-password">
-                    <a href="#">Lost Password?</a>
+                    <a href="#">Forgot Password?</a>
                 </div>
                 <button type="submit" class="login-button">Log In</button>
             </form>
