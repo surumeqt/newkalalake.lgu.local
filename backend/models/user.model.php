@@ -1,28 +1,18 @@
 <?php
-require_once __DIR__ . '/../config/database.config.php';
+namespace backend\models;
 
-class user {
-    private $conn;
+use backend\config\Connection;
+
+class usermodel {
+    private $db;
 
     public function __construct() {
-        $db = new Connection();
-        $this->conn = $db->connect();
+        $this->db = Connection::getConnection();
     }
 
-    public function create($username, $password, $position, $role) {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->conn->prepare("INSERT INTO users (username, password, position, role) VALUES (?, ?, ?, ?)");
-        return $stmt->execute([$username, $hashedPassword, $position, $role]);
-    }
-
-    public function login($username, $password) {
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->execute([$username]);
-        $user = $stmt->fetch();
-
-        if ($user && password_verify($password, $user['password'])) {
-            return $user;
-        }
-        return false;
+    public function findByUsername($username) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch();
     }
 }
