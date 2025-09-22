@@ -1,3 +1,4 @@
+<?php require_once '../backend/user.controller.php'; $controller = new UserController(); $message = $controller->login(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +11,14 @@
     <div class="login-container">
         <div class="login-card">
             <h2>LOGIN</h2>
-            <form action="../backend/login.controller.php" method="post" class="login-form">
+            
+            <?php if (!empty($message)): ?>
+                <p id="error-message"><?= htmlspecialchars($message) ?></p>
+            <?php endif; ?>
+
+            <form method="post" class="login-form">
                 <div class="input-container">
-                    <input type="text" id="username" placeholder="Username" name="username" required>
+                    <input type="text" id="username" placeholder="Username" name="username" required autocomplete="on">
                     <img src="assets/icons/user.png" class="icon">
                 </div>
                 <div class="input-container">

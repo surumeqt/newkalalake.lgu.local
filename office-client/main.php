@@ -1,3 +1,5 @@
+<?php include '../backend/helpers/redirects.php'; 
+// redirectIfNotLoggedIn(['admin']); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,5 +1,6 @@
 document.getElementById('toggle-password-hide').addEventListener('click', togglePasswordVisibility);
 document.getElementById('toggle-password-show').addEventListener('click', togglePasswordVisibility);
+document.getElementById('username').addEventListener('click', removeErrorMessage);
 
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById('password');
@@ -14,5 +15,12 @@ function togglePasswordVisibility() {
         passwordInput.type = 'password';
         hideIcon.style.display = 'block';
         showIcon.style.display = 'none';
+    }
+}
+
+function removeErrorMessage() {
+    const errorMessage = document.getElementById('error-message');
+    if (errorMessage) {
+        errorMessage.textContent = '';
     }
 }

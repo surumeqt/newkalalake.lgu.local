@@ -32,3 +32,12 @@ function hideLogoutModal() {
         modal.classList.remove('active');
     }
 }
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const toggleButton = document.querySelector('.sidebar-toggle');
+    if (sidebar) {
+        sidebar.classList.toggle('collapsed');
+        toggleButton.classList.toggle('collapsed');
+    }
+}
