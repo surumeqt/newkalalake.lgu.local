@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Deny direct access to backend and modules
+    RewriteRule ^backend/ - [F,L]
+
+    # Block sensitive files
+    <FilesMatch "\.(env|config|sql|log|ini)$">
+        Require all denied
+    </FilesMatch>
+
+    # Disable directory listing
+    Options -Indexes
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Remove .php extension
+    RewriteRule ^(.+)$ $1.php [L,QSA]
+</IfModule>

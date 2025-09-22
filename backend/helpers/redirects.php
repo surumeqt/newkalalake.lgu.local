@@ -3,7 +3,7 @@ function redirectIfNotLoggedIn($allowedRoles = []) {
     session_start();
 
     if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
-        header('Location: ../index.php?error=unauthorized');
+        header('Location: ../index?error=unauthorized');
         exit();
     }
 
@@ -16,7 +16,7 @@ function redirectIfNotLoggedIn($allowedRoles = []) {
                 redirectBasedOnRole('admin', '?status=failed');
                 break;
             default:
-                header('Location: ../public/logout.php');
+                header('Location: ../public/logout');
                 exit();
         }
     }
@@ -25,13 +25,13 @@ function redirectIfNotLoggedIn($allowedRoles = []) {
 function redirectBasedOnRole($role, $message = '') {
     switch ($role) {
         case 'lupon':
-            header("Location: /newkalalake.lgu.local/lupon-client/main.php"."$message");
+            header("Location: ../lupon-client/main"."$message");
             break;
         case 'admin':
-            header("Location: /newkalalake.lgu.local/office-client/main.php"."$message");
+            header("Location: ../office-client/main"."$message");
             break;
         default:
-            header('Location: ../index.php');
+            header('Location: ../index');
     }
     exit();
 }
