@@ -131,7 +131,7 @@
 }
 
 /* Database Page Styles */
-.database-container {
+.database-container, .rehearing-cases-container, .pending-cases-container {
     padding: 2rem;
 }
 
@@ -191,6 +191,7 @@
 }
 
 /* Case Table Container */
+
 .case-table-container {
     overflow-x: auto;
 }
@@ -274,7 +275,8 @@ tbody td {
 }
 
 /* New Cases Page Styles */
-.new-cases-container {
+
+.new-cases-container, .upload-cases-container {
     padding: 2rem;
 }
 
@@ -284,16 +286,18 @@ tbody td {
     margin-bottom: 0.5rem;
 }
 
-.new-cases-container p {
+.new-cases-container p , .upload-cases-container p{
     font-size: 1.1rem;
     color: #666;
     margin-bottom: 2rem;
 }
 
 .case-form-container {
+    justify-self: center;
     background-color: var(--light-bg);
     padding: 2rem;
     border-radius: 8px;
+    width: 75%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -307,6 +311,29 @@ tbody td {
     border-bottom: none;
     margin-bottom: 0;
 }
+
+/* This is the new CSS for the side-by-side layout */
+.person-info-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.person-info-group .form-section {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.person-info-group .form-section h2 {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+}
+
 
 .new-case-form h2 {
     font-size: 1.5rem;
@@ -328,6 +355,7 @@ tbody td {
 
 .form-group input[type="text"],
 .form-group input[type="date"],
+.form-group input[type="time"],
 .form-group textarea {
     width: 100%;
     padding: 0.75rem;

@@ -11,8 +11,8 @@ class usermodel {
     }
 
     public function findByUsername($username) {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username");
-        $stmt->execute(['username' => $username]);
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_name = :user_name");
+        $stmt->execute(['user_name' => $username]);
         return $stmt->fetch();
     }
 }

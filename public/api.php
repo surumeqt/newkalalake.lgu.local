@@ -13,6 +13,10 @@ switch ($uri) {
         (new backend\controllers\authcontroller())->logout();
         break;
 
+    case 'submit-new-case':
+        (new backend\controllers\casecontroller())->submitNewCase();
+        break;
+
     default:
         http_response_code(404);
         echo "404 - Page not found";

@@ -7,4 +7,9 @@
   --dark-bg: #002244;
   --card-bg: #fff;
   --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  --danger-color: #e74c3c;
+  --success-color: #2ecc71;
+  --warning-color: #f1c40f;
+  --info-color: #3498db;
 }

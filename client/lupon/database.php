@@ -52,6 +52,22 @@
                     <td><span class="status rehearing">Rehearing</span></td>
                     <td><button class="action-btn view-btn">View</button></td>
                 </tr>
+                <tr>
+                    <td>2025-003</td>
+                    <td>Maria Garcia</td>
+                    <td>Jose Cruz</td>
+                    <td>2025-09-18</td>
+                    <td><span class="status rehearing">Rehearing</span></td>
+                    <td><button class="action-btn view-btn">View</button></td>
+                </tr>
+                <tr>
+                    <td>2025-003</td>
+                    <td>Maria Garcia</td>
+                    <td>Jose Cruz</td>
+                    <td>2025-09-18</td>
+                    <td><span class="status rehearing">Rehearing</span></td>
+                    <td><button class="action-btn view-btn">View</button></td>
+                </tr>
             </tbody>
         </table>
     </div>

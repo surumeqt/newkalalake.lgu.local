@@ -19,19 +19,35 @@
             <a href="/lupon/pending-cases">Pending Cases</a>
             <a href="/lupon/rehearing-cases">Rehearing Cases</a>
             <a href="/lupon/upload-cases">Upload Cases</a>
-            <button type="submit" onclick="showLogoutModal()">
+            <button class="logout-btn" onclick="showLogoutModal()">
                 Logout
             </button>
         </nav>
     </header>
 
     <main>
-        <?php 
+        <?php
             // Load the requested page inside the template
             if (isset($pageToLoad)) {
                 require $pageToLoad;
             }
         ?>
     </main>
+
+    <!-- Logout Modal -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Logout</h2>
+            <p>Are you sure you want to logout?</p>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="showLogoutModal()">Cancel</button>
+                <form action="/logout" method="POST" style="display:inline;">
+                    <button class="confirm-btn" type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../public/js/functions.js"></script>
 </body>
 </html>

@@ -18,11 +18,11 @@ class authcontroller {
 
             $user = $this->userModel->findByUsername($username);
 
-            if ($user && password_verify($password, $user['password'])) {
+            if ($user && password_verify($password, $user['user_pass'])) {
                 session_start();
-                $_SESSION['user'] = $user['username'];
-                $_SESSION['role'] = $user['role'];
-                redirect($user['role']);
+                $_SESSION['user'] = $user['user_name'];
+                $_SESSION['role'] = $user['user_role'];
+                redirect($user['user_role']);
                 exit;
             } else {
                 echo "Invalid credentials.";
