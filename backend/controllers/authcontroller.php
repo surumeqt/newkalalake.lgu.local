@@ -17,10 +17,12 @@ class authcontroller {
             $password = $_POST['password'] ?? '';
 
             $user = $this->userModel->findByUsername($username);
+
             if ($user && password_verify($password, $user['password'])) {
                 session_start();
                 $_SESSION['user'] = $user['username'];
-                header('Location: /dashboard');
+                $_SESSION['role'] = $user['role'];
+                redirect($user['role']);
                 exit;
             } else {
                 echo "Invalid credentials.";
@@ -29,6 +31,10 @@ class authcontroller {
     }
 
     public function logout() {
+        session_start();
         session_destroy();
+        session_unset();
+        header("Location: /");
+        exit;
     }
 }

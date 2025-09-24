@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Deny direct access to backend
+    RewriteRule ^backend/ - [F,L]
+
+    # Block sensitive files
+    <FilesMatch "\.(env|config|sql|log|ini)$">
+        Require all denied
+    </FilesMatch>
+
+    # Disable directory listing
+    Options -Indexes
+
+    # Redirect root to /public/login.php
+    # RewriteRule ^$ public/login.php [L]
+
+    # Route everything else to public/api.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/api.php [QSA,L]
+</IfModule>

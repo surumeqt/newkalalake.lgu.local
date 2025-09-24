@@ -21,15 +21,17 @@ if (file_exists($envFile)) {
     }
 }
 
+require_once __DIR__ . '/../client/views.php';
+
 // Database connection
 require_once __DIR__ . '/config/database.config.php';
 
 // Load helpers
 foreach (glob(__DIR__ . '/helpers/*.php') as $helper) {
-    require_once $helper;
+    require_once $helper; 
 }
 
-// autoloader for App namespace (Controllers, Models)
+// autoloader for backend namespace Controllers, Models
 spl_autoload_register(function ($class) {
     $prefix = 'backend\\';
     $base_dir = __DIR__ . '/';
