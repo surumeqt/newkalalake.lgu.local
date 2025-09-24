@@ -9,8 +9,12 @@ function redirect($target) {
             header("Location: office/dashboard");
             break;
 
+        case 'admin':
+            header("Location: admin/dashboard");
+            break;
+
         default:
-            header("Location: /");
+            header("Location: /logout");
             break;
     }
     exit;

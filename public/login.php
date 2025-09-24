@@ -16,7 +16,7 @@
                 <h2>Barangay New Kalalake</h2>
                 <p>Information System Login</p>
             </div>
-            <form action="#" method="POST" class="login-form">
+            <form action="/login" method="POST" class="login-form">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required>

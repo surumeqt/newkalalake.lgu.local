@@ -24,10 +24,10 @@ $baseDir = __DIR__ . "/{$role}";
 if (in_array($role, ['lupon', 'office', 'admin'])) {
 
     // --- Auth Guard ---
-    if (!isset($_SESSION['user']) || $_SESSION['role'] !== $role) {
-        header("Location: /?error=unauthorized");
-        exit;
-    }
+    // if (!isset($_SESSION['user']) || $_SESSION['role'] !== $role) {
+    //     header("Location: /logout");
+    //     exit;
+    // }
 
     $pageFile = "{$baseDir}/{$page}.php";
     $template = "{$baseDir}/main.php";
