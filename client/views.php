@@ -21,7 +21,7 @@ if ($page === 'main') {
 $baseDir = __DIR__ . "/{$role}";
 
 // Only allow lupon and office
-if (in_array($role, ['lupon', 'office'])) {
+if (in_array($role, ['lupon', 'office', 'admin'])) {
 
     // --- Auth Guard ---
     if (!isset($_SESSION['user']) || $_SESSION['role'] !== $role) {
