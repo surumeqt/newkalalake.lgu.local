@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,28 +10,51 @@
     <title>Lupon System</title>
 </head>
 <body>
-    <header>
-        <h1>Lupon System</h1>
-        <nav>
-            <a href="/lupon/dashboard">Dashboard</a>
-            <a href="/lupon/database">Database</a>
-            <a href="/lupon/new-cases">New Cases</a>
-            <a href="/lupon/pending-cases">Pending Cases</a>
-            <a href="/lupon/rehearing-cases">Rehearing Cases</a>
-            <a href="/lupon/upload-cases">Upload Cases</a>
-            <button class="logout-btn" onclick="showLogoutModal()">
-                Logout
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Lupon System</h2>
+            <button id="menu-toggle" onclick="toggleSidebar()">
+                <img src="../../public/assets/icons/menu-burger.png" alt="menu">
             </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <img src="../../public/assets/icons/dashboard-panel.png" alt="dashboard">
+                    <a href="/lupon/dashboard">Dashboard</a>
+                </li>
+                <li>
+                    <img src="../../public/assets/icons/database.png" alt="database">
+                    <a href="/lupon/database">Database</a>
+                </li>
+                <li>
+                    <img src="../../public/assets/icons/legal-case.png" alt="case">
+                    <a href="/lupon/new-cases">New Cases</a>
+                </li>
+                <li>
+                    <img src="../../public/assets/icons/pending.png" alt="pending">
+                    <a href="/lupon/pending-cases">Pending Cases</a>
+                </li>
+                <li>
+                    <img src="../../public/assets/icons/calendar-clock.png" alt="rehearing">
+                    <a href="/lupon/rehearing-cases">Rehearing Cases</a>
+                </li>
+                <li>
+                    <img src="../../public/assets/icons/document-circle-arrow-up.png" alt="home">
+                    <a href="/lupon/upload-cases">Upload Cases</a>
+                </li>
+            </ul>
         </nav>
-    </header>
-
-    <main>
-        <?php
-            // Load the requested page inside the template
-            if (isset($pageToLoad)) {
-                require $pageToLoad;
-            }
-        ?>
+        <div class="sidebar-footer">
+            <button onclick="showLogoutModal()">
+                <img src="../../public/assets/icons/user-logout.png" alt="logout">
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+    
+    <main class="main-content">
+        <?php if (isset($pageToLoad)) { require $pageToLoad; } ?>
     </main>
 
     <!-- Logout Modal -->
