@@ -5,50 +5,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>office client</title>
+    <link rel="stylesheet" href="../public/css/fonts.css">
+    <link rel="stylesheet" href="../public/css/root.css">
     <link rel="stylesheet" href="../public/css/main.css">
+    <title>office client</title>
 </head>
 <body>
     <!-- Sidebar -->
     <aside class="sidebar">
-        <div>
-            <h1>Office System</h1>
+        <div class="sidebar-header">
+            <h2>Office System</h2>
+            <button id="menu-toggle" onclick="toggleSidebar()">
+                <img src="../public/assets/icons/menu-burger.png" alt="menu">
+            </button>
         </div>
-        <nav>
+        <nav class="sidebar-nav">
             <ul>
                 <li>
                     <button onclick="loadContent('dashboard.php')">
-                        <img src="../public/assets/icons/dashboard-panel.png"> Dashboard
+                        <img src="../public/assets/icons/dashboard-panel.png">
+                        <span>Dashboard</span>
                     </button>
                 </li>
-            </ul>
-            <hr>
-            <ul>
                 <li>
                     <button onclick="loadContent('residents.php')">
-                        <img src="../public/assets/icons/user.png"> Encode Residents
+                        <img src="../public/assets/icons/user.png">
+                        <span>Encode Residents</span>
                     </button>
                 </li>
-            </ul>
-            <hr>
-            <ul>
                 <li>
                     <button onclick="loadContent('certificates.php')">
-                        <img src="../public/assets/icons/degree-credential.png"> Issue Certificate
+                        <img src="../public/assets/icons/degree-credential.png">
+                        <span>Issue Certificate</span>
                     </button>
                 </li>
             </ul>
         </nav>
         <div class="sidebar-footer">
             <button class="logout-button" onclick="showLogoutModal()">
-                <img src="../public/assets/icons/user-logout.png"> Logout
+                <img src="../public/assets/icons/user-logout.png">
+                <span>Logout</span>
             </button>
-            <p>© 2025 Innovades BMS v1.0.3</p>
         </div>
     </aside>
 
     <!-- Main Content Area -->
-    <main id="main-content" class="content-card">
+    <main id="main-content">
         <!-- Dynamic content will be loaded here -->
     </main>
 

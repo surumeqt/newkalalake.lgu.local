@@ -7,70 +7,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../public/assets/icons/logo.png">
-    <title>lupon client</title>
+    <link rel="stylesheet" href="../public/css/fonts.css">
+    <link rel="stylesheet" href="../public/css/root.css">
     <link rel="stylesheet" href="../public/css/main.css">
     <link rel="stylesheet" href="css/lupon.pages.css">
+    <title>lupon client</title>
 </head>
 <body>
-    <button onclick="toggleSidebar()" class="sidebar-toggle">
-        <img src="../public/assets/icons/menu-burger.png" width="30px" height="30px">
-    </button>
-
-    <aside class="sidebar">
+     <aside class="sidebar">
         <div class="sidebar-header">
-            <h1>Lupon System</h1>
+            <h2>Lupon System</h2>
+            <button id="menu-toggle" onclick="toggleSidebar()">
+                <img src="../public/assets/icons/menu-burger.png" alt="menu">
+            </button>
         </div>
-        <nav>
+        <nav class="sidebar-nav">
             <ul>
                 <li>
                     <button onclick="loadContent('dashboard.php')">
-                        <img src="../public/assets/icons/dashboard-panel.png"> Dashboard
+                        <img src="../public/assets/icons/dashboard-panel.png" alt="dashboard">
+                        <span>Dashboard</span>
                     </button>
                 </li>
                 <li>
                     <button onclick="loadContent('database.php')">
-                        <img src="../public/assets/icons/database.png"> Database
+                        <img src="../public/assets/icons/database.png" alt="database">
+                        <span>Database</span>
                     </button>
                 </li>
-            </ul>
-            <hr>
-            <ul>
+                <hr>
                 <li>
                     <button onclick="loadContent('case-entry.php')">
-                        <img src="../public/assets/icons/legal-case.png"> New Case
+                        <img src="../public/assets/icons/legal-case.png" alt="case">
+                        <span>New Cases</span>
                     </button>
                 </li>
                 <li>
                     <button onclick="loadContent('case-pending.php')">
-                        <img src="../public/assets/icons/pending.png"> Pending Cases
+                        <img src="../public/assets/icons/pending.png" alt="pending">
+                        <span>Pending Cases</span>
                     </button>
                 </li>
                 <li>
                     <button onclick="loadContent('case-rehearing.php')">
-                        <img src="../public/assets/icons/calendar-clock.png"> Rehearing Cases
+                        <img src="../public/assets/icons/calendar-clock.png" alt="rehearing">
+                        <span>Rehearing Cases</span>
                     </button>
                 </li>
-            </ul>
-            <hr>
-            <ul>
+                <hr>
                 <li>
                     <button onclick="loadContent('case-upload.php')">
-                        <img src="../public/assets/icons/document-circle-arrow-up.png"> Upload & Encode old Cases
+                        <img src="../public/assets/icons/document-circle-arrow-up.png" alt="upload">
+                        <span>Upload Cases</span>
                     </button>
                 </li>
             </ul>
         </nav>
         <div class="sidebar-footer">
-            <button class="logout-button" onclick="showLogoutModal()">
-                <img src="../public/assets/icons/user-logout.png"> Logout
+            <button onclick="showLogoutModal()">
+                <img src="../public/assets/icons/user-logout.png" alt="logout">
+                <span>Logout</span>
             </button>
-            <p>© 2025 Innovades BMS v1.0.3</p>
         </div>
     </aside>
-
-    <main id="main-content" class="content-card">
+    
+    <main id="main-content">
         </main>
 
+    <!-- Logout Modal -->
     <div id="logoutModal" class="modal-overlay">
         <div class="modal-content">
             <h3>Confirm Logout</h3>
@@ -81,7 +85,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="../public/js/loadContent.js"></script>
     <script> window.onload = () => { loadContent('dashboard.php'); } </script>
 </body>

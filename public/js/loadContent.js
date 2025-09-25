@@ -34,10 +34,6 @@ function hideLogoutModal() {
 }
 
 function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    const toggleButton = document.querySelector('.sidebar-toggle');
-    if (sidebar) {
-        sidebar.classList.toggle('collapsed');
-        toggleButton.classList.toggle('collapsed');
-    }
+    const sidebar = document.querySelector(".sidebar");
+    sidebar.classList.toggle("collapsed");
 }
