@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use backend\config\Connection;
+use backend\models\pdfmodel;
 
 class casemodel {
     private $db;
@@ -28,7 +29,9 @@ class casemodel {
 
         if ($done) {
             $caseId = $this->db->lastInsertId();
-            return $this->addhearing($data['time_filed'], $caseId);
+            $this->addhearing($data['time_filed'], $caseId);
+            $this->createdocument($data, $caseId);
+            return true;
         } else {
             return false;
         }
@@ -43,17 +46,33 @@ class casemodel {
             'hearing_time' => $timeFiled
         ]);
     }
+
+    private function createdocument($data, $caseId){
+        $pdf = new pdfmodel($data);
+        $filename = $pdf->firsthearing();
+
+        $stmt = $this->db->prepare(
+            "INSERT INTO document_details (case_id, document_path) VALUES (:case_id, :document_path)"
+        );
+        $stmt->execute([
+            'case_id' => $caseId,
+            'document_path'   => $filename
+        ]);
+    }
     
     public function getCasesByStatus() {
         $sql = "SELECT 
-            c.case_id, 
-            c.case_number, 
-            c.complainant_name, 
-            c.respondent_name, 
-            h.hearing_status
-        FROM `case` c
-        JOIN hearing h ON c.case_id = h.case_id
-        WHERE h.hearing_status = 'Ongoing'";
+                    c.case_id,
+                    c.case_title,
+                    c.case_number,
+                    c.complainant_name,
+                    c.respondent_name,
+                    h.hearing_status,
+                    d.document_path
+                FROM `case` c
+                JOIN hearing h ON c.case_id = h.case_id
+                LEFT JOIN document_details d ON c.case_id = d.case_id
+                WHERE h.hearing_status = 'Ongoing'";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();

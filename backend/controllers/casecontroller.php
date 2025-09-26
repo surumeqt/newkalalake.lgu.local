@@ -38,4 +38,33 @@ class casecontroller {
     public function getPendingCases() {
         return $this->caseModel->getCasesByStatus();
     }
+    public function getPdf(){
+        
+        if (!isset($_GET['file'])) {
+            http_response_code(400);
+            exit("Invalid request");
+        }
+
+        $filename = basename($_GET['file']);
+        $baseDir = rtrim(realpath($_ENV['DOCUMENT_ROOT']), DIRECTORY_SEPARATOR);
+        $realPath = $baseDir . DIRECTORY_SEPARATOR . $filename;
+
+        if (!file_exists($realPath)) {
+            http_response_code(404);
+            exit("File not found: " . $realPath);
+        }
+
+        if (file_exists($realPath)) {
+            http_response_code(200);
+            
+            header('Content-Type: application/pdf');
+            header("Content-Disposition: inline; filename=\"" . $filename . "\"");
+            header('Content-Length: ' . filesize($realPath));
+            readfile($realPath);
+            exit;
+        } else {
+            http_response_code(404);
+            echo "File not found";
+        }
+    }
 }

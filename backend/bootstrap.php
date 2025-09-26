@@ -21,10 +21,10 @@ if (file_exists($envFile)) {
     }
 }
 
-require_once __DIR__ . '/../client/views.php';
-
 // Database connection
 require_once __DIR__ . '/config/database.config.php';
+
+require_once __DIR__ . '/lib/fpdf.php';
 
 // Load helpers
 foreach (glob(__DIR__ . '/helpers/*.php') as $helper) {
@@ -48,3 +48,7 @@ spl_autoload_register(function ($class) {
         require $file;
     }
 });
+
+if (!defined('SKIP_VIEWS')) {
+    require_once __DIR__ . '/../client/views.php';
+}

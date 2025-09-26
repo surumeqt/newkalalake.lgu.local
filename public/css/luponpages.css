@@ -209,7 +209,7 @@ thead th {
     background-color: var(--primary-color);
     color: #fff;
     padding: 1rem;
-    text-align: left;
+    text-align: center;
     font-weight: 600;
 }
 
@@ -219,7 +219,43 @@ tbody tr:nth-child(even) {
 
 tbody td {
     padding: 1rem;
+    text-align: center;
     border-bottom: 1px solid #ddd;
+}
+
+#view-btn {
+    background-color: var(--info-color);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+#update-btn {
+    background-color: var(--warning-color);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+#delete-btn {
+    background-color: var(--danger-color);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+tbody tr td a:hover {
+    background-color: #16970d;
+    color: var(--light-bg);
 }
 
 /* Status Badges */
