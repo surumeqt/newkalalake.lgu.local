@@ -71,6 +71,35 @@
         </div>
     </div>
 
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <h2>Update Status</h2>
+            <p>Are you sure you want to change the status for this case?</p>
+            <p>it will be change to : Rehearing</p>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="showUpdateModal()">Cancel</button>
+                <form action="/update-status" method="POST" style="display:inline;">
+                    <input hidden type="text" id="case-number-update" name="case_id">
+                    <button class="confirm-btn" type="submit">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h2>Delete Case</h2>
+            <p>Are you sure you want to DELETE this case?</p>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="showDeleteModal()">Cancel</button>
+                <form action="/delete-case" method="POST" style="display:inline;">
+                    <input hidden type="text" id="case-number-delete" name="case_id">
+                    <button class="confirm-btn" type="submit">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="../../public/js/functions.js"></script>
 </body>
 </html>

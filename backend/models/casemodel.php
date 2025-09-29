@@ -78,4 +78,16 @@ class casemodel {
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function findById($caseId) {
+        $sql = " SELECT case_number from `case` where case_id = :case_id ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['case_id' => $caseId]);
+        return $stmt->fetch();
+    }
+    public function updateStatus($caseId) {
+        $sql = "UPDATE hearing SET hearing_status = 'Rehearing' WHERE case_id = :case_id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute(['case_id' => $caseId]);
+    }
 }

@@ -230,7 +230,7 @@ tbody td {
     font-weight: 600;
     text-decoration: none;
     color: var(--primary-color);
-    text-decoration: none;
+    cursor: pointer;
 }
 
 #update-btn {
@@ -240,7 +240,7 @@ tbody td {
     font-weight: 600;
     text-decoration: none;
     color: var(--primary-color);
-    text-decoration: none;
+    cursor: pointer;
 }
 
 #delete-btn {
@@ -250,7 +250,7 @@ tbody td {
     font-weight: 600;
     text-decoration: none;
     color: var(--primary-color);
-    text-decoration: none;
+    cursor: pointer;
 }
 
 tbody tr td a:hover {

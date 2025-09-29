@@ -34,8 +34,8 @@ $cases = $controller->getPendingCases();
                         <td>
                             <?php if (!empty($case['document_path'])): ?>
                                 <a id="view-btn" href="/open-pdf?file=<?= urlencode($case['document_path']) ?>" target="_blank">View</a>
-                                <a id="update-btn" href="">Update</a>
-                                <a id="delete-btn" href="">Delete</a>
+                                <a id="update-btn" onclick="showUpdateModal('<?= htmlspecialchars($case['case_id']) ?>')" >Update</a>
+                                <a id="delete-btn" onclick="showDeleteModal('<?= htmlspecialchars($case['case_id']) ?>')" >Delete</a>
                             <?php else: ?>
                                 <span>No document</span>
                             <?php endif; ?>

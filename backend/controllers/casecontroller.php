@@ -67,4 +67,14 @@ class casecontroller {
             echo "File not found";
         }
     }
+    public function updateStatus() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $caseNumber = $_POST['case_id'] ?? '';
+            $caseId = $this->caseModel->findById($caseNumber);
+
+            if ($caseId) {
+                $success = $this->caseModel->updateStatus($caseId);
+            }
+        }
+    }
 }
