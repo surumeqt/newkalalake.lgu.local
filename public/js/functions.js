@@ -23,6 +23,16 @@ function showDeleteModal(case_number){
     }
 }
 
+function showSummaryModal(case_number){
+    const summaryModal = document.getElementById('addSummaryModal');
+    const caseNumber = document.getElementById('case-number-summary');
+    
+    if (summaryModal) {
+        summaryModal.classList.toggle('show');
+        caseNumber.value = case_number;
+    }
+}
+
 function toggleSidebar() {
     document.querySelector(".sidebar").classList.toggle("collapsed");
 }

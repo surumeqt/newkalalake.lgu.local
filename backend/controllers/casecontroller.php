@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\casemodel;
+use Exception;
 
 class casecontroller {
     private $caseModel;
@@ -36,7 +37,10 @@ class casecontroller {
         }
     }
     public function getPendingCases() {
-        return $this->caseModel->getCasesByStatus();
+        return $this->caseModel->getCasesByStatus('Ongoing');
+    }
+    public function getRehearingCases() {
+        return $this->caseModel->getCasesByStatus('Rehearing');
     }
     public function getPdf(){
         
@@ -70,11 +74,41 @@ class casecontroller {
     public function updateStatus() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $caseNumber = $_POST['case_id'] ?? '';
+            $hearingStatus = $_POST['hearing_status'] ?? '';
+            var_dump($hearingStatus);
             $caseId = $this->caseModel->findById($caseNumber);
-
-            if ($caseId) {
-                $success = $this->caseModel->updateStatus($caseId);
+            if (!empty($caseId)) {
+                try {
+                    $this->caseModel->updateStatus($caseId['case_id'], $hearingStatus);
+                    header("Location: /lupon/pending-cases?success=1");
+                    exit;
+                } catch (Exception $e) {
+                    echo "Error updating status: ". $e->getMessage();
+                }
             }
+        }
+    }
+    public function deleteCase(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $caseNumber = $_POST['case_id'] ?? '';
+            $caseId = $this->caseModel->findById($caseNumber);
+            if (!empty($caseId)) {
+                $this->caseModel->deleteCaseById($caseId['case_id']);
+                header("Location: /lupon/pending-cases?success=1");
+                exit;
+            } else {
+                header("Location: /lupon/pending-cases?success=1");
+                exit;
+            }
+        }
+    }
+    public function addSummary() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $caseNumber = $_POST['case_id'] ?? '';
+            $summaryText = $_POST['summary_text'] ?? '';
+            $summaryDate = $_POST['summary_date'] ?? '';
+            $summaryTime = $_POST['summary_time'] ?? '';
+            
         }
     }
 }

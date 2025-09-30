@@ -60,7 +60,7 @@ class casemodel {
         ]);
     }
     
-    public function getCasesByStatus() {
+    public function getCasesByStatus($hearingStatus) {
         $sql = "SELECT 
                     c.case_id,
                     c.case_title,
@@ -72,21 +72,31 @@ class casemodel {
                 FROM `case` c
                 JOIN hearing h ON c.case_id = h.case_id
                 LEFT JOIN document_details d ON c.case_id = d.case_id
-                WHERE h.hearing_status = 'Ongoing'";
+                WHERE h.hearing_status = :hearing_status";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute();
+        $stmt->execute([
+            'hearing_status' => $hearingStatus
+        ]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function findById($caseId) {
-        $sql = " SELECT case_number from `case` where case_id = :case_id ";
+        $sql = " SELECT case_id from `case` where case_id = :case_id ";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['case_id' => $caseId]);
-        return $stmt->fetch();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
-    public function updateStatus($caseId) {
-        $sql = "UPDATE hearing SET hearing_status = 'Rehearing' WHERE case_id = :case_id";
+    public function updateStatus($caseId, $hearingStatus) {
+        $sql = "UPDATE hearing SET hearing_status = :hearing_status WHERE case_id = :case_id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            'hearing_status' => $hearingStatus,
+            'case_id' => $caseId
+        ]);
+    }
+    public function deleteCaseById($caseId) {
+        $sql = "DELETE FROM `case` WHERE case_id = :case_id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute(['case_id' => $caseId]);
     }

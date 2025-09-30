@@ -73,16 +73,62 @@
 
     <div id="updateModal" class="modal">
         <div class="modal-content">
-            <h2>Update Status</h2>
-            <p>Are you sure you want to change the status for this case?</p>
-            <p>it will be change to : Rehearing</p>
-            <div class="modal-actions">
-                <button class="cancel-btn" onclick="showUpdateModal()">Cancel</button>
-                <form action="/update-status" method="POST" style="display:inline;">
-                    <input hidden type="text" id="case-number-update" name="case_id">
+            <form action="/update-status" method="POST" style="display:inline;">
+                <h2>Update Status</h2>
+                <p>Are you sure you want to change the status for this case?</p>
+                <p>it will be change to : 
+                    <span>
+                        <select name="hearing_status">
+                            <option value="Rehearing">Rehearing</option>
+                            <option value="Settled">Settled</option>
+                            <option value="Dismissed">Dismissed</option>
+                            <option value="Withdrawn">Withdrawn</option>
+                            <option value="CFA">CFA</option>
+                        </select>
+                    </span>
+                </p>
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="showUpdateModal()">Cancel</button>
+                    <input hidden type="number" id="case-number-update" name="case_id">
                     <button class="confirm-btn" type="submit">Yes</button>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="addSummaryModal" class="modal">
+        <div class="modal-content">
+            <form action="/add-summary" method="POST" onsubmit="event.preventDefault()">
+                <h2>Add Case Summary/Resolution</h2>
+
+                <div class="form-group">
+                    <label for="summary-text">Summary/Resolution Details</label>
+                    <textarea 
+                        id="summary-text" 
+                        name="summary_text" 
+                        rows="5" 
+                        placeholder="Enter the final summary or resolution details for this case."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="summary-date">Date of Resolution</label>
+                        <input type="date" id="summary-date" name="summary_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="summary-time">Time</label>
+                        <input type="time" id="summary-time" name="summary_time" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="showSummaryModal()">Cancel</button>
+                    <input hidden type="number" id="case-number-summary" name="case_id">
+                    <button class="confirm-btn" type="submit">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -93,7 +139,7 @@
             <div class="modal-actions">
                 <button class="cancel-btn" onclick="showDeleteModal()">Cancel</button>
                 <form action="/delete-case" method="POST" style="display:inline;">
-                    <input hidden type="text" id="case-number-delete" name="case_id">
+                    <input hidden type="number" id="case-number-delete" name="case_id">
                     <button class="confirm-btn" type="submit">Yes</button>
                 </form>
             </div>

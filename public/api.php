@@ -22,9 +22,14 @@ switch ($uri) {
         break;
 
     case 'update-status':
+        (new backend\controllers\casecontroller())->updateStatus();
+        break;
+
+    case 'add-summary':
         break;
 
     case 'delete-case':
+        (new backend\controllers\casecontroller())->deleteCase();
         break;
 
     default:
