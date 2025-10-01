@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../public/css/root.css">
     <link rel="stylesheet" href="../public/css/main.css">
     <link rel="stylesheet" href="css/lupon.pages.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <title>lupon client</title>
 </head>
 <body>
@@ -88,18 +90,7 @@
 
     <script src="../public/js/loadContent.js"></script>
     <script> window.onload = () => { loadContent('dashboard.php'); } </script>
-    <script>
-  // 2hrs kong hinanap tong animal na to
-  const sidebarButtons = document.querySelectorAll(".sidebar nav button");
-
-  sidebarButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      // tanggalin ko muna sa active net HAAH
-      sidebarButtons.forEach(b => b.classList.remove("active"));
-      // tapos lagyan ng active yung na-click
-      btn.classList.add("active");
-    });
-  });
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="graph.js"></script>
 </body>
 </html>

@@ -207,6 +207,7 @@ main {
     .sidebar-footer {
         display: block;
     }
+
 }
 
 /* LOGOUT MODAL */
@@ -293,4 +294,17 @@ main {
 .btn-cancel:hover {
     background-color: #5a6268;
     transform: translateY(-2px);
+}
+.case-card {
+    background: #5a1414;      /* kulay puti */
+    border-radius: 12px;      /* medyo rounded corners */ 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* shadow para kita */
+    width: 100%;              /* halos buong lapad */
+    height: 400px;           /* para mahaba */
+}
+
+.case-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #333;
 }

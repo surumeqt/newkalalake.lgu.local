@@ -43,4 +43,8 @@
             <p class="stat-value">25</p>
         </div>
     </div>
+    <div class="case-card">
+    <h3>Criminal and Civil Cases</h3>
+    <canvas id="casesChart"></canvas>
+    </div>
 </div>

@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="../public/css/fonts.css">
     <link rel="stylesheet" href="../public/css/root.css">
     <link rel="stylesheet" href="../public/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <title>office client</title>
 </head>
 <body>
@@ -68,5 +71,7 @@
 
     <script src="../public/js/loadContent.js"></script>
     <script> window.onload = () => { loadContent('dashboard.php'); } </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../public/js/graph.js"></script>
 </body>
 </html>
