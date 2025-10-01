@@ -93,7 +93,12 @@ aside {
 }
 
 .sidebar nav button:hover {
-    background-color: var(--sidebar-hover);
+     background-color: #facc15; /* hover yellow */
+    color: #000;
+}
+.sidebar nav button.active {
+    background-color: #facc15; /* stay yellow */
+    color: #000;
 }
 
 .sidebar-footer {

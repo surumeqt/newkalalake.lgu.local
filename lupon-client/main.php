@@ -88,5 +88,18 @@
 
     <script src="../public/js/loadContent.js"></script>
     <script> window.onload = () => { loadContent('dashboard.php'); } </script>
+    <script>
+  // 2hrs kong hinanap tong animal na to
+  const sidebarButtons = document.querySelectorAll(".sidebar nav button");
+
+  sidebarButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      // tanggalin ko muna sa active net HAAH
+      sidebarButtons.forEach(b => b.classList.remove("active"));
+      // tapos lagyan ng active yung na-click
+      btn.classList.add("active");
+    });
+  });
+</script>
 </body>
 </html>

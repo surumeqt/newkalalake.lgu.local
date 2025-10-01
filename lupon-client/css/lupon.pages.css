@@ -300,4 +300,85 @@ tbody tr:nth-child(even) {
         width: 100%;
         margin-top: 10px;
     }
+
+/* 📱 Mobile adjustments */
+@media (max-width: 992px) {
+    .form-columns-container {
+        grid-template-columns: repeat(2, 1fr); /* gawing 2 columns kapag tablet */
+    }
+
+    .case-pending-container input[type="text"] {
+        width: 50%; /* search bar mas flexible */
+    }
+}
+
+@media (max-width: 768px) {
+    .form-columns-container {
+        grid-template-columns: 1fr; /* gawing 1 column sa mobile */
+    }
+
+    .input-flex {
+        flex-direction: column; /* stack instead of row */
+    }
+
+    .case-pending-container input[type="text"] {
+        width: 100%; /* full width search bar */
+    }
+
+    .stat-cards-grid {
+        grid-template-columns: 1fr; /* lahat ng stat cards stack vertically */
+    }
+}
+
+@media (max-width: 480px) {
+    .form-header-row h2 {
+        font-size: 22px; /* mas maliit header sa maliit na screen */
+    }
+
+    .stat-value {
+        font-size: 28px;
+    }
+
+    .stat-label {
+        font-size: 14px;
+    }
+
+    .submit-button {
+        width: 100%; /* button full width sa sobrang liit na screen */
+    }
+}
+}
+
+.stat-card.total-icon {
+    background: linear-gradient(135deg, #43e97b, #38f9d7); /* Green gradient */
+    color: white;
+}
+/* ONGOING CASES CARD */
+.stat-card.ongoing-icon {
+    background: linear-gradient(135deg, #43e97b, #38f9d7); /* Green gradient */
+    color: white;
+}
+
+/* SETTLED CASES CARD */
+.stat-card.settled-icon {
+    background: linear-gradient(135deg, #fbc2eb, #a6c1ee); /* Pink to Purple */
+    color: white;
+}
+
+/* DISMISSED CASES CARD */
+.stat-card.dismissed-icon {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* Red to Pink */
+    color: white;
+}
+
+/* WITHDRAWN CASES CARD */
+.stat-card.withdrawn-icon {
+    background: linear-gradient(135deg, #f6d365, #fda085); /* Orange to Yellow */
+    color: white;
+}
+
+/* CFA CASES CARD */
+.stat-card.cfa-icon {
+    background: linear-gradient(135deg, #84fab0, #8fd3f4); /* Teal to Light Blue */
+    color: white;
 }
