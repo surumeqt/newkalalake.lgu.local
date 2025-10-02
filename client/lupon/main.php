@@ -20,28 +20,40 @@
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <img src="../../public/assets/icons/dashboard-panel.png" alt="dashboard">
-                    <a href="/lupon/dashboard">Dashboard</a>
+                    <a href="/lupon/dashboard">
+                        <img src="../../public/assets/icons/dashboard-panel.png" alt="dashboard">
+                        <span>Dashboard</span>
+                    </a>
                 </li>
                 <li>
-                    <img src="../../public/assets/icons/database.png" alt="database">
-                    <a href="/lupon/database">Database</a>
+                    <a href="/lupon/database">
+                        <img src="../../public/assets/icons/database.png" alt="database">
+                        <span>Database</span>
+                    </a>
                 </li>
                 <li>
-                    <img src="../../public/assets/icons/legal-case.png" alt="case">
-                    <a href="/lupon/new-cases">New Cases</a>
+                    <a href="/lupon/new-cases">
+                        <img src="../../public/assets/icons/legal-case.png" alt="case">
+                        <span>New Cases</span>
+                    </a>
                 </li>
                 <li>
-                    <img src="../../public/assets/icons/pending.png" alt="pending">
-                    <a href="/lupon/pending-cases">Pending Cases</a>
+                    <a href="/lupon/pending-cases">
+                        <img src="../../public/assets/icons/pending.png" alt="pending">
+                        <span>Pending Cases</span>
+                    </a>
                 </li>
                 <li>
-                    <img src="../../public/assets/icons/calendar-clock.png" alt="rehearing">
-                    <a href="/lupon/rehearing-cases">Rehearing Cases</a>
+                    <a href="/lupon/rehearing-cases">
+                        <img src="../../public/assets/icons/calendar-clock.png" alt="rehearing">
+                        <span>Rehearing Cases</span>
+                    </a>
                 </li>
                 <li>
-                    <img src="../../public/assets/icons/document-circle-arrow-up.png" alt="home">
-                    <a href="/lupon/upload-cases">Upload Cases</a>
+                    <a href="/lupon/upload-cases">
+                        <img src="../../public/assets/icons/document-circle-arrow-up.png" alt="home">
+                        <span>Upload Old Cases</span>
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -64,7 +76,7 @@
             <p>Are you sure you want to logout?</p>
             <div class="modal-actions">
                 <button class="cancel-btn" onclick="showLogoutModal()">Cancel</button>
-                <form action="/logout" method="POST" style="display:inline;">
+                <form action="/logout" method="POST" style="display:inline;" onsubmit="event.preventDefault()">
                     <button class="confirm-btn" type="submit">Logout</button>
                 </form>
             </div>
@@ -73,7 +85,7 @@
 
     <div id="updateModal" class="modal">
         <div class="modal-content">
-            <form action="/update-status" method="POST" style="display:inline;">
+            <form action="/update-status" method="POST" onsubmit="event.preventDefault()">
                 <h2>Update Status</h2>
                 <p>Are you sure you want to change the status for this case?</p>
                 <p>it will be change to : 

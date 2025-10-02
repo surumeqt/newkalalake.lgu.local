@@ -13,7 +13,38 @@ class pdfmodel extends FPDF {
         $this->filename = generatePdfFilename();
     }
 
-    public function firsthearing(){
+    function Header() {
+        $bgPath = __DIR__ . '/../../public/assets/img/pdfbglogo.png';
+        if (file_exists($bgPath)) {
+            $this->Image($bgPath, 25, 70, 160, 160);
+        }
+
+        $imagePath = __DIR__ . '/../../public/assets/img/header.png';
+        if (file_exists($imagePath)) {
+            $this->Image($imagePath, 7, 7, 190);
+            $this->Ln(30);
+        }
+    }
+
+    function Footer() {
+        $this->SetY(-30);
+
+        $footerPath = __DIR__ . '/../../public/assets/img/footer.png';
+        if (file_exists($footerPath)) {
+            $this->Image($footerPath, 10, $this->GetY(), 190);
+        }
+    }
+
+    public function generateNoticeSummonFile(){
+        $this->AddPage();
+        $this->SetFont('Arial', 'B', 16);
+        $this->Cell(0,8,'OFFICE OF THE LUPONG TAGAPAMAYAPA',0,1,'C');
+
+        $fullPath = getPdfFullPath($this->filename);
+        $this->Output('F', $fullPath);
+        return $this->filename;
+    }
+    public function generateSummaryFile(){
         $this->AddPage();
         $this->SetFont('Arial', 'B', 16);
         $this->Cell(0,8,'OFFICE OF THE LUPONG TAGAPAMAYAPA',0,1,'C');

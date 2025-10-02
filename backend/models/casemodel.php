@@ -11,7 +11,7 @@ class casemodel {
     public function __construct() {
         $this->db = Connection::getConnection();
     }
-
+  
     public function createCase($data) {
         $stmt = $this->db->prepare(
     "INSERT INTO `case` (case_number, case_title, case_nature, complainant_name, complainant_address, respondent_name, respondent_address) 
@@ -49,7 +49,7 @@ class casemodel {
 
     private function createdocument($data, $caseId){
         $pdf = new pdfmodel($data);
-        $filename = $pdf->firsthearing();
+        $filename = $pdf->generateNoticeSummonFile();
 
         $stmt = $this->db->prepare(
             "INSERT INTO document_details (case_id, document_path) VALUES (:case_id, :document_path)"

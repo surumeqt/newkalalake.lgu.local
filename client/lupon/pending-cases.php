@@ -35,7 +35,8 @@
                                     <a id="update-btn" onclick="showUpdateModal('<?= htmlspecialchars($case['case_id']) ?>')" >Update</a>
                                     <a id="delete-btn" onclick="showDeleteModal('<?= htmlspecialchars($case['case_id']) ?>')" >Delete</a>
                                 <?php else: ?>
-                                    <span>No document</span>
+                                    <span>No Document</span>&nbsp;&nbsp;
+                                    <a id="delete-btn" onclick="showDeleteModal('<?= htmlspecialchars($case['case_id']) ?>')" >Delete</a>
                                 <?php endif; ?>
                             </td>
                         </tr>

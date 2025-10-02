@@ -36,3 +36,21 @@ function showSummaryModal(case_number){
 function toggleSidebar() {
     document.querySelector(".sidebar").classList.toggle("collapsed");
 }
+
+function setActiveLink() {
+    const currentPath = window.location.pathname;
+    
+    const navItems = document.querySelectorAll('.sidebar-nav ul li');
+
+    navItems.forEach(li => {
+        const link = li.querySelector('a');
+
+        if (link && link.getAttribute('href') === currentPath) {
+            li.classList.add('active-link');
+        } else {
+            li.classList.remove('active-link');
+        }
+    });
+}
+
+window.addEventListener('DOMContentLoaded', setActiveLink);

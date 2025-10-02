@@ -16,7 +16,7 @@ switch ($uri) {
     case 'submit-new-case':
         (new backend\controllers\casecontroller())->submitNewCase();
         break;
-        
+
     case 'open-pdf':
         (new backend\controllers\casecontroller())->getPdf();
         break;
