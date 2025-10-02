@@ -1,4 +1,4 @@
-<?php require_once '../backend/user.controller.php'; $controller = new UserController(); $message = $controller->login(); ?>
+<?php require_once '../backend/bootstrap.php'; $message = (new backend\controllers\usercontroller())->login();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

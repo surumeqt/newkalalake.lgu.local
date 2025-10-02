@@ -7,7 +7,9 @@
     --text-color: #111827;
     --secondary-text-color: #6b7280;
     --border-color: #4b5563;
-    --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.10);
+    --shadow-heavy: 0 2px 4px rgba(0, 0, 0, 0.15);
 
     /* Responsive Spacing (rem based on 16px root font size) */
     --spacing-xs: 0.5rem;   /* 8px */
@@ -26,4 +28,7 @@
     --border-light: #e9ecef;
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
+
+    --chart-criminal: #374151;
+    --chart-civil: #34445e;
 }

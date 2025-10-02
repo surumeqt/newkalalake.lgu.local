@@ -1,5 +1,4 @@
-<?php include '../backend/helpers/redirects.php';
-// redirectIfNotLoggedIn(['lupon']);
+<?php require_once '../backend/bootstrap.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,8 +10,6 @@
     <link rel="stylesheet" href="../public/css/root.css">
     <link rel="stylesheet" href="../public/css/main.css">
     <link rel="stylesheet" href="css/lupon.pages.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <title>lupon client</title>
 </head>
 <body>
@@ -90,7 +87,5 @@
 
     <script src="../public/js/loadContent.js"></script>
     <script> window.onload = () => { loadContent('dashboard.php'); } </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="graph.js"></script>
 </body>
 </html>
