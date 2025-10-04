@@ -23,39 +23,39 @@
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <button onclick="loadContent('dashboard.php')">
+                    <button onclick="loadContent('dashboard.php', this)">
                         <img src="../public/assets/icons/dashboard-panel.png" alt="dashboard">
                         <span>Dashboard</span>
                     </button>
                 </li>
                 <li>
-                    <button onclick="loadContent('database.php')">
+                    <button onclick="loadContent('database.php', this)">
                         <img src="../public/assets/icons/database.png" alt="database">
                         <span>Database</span>
                     </button>
                 </li>
                 <hr>
                 <li>
-                    <button onclick="loadContent('case-entry.php')">
+                    <button onclick="loadContent('case-entry.php', this)">
                         <img src="../public/assets/icons/legal-case.png" alt="case">
                         <span>New Cases</span>
                     </button>
                 </li>
                 <li>
-                    <button onclick="loadContent('case-pending.php')">
+                    <button onclick="loadContent('case-pending.php', this)">
                         <img src="../public/assets/icons/pending.png" alt="pending">
                         <span>Pending Cases</span>
                     </button>
                 </li>
                 <li>
-                    <button onclick="loadContent('case-rehearing.php')">
+                    <button onclick="loadContent('case-rehearing.php'), this">
                         <img src="../public/assets/icons/calendar-clock.png" alt="rehearing">
                         <span>Rehearing Cases</span>
                     </button>
                 </li>
                 <hr>
                 <li>
-                    <button onclick="loadContent('case-upload.php')">
+                    <button onclick="loadContent('case-upload.php', this)">
                         <img src="../public/assets/icons/document-circle-arrow-up.png" alt="upload">
                         <span>Upload Cases</span>
                     </button>

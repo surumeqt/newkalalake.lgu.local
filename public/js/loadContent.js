@@ -1,7 +1,13 @@
-function loadContent(url) {
+function loadContent(url, clickedButton) {
     const mainContentArea = document.getElementById('main-content');
     
     mainContentArea.innerHTML = '<div class="loading-spinner"></div>';
+
+    const sidebarButtons = document.querySelectorAll(".sidebar nav button");
+    sidebarButtons.forEach(b => b.classList.remove("active"));
+    if (clickedButton) {
+        clickedButton.classList.add("active");
+    }
 
     fetch(url)
         .then(response => {
@@ -37,4 +43,3 @@ function toggleSidebar() {
     const sidebar = document.querySelector(".sidebar");
     sidebar.classList.toggle("collapsed");
 }
-
