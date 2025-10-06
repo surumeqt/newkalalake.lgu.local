@@ -1,61 +1,42 @@
 <div class="dashboard-container">
-    <h1>Dashboard</h1>
-    <p>Welcome to the Lupon System dashboard. Here you can find a summary of all active cases and important metrics.</p>
-
+    <div class="metric-header">
+        <img src="../../public/assets/icons/dashboard-panel.png" alt="dashboard-icon">
+        <h2>Dashboard Metrics</h2>
+    </div>
     <div class="dashboard-metrics">
-        <div class="metric-card new-cases">
+        <div class="metric-card total-cases">
             <span class="value">12</span>
-            <span class="label">New Cases</span>
+            <span class="label">Total Cases</span>
         </div>
-        <div class="metric-card pending-cases">
+        <div class="metric-card ongoing-cases">
             <span class="value">45</span>
-            <span class="label">Pending Cases</span>
+            <span class="label">Ongoing Cases</span>
         </div>
-        <div class="metric-card rehearing-cases">
+        <div class="metric-card settled-cases">
             <span class="value">7</span>
-            <span class="label">Rehearing Cases</span>
+            <span class="label">Settled Cases</span>
         </div>
-        <div class="metric-card rehearing-cases">
+        <div class="metric-card dismissed-cases">
             <span class="value">7</span>
-            <span class="label">Rehearing Cases</span>
+            <span class="label">Dismissed Cases</span>
         </div>
-        <div class="metric-card rehearing-cases">
+        <div class="metric-card withdrawn-cases">
             <span class="value">7</span>
-            <span class="label">Rehearing Cases</span>
+            <span class="label">Withdrawn Cases</span>
         </div>
-        <div class="metric-card rehearing-cases">
+        <div class="metric-card cfa-cases">
             <span class="value">7</span>
-            <span class="label">Rehearing Cases</span>
+            <span class="label">CFA Cases</span>
         </div>
     </div>
 
-    <div class="dashboard-recent-cases">
-        <h2>Recent Cases</h2>
-        <ul class="case-list">
-            <li class="case-list-item">
-                <div class="case-info">
-                    <span class="case-number">Case No. 2025-001</span> - John Doe vs. Jane Smith
-                </div>
-                <div class="case-status">
-                    <span class="status pending">Pending</span>
-                </div>
-            </li>
-            <li class="case-list-item">
-                <div class="case-info">
-                    <span class="case-number">Case No. 2025-002</span> - The People vs. Alex Corpuz
-                </div>
-                <div class="case-status">
-                    <span class="status new">New</span>
-                </div>
-            </li>
-            <li class="case-list-item">
-                <div class="case-info">
-                    <span class="case-number">Case No. 2025-003</span> - Maria Garcia vs. Jose Cruz
-                </div>
-                <div class="case-status">
-                    <span class="status rehearing">Rehearing</span>
-                </div>
-            </li>
-        </ul>
+    <div class="chart-section">
+        <div class="chart-header">
+            <img src="https://placehold.co/30x30/00000/png" alt="chart-icon">
+            <h2>Nature of Case Distribution</h2>
+        </div>
+        <div class="chart-container">
+            <!-- Chart goes here -->
+        </div>
     </div>
 </div>

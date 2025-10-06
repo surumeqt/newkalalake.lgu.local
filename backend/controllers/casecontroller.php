@@ -22,7 +22,8 @@ class casecontroller {
                 'complainant_address' => $_POST['complainant_address'] ?? '',
                 'respondent_name' => $_POST['respondent_name'] ?? '',
                 'respondent_address' => $_POST['respondent_address'] ?? '',
-                'time_filed' => $_POST['time_filed'] ?? ''
+                'time_filed' => $_POST['time_filed'] ?? '',
+                'date_filed' => $_POST['date_filed'] ?? ''
             ];
 
             $success = $this->caseModel->createCase($data);
@@ -75,7 +76,7 @@ class casecontroller {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $caseNumber = $_POST['case_id'] ?? '';
             $hearingStatus = $_POST['hearing_status'] ?? '';
-            var_dump($hearingStatus);
+
             $caseId = $this->caseModel->findById($caseNumber);
             if (!empty($caseId)) {
                 try {

@@ -1,3 +1,23 @@
+/************************************************************************
+
+* THIS IS THE STYLING FOR client's main.php page and THIS IS WHERE THE MODAL STYLES ARE LOCATED
+
+* HIGHLIGHT THE PAGE SECTION YOU WANT TO EDIT THEN HIT ctrl + f TO BE DIRECTED IN THAT SECTION
+
+1. MAIN STYLES
+2. LOGOUT MODAL
+3. UPDATE CASE STATUS MODAL
+4. DELETE CASE MODAL
+5. ADD CASE SUMMARY MODAL
+
+*************************************************************************/
+
+/************************************
+
+    MAIN STYLES        
+
+************************************/
+
 body {
     background-color: var(--light-bg);
     color: var(--text-color);
@@ -86,6 +106,15 @@ aside {
 .sidebar-nav li.active-link {
     background-color: var(--tertiary-color);
     box-shadow: inset 3px 0 0 0 #3498db;
+    color: var(--text-color);
+}
+
+.sidebar-nav li.active-link a{
+    color: var(--text-color);
+    font-weight: 600;
+}
+.sidebar-nav li.active-link img{
+    filter: none;
 }
 
 .sidebar-nav li.active-link:hover {
@@ -179,10 +208,9 @@ aside {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 0;
         font-size: 0.8em;
         text-align: center;
-        padding: 5px 0;
+        padding: 5px;
     }
     
     .sidebar-nav img {
@@ -194,7 +222,39 @@ aside {
     }
 }
 
-/* logout modal*/
+/************************************
+
+    MODAL GENERAL STYLES       
+
+************************************/
+
+.modal {
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/************************************
+
+    LOGOUT MODAL SPECIFIC STYLES      
+
+************************************/
 
 .logout-btn {
     background-color: var(--danger-color);
@@ -210,39 +270,91 @@ aside {
     background-color: #a4003d;
 }
 
-.modal {
-    display: none;
-    position: fixed; 
-    z-index: 1000; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: opacity 0.3s ease-in-out;
-}
-
-.modal.show {
-    display: block;
-}
-
-.modal-content {
+.logout-modal-content {
     background-color: var(--card-bg);
-    margin: 5% auto;
-    padding: 20px;
+    padding: 30px;
     border: 1px solid #888;
-    width: 50%;
-    justify-items: center;
+    width: 30%;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
-.modal-content h2 {
+.logout-modal-content h2 {
     font-size: 1.5rem;
     color: #2c3e50;
     margin-bottom: 25px;
-    border-bottom: 2px solid #ecf0f1;
     padding-bottom: 10px;
 }
+
+.logout-modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.logout-modal-actions button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.logout-modal-actions button:hover {
+    background-color: #a4003d;
+}
+
+.logout-modal-actions .cancel-btn {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.logout-modal-actions .confirm-btn {
+    background-color: var(--danger-color);
+    color: #fff;
+}
+
+/************************************
+
+    UPDATE CASE STATUS MODAL       
+
+************************************/
+
+.update-modal-content {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.update-modal-content h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.update-modal-content p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 25px;
+}
+
+/************************************
+
+    DELETE CASE MODAL       
+
+************************************/
+
+/************************************
+
+    ADD CASE SUMMARY MODAL       
+
+************************************/
 
 .form-group {
     margin-bottom: 15px;
@@ -279,33 +391,4 @@ aside {
 
 .form-group textarea {
     resize: vertical;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.modal-actions button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.modal-actions button:hover {
-    background-color: #a4003d;
-}
-
-.modal-actions .cancel-btn {
-    background-color: var(--secondary-color);
-    color: #fff;
-}
-
-.modal-actions .confirm-btn {
-    background-color: var(--danger-color);
-    color: #fff;
 }

@@ -53,6 +53,10 @@
                     <label for="time-filed">Time of Hearing (1st Hearing)</label>
                     <input type="time" id="time-filed" name="time_filed" required>
                 </div>
+                <div class="form-group">
+                    <label for="date-filed">Date of Hearing (1st Hearing)</label>
+                    <input type="date" id="date-filed" name="date_filed" required>
+                </div>
             </div>
 
             <div class="form-actions">

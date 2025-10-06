@@ -7,14 +7,14 @@ use backend\models\pdfmodel;
 
 class casemodel {
     private $db;
-
+    private $caseId;
     public function __construct() {
         $this->db = Connection::getConnection();
     }
   
     public function createCase($data) {
         $stmt = $this->db->prepare(
-    "INSERT INTO `case` (case_number, case_title, case_nature, complainant_name, complainant_address, respondent_name, respondent_address) 
+    "INSERT INTO cases (case_number, case_title, case_nature, complainant_name, complainant_address, respondent_name, respondent_address) 
             VALUES
             (:case_number, :case_title, :case_nature, :complainant_name, :complainant_address, :respondent_name, :respondent_address) ");
         $done = $stmt->execute([
@@ -28,34 +28,35 @@ class casemodel {
         ]);
 
         if ($done) {
-            $caseId = $this->db->lastInsertId();
-            $this->addhearing($data['time_filed'], $caseId);
-            $this->createdocument($data, $caseId);
+            $this->caseId = $this->db->lastInsertId();
+            $this->addhearing($data['time_filed'], $data['date_filed']);
+            $this->createdocument($data);
             return true;
         } else {
             return false;
         }
     }
 
-    private function addhearing($timeFiled, $caseId) {
+    private function addhearing($time, $date) {
         $stmt = $this->db->prepare(
-            "INSERT INTO hearing (case_id, hearing_time) VALUES (:case_id, :hearing_time)"
+            "INSERT INTO hearings (case_id, hearing_time, hearing_date) VALUES (:case_id, :hearing_time, :hearing_date)"
         );
         return $stmt->execute([
-            'case_id' => $caseId,
-            'hearing_time' => $timeFiled
+            'case_id' => $this->caseId,
+            'hearing_time' => $time,
+            'hearing_date' => $date
         ]);
     }
 
-    private function createdocument($data, $caseId){
+    private function createdocument($data){
         $pdf = new pdfmodel($data);
         $filename = $pdf->generateNoticeSummonFile();
 
         $stmt = $this->db->prepare(
-            "INSERT INTO document_details (case_id, document_path) VALUES (:case_id, :document_path)"
+            "INSERT INTO documents (case_id, document_path) VALUES (:case_id, :document_path)"
         );
         $stmt->execute([
-            'case_id' => $caseId,
+            'case_id' => $this->caseId,
             'document_path'   => $filename
         ]);
     }
@@ -69,9 +70,9 @@ class casemodel {
                     c.respondent_name,
                     h.hearing_status,
                     d.document_path
-                FROM `case` c
-                JOIN hearing h ON c.case_id = h.case_id
-                LEFT JOIN document_details d ON c.case_id = d.case_id
+                FROM cases c
+                JOIN hearings h ON c.case_id = h.case_id
+                LEFT JOIN documents d ON c.case_id = d.case_id
                 WHERE h.hearing_status = :hearing_status";
 
         $stmt = $this->db->prepare($sql);
@@ -82,13 +83,13 @@ class casemodel {
     }
 
     public function findById($caseId) {
-        $sql = " SELECT case_id from `case` where case_id = :case_id ";
+        $sql = " SELECT case_id from cases where case_id = :case_id ";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['case_id' => $caseId]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
     public function updateStatus($caseId, $hearingStatus) {
-        $sql = "UPDATE hearing SET hearing_status = :hearing_status WHERE case_id = :case_id";
+        $sql = "UPDATE hearings SET hearing_status = :hearing_status WHERE case_id = :case_id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
             'hearing_status' => $hearingStatus,
@@ -96,7 +97,7 @@ class casemodel {
         ]);
     }
     public function deleteCaseById($caseId) {
-        $sql = "DELETE FROM `case` WHERE case_id = :case_id";
+        $sql = "DELETE FROM cases WHERE case_id = :case_id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute(['case_id' => $caseId]);
     }

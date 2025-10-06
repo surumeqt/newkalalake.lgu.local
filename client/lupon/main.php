@@ -69,13 +69,13 @@
         <?php if (isset($pageToLoad)) { require $pageToLoad; } ?>
     </main>
 
-    <!-- Logout Modal -->
+    <!-- LOGOUT MODAL -->
     <div id="logoutModal" class="modal">
-        <div class="modal-content">
+        <div class="logout-modal-content">
             <h2>Confirm Logout</h2>
             <p>Are you sure you want to logout?</p>
-            <div class="modal-actions">
-                <button class="cancel-btn" onclick="showLogoutModal()">Cancel</button>
+            <div class="logout-modal-actions">
+                <button type="button" class="cancel-btn" onclick="showLogoutModal()">Cancel</button>
                 <form action="/logout" method="POST" style="display:inline;" onsubmit="event.preventDefault()">
                     <button class="confirm-btn" type="submit">Logout</button>
                 </form>
@@ -83,12 +83,13 @@
         </div>
     </div>
 
+    <!-- UPDATE CASES MODAL -->
     <div id="updateModal" class="modal">
-        <div class="modal-content">
+        <div class="update-modal-content">
             <form action="/update-status" method="POST" onsubmit="event.preventDefault()">
                 <h2>Update Status</h2>
                 <p>Are you sure you want to change the status for this case?</p>
-                <p>it will be change to : 
+                <p>it will be change to :
                     <span>
                         <select name="hearing_status">
                             <option value="Rehearing">Rehearing</option>
@@ -99,8 +100,8 @@
                         </select>
                     </span>
                 </p>
-                <div class="modal-actions">
-                    <button class="cancel-btn" onclick="showUpdateModal()">Cancel</button>
+                <div class="update-modal-actions">
+                    <button type="button" class="cancel-btn" onclick="showUpdateModal()">Cancel</button>
                     <input hidden type="number" id="case-number-update" name="case_id">
                     <button class="confirm-btn" type="submit">Yes</button>
                 </div>
@@ -108,8 +109,9 @@
         </div>
     </div>
 
+    <!-- ADD CASE SUMMARY MODAL -->
     <div id="addSummaryModal" class="modal">
-        <div class="modal-content">
+        <div class="summary-modal-content">
             <form action="/add-summary" method="POST" onsubmit="event.preventDefault()">
                 <h2>Add Case Summary/Resolution</h2>
 
@@ -135,8 +137,8 @@
                         <input type="time" id="summary-time" name="summary_time" required>
                     </div>
                 </div>
-                <div class="modal-actions">
-                    <button class="cancel-btn" onclick="showSummaryModal()">Cancel</button>
+                <div class="summary-modal-actions">
+                    <button type="button" class="cancel-btn" onclick="showSummaryModal()">Cancel</button>
                     <input hidden type="number" id="case-number-summary" name="case_id">
                     <button class="confirm-btn" type="submit">Save</button>
                 </div>
@@ -144,13 +146,14 @@
         </div>
     </div>
 
+    <!-- DELETE CASE MODAL -->
     <div id="deleteModal" class="modal">
-        <div class="modal-content">
+        <div class="delete-modal-content">
             <h2>Delete Case</h2>
             <p>Are you sure you want to DELETE this case?</p>
-            <div class="modal-actions">
+            <div class="delete-modal-actions">
                 <button class="cancel-btn" onclick="showDeleteModal()">Cancel</button>
-                <form action="/delete-case" method="POST" style="display:inline;">
+                <form action="/delete-case" method="POST">
                     <input hidden type="number" id="case-number-delete" name="case_id">
                     <button class="confirm-btn" type="submit">Yes</button>
                 </form>
