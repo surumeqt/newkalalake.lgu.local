@@ -3,7 +3,7 @@
 
 <head>
     <?php include '../backend/helpers/redirects.php';
-    redirectIfNotLoggedIn(['admin']);
+    redirectIfNotLoggedIn(['office']);
     $user_email = $_SESSION['username']; ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

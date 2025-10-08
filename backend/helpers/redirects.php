@@ -11,8 +11,8 @@ function redirectIfNotLoggedIn($allowedRoles = []) {
             case 'lupon':
                 redirectBasedOnRole('lupon', '?status=failed');
                 break;
-            case 'admin':
-                redirectBasedOnRole('admin', '?status=failed');
+            case 'office':
+                redirectBasedOnRole('office', '?status=failed');
                 break;
             default:
                 header('Location: ../../frontdesk/logout.php');
@@ -23,10 +23,10 @@ function redirectIfNotLoggedIn($allowedRoles = []) {
 function redirectBasedOnRole($role, $message = '') {
     switch ($role) {
         case 'lupon':
-            header("Location: /newkalalake.lgu.local/app/app.php"."$message");
+            header("Location: /app/app.php"."$message");
             break;
-        case 'admin':
-            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php"."$message");
+        case 'office':
+            header("Location: /frontdesk/fd_app.php"."$message");
             break;
         default:
             header('Location: ../index.php');

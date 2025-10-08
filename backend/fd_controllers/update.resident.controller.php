@@ -111,18 +111,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($success1 && $success2) {
             $residentModel->commitTransaction();
-            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=updated");
+            header("Location: /frontdesk/fd_app.php?status=updated");
             exit();
         } else {
             $residentModel->rollBackTransaction();
-            header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=update_failed");
+            header("Location: /frontdesk/fd_app.php?status=update_failed");
             exit();
         }
     } catch (Exception $e) {
         $residentModel->rollBackTransaction();
         // Log the error for debugging
         error_log("Transaction failed: " . $e->getMessage());
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=update_failed");
+        header("Location: /frontdesk/fd_app.php?status=update_failed");
         exit();
     }
 }

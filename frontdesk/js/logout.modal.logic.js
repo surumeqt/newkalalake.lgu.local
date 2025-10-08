@@ -18,6 +18,6 @@ logoutModal.addEventListener('click', (event) => {
 });
 
 confirmLogoutBtn.addEventListener('click', () => {
-    window.location.href = "/newkalalake.lgu.local/frontdesk/logout.php";
+    window.location.href = "/frontdesk/logout.php";
 });
 

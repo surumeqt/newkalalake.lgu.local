@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $model = new CertificateModel();
         $model->createCertificate($data);
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=certificate_success");
+        header("Location: /frontdesk/fd_app.php?status=certificate_success");
     } catch (Exception $e) {
         error_log("Certificate creation error: " . $e->getMessage());
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=certificate_failed");
+        header("Location: /frontdesk/fd_app.php?status=certificate_failed");
     }
     exit();
 }

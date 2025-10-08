@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $deleted = $model->deleteResident($resident_id);
 
     if ($deleted) {
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=deleted");
+        header("Location: /frontdesk/fd_app.php?status=deleted");
         exit();
     } else {
         echo "Failed to delete resident.";

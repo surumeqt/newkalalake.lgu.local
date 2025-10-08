@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         confirmLogoutBtn.addEventListener('click', () => {
-            window.location.href = "/newkalalake.lgu.local/app/logout.php";
+            window.location.href = "/app/logout.php";
         });
     }
 

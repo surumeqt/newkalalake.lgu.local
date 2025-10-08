@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_certificate'])
     $deleted = $model->deleteCertificate($certificate_id);
 
     if ($deleted) {
-        header("Location: /newkalalake.lgu.local/frontdesk/fd_app.php?status=cert_deleted");
+        header("Location: /frontdesk/fd_app.php?status=cert_deleted");
         exit();
     } else {
         echo "Failed to delete certificate.";
