@@ -11,6 +11,8 @@
 5. REHEARING CASES PAGE SECTION
 6. UPLOAD SECTION
 
+EXTRA : GENERAL TABLE STYLING FOR DATABASE, PENDING CASES, REHEARING CASES PAGE SECTION
+
 *************************************************************************/
 
 /************************************
@@ -108,11 +110,69 @@
 
 /* Chart Section */
 
+.chart-section {
+    margin-top: 3rem;
+}
+
 .chart-header {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin-top: 20px;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    padding: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.pie-chart {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--primary-color) 0deg 216deg,
+        var(--secondary-color) 216deg 360deg
+    );
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.legend {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    color: var(--text-color);
+}
+
+.color-box {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+}
+
+.legend-item.civil .color-box {
+    background-color: var(--primary-color);
+}
+
+.legend-item.criminal .color-box {
+    background-color: var(--secondary-color);
 }
 
 /***********************************
@@ -129,12 +189,6 @@
     font-size: 2.5rem;
     color: var(--primary-color);
     margin-bottom: 0.5rem;
-}
-
-.database-container p {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 2rem;
 }
 
 /* Search and Filter Section */
@@ -325,7 +379,7 @@
 
 /*********************************************
 
-    PENDING CASES PAGE SECTION
+    GENERAL TABLE STYLING FOR DATABASE, PENDING CASES, REHEARING CASES PAGE SECTION
 
 ***********************************************/
 
@@ -360,6 +414,17 @@ tbody td {
     border-bottom: 1px solid #ddd;
 }
 
+tbody tr td a:hover {
+    background-color: #16970d;
+    color: var(--light-bg);
+}
+
+/*********************************************
+
+    PENDING CASES PAGE SECTION
+
+***********************************************/
+
 #view-btn {
     background-color: var(--info-color);
     padding: 0.5rem;
@@ -388,63 +453,6 @@ tbody td {
     text-decoration: none;
     color: var(--primary-color);
     cursor: pointer;
-}
-
-tbody tr td a:hover {
-    background-color: #16970d;
-    color: var(--light-bg);
-}
-
-/* Status Badges */
-.status {
-    display: inline-block;
-    padding: 0.3em 0.8em;
-    border-radius: 12px;
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
-}
-
-.status.new {
-    background-color: var(--primary-color);
-}
-
-.status.pending {
-    background-color: var(--secondary-color);
-}
-
-.status.rehearing {
-    background-color: var(--tertiary-color);
-    color: var(--text-color);
-}
-
-.status.settled {
-    background-color: #28a745; /* Green */
-}
-
-.status.endorsed {
-    background-color: #17a2b8; /* Cyan */
-}
-
-/* Action Buttons */
-.action-btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.action-btn.view-btn {
-    background-color: var(--primary-color);
-    color: #fff;
-}
-
-.action-btn.view-btn:hover {
-    background-color: #002e6b;
-    transform: translateY(-2px);
 }
 
 /************************************

@@ -76,8 +76,8 @@
             <p>Are you sure you want to logout?</p>
             <div class="logout-modal-actions">
                 <button type="button" class="cancel-btn" onclick="showLogoutModal()">Cancel</button>
-                <form action="/logout" method="POST" style="display:inline;" onsubmit="event.preventDefault()">
-                    <button class="confirm-btn" type="submit">Logout</button>
+                <form action="/logout" method="POST">
+                    <button  type="submit" class="confirm-btn">Logout</button>
                 </form>
             </div>
         </div>

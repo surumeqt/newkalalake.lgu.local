@@ -3,32 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <title>login</title>
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/root.css">
     <link rel="stylesheet" href="css/login.css">
-    <title>login</title>
 </head>
 <body>
     <div class="login-container">
         <div class="login-card">
-            <div class="logo">
-                <img src="assets/img/logo.png" alt="logo" width="80px" height="80px">
-                <h2>Barangay New Kalalake</h2>
-                <p>Information System Login</p>
-            </div>
-            <form action="/login" method="POST" class="login-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
+            <h2>LOGIN</h2>
+            
+            <?php if (!empty($message)): ?>
+                <p id="error-message"><?= htmlspecialchars($message) ?></p>
+            <?php endif; ?>
+
+            <form action="/login" method="post" class="login-form">
+                <div class="input-container">
+                    <input type="text" id="username" placeholder="Username" name="username" required autocomplete="on">
+                    <img src="assets/icons/user.png" class="icon">
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
+                <div class="input-container">
+                    <input type="password" id="password" placeholder="Password" name="password" required>
+                    <img src="assets/icons/lock.png" class="icon toggle-password" id="toggle-password-hide">
+                    <img src="assets/icons/unlock.png" class="icon toggle-password-show" id="toggle-password-show">
                 </div>
-                <button type="submit">Login</button>
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="login-button">Log In</button>
             </form>
-            <a href="#" class="forgot-password">Forgot Password?</a>
         </div>
     </div>
+    <script src="js/togglePassword.js"></script>
 </body>
 </html>
