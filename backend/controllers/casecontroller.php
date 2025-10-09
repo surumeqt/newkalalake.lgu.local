@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\casemodel;
+
 use Exception;
 
 class casecontroller {
@@ -42,6 +43,17 @@ class casecontroller {
     }
     public function getRehearingCases() {
         return $this->caseModel->getCasesByStatus('Rehearing');
+    }
+    public function getDoneCases() {
+        $statuses = ['Rehearing', 'Settled', 'Withdrawn', 'CFA', 'Dismissed'];
+        $allCases = [];
+
+        foreach ($statuses as $status) {
+            $cases = $this->caseModel->getCasesByStatus($status);
+            $allCases = array_merge($allCases, $cases);
+        }
+
+        return $allCases;
     }
     public function getPdf(){
         

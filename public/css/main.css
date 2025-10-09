@@ -350,11 +350,37 @@ aside {
 
 ************************************/
 
+.delete-modal-content {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 30%;
+    text-align: center;
+}
+
+.delete-modal-actions, .summary-modal-actions{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
 /************************************
 
     ADD CASE SUMMARY MODAL       
 
 ************************************/
+
+.summary-modal-content {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+}
 
 .form-group {
     margin-bottom: 15px;
@@ -386,6 +412,7 @@ aside {
 
 .form-row {
     display: flex;
+    justify-content: center;
     gap: 15px;
 }
 

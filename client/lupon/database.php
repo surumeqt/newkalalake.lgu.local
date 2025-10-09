@@ -1,3 +1,4 @@
+<?php $cases = (new backend\controllers\casecontroller())->getDoneCases(); ?>
 <div class="database-container">
     <h1>Database</h1>
 

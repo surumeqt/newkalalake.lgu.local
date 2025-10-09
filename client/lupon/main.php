@@ -86,7 +86,7 @@
     <!-- UPDATE CASES MODAL -->
     <div id="updateModal" class="modal">
         <div class="update-modal-content">
-            <form action="/update-status" method="POST" onsubmit="event.preventDefault()">
+            <form action="/update-status" method="POST">
                 <h2>Update Status</h2>
                 <p>Are you sure you want to change the status for this case?</p>
                 <p>it will be change to :
@@ -112,7 +112,7 @@
     <!-- ADD CASE SUMMARY MODAL -->
     <div id="addSummaryModal" class="modal">
         <div class="summary-modal-content">
-            <form action="/add-summary" method="POST" onsubmit="event.preventDefault()">
+            <form action="/add-summary" method="POST">
                 <h2>Add Case Summary/Resolution</h2>
 
                 <div class="form-group">
@@ -125,10 +125,16 @@
                         required
                     ></textarea>
                 </div>
-
+                <div class="form-group">
+                    <label for="records-keeper">Record Keeper</label>
+                    <input type="text" id="records-keeper" name="records_keeper" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <h2>Next Hearing Details </h2>
+                </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="summary-date">Date of Resolution</label>
+                        <label for="summary-date">Date</label>
                         <input type="date" id="summary-date" name="summary_date" required>
                     </div>
 

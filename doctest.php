@@ -32,7 +32,7 @@ class pdfmodel extends FPDF {
         }
     }
 
-    public function generateNoticeSummonFile(){
+    public function generateNoticeFile(){
         $hearing1 = $this->data['hearing_type'][0] ?? '';
         $date1 = $this->data['hearing_date'][0] ?? '';
         $hearing2 = $this->data['hearing_type'][1] ?? '';
@@ -99,7 +99,15 @@ class pdfmodel extends FPDF {
         $this->Cell(0,8,'Notified this _______ day of ________, 20__.',0,1);
         $this->Cell(0,8,'Served By: _________________________',0,1);
         $this->Cell(0,8,'Signature: __________________________',0,1);
-
+    }
+    public function generateSummonFile(){
+        $hearing1 = $this->data['hearing_type'][0] ?? '';
+        $date1 = $this->data['hearing_date'][0] ?? '';
+        $hearing2 = $this->data['hearing_type'][1] ?? '';
+        $date2 = $this->data['hearing_date'][1] ?? '';
+        $hearing3 = $this->data['hearing_type'][2] ?? '';
+        $date3 = $this->data['hearing_date'][2] ?? '';
+        
         //Summons PDF
         $this->AddPage();
         $this->Ln(10);
@@ -162,15 +170,18 @@ class pdfmodel extends FPDF {
         $this->Cell(0,8,'Hon. Sherwin Sionzon',0,1,'R');
         $this->SetFont('Arial','',10);
         $this->Cell(185,6,'Lupon Chairman',0,1,'R');
-
-        return $this->Output('S');
     }
     public function generateSummaryFile(){
         $this->AddPage();
         $this->SetFont('Arial', 'B', 16);
         $this->Cell(0,8,'OFFICE OF THE LUPONG TAGAPAMAYAPA',0,1,'C');
+    }
+    public function getAllFiles(){
+        $this->generateNoticeFile();
+        $this->generateSummonFile();
+        $this->generateSummaryFile();
 
-        return $this->Output('S');
+        return $this->Output('I');
     }
 }
 
@@ -185,8 +196,8 @@ $data = [
     'respondent_name' => 'KEVIN DULAY',
     'respondent_address' => '456 Oak Ave, Mulave st. New Kalalake, Olongapo City',
     'hearing_time' => '10:00',
-    'hearing_date' => ['2025-01-01', '2025-01-02','2025-01-02']
+    'hearing_date' => ['2025-01-01', '2025-01-02', '2025-01-03']
 ];
 
 $pdf = new pdfmodel($data);
-echo $pdf->generateNoticeSummonFile();
+$pdf->getAllFiles();
